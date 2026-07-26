@@ -36,10 +36,8 @@ export function DiscussionForm() {
           method="POST" 
           data-netlify="true" 
           netlify-honeypot="bot-field" 
-          action="/thank-you"
           className="flex flex-col gap-8"
         >
-          <input type="hidden" name="form-name" value="enquiry" />
           <p style={{ display: "none" }}>
             <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
           </p>

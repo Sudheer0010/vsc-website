@@ -26,16 +26,14 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
         </p>
         
         {/* Netlify subscription form */}
-        <form 
-          id={`${newsletterConfig.formName}-form`} 
-          name={newsletterConfig.formName} 
-          method="POST" 
-          data-netlify="true" 
-          netlify-honeypot="bot-field" 
-          action={newsletterConfig.action} 
+        <form           id="newsletter-form"
+           name="newsletter"
+           method="POST"
+           data-netlify="true"
+           netlify-honeypot="bot-field"
           className="flex flex-col sm:flex-row gap-6 w-full max-w-[500px]"
         >
-          <input type="hidden" name="form-name" value={newsletterConfig.formName} />
+
           <p style={{ display: "none" }}>
             <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
           </p>
