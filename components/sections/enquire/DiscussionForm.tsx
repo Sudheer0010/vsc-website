@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 export function DiscussionForm() {
@@ -34,12 +33,11 @@ export function DiscussionForm() {
           id="vsc-form" 
           name="enquiry" 
           method="POST" 
-          data-netlify="true" 
-          netlify-honeypot="bot-field" 
           className="flex flex-col gap-8"
         >
           <p style={{ display: "none" }}>
             <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
+            <input type="hidden" name="form-name" value="enquiry" />
           </p>
 
           {/* Name + Phone (2 Columns on Desktop) */}
