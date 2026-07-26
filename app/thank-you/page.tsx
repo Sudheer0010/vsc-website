@@ -2,53 +2,94 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
 export default function ThankYou() {
-  useScrollReveal();
+  const animProps = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.25, ease: "easeOut" }
+  } as const;
 
   return (
-    <>
+    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
+      {/* Global Navigation Bar */}
       <Navbar />
 
-      {/* PAGE HERO */}
-      <section className="page-hero" style={{ minHeight: "80vh", display: "flex", alignItems: "center" }}>
-        <div className="grid-overlay"></div>
-        <div className="container">
-          <div className="fade-up" style={{ maxWidth: "750px", margin: "0 auto", textAlign: "center" }}>
-            <div className="tag" style={{ marginBottom: "20px" }}>Enquiry Received</div>
-            <h1 style={{ marginBottom: "25px" }}>Thank You for Your <span className="italic">Enquiry</span></h1>
-            <p style={{ fontSize: "18px", color: "var(--text-secondary)", marginBottom: "40px", lineHeight: "1.6" }}>
-              Your details have been submitted successfully. We appreciate your interest in VSC Capital & Advisory and will review your submission promptly.
-            </p>
-            <div className="card" style={{ textAlign: "left", marginBottom: "40px", borderLeft: "3px solid var(--accent-gold)" }}>
-              <h4 style={{ fontSize: "16px", marginBottom: "15px", color: "#fff" }}>What to Expect Next:</h4>
-              <ul style={{ listStyle: "none", fontSize: "14px", color: "var(--text-secondary)" }}>
-                <li style={{ marginBottom: "12px", paddingLeft: "24px", position: "relative" }}>
-                  <span style={{ position: "absolute", left: 0, color: "var(--accent-gold)" }}>✓</span>
-                  <strong>Submission Recorded:</strong> Your response is logged securely via Netlify Forms.
+      {/* Global Matte Charcoal Paper Noise Overlay */}
+      <PaperGrain />
+
+      {/* Dynamic Background Colored Ambient Light Pool */}
+      <AmbientLightPool color="rgba(201, 168, 76, 0.02)" className="left-[70%] top-[25%] scale-[1.2]" />
+
+      <main className="relative w-full flex items-center justify-center pt-40 pb-28 md:pt-48 md:pb-36 z-10">
+        <div className="container max-w-[1200px]">
+          <div className="max-w-[650px] mx-auto text-center flex flex-col items-center select-none">
+            
+            {/* Serif Title */}
+            <motion.h1 
+              className="font-display text-5xl sm:text-6xl md:text-7xl font-normal leading-tight text-white mb-6"
+              {...animProps}
+            >
+              Thank you.
+            </motion.h1>
+            
+            {/* Supporting Copy */}
+            <motion.p 
+              className="font-mono text-sm leading-relaxed text-text-secondary mb-16 max-w-[500px]"
+              {...animProps}
+              transition={{ ...animProps.transition, delay: 0.05 }}
+            >
+              Your enquiry has been received. We&apos;ll review it personally and get back to you if we believe VSC is the right fit for your journey.
+            </motion.p>
+            
+            {/* Continue Section */}
+            <motion.div 
+              className="w-full border-t border-white/5 pt-10 text-center flex flex-col items-center"
+              {...animProps}
+              transition={{ ...animProps.transition, delay: 0.1 }}
+            >
+              <span className="font-mono text-xs uppercase tracking-widest text-white/30 block mb-6">
+                Continue Exploring
+              </span>
+              
+              <ul className="flex flex-col gap-4 font-mono text-sm">
+                <li>
+                  <Link 
+                    href="/blog" 
+                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                  >
+                    → Read Market Letters
+                  </Link>
                 </li>
-                <li style={{ marginBottom: "12px", paddingLeft: "24px", position: "relative" }}>
-                  <span style={{ position: "absolute", left: 0, color: "var(--accent-gold)" }}>✓</span>
-                  <strong>Review & Assessment:</strong> We analyze your capital goals and risk profile to confirm alignment.
+                <li>
+                  <Link 
+                    href="/about" 
+                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                  >
+                    → Learn More About VSC
+                  </Link>
                 </li>
-                <li style={{ marginBottom: 0, paddingLeft: "24px", position: "relative" }}>
-                  <span style={{ position: "absolute", left: 0, color: "var(--accent-gold)" }}>✓</span>
-                  <strong>Direct Contact:</strong> A representative will contact you via email or phone for a strategic discussion.
+                <li>
+                  <Link 
+                    href="/faq" 
+                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                  >
+                    → Frequently Asked Questions
+                  </Link>
                 </li>
               </ul>
-            </div>
-            <div style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/" className="btn btn-gold">Return to Homepage →</Link>
-              <Link href="/offerings" className="btn btn-ghost" style={{ border: "1px solid var(--border)" }}>Explore Offerings</Link>
-            </div>
+            </motion.div>
+
           </div>
         </div>
-      </section>
+      </main>
 
+      {/* Global Footer */}
       <Footer />
-    </>
+    </div>
   );
 }

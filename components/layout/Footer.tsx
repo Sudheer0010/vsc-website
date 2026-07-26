@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <div className="container">
         <div className="footer-grid">
           <div>
@@ -24,7 +24,7 @@ export default function Footer() {
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "15px", fontSize: "10px" }}>
               <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>HOME</Link>
-              <Link href="/about" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>ABOUT</Link>
+              <Link href="/about" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>OUR STORY</Link>
               <Link href="/offerings" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>OFFERINGS</Link>
               <Link href="/blog" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>BLOG</Link>
               <Link href="/faq" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>FAQ</Link>

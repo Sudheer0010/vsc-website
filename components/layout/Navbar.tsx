@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { SpotlightNavbar, NavItem } from "@/components/ui/vengeance/SpotlightNavbar";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,7 +21,6 @@ export default function Navbar() {
     };
     
     window.addEventListener("scroll", handleScroll);
-    // Initial check
     if (window.scrollY > 50) {
       setIsScrolled(true);
     }
@@ -45,11 +46,30 @@ export default function Navbar() {
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Offerings", href: "/offerings" },
+    { label: "Our Story", href: "/about" },
+    { 
+      label: "Offerings", 
+      href: "/offerings",
+      dropdownItems: [
+        { label: "Learning Hub", href: "/offerings/learning-hub" },
+        { label: "VSC Advantage", href: "/offerings/advantage" },
+        { label: "Inner Circle", href: "/offerings/inner-circle" },
+      ]
+    },
     { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
   ];
+
+  const activeIdx = navItems.findIndex(item => {
+    if (item.href === "/") return pathname === "/";
+    return pathname.startsWith(item.href);
+  });
+  const defaultActiveIndex = activeIdx !== -1 ? activeIdx : 0;
+
+  const handleItemClick = (item: NavItem) => {
+    router.push(item.href);
+    closeMenu();
+  };
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -60,28 +80,27 @@ export default function Navbar() {
 
   return (
     <>
-      <nav id="navbar" className={isScrolled ? "scrolled" : ""}>
+      <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""}`}>
         <div className="container nav-content">
           <Link href="/" className="logo" onClick={closeMenu}>
             <div className="logo-mark">VSC</div>
-            <div className="logo-text">VSC CAPITAL & ADVISORY</div>
+            <div className="logo-wordmark">
+              <div className="logo-title">VSC CAPITAL & ADVISORY</div>
+              <div className="logo-tagline">DISCIPLINED CAPITAL GROWTH</div>
+            </div>
           </Link>
           
-          <div className="nav-links">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={isActive(item.href) ? "active" : ""}
-                style={isActive(item.href) ? { color: "var(--accent-gold)" } : {}}
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Spotlight Navbar in the center for desktop */}
+          <div className="nav-links-container">
+            <SpotlightNavbar
+              items={navItems}
+              defaultActiveIndex={defaultActiveIndex}
+              onItemClick={handleItemClick}
+            />
           </div>
 
           <Link href="/enquire" className="nav-cta" onClick={closeMenu}>
-            Enquire Now
+            Enquire Now <span className="cta-arrow">→</span>
           </Link>
 
           <button
@@ -106,15 +125,31 @@ export default function Navbar() {
       <div className={`nav-drawer ${isMenuOpen ? "active" : ""}`}>
         <div className="drawer-links">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={isActive(item.href) ? "active" : ""}
-              style={isActive(item.href) ? { color: "var(--accent-gold)" } : {}}
-              onClick={closeMenu}
-            >
-              {item.label}
-            </Link>
+            <React.Fragment key={item.href}>
+              <Link
+                href={item.href}
+                className={isActive(item.href) ? "active" : ""}
+                style={isActive(item.href) ? { color: "var(--accent-gold)" } : {}}
+                onClick={closeMenu}
+              >
+                {item.label} {item.dropdownItems ? "▼" : ""}
+              </Link>
+              {item.dropdownItems && (
+                <div className="flex flex-col pl-4 gap-2 border-l border-white/5 my-1 ml-2">
+                  {item.dropdownItems.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className={isActive(sub.href) ? "active text-sm pl-2" : "text-sm text-text-secondary hover:text-white pl-2"}
+                      style={isActive(sub.href) ? { color: "var(--accent-gold)" } : {}}
+                      onClick={closeMenu}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
           ))}
           <Link
             href="/enquire"

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Mono, Syne } from "next/font/google";
+import { Cormorant_Garamond, DM_Mono, Syne, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -67,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${syne.variable} ${dmMono.variable}`}>
+    <html lang="en" className={cn(cormorant.variable, syne.variable, dmMono.variable, "font-sans", geist.variable)}>
       <head>
         <link rel="manifest" href="/site.webmanifest" />
       </head>
