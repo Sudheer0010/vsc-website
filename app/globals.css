@@ -416,6 +416,9 @@ p {
     opacity: 1;
     pointer-events: auto;
 }
+body.menu-open {
+    overflow: hidden;
+}
 .drawer-links {
     display: flex;
     flex-direction: column;
@@ -1928,7 +1931,7 @@ select.form-input option {
         --ring: #C9A84C;
     }
   * {
-        @apply border-border;
+        border-color: var(--border);
         outline-color: var(--ring);
     }
   body {

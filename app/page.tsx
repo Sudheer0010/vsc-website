@@ -29,16 +29,6 @@ export default function Home() {
     // Register ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const durMul = prefersReduced ? 0.6 : 1;
-
-    // Hero GSAP animations
-    gsap.from("#hero h1", { y: 40, opacity: 0, duration: 1.0 * durMul, ease: "power3.out" });
-    gsap.from("#hero h2", { y: 20, opacity: 0, duration: 0.8 * durMul, delay: 0.25 * durMul, ease: "power2.out" });
-    gsap.from("#hero p", { y: 20, opacity: 0, duration: 0.8 * durMul, delay: 0.4 * durMul, ease: "power2.out" });
-    gsap.from("#hero .btn-gold, #hero .btn-outline", { y: 15, opacity: 0, duration: 0.8 * durMul, delay: 0.6 * durMul, stagger: 0.15, ease: "power2.out" });
-    gsap.from("#hero .object-cover", { opacity: 0, scale: 1.05, duration: 1.2 * durMul, delay: 0.3 * durMul, ease: "power2.out" });
-
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };

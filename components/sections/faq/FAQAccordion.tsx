@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Plus } from "lucide-react";
 import { 
   faqCategories, 
@@ -14,6 +14,7 @@ export function FAQAccordion() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [activeQuestionId, setActiveQuestionId] = useState<string>("");
+  const shouldReduceMotion = useReducedMotion();
 
   // Category switch scroll reset & accordion collapse
   useEffect(() => {
@@ -22,9 +23,9 @@ export function FAQAccordion() {
     if (target) {
       const yOffset = -140; // Spacing for sticky navigation header
       const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      window.scrollTo({ top: y, behavior: shouldReduceMotion ? "auto" : "smooth" });
     }
-  }, [activeCategory]);
+  }, [activeCategory, shouldReduceMotion]);
 
   // Scroll Spy Observer logic for desktop sidebar tracking
   useEffect(() => {
@@ -61,7 +62,7 @@ export function FAQAccordion() {
     if (target) {
       const yOffset = -160; // Spacing for sticky header
       const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      window.scrollTo({ top: y, behavior: shouldReduceMotion ? "auto" : "smooth" });
     }
   };
 

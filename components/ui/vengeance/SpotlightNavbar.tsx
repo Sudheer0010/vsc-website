@@ -84,6 +84,8 @@ export function SpotlightNavbar({
             nav.style.setProperty("--spotlight-x", `${x}px`);
         };
 
+        let spotlightAnim: { stop: () => void } | null = null;
+
         const handleMouseLeave = () => {
             setHoverX(null);
             // When mouse leaves, spring the spotlight back to the active item
@@ -93,7 +95,8 @@ export function SpotlightNavbar({
                 const itemRect = activeItem.getBoundingClientRect();
                 const targetX = itemRect.left - navRect.left + itemRect.width / 2;
 
-                animate(spotlightX.current, targetX, {
+                spotlightAnim?.stop();
+                spotlightAnim = animate(spotlightX.current, targetX, {
                     type: "spring",
                     stiffness,
                     damping,
@@ -109,6 +112,7 @@ export function SpotlightNavbar({
         nav.addEventListener("mouseleave", handleMouseLeave);
 
         return () => {
+            spotlightAnim?.stop();
             nav.removeEventListener("mousemove", handleMouseMove);
             nav.removeEventListener("mouseleave", handleMouseLeave);
         };
@@ -119,13 +123,14 @@ export function SpotlightNavbar({
         if (!navRef.current) return;
         const nav = navRef.current;
         const activeItem = nav.querySelector(`[data-index="${activeIndex}"]`);
+        let ambienceAnim: { stop: () => void } | null = null;
 
         if (activeItem) {
             const navRect = nav.getBoundingClientRect();
             const itemRect = activeItem.getBoundingClientRect();
             const targetX = itemRect.left - navRect.left + itemRect.width / 2;
 
-            animate(ambienceX.current, targetX, {
+            ambienceAnim = animate(ambienceX.current, targetX, {
                 type: "spring",
                 stiffness,
                 damping,
@@ -135,6 +140,10 @@ export function SpotlightNavbar({
                 },
             });
         }
+
+        return () => {
+            ambienceAnim?.stop();
+        };
     }, [activeIndex, stiffness, damping]);
 
     const handleItemClick = (item: NavItem, index: number) => {

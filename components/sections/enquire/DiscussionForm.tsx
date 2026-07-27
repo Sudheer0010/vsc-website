@@ -1,12 +1,40 @@
-import { motion } from "framer-motion";
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function DiscussionForm() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
   const animProps = {
-    initial: { opacity: 0 },
+    initial: { opacity: shouldReduceMotion ? 1 : 0 },
     whileInView: { opacity: 1 },
     viewport: { once: true },
-    transition: { duration: 0.2, ease: "easeOut" }
+    transition: { duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }
   } as const;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+      });
+      router.push("/thank-you");
+    } catch {
+      form.submit();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="lg:col-span-8 flex flex-col w-full">
@@ -14,7 +42,7 @@ export function DiscussionForm() {
       <motion.div 
         className="w-full bg-[#090D18] rounded-xl p-8 sm:p-12 text-left"
         {...animProps}
-        transition={{ ...animProps.transition, delay: 0.05 }}
+        transition={{ ...animProps.transition, delay: shouldReduceMotion ? 0 : 0.05 }}
       >
         
         {/* Compliance Disclaimer Notice (Above Form Fields) */}
@@ -32,7 +60,9 @@ export function DiscussionForm() {
         <form 
           id="vsc-form" 
           name="enquiry" 
+          action="/thank-you"
           method="POST" 
+          onSubmit={handleSubmit}
           className="flex flex-col gap-8"
         >
           <p style={{ display: "none" }}>
@@ -128,12 +158,14 @@ export function DiscussionForm() {
           {/* CTA Submit Button with top margin */}
           <button 
             type="submit" 
+            disabled={isSubmitting}
             className="btn btn-gold w-full mt-6 py-3.5 text-xs font-mono tracking-wider uppercase" 
           >
-            Start Your VSC Journey →
+            {isSubmitting ? "Submitting..." : "Start Your VSC Journey →"}
           </button>
         </form>
       </motion.div>
     </div>
   );
 }
+

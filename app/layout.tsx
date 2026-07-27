@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Mono, Syne, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { MotionProvider } from "@/components/providers/MotionProvider";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -88,7 +89,7 @@ export default function RootLayout({
             gtag('config', 'G-F2SZMY24JR');
           `}
         </Script>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

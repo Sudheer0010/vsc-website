@@ -1,33 +1,37 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+
   const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: shouldReduceMotion ? 0 : 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 15 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const }
+      transition: { duration: shouldReduceMotion ? 0 : 0.6, ease: "easeOut" as const }
     }
   };
 
   const imageVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 25 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" as const, delay: 0.2 }
+      transition: { duration: shouldReduceMotion ? 0 : 0.8, ease: "easeOut" as const, delay: shouldReduceMotion ? 0 : 0.2 }
     }
   };
 
@@ -113,7 +117,7 @@ export function Hero() {
                 alt="VSC Capital Research Environment - Workspace preparation and institutional tools"
                 fill
                 priority
-                sizes="(max-w-lg) 100vw, 390px"
+                sizes="(max-width: 1024px) 100vw, 390px"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
               />
             </motion.div>
@@ -124,3 +128,4 @@ export function Hero() {
     </section>
   );
 }
+

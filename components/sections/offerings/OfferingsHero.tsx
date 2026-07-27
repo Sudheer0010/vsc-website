@@ -1,22 +1,24 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function OfferingsHero() {
+  const shouldReduceMotion = useReducedMotion();
+
   const handleScrollToOverview = (e: React.MouseEvent) => {
     e.preventDefault();
     const target = document.getElementById("offerings-overview");
     if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+      target.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
     }
   };
 
   const animProps = {
-    initial: { opacity: 0, y: 15 },
+    initial: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 15 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-80px" },
-    transition: { duration: 0.25, ease: "easeOut" }
+    transition: { duration: shouldReduceMotion ? 0 : 0.25, ease: "easeOut" }
   } as const;
 
   return (

@@ -31,13 +31,21 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
     if (isMenuOpen) {
       document.body.classList.add("menu-open");
+      window.addEventListener("keydown", handleKeyDown);
     } else {
       document.body.classList.remove("menu-open");
     }
     return () => {
       document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMenuOpen]);
 
@@ -107,6 +115,8 @@ export default function Navbar() {
             className={`menu-toggle ${isMenuOpen ? "active" : ""}`}
             onClick={toggleMenu}
             aria-label="Toggle Navigation Menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="nav-drawer"
           >
             <span></span>
             <span></span>
@@ -122,7 +132,7 @@ export default function Navbar() {
       />
 
       {/* Navigation Drawer */}
-      <div className={`nav-drawer ${isMenuOpen ? "active" : ""}`}>
+      <div id="nav-drawer" className={`nav-drawer ${isMenuOpen ? "active" : ""}`}>
         <div className="drawer-links">
           {navItems.map((item) => (
             <React.Fragment key={item.href}>
