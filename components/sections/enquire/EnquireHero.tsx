@@ -27,7 +27,7 @@ export function EnquireHero() {
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.05 }}
           >
-            The best investment decisions start with asking the right questions.
+            Every great investment process starts with a conversation.
           </motion.h1>
           
           {/* Short Supporting Copy */}

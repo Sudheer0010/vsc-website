@@ -9,6 +9,7 @@ interface ResearchGridProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   filteredArticles: Article[];
+  onOpenLetter?: (month: string) => void;
 }
 
 export function ResearchGrid({
@@ -18,6 +19,7 @@ export function ResearchGrid({
   searchQuery,
   setSearchQuery,
   filteredArticles,
+  onOpenLetter,
 }: ResearchGridProps) {
   return (
     <section className="py-24 border-t border-white/5 animate-fade-in">
@@ -83,6 +85,11 @@ export function ResearchGrid({
             <Card
               key={art.id}
               variant="default"
+              onClick={() => {
+                if (art.type === "MARKET LETTER" && onOpenLetter) {
+                  onOpenLetter(art.slug);
+                }
+              }}
               className="bg-[#0B0F1E] hover:bg-[#0D1224] border border-white/5 hover:border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col justify-between cursor-pointer transition-all duration-[240ms] ease-out select-none"
             >
               <div className="flex flex-col gap-4">

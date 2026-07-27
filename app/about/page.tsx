@@ -1,31 +1,79 @@
 "use client";
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { 
-  BookOpen, 
-  Search, 
-  Cpu, 
-  Users, 
-  Clock, 
-  Shield 
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
-// Bento Outline Icon Map
-const iconComponents = {
-  BookOpen,
-  Search,
-  Cpu,
-  Users,
-  Clock,
-  Shield
-};
+const observationsData = [
+  {
+    code: "01",
+    badge: "FEATURED LESSON",
+    isFeatured: true,
+    title: "Markets reward patience more often than prediction.",
+    desc: "Waiting in cash during uncompensated market regimes is an active, institutional investment decision."
+  },
+  {
+    code: "02",
+    badge: "LIQUIDITY & POSITIONING",
+    isFeatured: false,
+    title: "Cash is a position, not an admission of defeat.",
+    desc: "Preserving liquidity and optionality allows capital deployment when risk-reward shifts overwhelmingly in our favor."
+  },
+  {
+    code: "03",
+    badge: "RISK MANAGEMENT",
+    isFeatured: false,
+    title: "Risk must be understood before returns are pursued.",
+    desc: "Defining downside parameters and maximum allowable drawdown precedes sizing upside targets on every trade."
+  },
+  {
+    code: "04",
+    badge: "CYCLE EXPERIENCE",
+    isFeatured: false,
+    title: "Every drawdown teaches something profits cannot.",
+    desc: "Drawdowns expose structural system weaknesses; bull market momentum frequently masks risk accumulation."
+  },
+  {
+    code: "05",
+    badge: "SYSTEMATIC PROCESS",
+    isFeatured: false,
+    title: "Process creates consistency when emotions cannot.",
+    desc: "Pre-defined quantitative risk parameters protect capital during volatile regime shifts when human discretion fails."
+  }
+];
+
+const roadmapData = [
+  {
+    horizon: "TODAY",
+    commitment: "COMMITMENT I",
+    title: "Empower investors through systematic decision frameworks.",
+    desc: "Replacing retail financial noise with repeatable quantitative risk models."
+  },
+  {
+    horizon: "NEXT",
+    commitment: "COMMITMENT II",
+    title: "Build India's most respected independent research desk.",
+    desc: "Publishing thorough, evidence-based market research with zero commercial bias."
+  },
+  {
+    horizon: "LONG TERM",
+    commitment: "COMMITMENT III",
+    title: "Become a trusted partner in every investor's financial journey.",
+    desc: "Building long-term relationships through transparent research, systematic risk frameworks, and disciplined advisory."
+  }
+];
 
 export default function OurStory() {
+  const [obsIndex, setObsIndex] = useState(0);
+  const [obsDirection, setObsDirection] = useState(1);
+
+  const [roadmapIndex, setRoadmapIndex] = useState(0);
+  const [roadmapDirection, setRoadmapDirection] = useState(1);
+
   const animProps = {
     initial: { opacity: 0, y: 12 },
     whileInView: { opacity: 1, y: 0 },
@@ -33,44 +81,60 @@ export default function OurStory() {
     transition: { duration: 0.25, ease: "easeOut" }
   } as const;
 
-  const bentoTiles = [
-    {
-      title: "Learn Independently",
-      description: "Teaching investors to think independently.",
-      iconName: "BookOpen" as const,
-      span: "md:col-span-2"
-    },
-    {
-      title: "Think Objectively",
-      description: "Evidence before opinions.",
-      iconName: "Search" as const,
-      span: "md:col-span-1"
-    },
-    {
-      title: "Execute Efficiently",
-      description: "Building tools that simplify execution.",
-      iconName: "Cpu" as const,
-      span: "md:col-span-1"
-    },
-    {
-      title: "Grow Together",
-      description: "Learning compounds faster together.",
-      iconName: "Users" as const,
-      span: "md:col-span-2"
-    },
-    {
-      title: "Compound Patiently",
-      description: "Years over weeks.",
-      iconName: "Clock" as const,
-      span: "md:col-span-1"
-    },
-    {
-      title: "Stay Disciplined",
-      description: "Protect trust before returns.",
-      iconName: "Shield" as const,
-      span: "md:col-span-2"
+  // Observation Navigation
+  const prevObs = useCallback(() => {
+    if (obsIndex > 0) {
+      setObsDirection(-1);
+      setObsIndex(prev => prev - 1);
     }
-  ];
+  }, [obsIndex]);
+
+  const nextObs = useCallback(() => {
+    if (obsIndex < observationsData.length - 1) {
+      setObsDirection(1);
+      setObsIndex(prev => prev + 1);
+    }
+  }, [obsIndex]);
+
+  const setObs = useCallback((idx: number) => {
+    setObsDirection(idx > obsIndex ? 1 : -1);
+    setObsIndex(idx);
+  }, [obsIndex]);
+
+  // Roadmap Navigation
+  const prevRoadmap = useCallback(() => {
+    if (roadmapIndex > 0) {
+      setRoadmapDirection(-1);
+      setRoadmapIndex(prev => prev - 1);
+    }
+  }, [roadmapIndex]);
+
+  const nextRoadmap = useCallback(() => {
+    if (roadmapIndex < roadmapData.length - 1) {
+      setRoadmapDirection(1);
+      setRoadmapIndex(prev => prev + 1);
+    }
+  }, [roadmapIndex]);
+
+  const setRoadmap = useCallback((idx: number) => {
+    setRoadmapDirection(idx > roadmapIndex ? 1 : -1);
+    setRoadmapIndex(idx);
+  }, [roadmapIndex]);
+
+  // Keyboard navigation for Observations Deck
+  const handleObsKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") prevObs();
+    if (e.key === "ArrowRight") nextObs();
+  };
+
+  // Keyboard navigation for Roadmap Deck
+  const handleRoadmapKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") prevRoadmap();
+    if (e.key === "ArrowRight") nextRoadmap();
+  };
+
+  const currentObs = observationsData[obsIndex];
+  const currentRoadmap = roadmapData[roadmapIndex];
 
   return (
     <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
@@ -85,19 +149,19 @@ export default function OurStory() {
 
       <main className="relative w-full animate-fade-in">
         
-        {/* Phase 2: Editorial Hero */}
+        {/* =========================================================================
+            1. HERO SECTION (Conviction-Driven Paragraph Refinement)
+           ========================================================================= */}
         <section className="relative w-full pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden z-10">
           <div className="container max-w-[1200px]">
             <div className="max-w-[950px] flex flex-col items-start text-left select-none">
-              {/* Small Label */}
               <motion.span 
-                className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-8"
+                className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-8 font-semibold"
                 {...animProps}
               >
                 OUR STORY
               </motion.span>
               
-              {/* Display Serif Headline */}
               <motion.h1 
                 className="font-display text-4xl sm:text-6xl md:text-[80px] lg:text-[88px] leading-[1.05] text-text-primary font-normal tracking-tight mb-8 max-w-[900px]"
                 {...animProps}
@@ -106,19 +170,21 @@ export default function OurStory() {
                 What if successful investing had less to do with predictions—and more to do with process?
               </motion.h1>
               
-              {/* Shortened Supporting Copy with increased spacing (mt-14) */}
+              {/* Conviction-Driven Paragraph */}
               <motion.p 
-                className="font-mono text-sm md:text-base text-text-secondary leading-relaxed max-w-[700px] mt-14"
+                className="font-mono text-sm md:text-base text-text-secondary leading-relaxed max-w-[720px] mt-12"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                VSC was built around a simple belief: lasting investment success comes from developing the discipline, structure, and mindset to make better decisions over time.
+                Over years of studying markets, we came to believe that successful investing is built less on prediction and more on disciplined decision-making. VSC exists to share that way of thinking.
               </motion.p>
             </div>
           </div>
         </section>
 
-        {/* Minimalist Editorial Break Section */}
+        {/* =========================================================================
+            2. MANIFESTO QUOTE PAUSE
+           ========================================================================= */}
         <section className="relative w-full py-24 md:py-32 overflow-hidden z-10 border-t border-white/[0.03] select-none">
           <div className="container max-w-[1200px] text-center">
             <motion.h2 
@@ -131,18 +197,19 @@ export default function OurStory() {
           </div>
         </section>
 
-        {/* Phase 3: Where It All Began Timeline Chapters */}
+        {/* =========================================================================
+            3. WHERE IT ALL BEGAN (Human Emotional Milestones Progression)
+           ========================================================================= */}
         <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               
-              {/* Left Column: Heading */}
               <div className="lg:col-span-4 select-none">
                 <motion.span 
-                  className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block"
+                  className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold"
                   {...animProps}
                 >
-                  ORIGIN
+                  THE ORIGIN
                 </motion.span>
                 <motion.h2 
                   className="font-display text-4xl md:text-[44px] text-text-primary font-normal leading-[1.2]"
@@ -153,258 +220,381 @@ export default function OurStory() {
                 </motion.h2>
               </div>
 
-              {/* Right Column: Three Story Chapters with larger milestones gap (gap-16) */}
-              <div className="lg:col-span-8 flex flex-col gap-16 max-w-[680px]">
-                
-                {/* Chapter 01 */}
+              {/* Human Progression Sequence */}
+              <div className="lg:col-span-8 flex flex-col gap-12 max-w-[700px]">
                 <motion.div 
                   className="flex flex-col gap-3"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.08 }}
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-base text-accent-gold/30 font-semibold tracking-wider">01</span>
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Markets became louder.</h3>
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-base text-accent-gold font-semibold">01</span>
+                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
+                      The more we learned...
+                    </h3>
                   </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-10">
-                    Information exploded. Understanding didn&apos;t.
+                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
+                    the more we realized information wasn&apos;t the problem. Financial news was everywhere, but actionable understanding was scarce.
                   </p>
                 </motion.div>
 
-                {/* Chapter 02 */}
                 <motion.div 
                   className="flex flex-col gap-3"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.12 }}
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-base text-accent-gold/30 font-semibold tracking-wider">02</span>
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Noise replaced clarity.</h3>
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-base text-accent-gold font-semibold">02</span>
+                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
+                      Markets humbled us repeatedly.
+                    </h3>
                   </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-10">
-                    Everyone had opinions. Few had a process.
+                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
+                    Early emotional entries and unmanaged risk taught us that opinions are cheap, while systematic risk rules are indispensable.
                   </p>
                 </motion.div>
 
-                {/* Chapter 03 */}
                 <motion.div 
                   className="flex flex-col gap-3"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.16 }}
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-base text-accent-gold/30 font-semibold tracking-wider">03</span>
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">So VSC was born.</h3>
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-base text-accent-gold font-semibold">03</span>
+                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
+                      Eventually experience became our teacher.
+                    </h3>
                   </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-10">
-                    Not to predict tomorrow, but to help investors make better decisions repeatedly.
+                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
+                    We stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation.
                   </p>
                 </motion.div>
 
+                <motion.div 
+                  className="flex flex-col gap-3"
+                  {...animProps}
+                  transition={{ ...animProps.transition, delay: 0.2 }}
+                >
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-base text-accent-gold font-semibold">04</span>
+                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
+                      That&apos;s when VSC began.
+                    </h3>
+                  </div>
+                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
+                    Designed not as a retail brokerage or advisory storefront, but as the digital headquarters of an institutional research desk.
+                  </p>
+                </motion.div>
               </div>
 
             </div>
           </div>
         </section>
 
-        {/* Phase 4: Our Investment Philosophy */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10">
+        {/* =========================================================================
+            4. EXPERIENCE SECTION (With Single Human Emotional Sentence)
+           ========================================================================= */}
+        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 bg-[#0B0F1E]/60">
           <div className="container max-w-[1200px]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-20 select-none">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               <div className="lg:col-span-4">
                 <motion.span 
-                  className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block"
+                  className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-4 block font-semibold"
                   {...animProps}
                 >
-                  METHODOLOGY
+                  FORGED IN REAL MARKETS
                 </motion.span>
                 <motion.h2 
-                  className="font-display text-4xl md:text-[44px] text-text-primary font-normal leading-[1.2]"
+                  className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.05 }}
                 >
-                  Our Investment Philosophy
+                  Experience Shapes Every Decision We Make.
                 </motion.h2>
               </div>
-              <div className="lg:col-span-8 flex items-center">
-                <motion.p 
-                  className="font-mono text-sm md:text-base text-text-secondary leading-relaxed max-w-[650px]"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.08 }}
-                >
-                  Four beliefs shape every decision we make.
-                </motion.p>
-              </div>
-            </div>
+              
+              <div className="lg:col-span-8 flex flex-col gap-8 max-w-[720px]">
+                <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
+                  We entered the markets like most retail participants—experiencing emotional decisions, premature entries, and unnecessary drawdowns. Markets humbled us repeatedly. Every cycle exposed weaknesses in our thinking.
+                </p>
 
-            {/* Editorial Manifesto (Principle blocks with low opacity borders border-white/[0.04]) */}
-            <div className="max-w-[900px] mx-auto border-t border-white/[0.04] select-none">
-              <div className="flex flex-col">
-                
-                {/* Belief 1 */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-12 py-12 border-b border-white/[0.04]"
-                  {...animProps}
-                >
-                  <span className="md:col-span-2 font-mono text-xs text-accent-gold/60 font-semibold mb-2 md:mb-0">01</span>
-                  <div className="md:col-span-10 flex flex-col gap-2">
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Protect capital first.</h3>
-                    <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">You only get to compound if you survive.</p>
-                  </div>
-                </motion.div>
+                {/* Single Human Emotional Sentence Highlight */}
+                <blockquote className="font-display text-2xl sm:text-3xl text-accent-gold font-normal italic border-l-2 border-accent-gold pl-6 py-2 my-2">
+                  &ldquo;Every mistake we made became a rule we refused to break again.&rdquo;
+                </blockquote>
 
-                {/* Belief 2 */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-12 py-12 border-b border-white/[0.04]"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.05 }}
-                >
-                  <span className="md:col-span-2 font-mono text-xs text-accent-gold/60 font-semibold mb-2 md:mb-0">02</span>
-                  <div className="md:col-span-10 flex flex-col gap-2">
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Respect the process.</h3>
-                    <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">Discipline outperforms emotion.</p>
-                  </div>
-                </motion.div>
-
-                {/* Belief 3 */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-12 py-12 border-b border-white/[0.04]"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.1 }}
-                >
-                  <span className="md:col-span-2 font-mono text-xs text-accent-gold/60 font-semibold mb-2 md:mb-0">03</span>
-                  <div className="md:col-span-10 flex flex-col gap-2">
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Patience compounds.</h3>
-                    <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">The best opportunities rarely arrive every day.</p>
-                  </div>
-                </motion.div>
-
-                {/* Belief 4 */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-12 py-12 border-b border-white/[0.04]"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.15 }}
-                >
-                  <span className="md:col-span-2 font-mono text-xs text-accent-gold/60 font-semibold mb-2 md:mb-0">04</span>
-                  <div className="md:col-span-10 flex flex-col gap-2">
-                    <h3 className="font-display text-xl sm:text-2xl text-white font-medium">Never stop improving.</h3>
-                    <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">Markets evolve. So should we.</p>
-                  </div>
-                </motion.div>
+                <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
+                  Gradually, we stopped chasing predictions and started studying process. We realized that protecting capital mattered far more than chasing speculative returns. That journey of trial, error, and discipline forged the philosophy behind VSC.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Minimal Editorial Transition Separator (Reset reader attention) */}
-        <div className="w-full flex justify-center py-16 select-none opacity-20">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
-        </div>
-
-        {/* Phase 5: The Road Ahead (Apple Bento Grid) */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10">
+        {/* =========================================================================
+            5. TIMELESS OBSERVATIONS (VSC Renaissance 2.2 — Editorial Research Deck)
+           ========================================================================= */}
+        <section 
+          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 focus:outline-none"
+          tabIndex={0}
+          onKeyDown={handleObsKeyDown}
+          aria-label="Timeless Observations Research Deck"
+        >
           <div className="container max-w-[1200px]">
-            
-            <div className="max-w-[600px] mb-16 text-left select-none">
-              <motion.span 
-                className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block"
-                {...animProps}
-              >
-                FUTURE ROADMAP
-              </motion.span>
-              <motion.h2 
-                className="font-display text-4xl md:text-[44px] text-text-primary font-normal leading-[1.2]"
-                {...animProps}
-                transition={{ ...animProps.transition, delay: 0.05 }}
-              >
-                The Road Ahead
-              </motion.h2>
+            {/* Editorial Deck Header */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 select-none gap-4">
+              <div>
+                <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-2 block font-semibold">
+                  LESSONS THE MARKET NEVER STOPS TEACHING
+                </span>
+                <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]">
+                  Timeless Observations
+                </h2>
+              </div>
+              
+              <div className="font-mono text-xs text-accent-gold font-semibold tracking-wider uppercase">
+                LESSON {currentObs.code} OF 05
+              </div>
             </div>
 
-            {/* Apple Bento Grid with premium micro-interactions (y: -3 hover lift, bg lightens, border brightens) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 select-none">
-              {bentoTiles.map((tile, idx) => {
-                const Icon = iconComponents[tile.iconName];
-                return (
-                  <motion.div
-                    key={idx}
-                    className={`${tile.span} relative group bg-[#0B0F1E] hover:bg-[#0D1224] border border-white/5 hover:border-white/10 rounded-2xl p-8 flex flex-col justify-between transition-all duration-[240ms] ease-out`}
-                    style={{ transformStyle: "preserve-3d" }}
-                    whileHover={{ 
-                      y: -3,
-                      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.15)"
-                    }}
-                    {...animProps}
-                    transition={{ ...animProps.transition, delay: idx * 0.05 }}
+            {/* Interactive Research Memorandum Card (Stable Minimum Height) */}
+            <div className="max-w-[1000px] mx-auto min-h-[280px] sm:min-h-[240px] relative select-none">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={obsIndex}
+                  initial={{ opacity: 0, x: obsDirection > 0 ? 12 : -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: obsDirection > 0 ? -12 : 12 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className={`w-full bg-[#0B0F1E] rounded-2xl p-8 sm:p-12 transition-all duration-300 ${
+                    currentObs.isFeatured 
+                      ? "border border-accent-gold/40 shadow-[0_15px_35px_rgba(201,168,76,0.06)]" 
+                      : "border border-white/[0.08]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="font-mono text-sm text-accent-gold font-semibold">
+                      {currentObs.code}
+                    </span>
+                    <span className={`font-mono text-[10px] uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full font-semibold ${
+                      currentObs.isFeatured
+                        ? "text-accent-gold bg-accent-gold/10 border border-accent-gold/30"
+                        : "text-white/60 bg-white/[0.04] border border-white/10"
+                    }`}>
+                      {currentObs.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal mb-4 leading-snug">
+                    {currentObs.title}
+                  </h3>
+
+                  <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[820px]">
+                    {currentObs.desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Understated Institutional Navigation Bar */}
+            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between select-none">
+              {/* Previous Button */}
+              <button
+                onClick={prevObs}
+                disabled={obsIndex === 0}
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                aria-label="Previous Lesson"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>PREVIOUS</span>
+              </button>
+
+              {/* Monospaced Step Indicators */}
+              <div className="flex items-center gap-2">
+                {observationsData.map((obs, idx) => (
+                  <button
+                    key={obs.code}
+                    onClick={() => setObs(idx)}
+                    className={`font-mono text-xs font-semibold px-2.5 py-1 rounded transition-colors duration-200 ${
+                      obsIndex === idx
+                        ? "bg-accent-gold text-black"
+                        : "text-white/40 hover:text-white bg-white/[0.03]"
+                    }`}
+                    aria-label={`Jump to Lesson ${obs.code}`}
                   >
-                    {/* Subtle noise pattern matching layout */}
-                    <div className="absolute inset-0 rounded-2xl opacity-[0.015] bg-repeat pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:16px_16px]" />
-                    
-                    <div className="flex flex-col gap-6 relative z-10">
-                      {/* Icon scales subtly (scale-105) on hover */}
-                      <span className="text-[#C9A84C]/50 group-hover:text-accent-gold group-hover:scale-105 transition-all duration-[240ms] ease-out origin-left inline-block">
-                        <Icon className="w-5 h-5 stroke-[1.5]" />
-                      </span>
-                      <h3 className="font-display text-xl sm:text-2xl text-white font-medium mt-2">
-                        {tile.title}
-                      </h3>
-                    </div>
-                    
-                    <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed mt-12 relative z-10">
-                      {tile.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
+                    {obs.code}
+                  </button>
+                ))}
+              </div>
 
+              {/* Next Button */}
+              <button
+                onClick={nextObs}
+                disabled={obsIndex === observationsData.length - 1}
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                aria-label="Next Lesson"
+              >
+                <span>NEXT</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </section>
 
-        {/* Phase 8: One Final Editorial Conclusion Sentence */}
-        <section className="relative w-full py-24 overflow-hidden border-t border-white/[0.03] select-none z-10">
+        {/* =========================================================================
+            6. WHERE VSC IS HEADING (Executive Roadmap Deck)
+           ========================================================================= */}
+        <section 
+          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 bg-[#0B0F1E]/30 focus:outline-none"
+          tabIndex={0}
+          onKeyDown={handleRoadmapKeyDown}
+          aria-label="Executive Roadmap Deck"
+        >
+          <div className="container max-w-[1200px]">
+            {/* Header & Subtitle */}
+            <div className="max-w-[850px] mb-12 select-none">
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase font-semibold block">
+                  LONG-TERM DIRECTION
+                </span>
+                <span className="font-mono text-xs text-white/50 font-semibold tracking-wider uppercase">
+                  PHASE {currentRoadmap.horizon} • {roadmapIndex + 1} OF 3
+                </span>
+              </div>
+              <h2 className="font-display text-4xl md:text-[48px] text-text-primary font-normal leading-[1.15] mb-4">
+                Where VSC Is Heading
+              </h2>
+              <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[700px]">
+                We are building an enduring institution over decades—focused on intellectual research quality rather than chasing short-term business metrics.
+              </p>
+            </div>
+
+            {/* Interactive Horizon Slide Area (Stable Minimum Height) */}
+            <div className="max-w-[1000px] mx-auto min-h-[220px] sm:min-h-[180px] relative select-none">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={roadmapIndex}
+                  initial={{ opacity: 0, x: roadmapDirection > 0 ? 12 : -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: roadmapDirection > 0 ? -12 : 12 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="w-full bg-[#0B0F1E] border border-white/[0.08] rounded-2xl p-8 sm:p-10"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="font-mono text-xs tracking-widest text-black bg-accent-gold px-3 py-0.5 rounded font-semibold uppercase">
+                      {currentRoadmap.horizon}
+                    </span>
+                    <span className="font-mono text-xs text-accent-gold/80 font-semibold tracking-wider">
+                      {currentRoadmap.commitment}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal mb-3 leading-snug">
+                    {currentRoadmap.title}
+                  </h3>
+
+                  <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[780px]">
+                    {currentRoadmap.desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Horizon Selector Navigation Bar */}
+            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between select-none">
+              <button
+                onClick={prevRoadmap}
+                disabled={roadmapIndex === 0}
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                aria-label="Previous Phase"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>PREVIOUS</span>
+              </button>
+
+              {/* Horizon Tabs */}
+              <div className="flex items-center gap-3">
+                {roadmapData.map((rm, idx) => (
+                  <button
+                    key={rm.horizon}
+                    onClick={() => setRoadmap(idx)}
+                    className={`font-mono text-xs font-semibold px-3 py-1 rounded transition-colors duration-200 ${
+                      roadmapIndex === idx
+                        ? "bg-white/10 text-accent-gold border border-accent-gold/30"
+                        : "text-white/40 hover:text-white bg-white/[0.02]"
+                    }`}
+                    aria-label={`Jump to ${rm.horizon}`}
+                  >
+                    {rm.horizon}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={nextRoadmap}
+                disabled={roadmapIndex === roadmapData.length - 1}
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                aria-label="Next Phase"
+              >
+                <span>NEXT</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            7. ICONIC SKY-BLUE POSTER STATEMENT (Massive Apple/Museum Poster Climax)
+           ========================================================================= */}
+        <section className="relative w-full py-36 md:py-56 overflow-hidden border-t border-white/[0.04] select-none z-10 bg-gradient-to-b from-transparent via-[#38BDF8]/[0.02] to-transparent">
           <div className="container max-w-[1200px] text-center">
-            <motion.h2 
-              className="font-display text-2xl sm:text-3xl md:text-4xl text-text-primary font-normal leading-[1.4] max-w-[850px] mx-auto"
+            <motion.div 
+              className="flex flex-col items-center justify-center text-center space-y-1 sm:space-y-3"
               {...animProps}
             >
-              Because investing is less about predicting tomorrow—and more about becoming the kind of person who can navigate it.
-            </motion.h2>
+              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8] font-normal leading-[0.92] tracking-tight uppercase block select-none">
+                CLARITY
+              </span>
+              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8]/80 font-normal leading-[0.92] tracking-tight uppercase block select-none">
+                COMPOUNDS
+              </span>
+              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8] font-normal leading-[0.92] tracking-tight uppercase block select-none">
+                OVER TIME.
+              </span>
+            </motion.div>
           </div>
         </section>
 
-        {/* Phase 6: Closing Section CTA */}
-        <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-white/[0.03] z-10">
+        {/* =========================================================================
+            8. FINAL CTA (Refined Headline & Preserved Structure)
+           ========================================================================= */}
+        <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-white/[0.03] z-10 select-none">
           <div className="container max-w-[1200px]">
-            <div className="max-w-[700px] mx-auto text-center flex flex-col items-center select-none">
+            <div className="max-w-[700px] mx-auto text-center flex flex-col items-center">
               
-              {/* Label */}
               <motion.span 
-                className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-6"
+                className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-6 font-semibold"
                 {...animProps}
               >
                 YOUR NEXT STEP
               </motion.span>
               
-              {/* Option A Headline */}
               <motion.h2 
-                className="font-display text-4xl sm:text-[44px] leading-[1.2] text-text-primary font-normal tracking-tight mb-4"
+                className="font-display text-3xl sm:text-5xl leading-[1.15] text-text-primary font-normal tracking-tight mb-6"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
-                Every investor remembers the moment they decided to take investing seriously.
+                Every great investment process starts somewhere.
               </motion.h2>
               
-              {/* Refined Invitation Supporting Copy */}
               <motion.p 
                 className="font-mono text-sm text-text-secondary leading-relaxed mb-10 max-w-[580px]"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Whether you&apos;re taking your first step or refining years of experience, VSC exists to help you invest with greater clarity, discipline and confidence.
+                Whether you&apos;re taking your first step or refining years of experience, VSC exists to help you invest with greater clarity, discipline, and confidence.
               </motion.p>
               
-              {/* Primary button */}
               <motion.div 
                 className="flex"
                 {...animProps}
@@ -412,10 +602,9 @@ export default function OurStory() {
               >
                 <Link 
                   href="/enquire" 
-                  className="btn btn-gold"
-                  style={{ padding: "14px 32px", fontSize: "12px", fontFamily: "var(--font-mono)", letterSpacing: "1px" }}
+                  className="bg-accent-gold text-black font-mono text-xs uppercase tracking-wider font-semibold px-8 py-4 rounded-xl hover:bg-accent-gold-light transition-colors duration-200"
                 >
-                  Start Your VSC Journey →
+                  Request a Strategic Discussion &rarr;
                 </Link>
               </motion.div>
               

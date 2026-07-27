@@ -248,49 +248,6 @@ export function SpotlightNavbar({
                 />
 
             </nav>
-
-            <style dangerouslySetInnerHTML={{ __html: `
-        .spotlight-nav {
-          height: 58px;
-          display: flex;
-          align-items: center;
-          padding: 0 8px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          background: rgba(12, 16, 30, 0.72);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
-                      inset 0 2px 0 rgba(201, 168, 76, 0.08),
-                      0 10px 30px rgba(0, 0, 0, 0.18);
-          /* Default colors mapping to VSC Premium Gold theme */
-          --spotlight-color: ${spotlightColor};
-          --ambience-color: ${ambienceColor};
-        }
-        .spotlight-nav a {
-          font-size: 16px;
-          font-weight: 500;
-          letter-spacing: 0.01em;
-          color: rgba(244, 241, 236, 0.88);
-          transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-          font-family: var(--font-ui);
-          padding: 8px 22px;
-          border: 1px solid transparent;
-          border-radius: 18px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .spotlight-nav a:hover {
-          color: #F4F1EC;
-        }
-        .spotlight-nav a.active-link {
-          background: rgba(201, 168, 76, 0.08);
-          border: 1px solid rgba(201, 168, 76, 0.25);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-          color: #F4F1EC !important;
-          border-radius: 18px;
-        }
-            `}} />
         </div>
     );
 }

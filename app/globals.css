@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 :root {
-    --bg-primary: #060810;
-    --bg-secondary: #0B0F1E;
-    --bg-card: rgba(17, 24, 39, 0.55);
-    --bg-elevated: rgba(26, 34, 53, 0.75);
+    --bg-primary: #070A12;
+    --bg-secondary: #0D1220;
+    --bg-card: rgba(13, 18, 32, 0.6);
+    --bg-elevated: rgba(17, 24, 39, 0.75);
     --accent-gold: #C9A84C;
     --accent-gold-light: #E8C96A;
     --accent-gold-dim: #8B7235;
     --text-primary: #F4F1EC;
-    --text-secondary: #a7a7ad;
+    --text-secondary: #94A3B8;
     --text-muted: #6B7280;
     --border: rgba(201, 168, 76, 0.15);
     --success: #4ADE80;
@@ -242,6 +242,46 @@ p {
 }
 
 /* NAVIGATION (DESKTOP) */
+.spotlight-nav {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(12, 16, 30, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                inset 0 2px 0 rgba(201, 168, 76, 0.08),
+                0 10px 30px rgba(0, 0, 0, 0.18);
+    --spotlight-color: rgba(201, 168, 76, 0.16);
+    --ambience-color: rgba(201, 168, 76, 0.12);
+}
+.spotlight-nav a {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(244, 241, 236, 0.88);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    font-family: var(--font-ui);
+    padding: 8px 22px;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.spotlight-nav a:hover {
+    color: #F4F1EC;
+}
+.spotlight-nav a.active-link {
+    background: rgba(201, 168, 76, 0.08);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    color: #F4F1EC !important;
+    border-radius: 18px;
+}
+
 .site-header { 
     position: fixed;
     top: 0;

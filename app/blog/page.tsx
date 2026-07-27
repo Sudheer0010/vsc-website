@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import MarketLetterModal from "@/components/cards/MarketLetterModal";
 import { marketLetters } from "@/data/market-letters";
+import { Article } from "@/types/article";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
 import { 
@@ -53,17 +54,36 @@ export default function Blog() {
   const frameworksCount = articles.filter(a => a.type === "FRAMEWORK").length + frameworkLibrary.length;
   const readingCount = books.length + annualLetters.length + talks.length;
 
+  // Market Letter articles dataset for the Market Letters category filter
+  const marketLetterArticles: Article[] = sortedMonths.map((code) => {
+    const letter = marketLetters[code];
+    return {
+      id: `market-letter-${code.toLowerCase()}`,
+      title: `Market Letter • ${letter.month} ${letter.year}`,
+      description: letter?.description || "Institutional market letter briefing and capital allocation analysis.",
+      category: "Market Letters",
+      type: "MARKET LETTER",
+      publishedDate: `1 ${letter.month.charAt(0) + letter.month.slice(1).toLowerCase()} ${letter.year}`,
+      readingTime: "5 Min Read",
+      featured: code === "JUL",
+      difficulty: "Advanced",
+      tags: ["market-letter", "macro", "regime-shift"],
+      slug: code
+    };
+  });
+
   // Search & Categories Filter Logic
   const getFilteredArticles = () => {
     let list = articles;
 
     // Category filter
-    if (selectedCategory !== "All") {
+    if (selectedCategory === "Market Letters") {
+      list = marketLetterArticles;
+    } else if (selectedCategory !== "All") {
       const lowerCat = selectedCategory.toLowerCase();
       list = list.filter(a => {
         if (selectedCategory === "Research Notes") return a.type === "RESEARCH NOTE";
         if (selectedCategory === "Frameworks") return a.type === "FRAMEWORK";
-        if (selectedCategory === "Market Letters") return false;
         return a.category.toLowerCase().includes(lowerCat) || a.type.toLowerCase().includes(lowerCat);
       });
     }
@@ -131,6 +151,7 @@ export default function Blog() {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             filteredArticles={filteredArticles}
+            onOpenLetter={openLetter}
           />
 
           <FrameworkLibrary frameworkLibrary={frameworkLibrary} />

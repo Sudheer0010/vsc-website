@@ -10,14 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "bg-primary": "#060810",
-        "bg-card": "rgba(11, 15, 30, 0.4)",
+        "bg-primary": "#070A12",
+        "bg-deep-charcoal": "#070A12",
+        "bg-paper-navy": "#0D1220",
+        "bg-reading-slate": "#111827",
+        "surface-editorial": "#F5F3EE",
+        "bg-card": "rgba(13, 18, 32, 0.6)",
         "border-vsc": "rgba(255, 255, 255, 0.08)",
-        "accent-gold": "#c9a84c",
-        "accent-gold-light": "#dfc784",
-        "text-primary": "#ffffff",
+        "accent-gold": "#C9A84C",
+        "accent-gold-light": "#DFC784",
+        "text-primary": "#FFFFFF",
         "text-secondary": "rgba(255, 255, 255, 0.7)",
         "text-muted": "rgba(255, 255, 255, 0.4)",
+        "text-slate-muted": "#94A3B8",
         success: "#4ade80",
         loss: "#f87171",
         // shadcn variables mapped to VSC theme

@@ -1,44 +1,40 @@
 "use client";
 
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function useScrollReveal() {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined") return;
 
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const elements = document.querySelectorAll(".fade-up");
 
-      if (prefersReduced) {
-        gsap.set(".fade-up", { opacity: 1, y: 0, filter: "none" });
-      } else {
-        const elements = document.querySelectorAll(".fade-up");
-        elements.forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, y: 40, filter: "blur(8px)" },
-            {
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 1.2,
-              ease: "power3.out",
-              overwrite: "auto",
-              scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                toggleActions: "play none none none",
-              },
-            }
-          );
-        });
-      }
+    if (prefersReduced) {
+      elements.forEach((el) => el.classList.add("visible"));
+      return;
     }
-    
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -15% 0px",
+        threshold: 0.1,
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      elements.forEach((el) => observer.unobserve(el));
     };
   }, []);
 }
+
