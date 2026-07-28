@@ -19,7 +19,16 @@ export default function Home() {
       {/* 3-Mass Balanced Restrained Navigation Capsule */}
       <Navbar />
 
-      <main className="relative w-full bg-bg-deep-charcoal text-text-primary min-h-screen pt-16 sm:pt-20 overflow-hidden">
+      <main className="relative w-full bg-[#05070D] text-text-primary min-h-screen overflow-hidden">
+        {/* VSC Institutional Gold Radial Ambient Canvas for Lower Sections */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 50% at 50% 1100px, rgba(201, 168, 76, 0.04), transparent 70%), #05070D",
+          }}
+        />
+
         {/* Signature 05: Background Research Grid */}
         <div
           aria-hidden="true"
@@ -27,32 +36,61 @@ export default function Home() {
         />
 
         {/* =========================================================================
-            MODULE 1: ARRIVAL (POSTER MOMENT 1)
-            Atmosphere: High-Contrast Editorial Thesis + Live Status Ticker
+            MODULE 1: ARRIVAL (FULL BLEED HIGH-IMPACT POSTER HERO - 95-100VH)
+            Atmosphere: Full-Bleed Research Desk Photography + Spacious Vertical Breathing Room
            ========================================================================= */}
-        <section id="arrival" className="relative w-full py-4 sm:py-8 select-none">
-          <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
+        <section id="arrival" className="relative w-full min-h-[94vh] lg:min-h-[96vh] xl:min-h-screen flex flex-col justify-between pt-32 sm:pt-36 pb-10 sm:pb-14 select-none overflow-hidden border-b border-white/[0.06]">
+          {/* Full-Bleed Background Photography Layer */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/vsc_research_desk_hero.png"
+              alt="VSC Institutional Research Desk Environment"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-right lg:object-center filter contrast-[1.06] brightness-[0.88]"
+            />
+            {/* Multi-stage Scrim Overlay preserving left lamp light glow & high contrast typography */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-r from-[#05070D] via-[#05070D]/85 via-[38%] to-transparent z-10"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-[#05070D] via-transparent to-transparent z-10"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-b from-[#05070D]/80 via-transparent to-transparent z-10"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(201,168,76,0.08),transparent_60%)] z-10 pointer-events-none"
+            />
+          </div>
+
+          <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto pt-6 sm:pt-10">
             <ReadingTempo delay={0.05}>
-              <div className="max-w-[1050px] text-left">
-                {/* Live Institutional Ticker Strip */}
-                <div className="inline-flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 mb-8">
-                  <Activity className="w-3.5 h-3.5 text-accent-gold animate-pulse" />
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-white/80 uppercase font-semibold">
+              <div className="max-w-[780px] text-left">
+                {/* Live Institutional Ticker Strip with Emerald Pulse */}
+                <div className="inline-flex items-center gap-2.5 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-4 py-1.5 mb-10 shadow-2xl">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+                  <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] text-white/90 uppercase font-semibold">
                     RESEARCH DESK ACTIVE • REGIME: RISK-MANAGED ALLOCATION
                   </span>
                 </div>
 
-                <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-4">
+                <span className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent-gold uppercase font-bold block mb-6 drop-shadow-sm">
                   WELCOME TO VSC CAPITAL & ADVISORY
                 </span>
-                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.03] text-white font-normal tracking-tight mb-6">
+                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.04] text-white font-normal tracking-tight mb-8 max-w-[800px] drop-shadow-md">
                   A Smarter Way to Build and Protect Capital.
                 </h1>
-                <p className="font-mono text-base sm:text-xl text-text-secondary leading-relaxed max-w-[780px] mb-8">
+                <p className="font-mono text-sm sm:text-base md:text-lg text-white/80 leading-relaxed max-w-[640px] mb-12 drop-shadow-sm">
                   We study market structure, trend strength, and risk management to deploy capital with systematic discipline.
                 </p>
 
-                <div className="flex flex-wrap items-center gap-4 mb-12 sm:mb-16">
+                <div className="flex flex-wrap items-center gap-4 mb-4">
                   <VSCButton href="/offerings" variant="gold">
                     Begin the Conversation &rarr;
                   </VSCButton>
@@ -62,24 +100,14 @@ export default function Home() {
                 </div>
               </div>
             </ReadingTempo>
+          </div>
 
-            {/* Dominant Research Desk Photography Container */}
-            <ReadingTempo delay={0.15}>
-              <div className="relative w-full aspect-[16/9] max-h-[560px] rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_25px_60px_rgba(0,0,0,0.7)] group">
-                <Image
-                  src="/vsc_annual_report_hero.png"
-                  alt="VSC Institutional Research Desk Environment"
-                  fill
-                  priority
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                  className="object-cover object-center filter contrast-[1.03] brightness-[0.95] group-hover:scale-[1.01] transition-transform duration-700 ease-out"
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-gradient-to-t from-[#070A12] via-transparent to-transparent opacity-75"
-                />
-              </div>
-            </ReadingTempo>
+          {/* Bottom Left Scroll Indicator */}
+          <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 pt-6">
+            <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] text-white/50 uppercase border-l-2 border-accent-gold pl-3.5 py-0.5">
+              <span className="text-white/70 font-semibold">01</span>
+              <span>SCROLL TO EXPLORE</span>
+            </div>
           </div>
         </section>
 

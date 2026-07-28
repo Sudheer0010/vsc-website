@@ -1,18 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
-
-/**
- * VSC Component: ReflectionBlock
- * 
- * 1. Purpose: Concludes every research document chapter with an intellectual reflection question.
- * 2. Atlas Alignment: Expresses Ritual #3 (Reflection Chapter Exits) and Signature 03.
- * 3. One Memorable Idea: Ends a chapter with a deep question instead of an aggressive call-to-action button, engaging the reader intellectually.
- * 4. Accessibility: High contrast (7:1) typography. Reduced motion compliance built-in.
- * 5. Performance: Static text block with clean CSS border rules; CLS = 0.00.
- * 6. Uniquely VSC: Communicates patience and long-term discipline over sales urgency.
- */
 
 interface ReflectionBlockProps {
   question: string;
@@ -20,31 +8,17 @@ interface ReflectionBlockProps {
 }
 
 export function ReflectionBlock({ question, className = "" }: ReflectionBlockProps) {
-  const shouldReduceMotion = useReducedMotion();
-
-  const animProps = shouldReduceMotion
-    ? {}
-    : {
-        initial: { opacity: 0, y: 8 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-50px" },
-        transition: { duration: 0.6, ease: "easeOut" as const },
-      };
-
   return (
-    <section className={`w-full py-16 sm:py-24 border-t border-white/[0.04] select-none ${className}`}>
-      <div className="container max-w-[1200px]">
+    <section className={`relative z-10 w-full py-16 sm:py-24 border-t border-white/[0.04] select-none ${className}`}>
+      <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="max-w-[850px] mx-auto text-center flex flex-col items-center">
-          {/* Subtle gold indicator dot */}
-          <div aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent-gold mb-8 opacity-60" />
+          {/* Sky Blue indicator dot */}
+          <div aria-hidden="true" className="w-2 h-2 rounded-full bg-[#38BDF8] mb-8 shadow-[0_0_12px_rgba(56,189,248,0.6)]" />
 
-          {/* Intellectual Reflection Question */}
-          <motion.blockquote
-            className="font-display text-2xl sm:text-3xl md:text-4xl text-text-primary font-normal leading-[1.35] tracking-tight text-center"
-            {...animProps}
-          >
+          {/* Intellectual Reflection Question in Sky Blue (#38BDF8) */}
+          <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[42px] text-[#38BDF8] font-normal leading-[1.3] tracking-tight text-center drop-shadow-md">
             &ldquo;{question}&rdquo;
-          </motion.blockquote>
+          </blockquote>
         </div>
       </div>
     </section>

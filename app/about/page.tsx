@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -145,25 +146,47 @@ export default function OurStory() {
       <PaperGrain />
 
       {/* Dynamic Background Colored Ambient Light Pool */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.02)" className="left-[70%] top-[25%] scale-[1.2]" />
+      <AmbientLightPool color="rgba(201, 168, 76, 0.04)" className="left-[50%] top-[900px] scale-[1.4]" />
 
       <main className="relative w-full animate-fade-in">
         
         {/* =========================================================================
-            1. HERO SECTION (Conviction-Driven Paragraph Refinement)
+            1. HERO SECTION (Atmospheric Humanized Team Background + High Contrast Typography)
            ========================================================================= */}
-        <section className="relative w-full pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden z-10">
-          <div className="container max-w-[1200px]">
-            <div className="max-w-[950px] flex flex-col items-start text-left select-none">
+        <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-white/[0.04]">
+          {/* Full-Bleed Atmospheric Background Layer */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/vsc_our_story_hero.png"
+              alt="VSC Capital Quantitative Research Team in Discussion"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center filter contrast-[1.05] brightness-[0.88]"
+            />
+            {/* Tuned Scrim Overlay preserving high image visibility & crisp text contrast */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-r from-[#05070D] via-[#05070D]/75 via-[40%] to-[#05070D]/30 z-10"
+            />
+            {/* Bottom Fade to blend with next section */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-[#05070D] via-transparent to-transparent z-10"
+            />
+          </div>
+
+          <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto">
+            <div className="max-w-[950px] flex flex-col items-start text-left">
               <motion.span 
-                className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-8 font-semibold"
+                className="font-mono text-xs md:text-sm tracking-[0.25em] text-accent-gold uppercase mb-6 font-bold drop-shadow-sm"
                 {...animProps}
               >
                 OUR STORY
               </motion.span>
               
               <motion.h1 
-                className="font-display text-4xl sm:text-6xl md:text-[80px] lg:text-[88px] leading-[1.05] text-text-primary font-normal tracking-tight mb-8 max-w-[900px]"
+                className="font-display text-4xl sm:text-6xl md:text-[76px] lg:text-[84px] leading-[1.06] text-white font-normal tracking-tight mb-8 max-w-[900px] drop-shadow-lg"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
@@ -172,7 +195,7 @@ export default function OurStory() {
               
               {/* Conviction-Driven Paragraph */}
               <motion.p 
-                className="font-mono text-sm md:text-base text-text-secondary leading-relaxed max-w-[720px] mt-12"
+                className="font-mono text-sm md:text-base text-white/80 leading-relaxed max-w-[720px] mt-4 drop-shadow-sm"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >

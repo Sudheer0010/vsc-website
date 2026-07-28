@@ -114,7 +114,7 @@ export default function Blog() {
       <PaperGrain />
 
       {/* Dynamic Background Colored Ambient Light Pool */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.02)" className="left-[75%] top-[20%] scale-[1.2]" />
+      <AmbientLightPool color="rgba(201, 168, 76, 0.04)" className="left-[50%] top-[1000px] scale-[1.4]" />
 
       <main className="relative w-full pt-32 pb-16 md:pt-40 md:pb-24 z-10">
         <div className="container max-w-[1200px]">

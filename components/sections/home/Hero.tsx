@@ -113,7 +113,7 @@ export function Hero() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10"></div>
               <Image 
-                src="/vsc_annual_report_hero.png" 
+                src="/vsc_research_desk_hero.png" 
                 alt="VSC Capital Research Environment - Workspace preparation and institutional tools"
                 fill
                 priority
