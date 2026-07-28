@@ -1,0 +1,3 @@
+## 2025-02-27 - Added Focus states & Async UI patterns
+**Learning:** The base `.btn` utility class throughout the site lacked `focus-visible` handling and visual `disabled` states (pointer removal, opacity reduction, removing hover transformations). Form submission buttons lacked an intuitive async loading layout paradigm.
+**Action:** Always verify `.btn` variants include both a keyboard accessibility outline (`focus-visible`) and a distinct disabled layout. Establish standard of inline SVG spinner + `aria-busy={true}` for async buttons.
