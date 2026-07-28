@@ -9,7 +9,7 @@ export default function AdvantagePage() {
   return (
     <OfferingsLayout ctaService="advantage">
       <DetailHero
-        title="Professional Portfolio Advisory"
+        title="Professional Portfolio Guidance"
         tagline="VSC Advantage"
         description="Align your capital structure with concrete growth and mathematical risk gates."
         accentColor="#C9A84C"

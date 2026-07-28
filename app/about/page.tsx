@@ -604,7 +604,7 @@ export default function OurStory() {
                   href="/enquire" 
                   className="bg-accent-gold text-black font-mono text-xs uppercase tracking-wider font-semibold px-8 py-4 rounded-xl hover:bg-accent-gold-light transition-colors duration-200"
                 >
-                  Request a Strategic Discussion &rarr;
+                  Enquire Now &rarr;
                 </Link>
               </motion.div>
               

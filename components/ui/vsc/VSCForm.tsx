@@ -194,7 +194,7 @@ export function VSCForm({
 
       <div className="mt-4 flex items-center justify-between">
         <VSCButton type="submit" variant="gold" className="w-full sm:w-auto">
-          {isSubmitting ? "INITIATING..." : "INITIATE STRATEGIC DISCUSSION"}
+          {isSubmitting ? "SUBMITTING..." : "ENQUIRE NOW"}
         </VSCButton>
       </div>
     </form>

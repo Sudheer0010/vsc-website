@@ -1,17 +1,17 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { ReadingTempo } from "@/components/ui/vsc/ReadingTempo";
-import { ReadingContainer } from "@/components/ui/vsc/ReadingContainer";
-import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
-import { ReflectionBlock } from "@/components/ui/vsc/ReflectionBlock";
-import { AcademicMarginNote } from "@/components/ui/vsc/AcademicMarginNote";
-import { VSCButton } from "@/components/ui/vsc/VSCButton";
+import Navbar from "@/components/layout/Navbar";
 import { Compliance } from "@/components/sections/home/Compliance";
-import { Shield, Sliders, Hourglass, TrendingUp, Activity } from "lucide-react";
+import { Testimonials } from "@/components/sections/home/Testimonials";
+import { AcademicMarginNote } from "@/components/ui/vsc/AcademicMarginNote";
+import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
+import { ReadingContainer } from "@/components/ui/vsc/ReadingContainer";
+import { ReadingTempo } from "@/components/ui/vsc/ReadingTempo";
+import { ReflectionBlock } from "@/components/ui/vsc/ReflectionBlock";
+import { VSCButton } from "@/components/ui/vsc/VSCButton";
+import { Activity, Hourglass, Shield, Sliders, TrendingUp } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -21,9 +21,9 @@ export default function Home() {
 
       <main className="relative w-full bg-bg-deep-charcoal text-text-primary min-h-screen pt-16 sm:pt-20 overflow-hidden">
         {/* Signature 05: Background Research Grid */}
-        <div 
+        <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" 
+          className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"
         />
 
         {/* =========================================================================
@@ -51,10 +51,10 @@ export default function Home() {
                 <p className="font-mono text-base sm:text-xl text-text-secondary leading-relaxed max-w-[780px] mb-8">
                   We study market structure, trend strength, and risk management to deploy capital with systematic discipline.
                 </p>
-                
+
                 <div className="flex flex-wrap items-center gap-4 mb-12 sm:mb-16">
                   <VSCButton href="/offerings" variant="gold">
-                    Ways to Work With the Desk &rarr;
+                    Begin the Conversation &rarr;
                   </VSCButton>
                   <VSCButton href="/blog" variant="outline">
                     The Research Journal
@@ -74,9 +74,9 @@ export default function Home() {
                   sizes="(max-width: 1200px) 100vw, 1200px"
                   className="object-cover object-center filter contrast-[1.03] brightness-[0.95] group-hover:scale-[1.01] transition-transform duration-700 ease-out"
                 />
-                <div 
-                  aria-hidden="true" 
-                  className="absolute inset-0 bg-gradient-to-t from-[#070A12] via-transparent to-transparent opacity-75" 
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-[#070A12] via-transparent to-transparent opacity-75"
                 />
               </div>
             </ReadingTempo>
@@ -275,6 +275,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* RESTORED: Testimonials Section */}
+        <Testimonials />
+
 
         {/* =========================================================================
             MODULE 6: ACTION (THE QUIET ROOM — UNHURRIED EXIT)
@@ -293,7 +296,7 @@ export default function Home() {
                 Build a Better Investment Process. Let&apos;s Start With a Conversation.
               </h2>
               <VSCButton href="/enquire" variant="gold" className="px-10 py-4 text-sm">
-                REQUEST A STRATEGIC DISCUSSION &rarr;
+                Enquire Now &rarr;
               </VSCButton>
             </div>
           </div>

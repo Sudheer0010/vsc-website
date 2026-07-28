@@ -49,7 +49,7 @@ export function OfferingsHero() {
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >
-            Every VSC offering exists to build systematic thinking—from foundational market education, to disciplined portfolio advisory, to institutional-grade research.
+            Every VSC offering exists to build systematic thinking—from foundational market education, to disciplined portfolio guidance, to institutional-grade research.
           </motion.p>
           
           {/* Action button */}
