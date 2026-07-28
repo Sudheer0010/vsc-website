@@ -36,19 +36,30 @@ export function VSCForm({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      if (typeof value === "string") {
+        params.append(key, value);
+      }
+    }
+
+    if (!params.has("form-name")) {
+      params.set("form-name", formName);
+    }
+
+    const payloadString = params.toString();
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          "form-name": formName,
-          ...formData,
-        }).toString(),
+        body: payloadString,
       });
 
       if (response.ok) {
@@ -56,11 +67,19 @@ export function VSCForm({
         if (onSuccess) onSuccess();
       } else {
         // Fallback native submit
-        (e.target as HTMLFormElement).submit();
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.submit();
+        }
       }
     } catch {
       // Fallback submit
-      (e.target as HTMLFormElement).submit();
+      if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
     } finally {
       setIsSubmitting(false);
     }

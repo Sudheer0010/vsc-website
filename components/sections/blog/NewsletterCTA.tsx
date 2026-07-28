@@ -17,16 +17,40 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Explicit URLSearchParams construction by iterating over formData.entries()
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      if (typeof value === "string") {
+        params.append(key, value);
+      }
+    }
+
+    // Ensure form-name is explicitly set
+    if (!params.has("form-name")) {
+      params.set("form-name", "newsletter");
+    }
+
+    const payloadString = params.toString();
+
     try {
-      await fetch("/", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+        body: payloadString,
       });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed with status ${response.status}`);
+      }
+
       setIsSubmitted(true);
     } catch {
       // Fallback native submission
-      form.submit();
+      if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
     } finally {
       setIsSubmitting(false);
     }
