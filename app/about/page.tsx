@@ -8,6 +8,32 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
+import { GradientText } from "@/components/ui/vsc/GradientText";
+import { ShinyText } from "@/components/ui/vsc/ShinyText";
+import { TimelineBeam, TimelineStep } from "@/components/ui/vsc/TimelineBeam";
+
+const originSteps: TimelineStep[] = [
+  {
+    number: "01",
+    title: "The more we learned...",
+    description: "the more we realized information wasn't the problem. Financial news was everywhere, but actionable understanding was scarce."
+  },
+  {
+    number: "02",
+    title: "Markets humbled us repeatedly.",
+    description: "Early emotional entries and unmanaged risk taught us that opinions are cheap, while systematic risk rules are indispensable."
+  },
+  {
+    number: "03",
+    title: "Eventually experience became our teacher.",
+    description: "We stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation."
+  },
+  {
+    number: "04",
+    title: "That's when VSC began.",
+    description: "Designed not as a retail brokerage or advisory storefront, but as the digital headquarters of an institutional research desk."
+  }
+];
 
 const observationsData = [
   {
@@ -182,7 +208,7 @@ export default function OurStory() {
                 className="font-mono text-xs md:text-sm tracking-[0.25em] text-accent-gold uppercase mb-6 font-bold drop-shadow-sm"
                 {...animProps}
               >
-                OUR STORY
+                ABOUT
               </motion.span>
               
               <motion.h1 
@@ -215,7 +241,7 @@ export default function OurStory() {
               {...animProps}
             >
               We didn&apos;t want to predict markets.<br />
-              <span className="text-accent-gold">We wanted to understand them better.</span>
+              <ShinyText text="We wanted to understand them better." speed={5} />
             </motion.h2>
           </div>
         </section>
@@ -243,71 +269,9 @@ export default function OurStory() {
                 </motion.h2>
               </div>
 
-              {/* Human Progression Sequence */}
-              <div className="lg:col-span-8 flex flex-col gap-12 max-w-[700px]">
-                <motion.div 
-                  className="flex flex-col gap-3"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.08 }}
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-base text-accent-gold font-semibold">01</span>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
-                      The more we learned...
-                    </h3>
-                  </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
-                    the more we realized information wasn&apos;t the problem. Financial news was everywhere, but actionable understanding was scarce.
-                  </p>
-                </motion.div>
-
-                <motion.div 
-                  className="flex flex-col gap-3"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.12 }}
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-base text-accent-gold font-semibold">02</span>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
-                      Markets humbled us repeatedly.
-                    </h3>
-                  </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
-                    Early emotional entries and unmanaged risk taught us that opinions are cheap, while systematic risk rules are indispensable.
-                  </p>
-                </motion.div>
-
-                <motion.div 
-                  className="flex flex-col gap-3"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.16 }}
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-base text-accent-gold font-semibold">03</span>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
-                      Eventually experience became our teacher.
-                    </h3>
-                  </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
-                    We stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation.
-                  </p>
-                </motion.div>
-
-                <motion.div 
-                  className="flex flex-col gap-3"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.2 }}
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-base text-accent-gold font-semibold">04</span>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white font-normal">
-                      That&apos;s when VSC began.
-                    </h3>
-                  </div>
-                  <p className="font-mono text-sm text-text-secondary leading-relaxed pl-9">
-                    Designed not as a retail brokerage or advisory storefront, but as the digital headquarters of an institutional research desk.
-                  </p>
-                </motion.div>
+              {/* Human Progression Sequence with Scroll-Connected Beam */}
+              <div className="lg:col-span-8 max-w-[700px]">
+                <TimelineBeam steps={originSteps} />
               </div>
 
             </div>
@@ -572,18 +536,12 @@ export default function OurStory() {
         <section className="relative w-full py-36 md:py-56 overflow-hidden border-t border-white/[0.04] select-none z-10 bg-gradient-to-b from-transparent via-[#38BDF8]/[0.02] to-transparent">
           <div className="container max-w-[1200px] text-center">
             <motion.div 
-              className="flex flex-col items-center justify-center text-center space-y-1 sm:space-y-3"
+              className="flex flex-col items-center justify-center text-center py-6"
               {...animProps}
             >
-              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8] font-normal leading-[0.92] tracking-tight uppercase block select-none">
-                CLARITY
-              </span>
-              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8]/80 font-normal leading-[0.92] tracking-tight uppercase block select-none">
-                COMPOUNDS
-              </span>
-              <span className="font-display text-6xl sm:text-8xl md:text-[110px] lg:text-[140px] text-[#38BDF8] font-normal leading-[0.92] tracking-tight uppercase block select-none">
-                OVER TIME.
-              </span>
+              <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-normal italic leading-[1.15] tracking-tight max-w-[900px] mx-auto text-center drop-shadow-lg">
+                &ldquo;<GradientText colors={["#38BDF8", "#C9A84C", "#E8C96A", "#38BDF8"]} animationSpeed={6}>Clarity compounds over time.</GradientText>&rdquo;
+              </h2>
             </motion.div>
           </div>
         </section>

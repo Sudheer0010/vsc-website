@@ -189,7 +189,7 @@ export function SpotlightNavbar({
                                         : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
                                   )}
                             >
-                                {item.label}{item.dropdownItems ? " ▾" : ""}
+                                {item.label}
                             </a>
 
                             {item.dropdownItems && hoveredDropdownIdx === idx && (

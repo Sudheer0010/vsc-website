@@ -67,12 +67,46 @@ export function OfferingsHero() {
           
           {/* Slightly reduced paragraph length */}
           <motion.p 
-            className="font-mono text-sm md:text-base text-white/80 leading-relaxed max-w-[650px] mb-10 drop-shadow-sm"
+            className="font-mono text-sm md:text-base text-white/80 leading-relaxed max-w-[650px] mb-8 drop-shadow-sm"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >
             Every VSC offering exists to build systematic thinking—from foundational market education, to disciplined portfolio guidance, to institutional-grade research.
           </motion.p>
+
+          {/* Interactive 3 Pathways Node Badges */}
+          <motion.div
+            className="flex flex-wrap items-center gap-3 mb-10"
+            {...animProps}
+            transition={{ ...animProps.transition, delay: 0.12 }}
+          >
+            {[
+              { label: "01 / Learning Hub", color: "#EAB308", href: "#offerings-overview" },
+              { label: "02 / Portfolio Advantage", color: "#38BDF8", href: "#offerings-overview" },
+              { label: "03 / Inner Circle", color: "#C9A84C", href: "#offerings-overview" },
+            ].map((node) => (
+              <a
+                key={node.label}
+                href={node.href}
+                onClick={handleScrollToOverview}
+                className="group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/30 backdrop-blur-md transition-all duration-300"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ backgroundColor: node.color }}
+                  />
+                  <span
+                    className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ backgroundColor: node.color }}
+                  />
+                </span>
+                <span className="font-mono text-[11px] tracking-wider text-white/80 group-hover:text-white transition-colors">
+                  {node.label}
+                </span>
+              </a>
+            ))}
+          </motion.div>
           
           {/* Action button */}
           <motion.div 

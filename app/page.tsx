@@ -6,11 +6,16 @@ import { Compliance } from "@/components/sections/home/Compliance";
 import { Testimonials } from "@/components/sections/home/Testimonials";
 import { AcademicMarginNote } from "@/components/ui/vsc/AcademicMarginNote";
 import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
+import { MagneticButton } from "@/components/ui/vsc/MagneticButton";
 import { ReadingContainer } from "@/components/ui/vsc/ReadingContainer";
 import { ReadingTempo } from "@/components/ui/vsc/ReadingTempo";
 import { ReflectionBlock } from "@/components/ui/vsc/ReflectionBlock";
+import { ScrollRevealSplitText } from "@/components/ui/vsc/ScrollRevealSplitText";
+import { SplitText } from "@/components/ui/vsc/SplitText";
+import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
+import { TextScrambleBadge } from "@/components/ui/vsc/TextScrambleBadge";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
-import { Activity, Hourglass, Shield, Sliders, TrendingUp } from "lucide-react";
+import { Hourglass, Shield, Sliders, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
@@ -72,17 +77,14 @@ export default function Home() {
           <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto pt-6 sm:pt-10">
             <ReadingTempo delay={0.05}>
               <div className="max-w-[780px] text-left">
-                {/* Live Institutional Ticker Strip with Emerald Pulse */}
-                <div className="inline-flex items-center gap-2.5 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-4 py-1.5 mb-10 shadow-2xl">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
-                  <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] text-white/90 uppercase font-semibold">
-                    RESEARCH DESK ACTIVE • REGIME: RISK-MANAGED ALLOCATION
-                  </span>
-                </div>
+                {/* Live Institutional Ticker Strip with Scramble & Radar Pulse */}
+                <TextScrambleBadge text="RESEARCH DESK ACTIVE • REGIME: RISK-MANAGED ALLOCATION" />
 
-                <span className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent-gold uppercase font-bold block mb-6 drop-shadow-sm">
-                  WELCOME TO VSC CAPITAL & ADVISORY
-                </span>
+                <SplitText
+                  text="WELCOME TO VSC CAPITAL & ADVISORY"
+                  className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent-gold uppercase font-bold block mb-6 drop-shadow-sm"
+                  delay={0.15}
+                />
                 <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.04] text-white font-normal tracking-tight mb-8 max-w-[800px] drop-shadow-md">
                   A Smarter Way to Build and Protect Capital.
                 </h1>
@@ -91,8 +93,8 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-4 mb-4">
-                  <VSCButton href="/offerings" variant="gold">
-                    Begin the Conversation &rarr;
+                  <VSCButton href="/enquire" variant="gold">
+                    Connect With Us &rarr;
                   </VSCButton>
                   <VSCButton href="/blog" variant="outline">
                     The Research Journal
@@ -124,9 +126,9 @@ export default function Home() {
                   <span className="font-mono text-xs tracking-[0.25em] text-accent-gold/80 uppercase font-semibold block mb-6">
                     THE PROBLEM WE SOLVE
                   </span>
-                  {/* Full-Width Serif Manifesto Line — Zero Box Boundaries */}
+                  {/* Full-Width Serif Manifesto Line — Scroll Reveal Word Split */}
                   <blockquote className="font-display text-3xl sm:text-5xl lg:text-6xl text-white font-normal leading-[1.12] border-l-2 border-accent-gold pl-6 sm:pl-8 mb-8">
-                    &ldquo;Most investors don&apos;t need more information. They need a better process.&rdquo;
+                    <ScrollRevealSplitText text="Most investors don't need more information. They need a better process." />
                   </blockquote>
                   <ReadingContainer size="wide">
                     <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
@@ -157,12 +159,12 @@ export default function Home() {
             Atmosphere: Paper Navy Surface with Heroic Rule 01 Focus
            ========================================================================= */}
         <section id="belief" className="relative w-full py-20 sm:py-28 bg-bg-paper-navy border-t border-b border-white/[0.04] select-none">
-          <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
-            <div className="max-w-[800px] mb-12 sm:mb-16">
+          <div className="container max-w-[1000px] mx-auto px-4 sm:px-6">
+            <div className="max-w-[700px] mb-12 sm:mb-14">
               <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-3">
                 HOW WE THINK
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12] mb-3">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white font-normal leading-[1.12] mb-3">
                 Every Decision Starts Here.
               </h2>
               <p className="font-mono text-sm sm:text-base text-text-secondary">
@@ -170,38 +172,38 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Rule 01 — 50% Visual Attention Hero Feature Card */}
-            <div className="bg-bg-reading-slate border border-accent-gold/40 rounded-2xl p-8 sm:p-12 mb-12 shadow-[0_15px_40px_rgba(201,168,76,0.08)]">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="font-mono text-base text-accent-gold font-semibold">01</span>
-                    <Shield className="w-5 h-5 text-accent-gold" />
+            {/* Rule 01 — 50% Visual Attention Hero Feature Card with Cursor Spotlight */}
+            <SpotlightCard className="p-6 sm:p-10 mb-8 border border-accent-gold/30">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-sm text-accent-gold font-bold">01</span>
+                    <Shield className="w-4.5 h-4.5 text-accent-gold" />
                     <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent-gold font-semibold bg-accent-gold/10 px-2.5 py-0.5 rounded-full border border-accent-gold/20">
                       UNDISPUTED PRIMARY RULE
                     </span>
                   </div>
-                  <h3 className="font-display text-3xl sm:text-5xl text-white font-normal tracking-tight">
+                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal tracking-tight">
                     Protect Capital First
                   </h3>
                 </div>
-                <div className="border-l-0 md:border-l border-white/10 md:pl-8 py-2 max-w-[460px]">
-                  <p className="font-mono text-sm sm:text-base text-accent-gold/90 font-medium leading-relaxed">
+                <div className="border-l-0 md:border-l border-white/10 md:pl-8 py-1 max-w-[420px]">
+                  <p className="font-mono text-xs sm:text-sm text-accent-gold/90 font-medium leading-relaxed">
                     Before seeking returns, we first ask: How much can we lose? Surviving drawdown cycles is the precondition for compounding.
                   </p>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Supporting Rules 02, 03, 04 — Sub-3s Rapid Comprehension Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-white/[0.08]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/[0.08]">
               {/* Rule 02 */}
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2.5 font-mono text-xs text-white/50 font-semibold">
+              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
+                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
                   <span>02</span>
-                  <Sliders className="w-4 h-4 text-white/40" />
+                  <Sliders className="w-4 h-4 text-accent-gold/70" />
                 </div>
-                <h4 className="font-display text-2xl text-white font-normal">
+                <h4 className="font-display text-xl text-white font-normal">
                   Respect the Process
                 </h4>
                 <p className="font-mono text-xs text-text-secondary">
@@ -210,12 +212,12 @@ export default function Home() {
               </div>
 
               {/* Rule 03 */}
-              <div className="flex flex-col gap-2 border-t md:border-t-0 md:border-l border-white/[0.08] pt-6 md:pt-0 md:pl-8">
-                <div className="flex items-center gap-2.5 font-mono text-xs text-white/50 font-semibold">
+              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
+                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
                   <span>03</span>
-                  <Hourglass className="w-4 h-4 text-white/40" />
+                  <Hourglass className="w-4 h-4 text-accent-gold/70" />
                 </div>
-                <h4 className="font-display text-2xl text-white font-normal">
+                <h4 className="font-display text-xl text-white font-normal">
                   Patience Compounds
                 </h4>
                 <p className="font-mono text-xs text-text-secondary">
@@ -224,12 +226,12 @@ export default function Home() {
               </div>
 
               {/* Rule 04 */}
-              <div className="flex flex-col gap-2 border-t md:border-t-0 md:border-l border-white/[0.08] pt-6 md:pt-0 md:pl-8">
-                <div className="flex items-center gap-2.5 font-mono text-xs text-white/50 font-semibold">
+              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
+                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
                   <span>04</span>
-                  <TrendingUp className="w-4 h-4 text-white/40" />
+                  <TrendingUp className="w-4 h-4 text-accent-gold/70" />
                 </div>
-                <h4 className="font-display text-2xl text-white font-normal">
+                <h4 className="font-display text-xl text-white font-normal">
                   Never Stop Improving
                 </h4>
                 <p className="font-mono text-xs text-text-secondary">
@@ -246,13 +248,13 @@ export default function Home() {
             Atmosphere: Sharper Information, 10-Second McKinsey Contrast Matrix
            ========================================================================= */}
         <section id="proof" className="relative w-full py-16 sm:py-24 select-none">
-          <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
-            <div className="max-w-[850px] mb-10 sm:mb-12">
+          <div className="container max-w-[1000px] mx-auto px-4 sm:px-6">
+            <div className="max-w-[800px] mb-10 sm:mb-12">
               <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-4">
-                THE PROOF OF DIFFERENCE
+                THE VSC APPROACH
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]">
-                Mutual Funds Stay Invested by Mandate. VSC Deploys Capital by Discipline.
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white font-normal leading-[1.12]">
+                Conventional funds follow mandates. VSC follows market conditions.
               </h2>
             </div>
 
@@ -260,6 +262,9 @@ export default function Home() {
             <InstitutionalBriefing />
           </div>
         </section>
+
+        {/* Clean Reflection Question — Positioned Right After VSC Approach */}
+        <ReflectionBlock question="If markets become riskier, should your portfolio stay fully invested?" />
 
 
         {/* =========================================================================
@@ -311,21 +316,18 @@ export default function Home() {
             MODULE 6: ACTION (THE QUIET ROOM — UNHURRIED EXIT)
             Atmosphere: Vast Whitespace, Single Reflection, One Button
            ========================================================================= */}
-        {/* Clean Reflection Question */}
-        <ReflectionBlock question="If markets become riskier, should your portfolio stay fully invested?" />
-
         <section id="action" className="relative w-full py-24 sm:py-32 select-none">
           <div className="container max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
             <div className="max-w-[800px] mx-auto flex flex-col items-center">
               <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-4">
-                BEGIN THE CONVERSATION
+                CONNECT WITH US
               </span>
               <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.15] mb-8">
                 Build a Better Investment Process. Let&apos;s Start With a Conversation.
               </h2>
-              <VSCButton href="/enquire" variant="gold" className="px-10 py-4 text-sm">
+              <MagneticButton href="/enquire" variant="gold" className="px-10 py-4 text-sm">
                 Enquire Now &rarr;
-              </VSCButton>
+              </MagneticButton>
             </div>
           </div>
         </section>

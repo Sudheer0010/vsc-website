@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, X } from "lucide-react";
 import { 
   faqCategories, 
   bgGlows, 
@@ -95,18 +95,42 @@ export function FAQAccordion() {
       {/* Dynamic Background Colored Ambient Light Pool */}
       <AmbientLightPool color={activeGlow} className="left-[75%] top-[30%] scale-[1.2] transition-colors duration-500" />
 
-      {/* Instant Search Bar */}
-      <div className="relative max-w-[600px] mb-16 select-none">
-        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-white/30">
+      {/* Instant Search Bar with Live Match Counter & Clear Action */}
+      <div className="relative max-w-[600px] mb-16 select-none group">
+        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-white/40 group-focus-within:text-accent-gold transition-colors duration-200">
           <Search className="w-4 h-4" />
         </div>
+
         <input
           type="text"
-          placeholder="Search a question..."
+          placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B0F1E] border border-white/5 rounded-xl py-4 pl-12 pr-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-accent-gold/45 transition-colors duration-200"
+          className="w-full bg-[#0B0F1E] border border-white/10 rounded-2xl py-4 pl-12 pr-32 font-mono text-sm text-white placeholder-white/30 focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/40 shadow-[0_4px_20px_rgba(0,0,0,0.2)] transition-all duration-300"
         />
+
+        {/* Live Match Counter Pill & Clear Button */}
+        {searchQuery.trim() !== "" && (
+          <div className="absolute inset-y-0 right-3 flex items-center gap-2">
+            <span
+              className={`font-mono text-[11px] px-2.5 py-1 rounded-full font-bold border ${
+                totalMatches > 0
+                  ? "bg-accent-gold/15 text-accent-gold border-accent-gold/30"
+                  : "bg-rose-500/15 text-rose-400 border-rose-500/30"
+              }`}
+            >
+              {totalMatches} {totalMatches === 1 ? "match" : "matches"}
+            </span>
+
+            <button
+              onClick={() => setSearchQuery("")}
+              className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center transition-colors"
+              title="Clear search"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* MAIN CONTENT AREA */}
@@ -346,19 +370,22 @@ function FAQAccordionItem({
 }: FAQAccordionItemProps) {
   return (
     <div 
-      className="w-full rounded-xl border border-white/5 bg-[#0B0F1E]/80 transition-all duration-[240ms] overflow-hidden select-none"
-      style={{
-        borderColor: isExpanded ? "rgba(201, 168, 76, 0.2)" : "rgba(255, 255, 255, 0.05)"
-      }}
+      id={qId}
+      className={`question-item w-full rounded-xl transition-all duration-300 overflow-hidden select-none border ${
+        isExpanded
+          ? "border-accent-gold/40 bg-[#0B0F1E] shadow-[0_8px_30px_rgba(201,168,76,0.12)] border-l-4 border-l-accent-gold"
+          : "border-white/5 bg-[#0B0F1E]/80 hover:border-white/15"
+      }`}
     >
       {/* Header Panel */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none"
+        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none group"
       >
         <span 
-          className="font-display text-base font-semibold leading-snug transition-colors duration-200 pr-4"
-          style={{ color: isExpanded ? "#ffffff" : "rgba(244, 241, 236, 0.9)" }}
+          className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${
+            isExpanded ? "text-white font-semibold" : "text-white/85 group-hover:text-white"
+          }`}
         >
           {question}
         </span>
@@ -366,10 +393,10 @@ function FAQAccordionItem({
         {/* Plus sign rotating into cross */}
         <motion.span 
           animate={{ rotate: isExpanded ? 45 : 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="flex-shrink-0 text-accent-gold w-5 h-5 flex items-center justify-center"
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="flex-shrink-0 text-accent-gold w-6 h-6 rounded-full bg-accent-gold/10 flex items-center justify-center border border-accent-gold/20"
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
+          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
         </motion.span>
       </button>
 
@@ -380,10 +407,10 @@ function FAQAccordionItem({
           height: isExpanded ? "auto" : 0,
           opacity: isExpanded ? 1 : 0 
         }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="overflow-hidden"
       >
-        <div className="pb-6 px-6 border-t border-white/[0.03] pt-4 max-w-[760px]">
+        <div className="pb-6 px-6 border-t border-white/[0.04] pt-4 max-w-[760px]">
           <p className="font-mono text-sm leading-[1.8] text-text-secondary">
             {answer}
           </p>

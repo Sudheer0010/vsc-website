@@ -5,6 +5,7 @@ export interface OfferingItem {
   description: string;
   whatItIs: string;
   whoItIsFor: string;
+  designedForList: string[];
   deliveryFormat: string;
   expectedOutcome: string;
   availability: string;
@@ -23,6 +24,12 @@ export const offeringsConfig: OfferingItem[] = [
     description: "Build a systematic understanding of markets before risking real capital.",
     whatItIs: "A structured curriculum teaching momentum analysis, regime identification, position sizing models, and risk management.",
     whoItIsFor: "Retail market participants, working professionals, and self-directed investors seeking systematic discipline.",
+    designedForList: [
+      "Retail Investors",
+      "Working Professionals",
+      "Beginner Traders",
+      "Self-Directed Learners"
+    ],
     deliveryFormat: "Self-paced digital modules, interactive case studies, and live research desk briefings.",
     expectedOutcome: "A repeatable decision-making checklist, risk management rules, and drawdown control.",
     availability: "Available Now",
@@ -39,6 +46,12 @@ export const offeringsConfig: OfferingItem[] = [
     description: "Align your capital structure with concrete growth and mathematical risk gates.",
     whatItIs: "Strategic capital structure guidance aligning portfolio allocation with quantitative risk gates and drawdown limits.",
     whoItIsFor: "High-net-worth investors and portfolio managers requiring disciplined capital preservation and systematic rebalancing.",
+    designedForList: [
+      "High-Net-Worth Investors",
+      "Professionals",
+      "Family Offices",
+      "Business Owners"
+    ],
     deliveryFormat: "Direct research desk consultations, periodic portfolio audits, and regime shift reports.",
     expectedOutcome: "Optimized capital protection, systematic risk control, and structured drawdown management.",
     availability: "Limited Capacity / By Application",
@@ -55,6 +68,12 @@ export const offeringsConfig: OfferingItem[] = [
     description: "Gain direct access to quantitative audits, macro theme reviews, and codebase parameters.",
     whatItIs: "Direct institutional membership providing quantitative theme audits, macro regime analysis, and proprietary research notes.",
     whoItIsFor: "Advanced traders, family offices, and institutional participants requiring deep quantitative market insights.",
+    designedForList: [
+      "Institutional Investors",
+      "Family Offices",
+      "Advanced Traders",
+      "Portfolio Managers"
+    ],
     deliveryFormat: "Weekly research desk letters, quarterly regime breakdowns, and research archive access.",
     expectedOutcome: "Institutional macro clarity, early regime shift detection, and systematic market insight.",
     availability: "Available Soon",

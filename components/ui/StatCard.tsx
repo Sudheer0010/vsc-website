@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { NumberFlow } from "@/components/ui/vsc/NumberFlow";
 
 interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -16,6 +17,8 @@ export function StatCard({
   className,
   ...props
 }: StatCardProps) {
+  const renderedValue = typeof value === "number" ? <NumberFlow value={value} /> : value;
+
   if (variant === "dashboard") {
     return (
       <div className={cn("dashboard-card", className)} {...props}>
@@ -24,7 +27,7 @@ export function StatCard({
           className="dashboard-val"
           {...(targetVal ? { "data-target": targetVal } : {})}
         >
-          {value}
+          {renderedValue}
         </div>
       </div>
     );
@@ -33,7 +36,7 @@ export function StatCard({
   if (variant === "metric") {
     return (
       <div className={cn("metric-box", className)} {...props}>
-        <div className="metric-num">{value}</div>
+        <div className="metric-num">{renderedValue}</div>
         <div className="stat-label">{label}</div>
       </div>
     );
@@ -41,7 +44,7 @@ export function StatCard({
 
   return (
     <div className={className} {...props}>
-      <span className="font-display text-2xl text-white block">{value}</span>
+      <span className="font-display text-2xl text-white block">{renderedValue}</span>
       <span className="font-mono text-[10px] text-white/30 tracking-wider uppercase">
         {label}
       </span>

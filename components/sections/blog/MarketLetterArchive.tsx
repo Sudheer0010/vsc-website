@@ -1,172 +1,162 @@
-import React from "react";
+"use client";
+
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarketLetter } from "@/types/market-letter";
+import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
 
 interface MarketLetterArchiveProps {
   sortedMonths: string[];
   marketLetters: { [key: string]: MarketLetter };
-  isArchiveExpanded: boolean;
-  setIsArchiveExpanded: (expanded: boolean) => void;
+  isArchiveExpanded?: boolean;
+  setIsArchiveExpanded?: (expanded: boolean) => void;
   onOpenLetter: (month: string) => void;
-  archiveHeadingRef: React.RefObject<HTMLHeadingElement | null>;
-  DEFAULT_VISIBLE_LETTERS: number;
+  archiveHeadingRef?: React.RefObject<HTMLHeadingElement | null>;
+  DEFAULT_VISIBLE_LETTERS?: number;
 }
 
 export function MarketLetterArchive({
   sortedMonths,
   marketLetters,
-  isArchiveExpanded,
-  setIsArchiveExpanded,
   onOpenLetter,
   archiveHeadingRef,
-  DEFAULT_VISIBLE_LETTERS,
 }: MarketLetterArchiveProps) {
-  const totalLetters = sortedMonths.length;
-  const shouldCollapse = totalLetters > DEFAULT_VISIBLE_LETTERS;
+  // Extract all available years from market letters
+  const years = useMemo(() => {
+    const yearSet = new Set<string>();
+    sortedMonths.forEach((m) => {
+      const letter = marketLetters[m];
+      if (letter?.year) yearSet.add(letter.year.toString());
+    });
+    return ["ALL", ...Array.from(yearSet).sort((a, b) => Number(b) - Number(a))];
+  }, [sortedMonths, marketLetters]);
 
-  // Grouping remaining letters by year dynamically
-  const remainingMonths = sortedMonths.slice(DEFAULT_VISIBLE_LETTERS);
-  const remainingByYear: { [year: number]: string[] } = {};
-  remainingMonths.forEach((m) => {
-    const letter = marketLetters[m];
-    if (!letter) return;
-    if (!remainingByYear[letter.year]) {
-      remainingByYear[letter.year] = [];
-    }
-    remainingByYear[letter.year].push(m);
-  });
-  const remainingYears = Object.keys(remainingByYear)
-    .map(Number)
-    .sort((a, b) => b - a);
+  const [activeYear, setActiveYear] = useState<string>("ALL");
 
-  const getLetterName = (key: string | null) => {
-    if (!key) return "";
-    const l = marketLetters[key];
-    if (!l) return "";
-    return `${l.month.charAt(0) + l.month.slice(1).toLowerCase()} ${l.year}`;
-  };
+  // Filter months by selected year
+  const filteredMonths = useMemo(() => {
+    if (activeYear === "ALL") return sortedMonths;
+    return sortedMonths.filter((m) => marketLetters[m]?.year.toString() === activeYear);
+  }, [sortedMonths, marketLetters, activeYear]);
 
   return (
-    <section className="py-24 border-t border-white/5 select-none animate-fade-in">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        
-        <div className="lg:col-span-4 flex flex-col justify-start">
-          <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block">
+    <section className="py-24 border-t border-white/5 select-none">
+      {/* Header & Horizontal Year Filter Tabs */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+        <div className="max-w-[600px] text-left">
+          <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold">
             MONTHLY LOGS
           </span>
-          <h2 
+          <h2
             ref={archiveHeadingRef}
-            className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2] mb-4"
+            className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2] mb-3"
           >
             Market Letter Archive
           </h2>
-          <p className="font-mono text-sm leading-relaxed text-text-secondary max-w-[340px]">
-            A chronological archive of our monthly market letters documenting market observations, portfolio decisions and lessons learned.
+          <p className="font-mono text-sm leading-relaxed text-text-secondary">
+            A chronological archive of our monthly market letters documenting market observations, portfolio decisions, and lessons learned.
           </p>
         </div>
 
-        <div className="lg:col-span-8 flex flex-col gap-4">
-          
-          {/* 1. Static base list (first 6 letters) */}
-          {sortedMonths.slice(0, DEFAULT_VISIBLE_LETTERS).map((m) => {
+        {/* Year Category Tabs */}
+        {years.length > 1 && (
+          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md shrink-0">
+            {years.map((yr) => {
+              const isActive = activeYear === yr;
+              return (
+                <button
+                  key={yr}
+                  onClick={() => setActiveYear(yr)}
+                  className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
+                    isActive ? "text-bg-dark font-semibold" : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="archiveYearPill"
+                      className="absolute inset-0 bg-accent-gold rounded-full z-0"
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    />
+                  )}
+                  <span className="relative z-10">{yr === "ALL" ? "ALL YEARS" : yr}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Horizontal Cards Grid */}
+      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <AnimatePresence mode="popLayout">
+          {filteredMonths.map((m) => {
             const letter = marketLetters[m];
             if (!letter) return null;
+            const fullMonth = letter.month.charAt(0) + letter.month.slice(1).toLowerCase();
+
             return (
-              <div 
+              <motion.div
                 key={m}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => onOpenLetter(m)}
-                className="group flex items-center justify-between py-6 px-6 rounded-xl border border-white/5 bg-white/[0.01] hover:border-accent-gold/20 hover:bg-white/[0.02] cursor-pointer transition-all duration-[240ms] w-full"
+                className="cursor-pointer"
               >
-                <div className="flex flex-col gap-1">
-                  <span className="font-display text-lg text-white font-medium group-hover:text-accent-gold transition-colors duration-200">
-                    {letter.month.charAt(0) + letter.month.slice(1).toLowerCase()} {letter.year}
-                  </span>
-                  <span className="font-mono text-[11px] text-white/40">
-                    Published {letter.year === 2026 && m === "JUL" ? "24 July 2026" : `in ${letter.month}`} • {m === "JUL" ? "12" : m === "FEB" ? "10" : "8"} min read
-                  </span>
-                </div>
-                <span className="font-mono text-xs text-accent-gold font-medium group-hover:translate-x-1 transition-transform duration-200">
-                  Read →
-                </span>
-              </div>
+                <SpotlightCard
+                  className="p-6 h-full flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-300 group"
+                  spotlightColor="rgba(201, 168, 76, 0.12)"
+                >
+                  <div className="flex flex-col gap-4">
+                    {/* Top Row: Month & Year + Return Metric Tag */}
+                    <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-4">
+                      <div>
+                        <span className="font-display text-xl text-white font-medium group-hover:text-accent-gold transition-colors duration-200 block">
+                          {fullMonth} {letter.year}
+                        </span>
+                        <span className="font-mono text-[10px] text-white/40 block mt-0.5">
+                          {m === "JUL" ? "24 July 2026" : `Published in ${fullMonth}`}
+                        </span>
+                      </div>
+
+                      {letter.metrics?.["Monthly Return"] && (
+                        <span
+                          className={`font-mono text-xs px-2.5 py-1 rounded-full font-bold border shrink-0 ${
+                            letter.metrics["Monthly Return"].startsWith("+")
+                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                              : letter.metrics["Monthly Return"].startsWith("-")
+                              ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                              : "bg-white/5 text-white/60 border-white/10"
+                          }`}
+                        >
+                          {letter.metrics["Monthly Return"]}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Letter Short Description */}
+                    <p className="font-mono text-xs text-text-secondary leading-relaxed line-clamp-2">
+                      {letter.description}
+                    </p>
+                  </div>
+
+                  {/* Read Trigger */}
+                  <div className="pt-4 mt-6 border-t border-white/5 flex items-center justify-between">
+                    <span className="font-mono text-[11px] text-white/40">
+                      {m === "JUL" ? "12" : m === "FEB" ? "10" : "8"} min read
+                    </span>
+                    <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
+                      Read Letter &rarr;
+                    </span>
+                  </div>
+                </SpotlightCard>
+              </motion.div>
             );
           })}
-
-          {/* 2. Expandable Stack (Grouped dynamically by year) */}
-          <AnimatePresence>
-            {isArchiveExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden flex flex-col gap-8"
-              >
-                {remainingYears.map((year) => (
-                  <div key={year} className="border-t border-white/5 pt-6 mt-2 select-none">
-                    <span className="font-mono text-[10px] tracking-widest text-white/30 block mb-4 uppercase font-semibold">
-                      {year} ARCHIVE
-                    </span>
-                    
-                    <div className="flex flex-col gap-4">
-                      {remainingByYear[year].map((m) => {
-                        const letter = marketLetters[m];
-                        if (!letter) return null;
-                        return (
-                          <div 
-                            key={m}
-                            onClick={() => onOpenLetter(m)}
-                            className="group flex items-center justify-between py-6 px-6 rounded-xl border border-white/5 bg-white/[0.01] hover:border-accent-gold/20 hover:bg-white/[0.02] cursor-pointer transition-all duration-[240ms] w-full"
-                          >
-                            <div className="flex flex-col gap-1">
-                              <span className="font-display text-lg text-white font-medium group-hover:text-accent-gold transition-colors duration-200">
-                                {letter.month.charAt(0) + letter.month.slice(1).toLowerCase()} {letter.year}
-                              </span>
-                              <span className="font-mono text-[11px] text-white/40">
-                                Published in {letter.month} • {m === "FEB" ? "10" : "8"} min read
-                              </span>
-                            </div>
-                            <span className="font-mono text-xs text-accent-gold font-medium group-hover:translate-x-1 transition-transform duration-200">
-                              Read →
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Collapse trigger link at the bottom */}
-                <div>
-                  <button
-                    onClick={() => {
-                      setIsArchiveExpanded(false);
-                      archiveHeadingRef.current?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="font-mono text-xs text-accent-gold font-medium hover:translate-x-1 transition-transform duration-200 mt-2 inline-block text-left"
-                  >
-                    Show Less ←
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* 3. Expand Trigger Button (Visible only when collapsed) */}
-          {shouldCollapse && !isArchiveExpanded && (
-            <div>
-              <button
-                onClick={() => setIsArchiveExpanded(true)}
-                className="font-mono text-xs text-accent-gold font-medium hover:translate-x-1 transition-transform duration-200 mt-2 inline-block text-left"
-              >
-                View Complete Archive ({totalLetters}) →
-              </button>
-            </div>
-          )}
-
-        </div>
-
-      </div>
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }

@@ -54,7 +54,7 @@ export default function Navbar() {
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "Our Story", href: "/about" },
+    { label: "About", href: "/about" },
     { 
       label: "Offerings", 
       href: "/offerings",
@@ -66,6 +66,7 @@ export default function Navbar() {
     },
     { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
+    { label: "Enquire", href: "/enquire" },
   ];
 
   const activeIdx = navItems.findIndex(item => {
@@ -106,10 +107,6 @@ export default function Navbar() {
               onItemClick={handleItemClick}
             />
           </div>
-
-          <Link href="/enquire" className="nav-cta" onClick={closeMenu}>
-            Enquire Now <span className="cta-arrow">→</span>
-          </Link>
 
           <button
             className={`menu-toggle ${isMenuOpen ? "active" : ""}`}

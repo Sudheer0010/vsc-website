@@ -54,7 +54,7 @@ const DEFAULT_ROWS: BriefingRow[] = [
 ];
 
 export function InstitutionalBriefing({
-  title = "VSC ALLOCATION BRIEFING MATRIX",
+  title = "VSC VS TRADITIONAL MUTUAL FUNDS",
   verdict = "One mandate is built to stay in. The other is built to know when to leave.",
   rows = DEFAULT_ROWS,
   className = "",
@@ -72,27 +72,24 @@ export function InstitutionalBriefing({
 
   return (
     <motion.div
-      className={`w-full bg-[#0B0F1E] border border-white/[0.08] rounded-2xl p-6 sm:p-10 select-none ${className}`}
+      className={`w-full bg-[#0B0F1E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 select-none ${className}`}
       {...animProps}
     >
       {/* Table Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-6 mb-8">
-        <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold">
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-6">
+        <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase font-semibold">
           {title}
-        </span>
-        <span className="font-mono text-[10px] text-white/40 tracking-widest uppercase">
-          R-05 / BRIEFING
         </span>
       </div>
 
       {/* Rows Container */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {rows.map((row, idx) => {
           const isFirstRow = idx === 0;
           return (
             <div
               key={row.feature}
-              className="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/[0.03] hover:border-white/[0.08] transition-colors duration-200"
+              className="grid grid-cols-1 md:grid-cols-12 gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.03] hover:border-white/[0.08] transition-colors duration-200"
             >
               {/* Feature Title */}
               <div className="md:col-span-4 font-mono text-xs text-white font-semibold flex items-center gap-2">
@@ -103,7 +100,7 @@ export function InstitutionalBriefing({
               {/* Traditional Side */}
               <div className="md:col-span-4 font-mono text-xs text-text-secondary">
                 {isFirstRow && (
-                  <span className="text-white/40 block text-[10px] uppercase tracking-wider mb-1.5 font-medium">
+                  <span className="text-white/40 block text-[10px] uppercase tracking-wider mb-1 font-medium">
                     TRADITIONAL MANDATE
                   </span>
                 )}
@@ -114,7 +111,7 @@ export function InstitutionalBriefing({
               {/* VSC Side */}
               <div className="md:col-span-4 font-mono text-xs text-accent-gold">
                 {isFirstRow && (
-                  <span className="text-accent-gold/60 block text-[10px] uppercase tracking-wider mb-1.5 font-semibold">
+                  <span className="text-accent-gold/60 block text-[10px] uppercase tracking-wider mb-1 font-semibold">
                     VSC DISCIPLINE
                   </span>
                 )}
@@ -128,8 +125,8 @@ export function InstitutionalBriefing({
 
       {/* Full-Width Verdict Row */}
       {verdict && (
-        <div className="mt-8 pt-6 border-t border-white/[0.08] text-center">
-          <p className="font-display text-lg sm:text-xl text-white font-normal italic tracking-tight">
+        <div className="mt-6 pt-5 border-t border-white/[0.08] text-center">
+          <p className="font-display text-base sm:text-lg text-white font-normal italic tracking-tight">
             &ldquo;{verdict}&rdquo;
           </p>
         </div>
