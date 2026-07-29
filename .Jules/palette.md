@@ -1,0 +1,3 @@
+## 2024-07-29 - Preserving Keyboard Focus with Tailwind focus-visible
+**Learning:** When using Tailwind's `focus:outline-none` on interactive components (like carousel arrows or pagination dots) to prevent ugly default browser outlines on mouse clicks, it completely breaks keyboard accessibility for users navigating with "Tab". Many custom components in Next.js/Tailwind codebases suffer from this.
+**Action:** Always combine `focus:outline-none` with `focus-visible:ring-*` (e.g., `focus-visible:ring-2 focus-visible:ring-accent-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0F1E]`). This ensures mouse users don't see the outline when clicking, but keyboard users still receive clear visual feedback on which element is currently focused.
