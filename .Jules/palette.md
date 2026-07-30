@@ -1,0 +1,3 @@
+## 2025-03-01 - Accordion ARIA Semantics and Keyboard Focus
+**Learning:** Accordion components frequently miss the connection between the trigger and the content. Using `aria-expanded` and `aria-controls` on the button, paired with `role="region"` and `aria-labelledby` on the expanding content area significantly improves screen reader comprehension. Additionally, relying solely on `focus:outline-none` for custom components hides focus for keyboard users unless explicitly paired with `focus-visible:ring-*`.
+**Action:** Always map accordion content ID directly to its trigger using `aria-controls`, and pair `focus:outline-none` with `focus-visible:ring-2` to retain keyboard accessibility while maintaining visual aesthetics.

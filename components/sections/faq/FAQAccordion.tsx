@@ -124,8 +124,9 @@ export function FAQAccordion() {
 
             <button
               onClick={() => setSearchQuery("")}
-              className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center transition-colors"
+              className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
               title="Clear search"
+              aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -370,7 +371,6 @@ function FAQAccordionItem({
 }: FAQAccordionItemProps) {
   return (
     <div 
-      id={qId}
       className={`question-item w-full rounded-xl transition-all duration-300 overflow-hidden select-none border ${
         isExpanded
           ? "border-accent-gold/40 bg-[#0B0F1E] shadow-[0_8px_30px_rgba(201,168,76,0.12)] border-l-4 border-l-accent-gold"
@@ -379,8 +379,11 @@ function FAQAccordionItem({
     >
       {/* Header Panel */}
       <button
+        id={qId}
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none group"
+        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 focus-visible:bg-[#0B0F1E] rounded-xl group"
+        aria-expanded={isExpanded}
+        aria-controls={`${qId}-content`}
       >
         <span 
           className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${
@@ -409,6 +412,9 @@ function FAQAccordionItem({
         }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="overflow-hidden"
+        id={`${qId}-content`}
+        role="region"
+        aria-labelledby={qId}
       >
         <div className="pb-6 px-6 border-t border-white/[0.04] pt-4 max-w-[760px]">
           <p className="font-mono text-sm leading-[1.8] text-text-secondary">
