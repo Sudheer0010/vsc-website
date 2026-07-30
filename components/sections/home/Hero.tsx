@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -19,8 +18,8 @@ export function Hero() {
 
   const itemVariants = {
     hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 15 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: shouldReduceMotion ? 0 : 0.6, ease: "easeOut" as const }
     }
@@ -36,43 +35,43 @@ export function Hero() {
   };
 
   return (
-    <section 
-      id="hero" 
+    <section
+      id="hero"
       className="relative min-h-[95vh] flex items-center pt-32 pb-24 overflow-hidden select-none bg-[radial-gradient(circle_at_20%_45%,rgba(201,168,76,0.02),transparent_45%)]"
     >
       <div className="container relative z-10 max-w-[1200px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-          
+
           {/* Left Column (typography & copy) */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-7 flex flex-col items-start text-left"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.span 
+            <motion.span
               className="font-mono text-[10px] sm:text-xs tracking-[0.25em] text-accent-gold uppercase mb-8 block font-bold"
               variants={itemVariants}
             >
               WELCOME TO VSC CAPITAL
             </motion.span>
-            
-            <motion.h1 
+
+            <motion.h1
               className="font-display text-4xl sm:text-5xl md:text-[58px] leading-[1.1] text-white font-normal tracking-tight mb-5"
               variants={itemVariants}
             >
               A Smarter Way to Build and Protect Capital.
             </motion.h1>
-            
-            <motion.h2 
+
+            <motion.h2
               className="font-display text-xl sm:text-2xl text-accent-gold/85 font-light mb-12 italic"
               variants={itemVariants}
             >
               Invest with Process. Not Predictions.
             </motion.h2>
-            
+
             {/* 3 Institutional Pillars */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 font-mono text-xs sm:text-sm text-white/50 tracking-wider uppercase mb-12 border-y border-white/5 py-5 w-full"
               variants={itemVariants}
             >
@@ -89,8 +88,8 @@ export function Hero() {
                 <span>Protected Capital</span>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="flex flex-wrap gap-4 items-center"
               variants={itemVariants}
             >
@@ -102,24 +101,47 @@ export function Hero() {
               </Button>
             </motion.div>
           </motion.div>
-          
-          {/* Right Column (Editorial cover photo) */}
+
+          {/* Right Column (Logo Video Animation / Editorial cover photo) */}
           <div className="lg:col-span-5 w-full flex justify-end">
-            <motion.div 
-              className="relative w-full max-w-[390px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/5 bg-[#0B0F1E] shadow-[0_25px_60px_rgba(0,0,0,0.6)] group"
+            <motion.div
+              className="relative w-full max-w-[420px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-[#0B0F1E] shadow-[0_25px_60px_rgba(0,0,0,0.7)] group"
               variants={imageVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10"></div>
-              <Image 
-                src="/vsc_research_desk_hero.png" 
-                alt="VSC Capital Research Environment - Workspace preparation and institutional tools"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 390px"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
-              />
+              {/* Subtle ambient lighting behind video */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-gold/20 via-transparent to-accent-gold/10 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-700"></div>
+
+              <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden bg-black/40">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
+
+                {/* 10-second Logo Animation Video with Automatic Fallback */}
+                <video
+                  src="/videos/animated-logo.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster="/vsc_research_desk_hero.png"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  onError={(e) => {
+                    // If video path isn't found yet, fallback gracefully
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                  }}
+                />
+
+                {/* Fallback Image (shown if video is not yet placed or fails to load) */}
+                <Image
+                  src="/vsc_research_desk_hero.png"
+                  alt="VSC Capital Research Environment"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-102 -z-10"
+                />
+              </div>
             </motion.div>
           </div>
 

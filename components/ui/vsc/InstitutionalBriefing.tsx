@@ -3,17 +3,6 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-/**
- * VSC Component: InstitutionalBriefing
- * 
- * 1. Purpose: Educational comparison matrix contrasting Traditional Mandates vs. VSC Discipline.
- * 2. Atlas Alignment: Expresses Chapter 0 Mindset and Signature 07 with verb-first parallel structure.
- * 3. Signature Behaviour: 3-row max table with matched `[Verb] + [Action/Condition]` syntax, column labels shown on Row 1 only, and a full-width closing verdict row.
- * 4. Emotional Outcome: Sharpened intellectual contrast that hands the reader the conclusion cleanly.
- * 5. Accessibility: High contrast ratios, mobile-first responsive grid that prevents orphaned labels when collapsed.
- * 6. Performance: Pure CSS grid layout with hardware-accelerated enter animations; CLS = 0.00.
- */
-
 export interface BriefingRow {
   feature: string;
   traditionalVerb: string;
@@ -55,7 +44,7 @@ const DEFAULT_ROWS: BriefingRow[] = [
 
 export function InstitutionalBriefing({
   title = "VSC VS TRADITIONAL MUTUAL FUNDS",
-  verdict = "One mandate is built to stay in. The other is built to know when to leave.",
+  verdict = "Mutual funds must stay invested. VSC doesn't.",
   rows = DEFAULT_ROWS,
   className = "",
 }: InstitutionalBriefingProps) {
@@ -67,66 +56,104 @@ export function InstitutionalBriefing({
         initial: { opacity: 0, y: 10 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true, margin: "-40px" },
-        transition: { duration: 0.6, ease: "easeOut" as const },
+        transition: { duration: 0.5, ease: "easeOut" as const },
       };
 
   return (
     <motion.div
-      className={`w-full bg-[#0B0F1E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 select-none ${className}`}
+      className={`w-full select-none ${className}`}
       {...animProps}
     >
-      {/* Table Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-6">
-        <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase font-semibold">
+      {/* Section Sub-Eyebrow */}
+      <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
+        <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-bold">
           {title}
         </span>
       </div>
 
-      {/* Rows Container */}
-      <div className="space-y-4">
-        {rows.map((row, idx) => {
-          const isFirstRow = idx === 0;
+      {/* Desktop <thead> Header Row (Placed once above all rows) */}
+      <div className="hidden md:grid grid-cols-12 gap-4 pb-3 mb-1 border-b border-white/10 px-2">
+        <div className="col-span-4 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+          DIMENSION
+        </div>
+        <div className="col-span-4 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+          TRADITIONAL MANDATE
+        </div>
+        <div className="col-span-4 font-mono text-[11px] uppercase tracking-[0.2em] text-accent-gold font-bold">
+          VSC DISCIPLINE
+        </div>
+      </div>
+
+      {/* Hairline Comparison Rows */}
+      <div className="divide-y divide-white/10">
+        {rows.map((row) => {
           return (
             <div
               key={row.feature}
-              className="grid grid-cols-1 md:grid-cols-12 gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.03] hover:border-white/[0.08] transition-colors duration-200"
+              className="py-5 px-2 hover:bg-white/[0.015] transition-colors duration-200 group"
             >
-              {/* Feature Title */}
-              <div className="md:col-span-4 font-mono text-xs text-white font-semibold flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent-gold/60 shrink-0" />
-                {row.feature}
+              {/* Desktop 3-Column Layout */}
+              <div className="hidden md:grid grid-cols-12 gap-4 items-center">
+                {/* Dimension Feature Title Anchor */}
+                <div className="col-span-4 font-mono text-xs uppercase tracking-[0.15em] text-white/90 font-bold">
+                  {row.feature}
+                </div>
+
+                {/* Traditional Side (Receded ✕ at 25% opacity) */}
+                <div className="col-span-4 font-mono text-xs text-white/60 flex items-start gap-2">
+                  <span className="text-white/25 font-bold shrink-0">✕</span>
+                  <div>
+                    <span className="text-white/80 font-medium">{row.traditionalVerb}</span>
+                    <span className="text-white/40"> — {row.traditionalDetail}</span>
+                  </div>
+                </div>
+
+                {/* VSC Side (Bright Gold ✓) */}
+                <div className="col-span-4 font-mono text-xs text-accent-gold/90 flex items-start gap-2 group-hover:text-accent-gold transition-colors">
+                  <span className="text-accent-gold font-bold shrink-0">✓</span>
+                  <div>
+                    <span className="text-accent-gold font-semibold">{row.vscVerb}</span>
+                    <span className="text-accent-gold/80"> — {row.vscDetail}</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Traditional Side */}
-              <div className="md:col-span-4 font-mono text-xs text-text-secondary">
-                {isFirstRow && (
-                  <span className="text-white/40 block text-[10px] uppercase tracking-wider mb-1 font-medium">
-                    TRADITIONAL MANDATE
-                  </span>
-                )}
-                <span className="text-white/90 font-medium">{row.traditionalVerb}</span>
-                <span className="text-white/60"> — {row.traditionalDetail}</span>
+              {/* Mobile Stacked Fallback Layout (< 768px) */}
+              <div className="md:hidden flex flex-col gap-3">
+                <span className="font-mono text-xs uppercase tracking-[0.15em] text-white/90 font-bold">
+                  {row.feature}
+                </span>
+
+                {/* Traditional Line */}
+                <div className="font-mono text-xs text-white/60 flex items-start gap-2 pl-1">
+                  <span className="text-white/25 font-bold shrink-0">✕</span>
+                  <div>
+                    <span className="text-white/30 uppercase tracking-widest text-[10px] block mb-0.5 font-semibold">TRADITIONAL</span>
+                    <span className="text-white/80 font-medium">{row.traditionalVerb}</span>
+                    <span className="text-white/40"> — {row.traditionalDetail}</span>
+                  </div>
+                </div>
+
+                {/* VSC Line */}
+                <div className="font-mono text-xs text-accent-gold flex items-start gap-2 pl-1 pt-1">
+                  <span className="text-accent-gold font-bold shrink-0">✓</span>
+                  <div>
+                    <span className="text-accent-gold/70 uppercase tracking-widest text-[10px] block mb-0.5 font-bold">VSC DISCIPLINE</span>
+                    <span className="text-accent-gold font-semibold">{row.vscVerb}</span>
+                    <span className="text-accent-gold/80"> — {row.vscDetail}</span>
+                  </div>
+                </div>
               </div>
 
-              {/* VSC Side */}
-              <div className="md:col-span-4 font-mono text-xs text-accent-gold">
-                {isFirstRow && (
-                  <span className="text-accent-gold/60 block text-[10px] uppercase tracking-wider mb-1 font-semibold">
-                    VSC DISCIPLINE
-                  </span>
-                )}
-                <span className="text-accent-gold font-semibold">{row.vscVerb}</span>
-                <span className="text-accent-gold/80"> — {row.vscDetail}</span>
-              </div>
             </div>
           );
         })}
       </div>
 
-      {/* Full-Width Verdict Row */}
+      {/* Tightly Integrated Concluding Verdict Quote Line with Generous Breathing Room */}
       {verdict && (
-        <div className="mt-6 pt-5 border-t border-white/[0.08] text-center">
-          <p className="font-display text-base sm:text-lg text-white font-normal italic tracking-tight">
+        <div className="mt-8 sm:mt-12 pt-6 border-t border-white/10 text-center">
+          <p className="font-display text-base sm:text-lg text-white/90 font-normal italic tracking-tight">
             &ldquo;{verdict}&rdquo;
           </p>
         </div>

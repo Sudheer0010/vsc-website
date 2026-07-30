@@ -2,7 +2,13 @@
 
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import { BeliefSection } from "@/components/sections/home/BeliefSection";
 import { Compliance } from "@/components/sections/home/Compliance";
+import { HeroLogoReveal } from "@/components/sections/home/HeroLogoReveal";
+import { HowWeDoItSection } from "@/components/sections/home/HowWeDoItSection";
+import { HowWeHelpSection } from "@/components/sections/home/HowWeHelpSection";
+import { ProblemSection } from "@/components/sections/home/ProblemSection";
+import { ResearchDeskAndTestimonials } from "@/components/sections/home/ResearchDeskAndTestimonials";
 import { Testimonials } from "@/components/sections/home/Testimonials";
 import { AcademicMarginNote } from "@/components/ui/vsc/AcademicMarginNote";
 import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
@@ -76,29 +82,37 @@ export default function Home() {
 
           <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto pt-6 sm:pt-10">
             <ReadingTempo delay={0.05}>
-              <div className="max-w-[780px] text-left">
-                {/* Live Institutional Ticker Strip with Scramble & Radar Pulse */}
-                <TextScrambleBadge text="RESEARCH DESK ACTIVE • REGIME: RISK-MANAGED ALLOCATION" />
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                {/* Left Column (≈60%): Kept 100% intact */}
+                <div className="lg:col-span-7 text-left">
+                  {/* Live Institutional Ticker Strip with Scramble & Radar Pulse */}
+                  <TextScrambleBadge text="RESEARCH DESK ACTIVE • REGIME: RISK-MANAGED ALLOCATION" />
 
-                <SplitText
-                  text="WELCOME TO VSC CAPITAL & ADVISORY"
-                  className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent-gold uppercase font-bold block mb-6 drop-shadow-sm"
-                  delay={0.15}
-                />
-                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.04] text-white font-normal tracking-tight mb-8 max-w-[800px] drop-shadow-md">
-                  A Smarter Way to Build and Protect Capital.
-                </h1>
-                <p className="font-mono text-sm sm:text-base md:text-lg text-white/80 leading-relaxed max-w-[640px] mb-12 drop-shadow-sm">
-                  We study market structure, trend strength, and risk management to deploy capital with systematic discipline.
-                </p>
+                  <SplitText
+                    text="WELCOME TO VSC CAPITAL & ADVISORY"
+                    className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent-gold uppercase font-bold block mb-6 drop-shadow-sm"
+                    delay={0.15}
+                  />
+                  <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] leading-[1.04] text-white font-normal tracking-tight mb-8 drop-shadow-md">
+                    A Smarter Way to Build and Protect Capital.
+                  </h1>
+                  <p className="font-mono text-sm sm:text-base md:text-lg text-white/80 leading-relaxed max-w-[640px] mb-12 drop-shadow-sm">
+                    We study market structure, trend strength, and risk management to deploy capital with systematic discipline.
+                  </p>
 
-                <div className="flex flex-wrap items-center gap-4 mb-4">
-                  <VSCButton href="/enquire" variant="gold">
-                    Connect With Us &rarr;
-                  </VSCButton>
-                  <VSCButton href="/blog" variant="outline">
-                    The Research Journal
-                  </VSCButton>
+                  <div className="flex flex-wrap items-center gap-4 mb-4">
+                    <VSCButton href="/enquire" variant="gold">
+                      Connect With Us &rarr;
+                    </VSCButton>
+                    <VSCButton href="/blog" variant="outline">
+                      The Research Journal
+                    </VSCButton>
+                  </div>
+                </div>
+
+                {/* Right Column (≈40%): Standalone Frameless Floating Brand Reveal (0 Cards, 0 Frames) */}
+                <div className="lg:col-span-5 flex justify-center lg:justify-end mt-8 lg:mt-0">
+                  <HeroLogoReveal />
                 </div>
               </div>
             </ReadingTempo>
@@ -114,133 +128,18 @@ export default function Home() {
         </section>
 
 
-        {/* =========================================================================
-            MODULE 2: PROBLEM (EDITORIAL SPREAD — ZERO BOXES)
-            Atmosphere: Giant Serif Quote Line + Asymmetric Margin Note
-           ========================================================================= */}
-        <section id="problem" className="relative w-full py-20 sm:py-28 border-t border-white/[0.04] select-none">
-          <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
-            <ReadingTempo>
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-                <div className="lg:col-span-8">
-                  <span className="font-mono text-xs tracking-[0.25em] text-accent-gold/80 uppercase font-semibold block mb-6">
-                    THE PROBLEM WE SOLVE
-                  </span>
-                  {/* Full-Width Serif Manifesto Line — Scroll Reveal Word Split */}
-                  <blockquote className="font-display text-3xl sm:text-5xl lg:text-6xl text-white font-normal leading-[1.12] border-l-2 border-accent-gold pl-6 sm:pl-8 mb-8">
-                    <ScrollRevealSplitText text="Most investors don't need more information. They need a better process." />
-                  </blockquote>
-                  <ReadingContainer size="wide">
-                    <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
-                      Retail market participants fail not from a lack of financial news—they fail from trading without a systematic process. VSC Capital exists as an institutional research desk where cash is an active position and capital preservation precedes compounding.
-                    </p>
-                  </ReadingContainer>
-                </div>
+        {/* Visual Problem Section: Most Investors vs VSC Framework */}
+        <ProblemSection />
 
-                {/* Floating Academic Margin Commentary */}
-                <div className="lg:col-span-4 space-y-6 pt-4">
-                  <AcademicMarginNote
-                    label="THE STRUCTURAL FLAW"
-                    note="Most portfolios chase short-term momentum without explicit exit rules. VSC replaces emotional discretion with quantitative risk controls."
-                  />
-                  <AcademicMarginNote
-                    label="THE RESEARCH CREDO"
-                    note="We do not publish news. We publish thinking. Every rupee entrusted to VSC represents years of someone's work."
-                  />
-                </div>
-              </div>
-            </ReadingTempo>
-          </div>
-        </section>
+        {/* Infographic Section 1: How We Help Investors */}
+        <HowWeHelpSection />
+
+        {/* Infographic Section 2: How We Do It */}
+        <HowWeDoItSection />
 
 
-        {/* =========================================================================
-            MODULE 3: BELIEF (MUSEUM EXHIBIT — RULE 01 DOMINATES 50%)
-            Atmosphere: Paper Navy Surface with Heroic Rule 01 Focus
-           ========================================================================= */}
-        <section id="belief" className="relative w-full py-20 sm:py-28 bg-bg-paper-navy border-t border-b border-white/[0.04] select-none">
-          <div className="container max-w-[1000px] mx-auto px-4 sm:px-6">
-            <div className="max-w-[700px] mb-12 sm:mb-14">
-              <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-3">
-                HOW WE THINK
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white font-normal leading-[1.12] mb-3">
-                Every Decision Starts Here.
-              </h2>
-              <p className="font-mono text-sm sm:text-base text-text-secondary">
-                Governed by four simple rules.
-              </p>
-            </div>
-
-            {/* Rule 01 — 50% Visual Attention Hero Feature Card with Cursor Spotlight */}
-            <SpotlightCard className="p-6 sm:p-10 mb-8 border border-accent-gold/30">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-sm text-accent-gold font-bold">01</span>
-                    <Shield className="w-4.5 h-4.5 text-accent-gold" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent-gold font-semibold bg-accent-gold/10 px-2.5 py-0.5 rounded-full border border-accent-gold/20">
-                      UNDISPUTED PRIMARY RULE
-                    </span>
-                  </div>
-                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal tracking-tight">
-                    Protect Capital First
-                  </h3>
-                </div>
-                <div className="border-l-0 md:border-l border-white/10 md:pl-8 py-1 max-w-[420px]">
-                  <p className="font-mono text-xs sm:text-sm text-accent-gold/90 font-medium leading-relaxed">
-                    Before seeking returns, we first ask: How much can we lose? Surviving drawdown cycles is the precondition for compounding.
-                  </p>
-                </div>
-              </div>
-            </SpotlightCard>
-
-            {/* Supporting Rules 02, 03, 04 — Sub-3s Rapid Comprehension Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/[0.08]">
-              {/* Rule 02 */}
-              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
-                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
-                  <span>02</span>
-                  <Sliders className="w-4 h-4 text-accent-gold/70" />
-                </div>
-                <h4 className="font-display text-xl text-white font-normal">
-                  Respect the Process
-                </h4>
-                <p className="font-mono text-xs text-text-secondary">
-                  Rules before emotions.
-                </p>
-              </div>
-
-              {/* Rule 03 */}
-              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
-                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
-                  <span>03</span>
-                  <Hourglass className="w-4 h-4 text-accent-gold/70" />
-                </div>
-                <h4 className="font-display text-xl text-white font-normal">
-                  Patience Compounds
-                </h4>
-                <p className="font-mono text-xs text-text-secondary">
-                  Cash is also a position.
-                </p>
-              </div>
-
-              {/* Rule 04 */}
-              <div className="flex flex-col gap-2 p-5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/15 transition-all">
-                <div className="flex items-center gap-2 font-mono text-xs text-white/50 font-semibold">
-                  <span>04</span>
-                  <TrendingUp className="w-4 h-4 text-accent-gold/70" />
-                </div>
-                <h4 className="font-display text-xl text-white font-normal">
-                  Never Stop Improving
-                </h4>
-                <p className="font-mono text-xs text-text-secondary">
-                  Markets evolve. So should we.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Unboxed & Asymmetric Belief Section: HOW WE THINK */}
+        <BeliefSection />
 
 
         {/* =========================================================================
@@ -254,7 +153,7 @@ export default function Home() {
                 THE VSC APPROACH
               </span>
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white font-normal leading-[1.12]">
-                Conventional funds follow mandates. VSC follows market conditions.
+                Mutual funds must stay invested. VSC doesn&apos;t.
               </h2>
             </div>
 
@@ -267,49 +166,8 @@ export default function Home() {
         <ReflectionBlock question="If markets become riskier, should your portfolio stay fully invested?" />
 
 
-        {/* =========================================================================
-            MODULE 5: EVIDENCE (FINANCIAL TIMES WEEKEND MAGAZINE)
-            Atmosphere: Printed Paper Edition Card
-           ========================================================================= */}
-        <section id="evidence" className="relative w-full py-16 sm:py-24 bg-bg-paper-navy border-t border-b border-white/[0.04] select-none">
-          <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
-              <div>
-                <span className="font-mono text-xs tracking-[0.25em] text-accent-gold uppercase font-semibold block mb-4">
-                  FROM THE RESEARCH DESK
-                </span>
-                <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]">
-                  We Do Not Publish News. We Publish Thinking.
-                </h2>
-              </div>
-              <VSCButton href="/blog" variant="outline">
-                THE RESEARCH JOURNAL ARCHIVE &rarr;
-              </VSCButton>
-            </div>
-
-            {/* Single Featured Publication Card */}
-            <div className="bg-bg-reading-slate border border-white/[0.08] rounded-2xl p-8 sm:p-12 hover:border-accent-gold/40 transition-all duration-300">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-6">
-                <span className="font-mono text-xs tracking-[0.2em] text-accent-gold font-semibold uppercase">
-                  LATEST MARKET LETTER • JULY 2026
-                </span>
-                <span className="font-mono text-xs text-white/40">2 MIN READ</span>
-              </div>
-              <h3 className="font-display text-3xl sm:text-4xl text-white font-normal leading-[1.2] mb-4">
-                Navigating Market Regime Shifts & Volatility Compression
-              </h3>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed max-w-[850px] mb-8">
-                An institutional study analyzing macro liquidity transitions, volatility cycles, and defensive capital deployment during equity market inflection points.
-              </p>
-              <VSCButton href="/blog" variant="gold">
-                Read the Latest Market Letter &rarr;
-              </VSCButton>
-            </div>
-          </div>
-        </section>
-
-        {/* RESTORED: Testimonials Section */}
-        <Testimonials />
+        {/* Side-by-Side Merged Section: Research Desk & Investor Perspectives */}
+        <ResearchDeskAndTestimonials />
 
 
         {/* =========================================================================

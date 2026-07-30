@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { SpotlightNavbar, NavItem } from "@/components/ui/vengeance/SpotlightNavbar";
 
@@ -91,8 +92,16 @@ export default function Navbar() {
     <>
       <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""}`}>
         <div className="container nav-content">
-          <Link href="/" className="logo" onClick={closeMenu}>
-            <div className="logo-mark">VSC</div>
+          <Link href="/" className="logo flex items-center gap-3" onClick={closeMenu}>
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0 overflow-hidden rounded-lg border border-white/15 shadow-sm">
+              <Image
+                src="/logo.jpg"
+                alt="VSC Capital & Advisory Logo"
+                fill
+                sizes="36px"
+                className="object-cover"
+              />
+            </div>
             <div className="logo-wordmark">
               <div className="logo-title">VSC CAPITAL & ADVISORY</div>
               <div className="logo-tagline">DISCIPLINED CAPITAL GROWTH</div>
