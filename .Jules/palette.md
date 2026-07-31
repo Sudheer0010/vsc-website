@@ -1,0 +1,3 @@
+## 2024-07-31 - FAQ Accordion Accessibility
+**Learning:** Custom accordion components built with motion/divs often lack native focus states and ARIA mappings (`aria-expanded`, `aria-controls`), making them completely invisible to screen readers and difficult to navigate via keyboard. Applying a focus-visible ring combined with `outline-none` restores keyboard navigability gracefully without impacting mouse users.
+**Action:** Always map interactive custom toggles with `aria-controls` to the content `id`, explicitly set `aria-expanded`, and ensure focus visibility is present (`focus:outline-none focus-visible:ring-2`).

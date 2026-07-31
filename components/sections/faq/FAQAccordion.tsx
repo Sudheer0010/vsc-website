@@ -380,7 +380,10 @@ function FAQAccordionItem({
       {/* Header Panel */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none group"
+        aria-expanded={isExpanded}
+        aria-controls={`content-${qId}`}
+        id={`btn-${qId}`}
+        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 rounded-xl group"
       >
         <span 
           className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${
@@ -402,6 +405,9 @@ function FAQAccordionItem({
 
       {/* Collapsible Answer Body */}
       <motion.div
+        id={`content-${qId}`}
+        role="region"
+        aria-labelledby={`btn-${qId}`}
         initial={false}
         animate={{ 
           height: isExpanded ? "auto" : 0,
