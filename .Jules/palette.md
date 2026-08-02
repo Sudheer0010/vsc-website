@@ -1,0 +1,3 @@
+## 2024-05-18 - Missing Focus Indicators on Interactive Carousel Controls
+**Learning:** The application's carousel and slider components frequently used `focus:outline-none` to remove default browser outlines without providing an alternative focus indicator, causing a critical accessibility issue for keyboard navigation (users could not see which control was focused).
+**Action:** When styling custom controls (like slider buttons or pagination dots), always pair `focus:outline-none` with `focus-visible:ring-2` (and an appropriate brand color ring) to ensure keyboard users have visual feedback without affecting mouse users.

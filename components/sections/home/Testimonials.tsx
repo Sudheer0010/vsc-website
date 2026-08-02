@@ -54,14 +54,14 @@ export function Testimonials() {
           <div className="flex gap-4">
             <button 
               onClick={handlePrev}
-              className="w-10 h-10 rounded-full border border-white/5 bg-[#0B0F1E] flex items-center justify-center text-white/60 hover:text-white hover:border-accent-gold/45 transition-colors duration-200 focus:outline-none"
+              className="w-10 h-10 rounded-full border border-white/5 bg-[#0B0F1E] flex items-center justify-center text-white/60 hover:text-white hover:border-accent-gold/45 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-5 h-5 stroke-[1.5]" />
             </button>
             <button 
               onClick={handleNext}
-              className="w-10 h-10 rounded-full border border-white/5 bg-[#0B0F1E] flex items-center justify-center text-white/60 hover:text-white hover:border-accent-gold/45 transition-colors duration-200 focus:outline-none"
+              className="w-10 h-10 rounded-full border border-white/5 bg-[#0B0F1E] flex items-center justify-center text-white/60 hover:text-white hover:border-accent-gold/45 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-5 h-5 stroke-[1.5]" />
@@ -104,7 +104,7 @@ export function Testimonials() {
             <button 
               key={idx}
               onClick={() => setActiveIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-colors duration-200 focus:outline-none ${
+              className={`w-2 h-2 rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 ${
                 idx === activeIndex ? "bg-accent-gold" : "bg-white/10 hover:bg-white/20"
               }`}
               aria-label={`Go to slide ${idx + 1}`}

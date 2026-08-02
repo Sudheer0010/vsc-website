@@ -120,14 +120,14 @@ export function ResearchDeskAndTestimonials() {
                 <div className="flex gap-2 shrink-0">
                   <button 
                     onClick={handlePrev}
-                    className="w-9 h-9 rounded-full border border-white/10 bg-[#090D18] flex items-center justify-center text-white/70 hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                    className="w-9 h-9 rounded-full border border-white/10 bg-[#090D18] flex items-center justify-center text-white/70 hover:text-accent-gold hover:border-accent-gold/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
                     aria-label="Previous testimonial"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={handleNext}
-                    className="w-9 h-9 rounded-full border border-white/10 bg-[#090D18] flex items-center justify-center text-white/70 hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                    className="w-9 h-9 rounded-full border border-white/10 bg-[#090D18] flex items-center justify-center text-white/70 hover:text-accent-gold hover:border-accent-gold/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
                     aria-label="Next testimonial"
                   >
                     <ChevronRight className="w-4 h-4" />
@@ -169,7 +169,7 @@ export function ResearchDeskAndTestimonials() {
                 <button 
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  className={`h-1.5 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 ${
                     idx === activeIndex ? "w-6 bg-accent-gold" : "w-1.5 bg-white/20 hover:bg-white/40"
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
