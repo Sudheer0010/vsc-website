@@ -23,8 +23,8 @@ const ctaLinks: CTALinkItem[] = [
   {
     label: "Explore VSC Advantage",
     href: "/enquire?source=advisory",
-    color: "hover:text-[#C9A84C] hover:border-[#C9A84C]/30",
-    glowColor: "rgba(201, 168, 76, 0.05)"
+    color: "hover:text-[#0F7A40] hover:border-[#0F7A40]/30",
+    glowColor: "rgba(15, 122, 64, 0.05)"
   },
   {
     label: "Join Inner Circle",
@@ -59,7 +59,7 @@ export function OfferingsCTA() {
           
           {/* Statement */}
           <motion.h2 
-            className="font-display text-4xl sm:text-[44px] leading-[1.2] text-text-primary font-normal tracking-tight mb-4 animate-fade-in"
+            className="font-display text-4xl sm:text-[44px] leading-[1.2] text-ink font-normal tracking-tight mb-4 animate-fade-in"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.05 }}
           >
@@ -68,7 +68,7 @@ export function OfferingsCTA() {
           
           {/* Subheading */}
           <motion.p 
-            className="font-mono text-sm text-text-secondary leading-relaxed mb-16"
+            className="font-mono text-sm text-ink-soft leading-relaxed mb-16"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >
@@ -88,18 +88,18 @@ export function OfferingsCTA() {
                   key={idx}
                   href={link.href}
                   className={cn(
-                    "flex items-center justify-between py-5 px-6 rounded-xl border border-white/5 bg-bg-card font-mono text-sm transition-all duration-[240ms] ease-out",
+                    "flex items-center justify-between py-5 px-6 rounded-xl border border-rule bg-surface font-mono text-sm transition-all duration-[240ms] ease-out",
                     link.color
                   )}
                   style={{
-                    borderColor: isHovered ? undefined : "rgba(255, 255, 255, 0.05)",
+                    borderColor: isHovered ? undefined : "rgba(22,29,24,0.05)",
                     boxShadow: isHovered ? `0 4px 20px ${link.glowColor}` : "none",
                     transform: isHovered ? "translateY(-2px)" : "translateY(0)"
                   }}
                   onMouseEnter={() => setHoveredIdx(idx)}
                   onMouseLeave={() => setHoveredIdx(null)}
                 >
-                  <span className="font-medium text-white/90 group-hover:text-inherit">
+                  <span className="font-medium text-ink group-hover:text-inherit">
                     {link.label}
                   </span>
                   

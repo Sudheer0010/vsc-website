@@ -1,10 +1,34 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { SpotlightNavbar, NavItem } from "@/components/ui/vengeance/SpotlightNavbar";
+import { NavItem, SpotlightNavbar } from "@/components/ui/vengeance/SpotlightNavbar";
+
+/**
+ * Navigation sits on paper now, so it needs no glass and no glow. The chrome
+ * is a hairline and a shadow that only appear once the page has scrolled
+ * underneath it — before that the header is genuinely transparent, which is
+ * what gives the hero its open feeling.
+ */
+
+const NAV_ITEMS = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  {
+    label: "Offerings",
+    href: "/offerings",
+    dropdownItems: [
+      { label: "Learning Hub", href: "/offerings/learning-hub" },
+      { label: "VSC Advantage", href: "/offerings/advantage" },
+      { label: "Inner Circle", href: "/offerings/inner-circle" },
+    ],
+  },
+  { label: "Research", href: "/blog" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Enquire", href: "/enquire" },
+];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,29 +37,15 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    
-    window.addEventListener("scroll", handleScroll);
-    if (window.scrollY > 50) {
-      setIsScrolled(true);
-    }
-    
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
+      if (e.key === "Escape" && isMenuOpen) setIsMenuOpen(false);
     };
 
     if (isMenuOpen) {
@@ -50,114 +60,90 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { 
-      label: "Offerings", 
-      href: "/offerings",
-      dropdownItems: [
-        { label: "Learning Hub", href: "/offerings/learning-hub" },
-        { label: "VSC Advantage", href: "/offerings/advantage" },
-        { label: "Inner Circle", href: "/offerings/inner-circle" },
-      ]
-    },
-    { label: "Blog", href: "/blog" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Enquire", href: "/enquire" },
-  ];
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const activeIdx = navItems.findIndex(item => {
-    if (item.href === "/") return pathname === "/";
-    return pathname.startsWith(item.href);
-  });
-  const defaultActiveIndex = activeIdx !== -1 ? activeIdx : 0;
+  const activeIdx = NAV_ITEMS.findIndex((item) => isActive(item.href));
 
   const handleItemClick = (item: NavItem) => {
     router.push(item.href);
     closeMenu();
   };
 
-  const isActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/";
-    }
-    return pathname.startsWith(href);
-  };
-
   return (
     <>
       <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""}`}>
         <div className="container nav-content">
-          <Link href="/" className="logo flex items-center gap-3" onClick={closeMenu}>
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0 overflow-hidden rounded-lg border border-white/15 shadow-sm">
+          <Link href="/" className="logo" onClick={closeMenu}>
+            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-vsc-md border border-rule">
               <Image
                 src="/logo.jpg"
-                alt="VSC Capital & Advisory Logo"
+                alt=""
                 fill
                 sizes="36px"
                 className="object-cover"
               />
             </div>
             <div className="logo-wordmark">
-              <div className="logo-title">VSC CAPITAL & ADVISORY</div>
-              <div className="logo-tagline">DISCIPLINED CAPITAL GROWTH</div>
+              <div className="logo-title">VSC Capital &amp; Advisory</div>
+              <div className="logo-tagline">Disciplined capital growth</div>
             </div>
           </Link>
-          
-          {/* Spotlight Navbar in the center for desktop */}
+
           <div className="nav-links-container">
             <SpotlightNavbar
-              items={navItems}
-              defaultActiveIndex={defaultActiveIndex}
+              items={NAV_ITEMS}
+              defaultActiveIndex={activeIdx !== -1 ? activeIdx : 0}
               onItemClick={handleItemClick}
             />
           </div>
 
+          <Link href="/enquire" className="nav-cta">
+            Enquire
+            <span className="cta-arrow" aria-hidden="true">
+              &rarr;
+            </span>
+          </Link>
+
           <button
             className={`menu-toggle ${isMenuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle Navigation Menu"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label="Toggle navigation menu"
             aria-expanded={isMenuOpen}
             aria-controls="nav-drawer"
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </nav>
 
-      {/* Navigation Drawer Overlay */}
       <div
         className={`drawer-overlay ${isMenuOpen ? "active" : ""}`}
         onClick={closeMenu}
       />
 
-      {/* Navigation Drawer */}
       <div id="nav-drawer" className={`nav-drawer ${isMenuOpen ? "active" : ""}`}>
         <div className="drawer-links">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <React.Fragment key={item.href}>
               <Link
                 href={item.href}
                 className={isActive(item.href) ? "active" : ""}
-                style={isActive(item.href) ? { color: "var(--accent-gold)" } : {}}
                 onClick={closeMenu}
               >
-                {item.label} {item.dropdownItems ? "▼" : ""}
+                {item.label}
               </Link>
               {item.dropdownItems && (
-                <div className="flex flex-col pl-4 gap-2 border-l border-white/5 my-1 ml-2">
+                <div className="my-1 ml-3 flex flex-col border-l border-rule pl-3">
                   {item.dropdownItems.map((sub) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      className={isActive(sub.href) ? "active text-sm pl-2" : "text-sm text-text-secondary hover:text-white pl-2"}
-                      style={isActive(sub.href) ? { color: "var(--accent-gold)" } : {}}
+                      className={`text-[15px] ${isActive(sub.href) ? "active" : ""}`}
                       onClick={closeMenu}
                     >
                       {sub.label}
@@ -167,22 +153,21 @@ export default function Navbar() {
               )}
             </React.Fragment>
           ))}
+
           <Link
             href="/enquire"
-            className="nav-cta"
-            style={{ marginTop: "20px", width: "100%", display: "inline-flex", justifyContent: "center" }}
+            className="nav-cta mt-5 !flex w-full"
             onClick={closeMenu}
           >
-            Enquire Now
+            Enquire
           </Link>
         </div>
+
         <div className="drawer-footer">
-          <div style={{ fontWeight: 700, color: "var(--text-primary)", marginBottom: "10px" }}>
-            VSC Capital & Advisory
+          <div className="font-display text-[16px] font-semibold text-ink">
+            VSC Capital &amp; Advisory
           </div>
-          <div style={{ lineHeight: 1.5 }}>
-            Systematic Trading. Disciplined Capital Growth.
-          </div>
+          <div className="mt-1">Systematic trading. Disciplined capital growth.</div>
         </div>
       </div>
     </>

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
 export function OfferingsHero() {
@@ -23,51 +22,51 @@ export function OfferingsHero() {
   } as const;
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-white/[0.04] z-10">
-      {/* Full-Bleed Background Layer */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/vsc_offerings_hero.png"
-          alt="VSC Capital 3 Pathways to Clarity in Investment"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center filter contrast-[1.05] brightness-[0.90]"
-        />
-        {/* Directional gradient scrim overlay preserving image visibility & high text contrast */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-[#05070D] via-[#05070D]/85 via-[42%] to-[#05070D]/30 z-10"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-[#05070D] via-transparent to-[#05070D]/60 z-10"
-        />
-      </div>
+    <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-rule z-10">
+      {/* Paper grain, not a photo — vsc_offerings_hero.png was leftover
+          dark-navy-and-gold generated art from before this redesign, the
+          exact "AI premium finance" look the rest of the site moved away
+          from. Same treatment as the homepage hero: felt texture + a warm
+          glow, nothing that can clash with the palette again. */}
+      <div
+        aria-hidden="true"
+        className="paper-texture pointer-events-none absolute inset-0 z-0 opacity-70"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-32 top-1/2 z-0 h-[620px] w-[620px] -translate-y-1/2 rounded-full blur-[130px]"
+        style={{ background: "radial-gradient(circle, rgba(15,122,64,0.12) 0%, transparent 70%)" }}
+      />
 
       <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto">
         <div className="max-w-[800px] flex flex-col items-start text-left">
           
           {/* Tracked small label */}
-          <motion.span 
-            className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-6 font-bold drop-shadow-sm"
+          <motion.span
+            className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-6 font-bold"
             {...animProps}
           >
             OFFERINGS
           </motion.span>
-          
+
           {/* Main Editorial Headline */}
-          <motion.h1 
-            className="font-display text-5xl sm:text-6xl md:text-[72px] lg:text-[80px] leading-[1.06] text-white font-normal tracking-tight mb-8 drop-shadow-lg"
+          <motion.h1
+            className="font-display text-5xl sm:text-6xl md:text-[72px] lg:text-[80px] leading-[1.06] text-ink font-normal tracking-tight mb-8"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.05 }}
           >
             Three Pillars.<br />One Investment Philosophy.
           </motion.h1>
-          
+
           {/* Slightly reduced paragraph length */}
-          <motion.p 
-            className="font-mono text-sm md:text-base text-white/80 leading-relaxed max-w-[650px] mb-8 drop-shadow-sm"
+          <motion.p
+            className="font-mono text-sm md:text-base text-ink-soft leading-relaxed max-w-[650px] mb-8"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >
@@ -83,13 +82,13 @@ export function OfferingsHero() {
             {[
               { label: "01 / Learning Hub", color: "#EAB308", href: "#offerings-overview" },
               { label: "02 / Portfolio Advantage", color: "#38BDF8", href: "#offerings-overview" },
-              { label: "03 / Inner Circle", color: "#C9A84C", href: "#offerings-overview" },
+              { label: "03 / Inner Circle", color: "#0F7A40", href: "#offerings-overview" },
             ].map((node) => (
               <a
                 key={node.label}
                 href={node.href}
                 onClick={handleScrollToOverview}
-                className="group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/30 backdrop-blur-md transition-all duration-300"
+                className="group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-canvas-sunk border border-rule hover:border-rule  transition-all duration-300"
               >
                 <span className="relative flex h-2 w-2">
                   <span
@@ -101,7 +100,7 @@ export function OfferingsHero() {
                     style={{ backgroundColor: node.color }}
                   />
                 </span>
-                <span className="font-mono text-[11px] tracking-wider text-white/80 group-hover:text-white transition-colors">
+                <span className="font-mono text-[11px] tracking-wider text-ink-soft group-hover:text-ink transition-colors">
                   {node.label}
                 </span>
               </a>

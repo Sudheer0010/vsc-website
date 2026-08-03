@@ -38,7 +38,7 @@ export function SectionHeading({
           {eyebrow}
         </motion.span>
         <motion.h2 
-          className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2]" 
+          className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]" 
           {...anim}
           transition={{ ...anim.transition, delay: 0.05 }}
         >
@@ -46,7 +46,7 @@ export function SectionHeading({
         </motion.h2>
         {description && (
           <motion.p 
-            className="font-mono text-sm leading-relaxed text-text-secondary max-w-[650px] mt-4"
+            className="font-mono text-sm leading-relaxed text-ink-soft max-w-[650px] mt-4"
             {...anim}
             transition={{ ...anim.transition, delay: 0.1 }}
           >
@@ -65,7 +65,7 @@ export function SectionHeading({
         {heading}
       </h2>
       {description && (
-        <p className="fade-up font-mono text-sm leading-relaxed text-text-secondary max-w-[600px] mb-[40px]">
+        <p className="fade-up font-mono text-sm leading-relaxed text-ink-soft max-w-[600px] mb-[40px]">
           {description}
         </p>
       )}

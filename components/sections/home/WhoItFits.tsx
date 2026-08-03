@@ -18,7 +18,7 @@ export function WhoItFits() {
   ];
 
   return (
-    <SectionContainer id="philosophy-principles" className="py-28 md:py-36 select-none bg-[#060810]/40 border-y border-white/[0.02]">
+    <SectionContainer id="philosophy-principles" className="py-28 md:py-36 select-none bg-[#FBFAF6]/40 border-y border-rule">
       <div className="max-w-[1000px] mx-auto text-left">
         
         {/* Eyebrow & Title */}
@@ -26,7 +26,7 @@ export function WhoItFits() {
           <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-5 block font-semibold">
             FOUNDATIONAL LAWS
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-[40px] leading-[1.15] text-white font-normal tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-[40px] leading-[1.15] text-ink font-normal tracking-tight">
             Our Investment Philosophy
           </h2>
         </div>
@@ -38,10 +38,10 @@ export function WhoItFits() {
               <span className="font-mono text-xs text-accent-gold/45 block font-semibold">
                 0{idx + 1}
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl text-white font-normal leading-tight">
+              <h3 className="font-display text-2xl sm:text-3xl text-ink font-normal leading-tight">
                 {pr.title}
               </h3>
-              <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed mt-3 border-l border-accent-gold/45 pl-4 py-1 italic">
+              <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed mt-3 border-l border-accent-gold/45 pl-4 py-1 italic">
                 {pr.manifesto}
               </p>
             </div>

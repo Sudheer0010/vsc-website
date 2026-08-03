@@ -4,24 +4,33 @@ import React from "react";
 import Link from "next/link";
 
 /**
- * VSC Component: VSCButton
- * 
- * 1. Purpose: Clean, restrained button component that disappears into the experience so ideas remain prominent.
- * 2. Atlas Alignment: Expresses Principle VII ("Respect the reader") and Chapter 0 Mindset ("We compete for understanding, not attention").
- * 3. Signature Behaviour: Restrained typography and subtle hairline border transitions; never uses loud neon gradients or urgent sales triggers.
- * 4. Emotional Outcome: Provides quiet, dignified navigation without pressure or urgency.
- * 5. Accessibility: Full keyboard focus ring (`ring-2 ring-accent-gold/50`), minimum 44px touch target.
- * 6. Performance: Zero JS animation overhead; pure CSS transition (180ms).
+ * VSCButton
+ *
+ * Sentence case at 16px, not 11px uppercase letterspaced to death. Tiny
+ * screaming caps read as a luxury-brand tic; a button should read as a
+ * sentence you could say out loud.
+ *
+ * Accessibility: 48px minimum target, focus ring inherited from the global
+ * focus-visible rule so it can never drift out of sync with the tokens.
  */
 
 interface VSCButtonProps {
   children: React.ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: "gold" | "outline" | "ghost";
+  /** `gold` is a deprecated alias for `growth`, kept for un-migrated pages. */
+  variant?: "growth" | "gold" | "outline" | "ghost";
   className?: string;
   type?: "button" | "submit";
 }
+
+const VARIANTS: Record<string, string> = {
+  growth: "bg-growth text-white shadow-lift-growth hover:bg-growth-deep hover:-translate-y-0.5",
+  gold: "bg-growth text-white shadow-lift-growth hover:bg-growth-deep hover:-translate-y-0.5",
+  outline:
+    "bg-surface text-ink border border-rule-strong hover:border-growth hover:text-growth hover:-translate-y-0.5",
+  ghost: "bg-transparent text-ink-soft hover:bg-growth-tint hover:text-growth-deep",
+};
 
 export function VSCButton({
   children,
@@ -31,27 +40,25 @@ export function VSCButton({
   className = "",
   type = "button",
 }: VSCButtonProps) {
-  const baseStyles =
-    "inline-flex items-center justify-center font-mono text-xs tracking-[0.2em] uppercase font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-gold/50 disabled:opacity-50 select-none py-3.5 px-7 rounded-lg";
-
-  const variantStyles = {
-    gold: "bg-accent-gold text-bg-dark hover:bg-accent-gold/90 border border-accent-gold",
-    outline: "bg-transparent text-white border border-white/20 hover:border-accent-gold hover:text-accent-gold",
-    ghost: "bg-transparent text-text-secondary hover:text-white border border-transparent",
-  };
-
-  const combinedClasses = `${baseStyles} ${variantStyles[variant]} ${className}`;
+  const classes = [
+    "inline-flex min-h-[48px] items-center justify-center gap-2 rounded-vsc-md px-6 py-3",
+    "font-ui text-[16px] font-semibold tracking-[-0.01em]",
+    "transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-physical",
+    "disabled:opacity-50",
+    VARIANTS[variant] ?? VARIANTS.outline,
+    className,
+  ].join(" ");
 
   if (href) {
     return (
-      <Link href={href} className={combinedClasses}>
+      <Link href={href} className={classes}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button type={type} onClick={onClick} className={combinedClasses}>
+    <button type={type} onClick={onClick} className={classes}>
       {children}
     </button>
   );

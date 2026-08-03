@@ -57,7 +57,7 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
   };
 
   return (
-    <section className="py-24 border-t border-white/5 select-none animate-fade-in">
+    <section className="py-24 border-t border-rule select-none animate-fade-in">
       <div className="max-w-[650px] mx-auto text-center flex flex-col items-center">
         
         {/* Label */}
@@ -66,21 +66,21 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
         </span>
         
         {/* Headline */}
-        <h2 className="font-display text-3xl sm:text-4xl leading-[1.2] text-white font-normal tracking-tight mb-4 max-w-[500px]">
+        <h2 className="font-display text-3xl sm:text-4xl leading-[1.2] text-ink font-normal tracking-tight mb-4 max-w-[500px]">
           {newsletterConfig.title}
         </h2>
         
         {/* Submessage */}
-        <p className="font-mono text-sm text-text-secondary leading-relaxed mb-10 max-w-[480px]">
+        <p className="font-mono text-sm text-ink-soft leading-relaxed mb-10 max-w-[480px]">
           {newsletterConfig.description}
         </p>
         
         {isSubmitted ? (
-          <div className="p-8 rounded-xl border border-accent-gold/25 bg-[#0B0F1E] max-w-[500px] w-full text-center">
+          <div className="p-8 rounded-xl border border-accent-gold/25 bg-[#FFFFFF] max-w-[500px] w-full text-center">
             <span className="font-mono text-xs text-accent-gold uppercase tracking-widest block mb-2 font-semibold">
               Subscription Confirmed
             </span>
-            <p className="font-mono text-sm text-text-secondary leading-relaxed">
+            <p className="font-mono text-sm text-ink-soft leading-relaxed">
               Thank you for subscribing. You&apos;ve been added to our institutional research distribution list.
             </p>
           </div>
@@ -105,7 +105,7 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
               name="email" 
               placeholder="Enter your email address*" 
               required 
-              className="bg-transparent border-b border-white/10 focus:border-accent-gold/45 pb-3 px-1 font-mono text-sm text-white focus:outline-none flex-grow" 
+              className="bg-transparent border-b border-rule focus:border-accent-gold/45 pb-3 px-1 font-mono text-sm text-ink focus:outline-none flex-grow" 
             />
             <button 
               type="submit" 

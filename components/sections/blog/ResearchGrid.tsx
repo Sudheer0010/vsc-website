@@ -22,15 +22,15 @@ export function ResearchGrid({
   onOpenLetter,
 }: ResearchGridProps) {
   return (
-    <section className="py-24 border-t border-white/5 animate-fade-in">
+    <section className="py-24 border-t border-rule animate-fade-in">
       <div className="flex flex-col gap-8 mb-12 select-none">
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-2 block">
+            <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-2 block">
               PUBLICATIONS
             </span>
-            <h2 className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2]">
+            <h2 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
               Latest Research
             </h2>
           </div>
@@ -42,13 +42,13 @@ export function ResearchGrid({
               placeholder="Search the Research Library..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#060810]/60 border border-white/5 rounded-xl py-3 px-4 font-mono text-xs text-white placeholder-white/20 focus:outline-none focus:border-accent-gold/45 transition-colors duration-200"
+              className="w-full bg-[#FBFAF6]/60 border border-rule rounded-xl py-3 px-4 font-mono text-xs text-ink placeholder-white/20 focus:outline-none focus:border-accent-gold/45 transition-colors duration-200"
             />
           </div>
         </div>
 
         {/* Responsive Category Chips Row */}
-        <div className="flex overflow-x-auto gap-2 pb-3 whitespace-nowrap scrollbar-hide border-b border-white/5">
+        <div className="flex overflow-x-auto gap-2 pb-3 whitespace-nowrap scrollbar-hide border-b border-rule">
           {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (
@@ -58,7 +58,7 @@ export function ResearchGrid({
                 className={`inline-flex items-center py-2 px-4 rounded-full font-mono text-xs transition-colors duration-200 ${
                   isActive 
                     ? "bg-accent-gold text-black font-semibold" 
-                    : "bg-[#0B0F1E] text-white/60 hover:text-white border border-white/5"
+                    : "bg-[#FFFFFF] text-ink-muted hover:text-ink border border-rule"
                 }`}
               >
                 {cat}
@@ -71,11 +71,11 @@ export function ResearchGrid({
 
       {/* Articles Grid list */}
       {filteredArticles.length === 0 ? (
-        <div className="py-16 text-center flex flex-col items-center select-none border border-white/5 rounded-xl bg-white/[0.01]">
-          <p className="font-mono text-sm text-text-secondary mb-2 font-semibold">
+        <div className="py-16 text-center flex flex-col items-center select-none border border-rule rounded-xl bg-canvas-sunk">
+          <p className="font-mono text-sm text-ink-soft mb-2 font-semibold">
             Coming Soon
           </p>
-          <p className="font-mono text-xs text-white/30">
+          <p className="font-mono text-xs text-ink-faint">
             Research currently in preparation.
           </p>
         </div>
@@ -90,31 +90,31 @@ export function ResearchGrid({
                   onOpenLetter(art.slug);
                 }
               }}
-              className="bg-[#0B0F1E] hover:bg-[#0D1224] border border-white/5 hover:border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col justify-between cursor-pointer transition-all duration-[240ms] ease-out select-none"
+              className="bg-[#FFFFFF] hover:bg-[#FFFFFF] border border-rule hover:border-rule rounded-2xl p-6 sm:p-8 flex flex-col justify-between cursor-pointer transition-all duration-[240ms] ease-out select-none"
             >
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[9px] uppercase tracking-wider text-accent-gold/70">
                     {art.type}
                   </span>
-                  <span className="font-mono text-[10px] text-white/30">
+                  <span className="font-mono text-[10px] text-ink-faint">
                     {art.publishedDate}
                   </span>
                 </div>
                 
-                <h3 className="font-display text-xl text-white font-medium group-hover:text-accent-gold transition-colors duration-200">
+                <h3 className="font-display text-xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200">
                   {art.title}
                 </h3>
-                <p className="font-mono text-xs text-white/50 leading-relaxed">
+                <p className="font-mono text-xs text-ink-muted leading-relaxed">
                   {art.description}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between mt-8 border-t border-white/5 pt-4">
-                <span className="font-mono text-[10px] text-white/40 uppercase">
+              <div className="flex items-center justify-between mt-8 border-t border-rule pt-4">
+                <span className="font-mono text-[10px] text-ink-faint uppercase">
                   {art.category}
                 </span>
-                <span className="font-mono text-[10px] text-white/40">
+                <span className="font-mono text-[10px] text-ink-faint">
                   {art.readingTime}
                 </span>
               </div>

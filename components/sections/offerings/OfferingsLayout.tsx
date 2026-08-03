@@ -18,7 +18,7 @@ export function OfferingsLayout({
   ctaService
 }: OfferingsLayoutProps) {
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden">
       {/* Global Navigation Bar */}
       <Navbar />
 

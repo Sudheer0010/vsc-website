@@ -3,142 +3,149 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Globe, Sparkles } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
+import { StepRule } from "@/components/ui/vsc/StepRule";
+
+/**
+ * The footer keeps the easter egg — V·S·C decoded — because it is the one
+ * piece of personality on the site that exists purely for the person who
+ * bothers to look. It is now a button rather than a hover-only div, so the
+ * reward is available to keyboard and touch users too.
+ */
+
+const NAV = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Offerings", href: "/offerings" },
+  { label: "Research", href: "/blog" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Enquire", href: "/enquire" },
+];
 
 export default function Footer() {
-  const [isEasterEggRevealed, setIsEasterEggRevealed] = useState(false);
+  const [decoded, setDecoded] = useState(false);
 
   return (
-    <footer className="w-full bg-[#04060C] border-t border-white/10 select-none text-white pt-16 pb-12">
-      <div className="container max-w-[1240px] mx-auto px-4 sm:px-6">
-        
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-16 border-b border-white/10">
-          
-          {/* Column 1: Brand & Subtle Easter Egg (5 Columns) */}
-          <div className="md:col-span-5 space-y-5">
-            <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="relative w-9 h-9 rounded-xl overflow-hidden border border-accent-gold/40 bg-black">
-                <Image
-                  src="/logo.jpg"
-                  alt="VSC Emblem"
-                  fill
-                  priority
-                  sizes="36px"
-                  className="object-cover group-hover:scale-105 transition-transform"
-                />
+    <footer className="w-full border-t border-rule bg-canvas-sunk pb-10 pt-16">
+      <div className="container mx-auto max-w-[1120px]">
+        <div className="grid gap-10 border-b border-rule pb-12 md:grid-cols-12 md:gap-12">
+          {/* Brand */}
+          <div className="md:col-span-5">
+            <Link href="/" className="group inline-flex items-center gap-3">
+              <div className="relative h-9 w-9 overflow-hidden rounded-vsc-md border border-rule">
+                <Image src="/logo.jpg" alt="" fill sizes="36px" className="object-cover" />
               </div>
-              <span className="font-display text-lg text-white font-normal tracking-tight group-hover:text-accent-gold transition-colors">
-                VSC CAPITAL &amp; ADVISORY
+              <span className="font-display text-[18px] font-bold tracking-[-0.02em] text-ink">
+                VSC Capital &amp; Advisory
               </span>
             </Link>
 
-            <p className="font-mono text-xs text-text-secondary leading-relaxed max-w-[360px]">
-              Systematic Trading. Quantitative Market Research. Disciplined Capital Growth.
+            <p className="mt-4 max-w-[38ch] text-[16px] leading-relaxed text-ink-soft">
+              Systematic trading, quantitative market research, and disciplined
+              capital growth.
             </p>
 
-            {/* Subtle VSC Easter Egg trigger */}
-            <div 
-              onMouseEnter={() => setIsEasterEggRevealed(true)}
-              onMouseLeave={() => setIsEasterEggRevealed(false)}
-              onClick={() => setIsEasterEggRevealed(!isEasterEggRevealed)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-accent-gold/50 transition-all cursor-pointer group/egg"
+            <button
+              type="button"
+              onClick={() => setDecoded((d) => !d)}
+              aria-expanded={decoded}
+              className="mt-6 inline-flex items-center gap-2.5 rounded-vsc-md border border-rule bg-surface px-3.5 py-2.5 text-[14px] font-medium text-ink-muted transition-colors duration-200 hover:border-growth hover:text-growth-deep"
             >
-              <Sparkles className="w-3.5 h-3.5 text-accent-gold/80 group-hover/egg:text-accent-gold transition-colors shrink-0" />
-              <span className="font-mono text-[11px] tracking-[0.2em] uppercase transition-all duration-300">
-                {isEasterEggRevealed ? (
-                  <span className="text-accent-gold font-bold">
-                    <span className="underline underline-offset-4 decoration-accent-gold">V</span>ELOCITY • <span className="underline underline-offset-4 decoration-accent-gold">S</span>TRUCTURE • <span className="underline underline-offset-4 decoration-accent-gold">C</span>ONVICTION
-                  </span>
-                ) : (
-                  <span className="text-white/50 group-hover/egg:text-white/80">
-                    REVEAL VSC DECODED &rarr;
-                  </span>
-                )}
-              </span>
-            </div>
+              <StepRule size="sm" />
+              {decoded ? (
+                <span className="font-semibold text-growth-deep">
+                  <strong className="font-bold">V</strong>elocity ·{" "}
+                  <strong className="font-bold">S</strong>tructure ·{" "}
+                  <strong className="font-bold">C</strong>onviction
+                </span>
+              ) : (
+                <span>What does VSC stand for?</span>
+              )}
+            </button>
           </div>
 
-          {/* Column 2: Navigation Links (3 Columns) */}
-          <div className="md:col-span-3 space-y-4">
-            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-accent-gold font-bold">
-              NAVIGATION
-            </h4>
-            <ul className="space-y-2.5 font-mono text-xs text-text-secondary">
+          {/* Navigation */}
+          <nav className="md:col-span-3" aria-label="Footer">
+            <h2 className="font-display text-[16px] font-semibold tracking-tight text-ink">
+              Navigate
+            </h2>
+            <ul className="mt-4 space-y-2.5">
+              {NAV.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-[16px] text-ink-soft transition-colors duration-200 hover:text-growth"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Contact */}
+          <div className="md:col-span-4">
+            <h2 className="font-display text-[16px] font-semibold tracking-tight text-ink">
+              Get in touch
+            </h2>
+            <ul className="mt-4 space-y-3">
               <li>
-                <Link href="/" className="hover:text-accent-gold transition-colors">HOME</Link>
+                <a
+                  href="mailto:sudheer@vsccapital.in"
+                  className="group flex items-center gap-2.5 text-[16px] text-ink-soft transition-colors duration-200 hover:text-growth"
+                >
+                  <Mail className="h-4 w-4 text-ink-faint transition-colors group-hover:text-growth" />
+                  sudheer@vsccapital.in
+                </a>
               </li>
               <li>
-                <Link href="/about" className="hover:text-accent-gold transition-colors">ABOUT</Link>
+                <a
+                  href="https://www.vsccapital.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2.5 text-[16px] text-ink-soft transition-colors duration-200 hover:text-growth"
+                >
+                  <Globe className="h-4 w-4 text-ink-faint transition-colors group-hover:text-growth" />
+                  www.vsccapital.in
+                </a>
               </li>
               <li>
-                <Link href="/offerings" className="hover:text-accent-gold transition-colors">OFFERINGS</Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-accent-gold transition-colors">RESEARCH &amp; BLOG</Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-accent-gold transition-colors">FAQ</Link>
-              </li>
-              <li>
-                <Link href="/enquire" className="hover:text-accent-gold transition-colors">ENQUIRE</Link>
+                <a
+                  href="https://www.linkedin.com/in/sudheer-vobhilineni-2485053b6/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2.5 text-[16px] text-ink-soft transition-colors duration-200 hover:text-growth"
+                >
+                  <svg
+                    className="h-4 w-4 shrink-0 text-ink-faint transition-colors group-hover:text-growth"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                  LinkedIn
+                </a>
               </li>
             </ul>
           </div>
-
-          {/* Column 3: Direct Connect & Location (4 Columns) */}
-          <div className="md:col-span-4 space-y-4">
-            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-accent-gold font-bold">
-              CONNECT
-            </h4>
-
-            <div className="space-y-3 font-mono text-xs text-text-secondary">
-              <a 
-                href="mailto:sudheer@vsccapital.in" 
-                className="flex items-center gap-2.5 hover:text-accent-gold transition-colors group"
-              >
-                <Mail className="w-4 h-4 text-accent-gold/70 group-hover:text-accent-gold transition-colors" />
-                <span>sudheer@vsccapital.in</span>
-              </a>
-
-              <a 
-                href="https://www.vsccapital.in" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 hover:text-accent-gold transition-colors group"
-              >
-                <Globe className="w-4 h-4 text-accent-gold/70 group-hover:text-accent-gold transition-colors" />
-                <span>www.vsccapital.in</span>
-              </a>
-
-              <a 
-                href="https://www.linkedin.com/in/sudheer-vobhilineni-2485053b6/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 hover:text-accent-gold transition-colors group"
-              >
-                <svg className="w-4 h-4 text-accent-gold/70 group-hover:text-accent-gold transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                  <rect x="2" y="9" width="4" height="12" />
-                  <circle cx="4" cy="4" r="2" />
-                </svg>
-                <span>LinkedIn Profile</span>
-              </a>
-            </div>
-          </div>
-
         </div>
 
-        {/* Bottom Legal & Regulatory Strip */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-white/40">
-          <div>
-            &copy; 2026 VSC Capital &amp; Advisory. MSME Registered.
-          </div>
-          <div className="uppercase tracking-widest text-[10px]">
-            For educational &amp; research purposes only
+        <div className="flex flex-col items-center justify-between gap-3 pt-7 text-[14px] text-ink-muted sm:flex-row">
+          <span>&copy; 2026 VSC Capital &amp; Advisory. MSME registered.</span>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="transition-colors duration-200 hover:text-growth">
+              Privacy Policy
+            </Link>
+            <span>For educational and research purposes only.</span>
           </div>
         </div>
-
       </div>
     </footer>
   );

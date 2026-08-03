@@ -41,16 +41,16 @@ export function MarketEnvironment() {
         
         {/* Eyebrow & Title */}
         <div className="mb-20">
-          <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold">
+          <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
             RESEARCH PILLARS
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] leading-[1.2] text-white font-normal tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] leading-[1.2] text-ink font-normal tracking-tight">
             What Drives Every Decision
           </h2>
         </div>
 
         {/* borderless list elements */}
-        <div className="flex flex-col divide-y divide-white/[0.04] border-t border-b border-white/[0.04]">
+        <div className="flex flex-col divide-y divide-rule border-t border-b border-rule">
           {pillars.map((pi, idx) => (
             <div key={idx} className="grid grid-cols-12 py-8 gap-4 items-center">
               {/* Icon cell */}
@@ -60,10 +60,10 @@ export function MarketEnvironment() {
               
               {/* Info cell */}
               <div className="col-span-10 sm:col-span-11 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-6">
-                <h3 className="font-display text-lg text-white font-medium min-w-[200px]">
+                <h3 className="font-display text-lg text-ink font-medium min-w-[200px]">
                   {pi.title}
                 </h3>
-                <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed sm:text-right flex-grow">
+                <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed sm:text-right flex-grow">
                   {pi.desc}
                 </p>
               </div>

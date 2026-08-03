@@ -3,7 +3,6 @@
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -164,7 +163,7 @@ export default function OurStory() {
   const currentRoadmap = roadmapData[roadmapIndex];
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
       {/* Global Navigation Bar */}
       <Navbar />
 
@@ -172,56 +171,56 @@ export default function OurStory() {
       <PaperGrain />
 
       {/* Dynamic Background Colored Ambient Light Pool */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.04)" className="left-[50%] top-[900px] scale-[1.4]" />
+      <AmbientLightPool color="rgba(15, 122, 64, 0.04)" className="left-[50%] top-[900px] scale-[1.4]" />
 
       <main className="relative w-full animate-fade-in">
         
         {/* =========================================================================
             1. HERO SECTION (Atmospheric Humanized Team Background + High Contrast Typography)
            ========================================================================= */}
-        <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-white/[0.04]">
-          {/* Full-Bleed Atmospheric Background Layer */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/vsc_our_story_hero.png"
-              alt="VSC Capital Quantitative Research Team in Discussion"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center filter contrast-[1.05] brightness-[0.88]"
-            />
-            {/* Tuned Scrim Overlay preserving high image visibility & crisp text contrast */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-r from-[#05070D] via-[#05070D]/75 via-[40%] to-[#05070D]/30 z-10"
-            />
-            {/* Bottom Fade to blend with next section */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-[#05070D] via-transparent to-transparent z-10"
-            />
-          </div>
+        <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-rule">
+          {/* Paper grain, not a photo — vsc_our_story_hero.png was a stock
+              office-team shot that, even scrimmed correctly, didn't say
+              anything the headline wasn't already saying, and it competed
+              with the text for attention instead of supporting it. Same
+              treatment as the homepage and Offerings heroes: felt texture +
+              a warm glow. */}
+          <div
+            aria-hidden="true"
+            className="paper-texture pointer-events-none absolute inset-0 z-0 opacity-70"
+            style={{
+              maskImage:
+                "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-32 top-1/2 z-0 h-[620px] w-[620px] -translate-y-1/2 rounded-full blur-[130px]"
+            style={{ background: "radial-gradient(circle, rgba(15,122,64,0.12) 0%, transparent 70%)" }}
+          />
 
           <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto">
             <div className="max-w-[950px] flex flex-col items-start text-left">
-              <motion.span 
-                className="font-mono text-xs md:text-sm tracking-[0.25em] text-accent-gold uppercase mb-6 font-bold drop-shadow-sm"
+              <motion.span
+                className="font-mono text-xs md:text-sm tracking-[0.25em] text-accent-gold uppercase mb-6 font-bold"
                 {...animProps}
               >
                 ABOUT
               </motion.span>
-              
-              <motion.h1 
-                className="font-display text-4xl sm:text-6xl md:text-[76px] lg:text-[84px] leading-[1.06] text-white font-normal tracking-tight mb-8 max-w-[900px] drop-shadow-lg"
+
+              <motion.h1
+                className="font-display text-4xl sm:text-6xl md:text-[76px] lg:text-[84px] leading-[1.06] text-ink font-normal tracking-tight mb-8 max-w-[900px]"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
                 What if successful investing had less to do with predictions—and more to do with process?
               </motion.h1>
-              
+
               {/* Conviction-Driven Paragraph */}
-              <motion.p 
-                className="font-mono text-sm md:text-base text-white/80 leading-relaxed max-w-[720px] mt-4 drop-shadow-sm"
+              <motion.p
+                className="font-mono text-sm md:text-base text-ink-soft leading-relaxed max-w-[720px] mt-4"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
@@ -234,10 +233,10 @@ export default function OurStory() {
         {/* =========================================================================
             2. MANIFESTO QUOTE PAUSE
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden z-10 border-t border-white/[0.03] select-none">
+        <section className="relative w-full py-24 md:py-32 overflow-hidden z-10 border-t border-rule select-none">
           <div className="container max-w-[1200px] text-center">
             <motion.h2 
-              className="font-display text-3xl sm:text-4xl md:text-5xl text-text-primary font-normal leading-[1.3] max-w-[800px] mx-auto text-center"
+              className="font-display text-3xl sm:text-4xl md:text-5xl text-ink font-normal leading-[1.3] max-w-[800px] mx-auto text-center"
               {...animProps}
             >
               We didn&apos;t want to predict markets.<br />
@@ -249,19 +248,19 @@ export default function OurStory() {
         {/* =========================================================================
             3. WHERE IT ALL BEGAN (Human Emotional Milestones Progression)
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10">
+        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               
               <div className="lg:col-span-4 select-none">
                 <motion.span 
-                  className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold"
+                  className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold"
                   {...animProps}
                 >
                   THE ORIGIN
                 </motion.span>
                 <motion.h2 
-                  className="font-display text-4xl md:text-[44px] text-text-primary font-normal leading-[1.2]"
+                  className="font-display text-4xl md:text-[44px] text-ink font-normal leading-[1.2]"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.05 }}
                 >
@@ -281,7 +280,7 @@ export default function OurStory() {
         {/* =========================================================================
             4. EXPERIENCE SECTION (With Single Human Emotional Sentence)
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 bg-[#0B0F1E]/60">
+        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/60">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               <div className="lg:col-span-4">
@@ -292,7 +291,7 @@ export default function OurStory() {
                   FORGED IN REAL MARKETS
                 </motion.span>
                 <motion.h2 
-                  className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]"
+                  className="font-display text-3xl sm:text-5xl text-ink font-normal leading-[1.12]"
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.05 }}
                 >
@@ -301,7 +300,7 @@ export default function OurStory() {
               </div>
               
               <div className="lg:col-span-8 flex flex-col gap-8 max-w-[720px]">
-                <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
+                <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
                   We entered the markets like most retail participants—experiencing emotional decisions, premature entries, and unnecessary drawdowns. Markets humbled us repeatedly. Every cycle exposed weaknesses in our thinking.
                 </p>
 
@@ -310,7 +309,7 @@ export default function OurStory() {
                   &ldquo;Every mistake we made became a rule we refused to break again.&rdquo;
                 </blockquote>
 
-                <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed">
+                <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
                   Gradually, we stopped chasing predictions and started studying process. We realized that protecting capital mattered far more than chasing speculative returns. That journey of trial, error, and discipline forged the philosophy behind VSC.
                 </p>
               </div>
@@ -322,7 +321,7 @@ export default function OurStory() {
             5. TIMELESS OBSERVATIONS (VSC Renaissance 2.2 — Editorial Research Deck)
            ========================================================================= */}
         <section 
-          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 focus:outline-none"
+          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 focus:outline-none"
           tabIndex={0}
           onKeyDown={handleObsKeyDown}
           aria-label="Timeless Observations Research Deck"
@@ -331,10 +330,10 @@ export default function OurStory() {
             {/* Editorial Deck Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 select-none gap-4">
               <div>
-                <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-2 block font-semibold">
+                <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-2 block font-semibold">
                   LESSONS THE MARKET NEVER STOPS TEACHING
                 </span>
-                <h2 className="font-display text-3xl sm:text-5xl text-white font-normal leading-[1.12]">
+                <h2 className="font-display text-3xl sm:text-5xl text-ink font-normal leading-[1.12]">
                   Timeless Observations
                 </h2>
               </div>
@@ -353,10 +352,10 @@ export default function OurStory() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: obsDirection > 0 ? -12 : 12 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className={`w-full bg-[#0B0F1E] rounded-2xl p-8 sm:p-12 transition-all duration-300 ${
+                  className={`w-full bg-[#FFFFFF] rounded-2xl p-8 sm:p-12 transition-all duration-300 ${
                     currentObs.isFeatured 
-                      ? "border border-accent-gold/40 shadow-[0_15px_35px_rgba(201,168,76,0.06)]" 
-                      : "border border-white/[0.08]"
+                      ? "border border-accent-gold/40 shadow-[0_15px_35px_rgba(15, 122, 64,0.06)]" 
+                      : "border border-rule"
                   }`}
                 >
                   <div className="flex items-center gap-3 mb-6">
@@ -366,17 +365,17 @@ export default function OurStory() {
                     <span className={`font-mono text-[10px] uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full font-semibold ${
                       currentObs.isFeatured
                         ? "text-accent-gold bg-accent-gold/10 border border-accent-gold/30"
-                        : "text-white/60 bg-white/[0.04] border border-white/10"
+                        : "text-ink-muted bg-canvas-sunk border border-rule"
                     }`}>
                       {currentObs.badge}
                     </span>
                   </div>
 
-                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal mb-4 leading-snug">
+                  <h3 className="font-display text-2xl sm:text-4xl text-ink font-normal mb-4 leading-snug">
                     {currentObs.title}
                   </h3>
 
-                  <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[820px]">
+                  <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[820px]">
                     {currentObs.desc}
                   </p>
                 </motion.div>
@@ -384,12 +383,12 @@ export default function OurStory() {
             </div>
 
             {/* Understated Institutional Navigation Bar */}
-            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between select-none">
+            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-rule flex items-center justify-between select-none">
               {/* Previous Button */}
               <button
                 onClick={prevObs}
                 disabled={obsIndex === 0}
-                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-muted hover:text-accent-gold disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
                 aria-label="Previous Lesson"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -405,7 +404,7 @@ export default function OurStory() {
                     className={`font-mono text-xs font-semibold px-2.5 py-1 rounded transition-colors duration-200 ${
                       obsIndex === idx
                         ? "bg-accent-gold text-black"
-                        : "text-white/40 hover:text-white bg-white/[0.03]"
+                        : "text-ink-faint hover:text-ink bg-canvas-sunk"
                     }`}
                     aria-label={`Jump to Lesson ${obs.code}`}
                   >
@@ -418,7 +417,7 @@ export default function OurStory() {
               <button
                 onClick={nextObs}
                 disabled={obsIndex === observationsData.length - 1}
-                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-muted hover:text-accent-gold disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
                 aria-label="Next Lesson"
               >
                 <span>NEXT</span>
@@ -432,7 +431,7 @@ export default function OurStory() {
             6. WHERE VSC IS HEADING (Executive Roadmap Deck)
            ========================================================================= */}
         <section 
-          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-white/[0.03] z-10 bg-[#0B0F1E]/30 focus:outline-none"
+          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/30 focus:outline-none"
           tabIndex={0}
           onKeyDown={handleRoadmapKeyDown}
           aria-label="Executive Roadmap Deck"
@@ -444,14 +443,14 @@ export default function OurStory() {
                 <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase font-semibold block">
                   LONG-TERM DIRECTION
                 </span>
-                <span className="font-mono text-xs text-white/50 font-semibold tracking-wider uppercase">
+                <span className="font-mono text-xs text-ink-muted font-semibold tracking-wider uppercase">
                   PHASE {currentRoadmap.horizon} • {roadmapIndex + 1} OF 3
                 </span>
               </div>
-              <h2 className="font-display text-4xl md:text-[48px] text-text-primary font-normal leading-[1.15] mb-4">
+              <h2 className="font-display text-4xl md:text-[48px] text-ink font-normal leading-[1.15] mb-4">
                 Where VSC Is Heading
               </h2>
-              <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[700px]">
+              <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[700px]">
                 We are building an enduring institution over decades—focused on intellectual research quality rather than chasing short-term business metrics.
               </p>
             </div>
@@ -465,7 +464,7 @@ export default function OurStory() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: roadmapDirection > 0 ? -12 : 12 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="w-full bg-[#0B0F1E] border border-white/[0.08] rounded-2xl p-8 sm:p-10"
+                  className="w-full bg-[#FFFFFF] border border-rule rounded-2xl p-8 sm:p-10"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <span className="font-mono text-xs tracking-widest text-black bg-accent-gold px-3 py-0.5 rounded font-semibold uppercase">
@@ -476,11 +475,11 @@ export default function OurStory() {
                     </span>
                   </div>
 
-                  <h3 className="font-display text-2xl sm:text-4xl text-white font-normal mb-3 leading-snug">
+                  <h3 className="font-display text-2xl sm:text-4xl text-ink font-normal mb-3 leading-snug">
                     {currentRoadmap.title}
                   </h3>
 
-                  <p className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[780px]">
+                  <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[780px]">
                     {currentRoadmap.desc}
                   </p>
                 </motion.div>
@@ -488,11 +487,11 @@ export default function OurStory() {
             </div>
 
             {/* Horizon Selector Navigation Bar */}
-            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between select-none">
+            <div className="max-w-[1000px] mx-auto mt-8 pt-6 border-t border-rule flex items-center justify-between select-none">
               <button
                 onClick={prevRoadmap}
                 disabled={roadmapIndex === 0}
-                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-muted hover:text-accent-gold disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
                 aria-label="Previous Phase"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -507,8 +506,8 @@ export default function OurStory() {
                     onClick={() => setRoadmap(idx)}
                     className={`font-mono text-xs font-semibold px-3 py-1 rounded transition-colors duration-200 ${
                       roadmapIndex === idx
-                        ? "bg-white/10 text-accent-gold border border-accent-gold/30"
-                        : "text-white/40 hover:text-white bg-white/[0.02]"
+                        ? "bg-canvas-sunk text-accent-gold border border-accent-gold/30"
+                        : "text-ink-faint hover:text-ink bg-canvas-sunk"
                     }`}
                     aria-label={`Jump to ${rm.horizon}`}
                   >
@@ -520,7 +519,7 @@ export default function OurStory() {
               <button
                 onClick={nextRoadmap}
                 disabled={roadmapIndex === roadmapData.length - 1}
-                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-white/60 hover:text-accent-gold disabled:opacity-30 disabled:hover:text-white/60 transition-colors duration-200"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-muted hover:text-accent-gold disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
                 aria-label="Next Phase"
               >
                 <span>NEXT</span>
@@ -533,14 +532,14 @@ export default function OurStory() {
         {/* =========================================================================
             7. ICONIC SKY-BLUE POSTER STATEMENT (Massive Apple/Museum Poster Climax)
            ========================================================================= */}
-        <section className="relative w-full py-36 md:py-56 overflow-hidden border-t border-white/[0.04] select-none z-10 bg-gradient-to-b from-transparent via-[#38BDF8]/[0.02] to-transparent">
+        <section className="relative w-full py-36 md:py-56 overflow-hidden border-t border-rule select-none z-10 bg-gradient-to-b from-transparent via-[#38BDF8]/[0.02] to-transparent">
           <div className="container max-w-[1200px] text-center">
             <motion.div 
               className="flex flex-col items-center justify-center text-center py-6"
               {...animProps}
             >
               <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-normal italic leading-[1.15] tracking-tight max-w-[900px] mx-auto text-center drop-shadow-lg">
-                &ldquo;<GradientText colors={["#38BDF8", "#C9A84C", "#E8C96A", "#38BDF8"]} animationSpeed={6}>Clarity compounds over time.</GradientText>&rdquo;
+                &ldquo;<GradientText colors={["#38BDF8", "#0F7A40", "#0B6435", "#38BDF8"]} animationSpeed={6}>Clarity compounds over time.</GradientText>&rdquo;
               </h2>
             </motion.div>
           </div>
@@ -549,7 +548,7 @@ export default function OurStory() {
         {/* =========================================================================
             8. FINAL CTA (Refined Headline & Preserved Structure)
            ========================================================================= */}
-        <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-white/[0.03] z-10 select-none">
+        <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-rule z-10 select-none">
           <div className="container max-w-[1200px]">
             <div className="max-w-[700px] mx-auto text-center flex flex-col items-center">
               
@@ -561,7 +560,7 @@ export default function OurStory() {
               </motion.span>
               
               <motion.h2 
-                className="font-display text-3xl sm:text-5xl leading-[1.15] text-text-primary font-normal tracking-tight mb-6"
+                className="font-display text-3xl sm:text-5xl leading-[1.15] text-ink font-normal tracking-tight mb-6"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
@@ -569,7 +568,7 @@ export default function OurStory() {
               </motion.h2>
               
               <motion.p 
-                className="font-mono text-sm text-text-secondary leading-relaxed mb-10 max-w-[580px]"
+                className="font-mono text-sm text-ink-soft leading-relaxed mb-10 max-w-[580px]"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
@@ -581,11 +580,11 @@ export default function OurStory() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.15 }}
               >
-                <Link 
-                  href="/enquire" 
-                  className="bg-accent-gold text-black font-mono text-xs uppercase tracking-wider font-semibold px-8 py-4 rounded-xl hover:bg-accent-gold-light transition-colors duration-200"
+                <Link
+                  href="/enquire"
+                  className="bg-accent-gold text-white font-mono text-xs uppercase tracking-wider font-semibold px-8 py-4 rounded-xl hover:bg-accent-gold-light transition-colors duration-200"
                 >
-                  Enquire Now &rarr;
+                  Enquire &rarr;
                 </Link>
               </motion.div>
               

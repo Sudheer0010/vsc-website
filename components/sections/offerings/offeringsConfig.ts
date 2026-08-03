@@ -1,6 +1,9 @@
 export interface OfferingItem {
   slug: string;
   title: string;
+  /** Compact name for tight layouts (nav-adjacent rows, chips) — `title` is
+   * the fuller descriptive form ("Investor Education (Learning Hub)"). */
+  shortTitle: string;
   tagline: string;
   description: string;
   whatItIs: string;
@@ -14,12 +17,24 @@ export interface OfferingItem {
   accentColor: string;
   glowColor: string;
   path: string;
+  /**
+   * The decision-structure fields, used by ThreePillarsOverview on
+   * /offerings. Kept on this record rather than duplicated locally so the
+   * "which offering is this" facts (title, path, accent) and the "why pick
+   * this one" facts (quote, bestIf) can't drift apart from each other.
+   */
+  quote: string;
+  format: string;
+  bestIf: string;
+  proofLabel: string;
+  proofHref: string;
 }
 
 export const offeringsConfig: OfferingItem[] = [
   {
     slug: "learning-hub",
     title: "Investor Education (Learning Hub)",
+    shortTitle: "Learning Hub",
     tagline: "Professional Market & Momentum Education",
     description: "Build a systematic understanding of markets before risking real capital.",
     whatItIs: "A structured curriculum teaching momentum analysis, regime identification, position sizing models, and risk management.",
@@ -37,11 +52,17 @@ export const offeringsConfig: OfferingItem[] = [
     accent: "blue",
     accentColor: "#6F86B7",
     glowColor: "rgba(111, 134, 183, 0.06)",
-    path: "/offerings/learning-hub"
+    path: "/offerings/learning-hub",
+    quote: "I'm still learning the mechanics.",
+    format: "Self-paced + live desk briefings",
+    bestIf: "you're new to markets, or trading without a written process yet.",
+    proofLabel: "See the full curriculum",
+    proofHref: "/offerings/learning-hub"
   },
   {
     slug: "advantage",
     title: "Portfolio Guidance (VSC Advantage)",
+    shortTitle: "VSC Advantage",
     tagline: "Professional Portfolio & Risk Guidance",
     description: "Align your capital structure with concrete growth and mathematical risk gates.",
     whatItIs: "Strategic capital structure guidance aligning portfolio allocation with quantitative risk gates and drawdown limits.",
@@ -57,13 +78,19 @@ export const offeringsConfig: OfferingItem[] = [
     availability: "Limited Capacity / By Application",
     pricing: "Pricing: To be announced",
     accent: "gold",
-    accentColor: "#C9A84C",
-    glowColor: "rgba(201, 168, 76, 0.06)",
-    path: "/offerings/advantage"
+    accentColor: "#0F7A40",
+    glowColor: "rgba(15, 122, 64, 0.06)",
+    path: "/offerings/advantage",
+    quote: "I trade already, but my results are inconsistent.",
+    format: "Ongoing desk consultations + audits",
+    bestIf: "you hold positions but have no defined rule for sizing or exits.",
+    proofLabel: "See what a review covers",
+    proofHref: "/offerings/advantage"
   },
   {
     slug: "inner-circle",
     title: "Research Circle (Inner Circle)",
+    shortTitle: "Inner Circle",
     tagline: "Institutional Research Membership",
     description: "Gain direct access to quantitative audits, macro theme reviews, and codebase parameters.",
     whatItIs: "Direct institutional membership providing quantitative theme audits, macro regime analysis, and proprietary research notes.",
@@ -81,6 +108,11 @@ export const offeringsConfig: OfferingItem[] = [
     accent: "emerald",
     accentColor: "#5D8B73",
     glowColor: "rgba(93, 139, 115, 0.06)",
-    path: "/offerings/inner-circle"
+    path: "/offerings/inner-circle",
+    quote: "I just want to read good research.",
+    format: "Monthly letter + full archive",
+    bestIf: "you already run your own book and want a second, independent view.",
+    proofLabel: "Read last month's letter, free",
+    proofHref: "/blog"
   }
 ];

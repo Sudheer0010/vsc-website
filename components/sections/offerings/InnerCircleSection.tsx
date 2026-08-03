@@ -58,14 +58,14 @@ export function InnerCircleSection() {
         
         {/* Intro paragraph */}
         <div className="max-w-[700px] mb-16">
-          <p className="font-mono text-sm text-text-secondary leading-relaxed">
+          <p className="font-mono text-sm text-ink-soft leading-relaxed">
             An ongoing research and analysis group built for systematic capital allocators. Inner Circle members receive priority updates on rotated sectors, regime shifts, and our operational codebase parameters.
           </p>
         </div>
 
         {/* Premium Membership Inclusion Checklist Layout (Notion-style) */}
-        <div className="max-w-[800px] mx-auto border-t border-white/10 mb-12">
-          <div className="py-3 px-4 text-white/30 text-[10px] tracking-[0.15em] font-mono uppercase border-b border-white/10">
+        <div className="max-w-[800px] mx-auto border-t border-rule mb-12">
+          <div className="py-3 px-4 text-ink-faint text-[10px] tracking-[0.15em] font-mono uppercase border-b border-rule">
             Included in Membership
           </div>
 
@@ -74,7 +74,7 @@ export function InnerCircleSection() {
             return (
               <div
                 key={idx}
-                className="flex flex-col sm:flex-row sm:items-center justify-between py-5 border-b border-white/5 px-4 transition-colors duration-[240ms] ease-out select-none cursor-default"
+                className="flex flex-col sm:flex-row sm:items-center justify-between py-5 border-b border-rule px-4 transition-colors duration-[240ms] ease-out select-none cursor-default"
                 style={{
                   backgroundColor: isRowHovered ? "rgba(93, 139, 115, 0.01)" : "transparent"
                 }}
@@ -115,14 +115,14 @@ export function InnerCircleSection() {
         </div>
 
         {/* Roadmap info note / CTA */}
-        <div className="max-w-[700px] mx-auto p-8 rounded-[20px] bg-bg-card border border-white/5 text-center mb-12">
-          <p className="font-mono text-xs text-text-secondary leading-relaxed">
+        <div className="max-w-[700px] mx-auto p-8 rounded-[20px] bg-surface border border-rule text-center mb-12">
+          <p className="font-mono text-xs text-ink-soft leading-relaxed">
             The Research Circle is currently in development as we scale our quantitative infrastructure. Early Learning Hub participants and advisory partners will receive priority access and capacity reservation upon launch.
           </p>
         </div>
 
         {/* Bottom Restrained CTA */}
-        <div className="border-t border-white/5 pt-8 mt-12 flex justify-start">
+        <div className="border-t border-rule pt-8 mt-12 flex justify-start">
           <Link 
             href="/enquire" 
             className="inline-flex items-center gap-2 font-mono text-xs md:text-sm tracking-wider transition-colors duration-200 uppercase"

@@ -45,7 +45,7 @@ export function DetailHero({
           <motion.div {...animProps} className="mb-8">
             <Link 
               href="/offerings" 
-              className="inline-flex items-center gap-2 font-mono text-xs text-white/40 hover:text-white transition-colors duration-200 uppercase"
+              className="inline-flex items-center gap-2 font-mono text-xs text-ink-faint hover:text-ink transition-colors duration-200 uppercase"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Offerings
             </Link>
@@ -63,7 +63,7 @@ export function DetailHero({
           
           {/* Main Title */}
           <motion.h1 
-            className="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.1] text-text-primary font-normal tracking-tight mb-6"
+            className="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.1] text-ink font-normal tracking-tight mb-6"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >
@@ -72,7 +72,7 @@ export function DetailHero({
           
           {/* Description */}
           <motion.p 
-            className="font-mono text-sm md:text-base text-text-secondary leading-relaxed max-w-[680px]"
+            className="font-mono text-sm md:text-base text-ink-soft leading-relaxed max-w-[680px]"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.15 }}
           >

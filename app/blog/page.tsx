@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import MarketLetterModal from "@/components/cards/MarketLetterModal";
-import { marketLetters } from "@/data/market-letters";
+import { marketLetters, sortedMonths } from "@/data/market-letters";
+import { getReadingTime } from "@/lib/reading-time";
 import { Article } from "@/types/article";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
@@ -27,7 +28,6 @@ import { ReadingDesk } from "@/components/sections/blog/ReadingDesk";
 import { NewsletterCTA } from "@/components/sections/blog/NewsletterCTA";
 
 const categories = ["All", "Market Letters", "Research Notes", "Frameworks", "Psychology", "Risk", "Business", "Investing"];
-const sortedMonths = ["JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
 const DEFAULT_VISIBLE_LETTERS = 6;
 
 export default function Blog() {
@@ -64,7 +64,7 @@ export default function Blog() {
       category: "Market Letters",
       type: "MARKET LETTER",
       publishedDate: `1 ${letter.month.charAt(0) + letter.month.slice(1).toLowerCase()} ${letter.year}`,
-      readingTime: "5 Min Read",
+      readingTime: `${getReadingTime(letter)} Min Read`,
       featured: code === "JUL",
       difficulty: "Advanced",
       tags: ["market-letter", "macro", "regime-shift"],
@@ -106,7 +106,7 @@ export default function Blog() {
   const featuredLetter = marketLetters[sortedMonths[0]];
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
       {/* Global Navigation Bar */}
       <Navbar />
 
@@ -114,7 +114,7 @@ export default function Blog() {
       <PaperGrain />
 
       {/* Dynamic Background Colored Ambient Light Pool */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.04)" className="left-[50%] top-[1000px] scale-[1.4]" />
+      <AmbientLightPool color="rgba(15, 122, 64, 0.04)" className="left-[50%] top-[1000px] scale-[1.4]" />
 
       <main className="relative w-full pt-32 pb-16 md:pt-40 md:pb-24 z-10">
         <div className="container max-w-[1200px]">

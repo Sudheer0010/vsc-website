@@ -53,11 +53,11 @@ export function CoordinateLabel({
 }: { 
   text: string; 
   className?: string; 
- }) {
+}) {
   return (
     <div 
       className={cn(
-        "pointer-events-none absolute font-mono text-[9px] tracking-wider text-white/10 uppercase select-none", 
+        "pointer-events-none absolute font-mono text-[9px] tracking-wider text-ink-faint uppercase select-none", 
         className
       )}
       aria-hidden="true"
@@ -76,13 +76,13 @@ export function MarginRuler({
   side?: "left" | "right"; 
   height?: string; 
   className?: string; 
- }) {
+}) {
   const ticks = Array.from({ length: 20 });
   return (
     <div 
       className={cn(
         "pointer-events-none absolute top-0 bottom-0 w-3 flex flex-col justify-between py-12 z-0 opacity-[0.015]",
-        side === "left" ? "left-4 border-r border-white/20" : "right-4 border-l border-white/20",
+        side === "left" ? "left-4 border-r border-rule" : "right-4 border-l border-rule",
         className
       )}
       style={{ height }}
@@ -112,7 +112,7 @@ export function DraftingCircles({
   cx?: string;
   cy?: string;
   r?: string;
- }) {
+}) {
   const radius = parseInt(r, 10);
   return (
     <svg 
@@ -139,7 +139,7 @@ export function AmbientLightPool({
 }: { 
   color?: string; 
   className?: string; 
- }) {
+}) {
   return (
     <div 
       className={cn("pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px] z-0 select-none mix-blend-screen", className)}

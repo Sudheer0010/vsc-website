@@ -1,31 +1,37 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Mono, Syne, Geist } from "next/font/google";
+import { Bricolage_Grotesque, Geist_Mono, Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const cormorant = Cormorant_Garamond({
+/**
+* Typography — chosen for reading, not for looking expensive.
+*
+* Bricolage Grotesque carries the personality: a humanist grotesque with
+* genuine quirk, so headlines are recognisable rather than default-serif
+* "premium". Instrument Sans does the actual work — it is the face you
+* read a whole page in without noticing it. Geist Mono is restricted to
+* figures; it is never a label font here, because thin mono labels are the
+* single most overused tell of a generated finance site.
+*
+* All three are variable — one axis, full weight range, no weight arrays.
+*/
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
   variable: "--font-display-next",
   display: "swap",
 });
 
-const syne = Syne({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
   variable: "--font-ui-next",
   display: "swap",
 });
 
-const dmMono = DM_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
   variable: "--font-mono-next",
   display: "swap",
 });
@@ -71,7 +77,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(cormorant.variable, syne.variable, dmMono.variable, "font-sans", geist.variable)}>
+    <html
+      lang="en"
+      className={cn(
+        bricolage.variable,
+        instrumentSans.variable,
+        geistMono.variable,
+        "font-sans"
+      )}
+    >
       <head>
         <link rel="manifest" href="/site.webmanifest" />
       </head>

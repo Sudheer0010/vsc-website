@@ -12,7 +12,7 @@ interface GradientTextProps {
 
 export function GradientText({
   children,
-  colors = ["#38BDF8", "#C9A84C", "#E8C96A", "#38BDF8"],
+  colors = ["#38BDF8", "#0F7A40", "#0B6435", "#38BDF8"],
   animationSpeed = 6,
   showBorder = false,
   className = "",
@@ -30,7 +30,7 @@ export function GradientText({
   return (
     <span
       className={`inline-block text-transparent bg-clip-text animate-gradient ${
-        showBorder ? "border border-white/10 px-4 py-1 rounded-lg" : ""
+        showBorder ? "border border-rule px-4 py-1 rounded-lg" : ""
       } ${className}`}
       style={gradientStyle}
     >

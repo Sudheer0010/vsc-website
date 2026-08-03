@@ -7,15 +7,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 /**
- * VSC Component: VSCNavigation
- * 
- * 1. Purpose: Fixed watch-bezel navigation capsule where switching views feels like opening another research document.
- * 2. Atlas Alignment: Expresses Brand Recognition standards, Signature 02, and 18px blur limit guardrails.
- * 3. Signature Behaviour: Watch-bezel glass capsule (`#0C101E/72`) with monospaced coordinate tags (`R-01` to `R-06`) on active items.
- * 4. Emotional Outcome: Instills a sense of navigating an institutional research repository.
- * 5. Accessibility: Keyboard navigable, ARIA expanded/controls, Escape key close listener, body scroll locking when mobile menu is open.
- * 6. Performance: CSS backdrop-filter blur capped at 18px; hardware-accelerated mobile drawer.
- */
+* VSC Component: VSCNavigation
+* 
+* 1. Purpose: Fixed watch-bezel navigation capsule where switching views feels like opening another research document.
+* 2. Atlas Alignment: Expresses Brand Recognition standards, Signature 02, and 18px blur limit guardrails.
+* 3. Signature Behaviour: Watch-bezel glass capsule (`#FFFFFF/72`) with monospaced coordinate tags (`R-01` to `R-06`) on active items.
+* 4. Emotional Outcome: Instills a sense of navigating an institutional research repository.
+* 5. Accessibility: Keyboard navigable, ARIA expanded/controls, Escape key close listener, body scroll locking when mobile menu is open.
+* 6. Performance: CSS backdrop-filter blur capped at 18px; hardware-accelerated mobile drawer.
+*/
 
 interface NavItem {
   label: string;
@@ -66,12 +66,12 @@ export function VSCNavigation() {
       {/* Desktop Watch-Bezel Nav Capsule */}
       <nav 
         aria-label="Main Navigation"
-        className="pointer-events-auto bg-[#0C101E]/80 backdrop-blur-[18px] border border-white/[0.08] rounded-[18px] px-4 py-2.5 flex items-center justify-between gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.3)] max-w-[900px] w-full"
+        className="pointer-events-auto bg-[#FFFFFF]/80 -[18px] border border-rule rounded-[18px] px-4 py-2.5 flex items-center justify-between gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.3)] max-w-[900px] w-full"
       >
         {/* VSC Brand Identity Mark */}
         <Link href="/" className="flex items-center gap-2 px-2 focus:outline-none focus:ring-1 focus:ring-accent-gold/50 rounded-sm">
-          <span className="font-display text-lg text-white font-semibold tracking-tight">VSC</span>
-          <span className="font-mono text-[9px] text-accent-gold/80 uppercase tracking-widest border-l border-white/10 pl-2">
+          <span className="font-display text-lg text-ink font-semibold tracking-tight">VSC</span>
+          <span className="font-mono text-[9px] text-accent-gold/80 uppercase tracking-widest border-l border-rule pl-2">
             RESEARCH
           </span>
         </Link>
@@ -85,10 +85,10 @@ export function VSCNavigation() {
                 key={item.href}
                 href={item.href}
                 className={`relative px-3 py-1.5 rounded-lg font-mono text-xs tracking-wider transition-colors duration-200 flex items-center gap-1.5 ${
-                  isActive ? "text-accent-gold font-semibold" : "text-white/70 hover:text-white"
+                  isActive ? "text-accent-gold font-semibold" : "text-ink-soft hover:text-ink"
                 }`}
               >
-                <span className="text-[9px] text-white/30">{item.tag}</span>
+                <span className="text-[9px] text-ink-faint">{item.tag}</span>
                 {item.label}
                 {isActive && (
                   <motion.div
@@ -109,7 +109,7 @@ export function VSCNavigation() {
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav-drawer"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="md:hidden text-white/80 hover:text-white p-1.5 focus:outline-none focus:ring-1 focus:ring-accent-gold/50 rounded-md"
+          className="md:hidden text-ink-soft hover:text-ink p-1.5 focus:outline-none focus:ring-1 focus:ring-accent-gold/50 rounded-md"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -124,7 +124,7 @@ export function VSCNavigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="pointer-events-auto fixed inset-x-4 top-20 bg-[#0C101E] border border-white/10 rounded-2xl p-6 shadow-2xl md:hidden z-50 flex flex-col gap-3"
+            className="pointer-events-auto fixed inset-x-4 top-20 bg-[#FFFFFF] border border-rule rounded-2xl p-6 shadow-2xl md:hidden z-50 flex flex-col gap-3"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
@@ -135,11 +135,11 @@ export function VSCNavigation() {
                   className={`flex items-center justify-between p-3 rounded-lg font-mono text-sm border ${
                     isActive
                       ? "bg-accent-gold/10 border-accent-gold/40 text-accent-gold"
-                      : "bg-white/[0.02] border-white/[0.04] text-white/80"
+                      : "bg-canvas-sunk border-rule text-ink-soft"
                   }`}
                 >
                   <span>{item.label}</span>
-                  <span className="text-xs text-white/40">{item.tag}</span>
+                  <span className="text-xs text-ink-faint">{item.tag}</span>
                 </Link>
               );
             })}

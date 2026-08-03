@@ -12,8 +12,8 @@ interface SpotlightCardProps {
 export function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(201, 168, 76, 0.12)",
-  borderColor = "rgba(201, 168, 76, 0.4)",
+  spotlightColor = "rgba(15, 122, 64, 0.12)",
+  borderColor = "rgba(15, 122, 64, 0.4)",
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -34,7 +34,7 @@ export function SpotlightCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F1E] shadow-[0_15px_40px_rgba(0,0,0,0.25)] transition-all duration-300 ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-rule bg-[#FFFFFF] shadow-[0_15px_40px_rgba(0,0,0,0.25)] transition-all duration-300 ${className}`}
     >
       {/* Dynamic Cursor Spotlight Radial Background Glow */}
       <div

@@ -19,19 +19,19 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
       : frameworkLibrary.filter((fw) => fw.category === activeCategory);
 
   return (
-    <section className="py-24 border-t border-white/5">
+    <section className="py-24 border-t border-rule">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8 select-none">
         <div className="max-w-[600px] text-left">
-          <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold">
+          <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
             EVERGREEN SYSTEMS
           </span>
-          <h2 className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2]">
+          <h2 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
             Framework Library
           </h2>
         </div>
 
         {/* Fluid Sliding Pill Category Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-surface border border-rule rounded-full ">
           {categories.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -39,7 +39,7 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
-                  isActive ? "text-bg-dark font-semibold" : "text-white/60 hover:text-white"
+                  isActive ? "text-white font-semibold" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {isActive && (
@@ -68,26 +68,26 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
             >
-              <Card className="bg-[#0B0F1E] border border-white/5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-white/15 transition-all duration-200 h-full">
+              <Card className="bg-[#FFFFFF] border border-rule rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-rule transition-all duration-200 h-full">
                 <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[9px] text-accent-gold/70 tracking-wider uppercase font-semibold">
                       SYSTEM MODULE
                     </span>
                     {fw.category && (
-                      <span className="font-mono text-[10px] text-white/40 bg-white/[0.04] px-2.5 py-0.5 rounded-full border border-white/10">
+                      <span className="font-mono text-[10px] text-ink-faint bg-canvas-sunk px-2.5 py-0.5 rounded-full border border-rule">
                         {fw.category}
                       </span>
                     )}
                   </div>
-                  <h3 className="font-display text-lg sm:text-xl text-white font-medium">
+                  <h3 className="font-display text-lg sm:text-xl text-ink font-medium">
                     {fw.title}
                   </h3>
-                  <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">
+                  <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed">
                     {fw.desc}
                   </p>
                 </div>
-                <span className="font-mono text-[10px] text-white/30 uppercase mt-8 block">
+                <span className="font-mono text-[10px] text-ink-faint uppercase mt-8 block">
                   Coming Soon
                 </span>
               </Card>

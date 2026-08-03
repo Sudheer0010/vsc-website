@@ -53,7 +53,7 @@ export function Offerings() {
   return (
     <SectionContainer 
       id="what-we-do" 
-      className="py-28 md:py-36 bg-[#060810]/30 border-y border-white/[0.02] select-none"
+      className="py-28 md:py-36 bg-[#FBFAF6]/30 border-y border-rule select-none"
     >
       <div className="max-w-[1100px] mx-auto text-left">
         
@@ -62,10 +62,10 @@ export function Offerings() {
           <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-5 block font-semibold">
             METHODOLOGY
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-[40px] leading-[1.15] text-white font-normal tracking-tight mb-5">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-[40px] leading-[1.15] text-ink font-normal tracking-tight mb-5">
             How VSC actually invests
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed max-w-[500px]">
+          <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed max-w-[500px]">
             We follow a systematic, visual sequence designed to capture asymmetric market opportunities under strict rules.
           </p>
         </div>
@@ -77,24 +77,24 @@ export function Offerings() {
             return (
               <Card 
                 key={idx}
-                className="bg-[#0B0F1E] border border-white/5 rounded-2xl p-8 flex flex-col justify-between hover:border-white/10 transition-colors duration-200 min-h-[200px]"
+                className="bg-[#FFFFFF] border border-rule rounded-2xl p-8 flex flex-col justify-between hover:border-rule transition-colors duration-200 min-h-[200px]"
               >
                 {/* Card Header (Num + Icon) */}
                 <div className="flex justify-between items-start w-full">
                   <span className="font-mono text-2xl text-accent-gold/45 font-bold">
                     {step.num}
                   </span>
-                  <span className="text-white/40 transition-colors duration-200">
+                  <span className="text-ink-faint transition-colors duration-200">
                     <Icon className="w-5 h-5 stroke-[1.5]" />
                   </span>
                 </div>
                 
                 {/* Content */}
                 <div className="flex flex-col gap-2 mt-8">
-                  <h3 className="font-display text-xl text-white font-medium">
+                  <h3 className="font-display text-xl text-ink font-medium">
                     {step.title}
                   </h3>
-                  <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed">
+                  <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed">
                     {step.desc}
                   </p>
                 </div>

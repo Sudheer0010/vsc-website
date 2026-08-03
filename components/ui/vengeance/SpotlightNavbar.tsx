@@ -34,32 +34,27 @@ export function SpotlightNavbar({
     defaultActiveIndex = 0,
     stiffness = 80,
     damping = 22,
-    spotlightColor = "rgba(201, 168, 76, 0.16)",
-    ambienceColor = "rgba(201, 168, 76, 0.12)",
+    spotlightColor = "rgba(15, 122, 64, 0.16)",
+    ambienceColor = "rgba(15, 122, 64, 0.12)",
 }: SpotlightNavbarProps) {
     const navRef = useRef<HTMLDivElement>(null);
     const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
     const [hoverX, setHoverX] = useState<number | null>(null);
     const [hoveredDropdownIdx, setHoveredDropdownIdx] = useState<number | null>(null);
-    const [isDark, setIsDark] = useState(false);
 
-    useEffect(() => {
+    // Route changes arrive as a new `defaultActiveIndex`, and clicks set the
+    // index locally. Reconciling the two during render is the supported way
+    // to reset state on a prop change — doing it in an effect costs an extra
+    // render pass and shows the stale item highlighted for a frame.
+    const [syncedDefault, setSyncedDefault] = useState(defaultActiveIndex);
+    if (syncedDefault !== defaultActiveIndex) {
+        setSyncedDefault(defaultActiveIndex);
         setActiveIndex(defaultActiveIndex);
-    }, [defaultActiveIndex]);
+    }
 
     // Refs for the "light" positions so we can animate them imperatively
     const spotlightX = useRef(0);
     const ambienceX = useRef(0);
-
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.classList.contains('dark'));
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        return () => observer.disconnect();
-    }, []);
 
     useEffect(() => {
         if (!navRef.current) return;
@@ -156,8 +151,8 @@ export function SpotlightNavbar({
             <nav
                 ref={navRef}
                 className={cn(
-                    "spotlight-nav",
-                    "relative rounded-full transition-all duration-300 overflow-hidden"
+                  "spotlight-nav",
+                  "relative rounded-full transition-all duration-300 overflow-hidden"
                 )}
                 style={{
                     ...(spotlightColor && { "--spotlight-color": spotlightColor }),
@@ -181,19 +176,17 @@ export function SpotlightNavbar({
                                     handleItemClick(item, idx);
                                 }}
                                 className={cn(
-                                    "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
-                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-white/30",
-                                    // Active vs Inactive Text
-                                    activeIndex === idx
-                                        ? "active-link text-black dark:text-white"
-                                        : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                                  "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
+                                    // Colour comes from `.spotlight-nav a` in the token layer, so the
+                                    // nav can never drift out of sync with the rest of the system.
+                                    activeIndex === idx ? "active-link" : "hover:text-ink"
                                   )}
                             >
                                 {item.label}
                             </a>
 
                             {item.dropdownItems && hoveredDropdownIdx === idx && (
-                                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-48 rounded-xl border border-white/5 bg-[#0B0F1E] p-1 shadow-2xl flex flex-col z-[100] transition-all duration-200">
+                                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-48 rounded-vsc-lg border border-rule bg-surface p-1 shadow-lift-3 flex flex-col z-[100]">
                                     {item.dropdownItems.map((sub, sIdx) => (
                                         <a
                                             key={sIdx}
@@ -203,7 +196,7 @@ export function SpotlightNavbar({
                                                 setHoveredDropdownIdx(null);
                                                 onItemClick?.(sub, idx);
                                             }}
-                                            className="px-4 py-2 text-xs font-mono font-medium rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.03] transition-colors duration-200 text-left block w-full"
+                                            className="block w-full rounded-vsc-md px-3.5 py-2.5 text-left text-[14.5px] font-medium text-ink-soft transition-colors duration-200 hover:bg-growth-tint hover:text-growth-deep"
                                         >
                                             {sub.label}
                                         </a>
@@ -226,7 +219,7 @@ export function SpotlightNavbar({
                         background: `
               radial-gradient(
                 60px circle at var(--spotlight-x) 100%, 
-                var(--spotlight-color, rgba(201, 168, 76, 0.16)) 0%, 
+                var(--spotlight-color, rgba(15, 122, 64, 0.16)) 0%, 
                 transparent 100%
               )
             `
@@ -240,7 +233,7 @@ export function SpotlightNavbar({
                         background: `
                   radial-gradient(
                     60px circle at var(--ambience-x) 0%, 
-                    var(--ambience-color, rgba(201, 168, 76, 0.12)) 0%, 
+                    var(--ambience-color, rgba(15, 122, 64, 0.12)) 0%, 
                     transparent 100%
                   )
                 `

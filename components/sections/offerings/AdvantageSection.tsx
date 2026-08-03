@@ -49,27 +49,27 @@ export function AdvantageSection() {
       <DraftingGrid className="opacity-[0.008]" />
       <CoordinateLabel text="REF // ADVISORY.SYSTEM" className="top-10 left-10" />
       <MarginRuler side="right" />
-      <AmbientLightPool color="rgba(201, 168, 76, 0.02)" className="left-[15%] top-[60%]" />
+      <AmbientLightPool color="rgba(15, 122, 64, 0.02)" className="left-[15%] top-[60%]" />
 
       <div className="container max-w-[1200px] relative z-10">
         
         {/* Intro paragraph */}
         <div className="max-w-[700px] mb-16">
-          <p className="font-mono text-sm text-text-secondary leading-relaxed">
+          <p className="font-mono text-sm text-ink-soft leading-relaxed">
             Disciplined portfolio guidance custom-built around your asset profiles. We emphasize outcomes over features, maintaining an absolute focus on process security, risk gate rules, and capital longevity.
           </p>
         </div>
 
         {/* Two-Column Editorial Grid Ledger */}
-        <div className="max-w-[1000px] border-t border-white/10 mb-12">
+        <div className="max-w-[1000px] border-t border-rule mb-12">
           {servicesData.map((item, idx) => {
             const isRowHovered = hoveredRow === idx;
             return (
               <div
                 key={item.id}
-                className="grid grid-cols-1 md:grid-cols-12 items-center py-6 md:py-8 border-b border-white/10 relative transition-colors duration-[240ms] ease-out px-4 cursor-default"
+                className="grid grid-cols-1 md:grid-cols-12 items-center py-6 md:py-8 border-b border-rule relative transition-colors duration-[240ms] ease-out px-4 cursor-default"
                 style={{
-                  backgroundColor: isRowHovered ? "rgba(201, 168, 76, 0.01)" : "transparent"
+                  backgroundColor: isRowHovered ? "rgba(15, 122, 64, 0.01)" : "transparent"
                 }}
                 onMouseEnter={() => setHoveredRow(idx)}
                 onMouseLeave={() => setHoveredRow(null)}
@@ -79,7 +79,7 @@ export function AdvantageSection() {
                   <h3 
                     className="font-display text-xl transition-colors duration-[240ms] ease-out"
                     style={{
-                      color: isRowHovered ? "#C9A84C" : "rgba(244, 241, 236, 0.9)"
+                      color: isRowHovered ? "#0F7A40" : "rgba(244, 241, 236, 0.9)"
                     }}
                   >
                     {item.name}
@@ -103,11 +103,11 @@ export function AdvantageSection() {
         </div>
 
         {/* Bottom Restrained CTA */}
-        <div className="border-t border-white/5 pt-8 mt-12 flex justify-start">
+        <div className="border-t border-rule pt-8 mt-12 flex justify-start">
           <Link 
             href="/enquire" 
             className="inline-flex items-center gap-2 font-mono text-xs md:text-sm tracking-wider transition-colors duration-200 uppercase"
-            style={{ color: "#C9A84C" }}
+            style={{ color: "#0F7A40" }}
           >
             Explore VSC Advantage <ArrowRight className="w-3.5 h-3.5" />
           </Link>

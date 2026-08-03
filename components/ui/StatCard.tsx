@@ -44,8 +44,8 @@ export function StatCard({
 
   return (
     <div className={className} {...props}>
-      <span className="font-display text-2xl text-white block">{renderedValue}</span>
-      <span className="font-mono text-[10px] text-white/30 tracking-wider uppercase">
+      <span className="font-display text-2xl text-ink block">{renderedValue}</span>
+      <span className="font-mono text-[10px] text-ink-faint tracking-wider uppercase">
         {label}
       </span>
     </div>

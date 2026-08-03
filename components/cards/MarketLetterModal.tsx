@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { marketLetters } from "@/data/market-letters";
+import { getReadingTime } from "@/lib/reading-time";
 
 interface MarketLetterModalProps {
   isOpen: boolean;
@@ -80,35 +81,35 @@ export default function MarketLetterModal({
           
           {/* 1. Report Header */}
           <div className="market-letter-header text-center mb-12 select-none">
-            <div className="font-mono text-[10px] tracking-widest text-white/30 uppercase mb-3 font-semibold">
+            <div className="font-mono text-[10px] tracking-widest text-ink-faint uppercase mb-3 font-semibold">
               RESEARCH ARCHIVE
             </div>
             <h4 className="font-display text-lg sm:text-xl italic text-accent-gold mb-2 font-normal">
               Market Letter
             </h4>
-            <h2 className="font-display text-4xl sm:text-5xl text-white font-normal mb-6 leading-none">
+            <h2 className="font-display text-4xl sm:text-5xl text-ink font-normal mb-6 leading-none">
               {letter.month.charAt(0) + letter.month.slice(1).toLowerCase()} {letter.year}
             </h2>
-            <div className="font-mono text-xs text-white/40">
-              Published {letter.year === 2026 && monthKey === "JUL" ? "24 July 2026" : `in ${letter.month}`} • {monthKey === "JUL" ? "12" : monthKey === "FEB" ? "10" : "8"} minute read • Report {months.length - currentIndex} of {months.length}
+            <div className="font-mono text-xs text-ink-faint">
+              Published {letter.year === 2026 && monthKey === "JUL" ? "24 July 2026" : `in ${letter.month}`} • {getReadingTime(letter)} minute read • Report {months.length - currentIndex} of {months.length}
             </div>
           </div>
 
           {/* 2. KPI Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 border-y border-white/5 py-8 select-none">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 border-y border-rule py-8 select-none">
             {Object.keys(letter.metrics).map((key) => {
               const value = letter.metrics[key];
               const isMarketType = key === "Market Type";
               const isLoss = value.includes("-");
               
               let classNames = "font-display text-2xl sm:text-3xl font-semibold mt-3 block";
-              if (isMarketType) classNames += " text-white text-lg sm:text-xl font-normal mt-3";
+              if (isMarketType) classNames += " text-ink text-lg sm:text-xl font-normal mt-3";
               else if (isLoss) classNames += " text-loss";
-              else classNames += " text-[#C9A84C]";
+              else classNames += " text-[#0F7A40]";
 
               return (
                 <div className="text-center flex flex-col justify-between py-2" key={key}>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-white/30 font-semibold">{key}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-ink-faint font-semibold">{key}</div>
                   <div className={classNames}>{value}</div>
                 </div>
               );
@@ -124,8 +125,8 @@ export default function MarketLetterModal({
                 <h3 className="font-mono text-xs uppercase tracking-wider text-accent-gold font-semibold">
                   Market Environment
                 </h3>
-                <div className="w-full h-[1px] bg-white/5 mb-2"></div>
-                <p className="font-mono text-base sm:text-[18px] leading-[1.8] text-white/90">
+                <div className="w-full h-[1px] bg-canvas-sunk mb-2"></div>
+                <p className="font-mono text-base sm:text-[18px] leading-[1.8] text-ink">
                   {letter.sections["Market Environment"]}
                 </p>
               </div>
@@ -137,8 +138,8 @@ export default function MarketLetterModal({
                 <h3 className="font-mono text-xs uppercase tracking-wider text-accent-gold font-semibold">
                   What Worked
                 </h3>
-                <div className="w-full h-[1px] bg-white/5 mb-2"></div>
-                <ul className="list-none flex flex-col gap-4 font-mono text-base sm:text-[18px] leading-[1.8] text-white/90">
+                <div className="w-full h-[1px] bg-canvas-sunk mb-2"></div>
+                <ul className="list-none flex flex-col gap-4 font-mono text-base sm:text-[18px] leading-[1.8] text-ink">
                   {letter.sections["What Worked"].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <span className="text-accent-gold text-lg leading-none">•</span>
@@ -155,8 +156,8 @@ export default function MarketLetterModal({
                 <h3 className="font-mono text-xs uppercase tracking-wider text-accent-gold font-semibold">
                   Tactical Adjustment
                 </h3>
-                <div className="w-full h-[1px] bg-white/5 mb-2"></div>
-                <ul className="list-none flex flex-col gap-4 font-mono text-base sm:text-[18px] leading-[1.8] text-white/90">
+                <div className="w-full h-[1px] bg-canvas-sunk mb-2"></div>
+                <ul className="list-none flex flex-col gap-4 font-mono text-base sm:text-[18px] leading-[1.8] text-ink">
                   {letter.sections["Adjustment"].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <span className="text-accent-gold text-lg leading-none">•</span>
@@ -173,8 +174,8 @@ export default function MarketLetterModal({
                 <h3 className="font-mono text-xs uppercase tracking-wider text-accent-gold font-semibold">
                   Looking Ahead
                 </h3>
-                <div className="w-full h-[1px] bg-white/5 mb-2"></div>
-                <p className="font-mono text-base sm:text-[18px] leading-[1.8] text-white/90">
+                <div className="w-full h-[1px] bg-canvas-sunk mb-2"></div>
+                <p className="font-mono text-base sm:text-[18px] leading-[1.8] text-ink">
                   {letter.sections["Looking Ahead"]}
                 </p>
               </div>
@@ -183,8 +184,8 @@ export default function MarketLetterModal({
           </div>
 
           {/* 4. Footer Divider & Previous/Next Navigation */}
-          <div className="border-t border-white/5 pt-8 mt-16 select-none">
-            <span className="font-mono text-[10px] tracking-widest text-white/30 uppercase text-center block mb-6 font-semibold">
+          <div className="border-t border-rule pt-8 mt-16 select-none">
+            <span className="font-mono text-[10px] tracking-widest text-ink-faint uppercase text-center block mb-6 font-semibold">
               RESEARCH ARCHIVE
             </span>
             
@@ -193,12 +194,12 @@ export default function MarketLetterModal({
                 {prevMonthKey ? (
                   <button 
                     onClick={() => onChangeMonth?.(prevMonthKey)} 
-                    className="hover:text-white transition-colors duration-200"
+                    className="hover:text-ink transition-colors duration-200"
                   >
                     ← {getLetterName(prevMonthKey)}
                   </button>
                 ) : (
-                  <span className="text-white/15">← End of Archive</span>
+                  <span className="text-ink-faint">← End of Archive</span>
                 )}
               </div>
               
@@ -206,18 +207,18 @@ export default function MarketLetterModal({
                 {nextMonthKey ? (
                   <button 
                     onClick={() => onChangeMonth?.(nextMonthKey)} 
-                    className="hover:text-white transition-colors duration-200"
+                    className="hover:text-ink transition-colors duration-200"
                   >
                     {getLetterName(nextMonthKey)} →
                   </button>
                 ) : (
-                  <span className="text-white/15">Latest Publication</span>
+                  <span className="text-ink-faint">Latest Publication</span>
                 )}
               </div>
             </div>
 
             {/* Subtle Keyboard Control Help Text */}
-            <div className="text-center mt-12 text-white/15 font-mono text-[9px] uppercase tracking-wider">
+            <div className="text-center mt-12 text-ink-faint font-mono text-[9px] uppercase tracking-wider">
               Esc to close • ← → Navigate letters
             </div>
           </div>

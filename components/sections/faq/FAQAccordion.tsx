@@ -97,7 +97,7 @@ export function FAQAccordion() {
 
       {/* Instant Search Bar with Live Match Counter & Clear Action */}
       <div className="relative max-w-[600px] mb-16 select-none group">
-        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-white/40 group-focus-within:text-accent-gold transition-colors duration-200">
+        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-ink-faint group-focus-within:text-accent-gold transition-colors duration-200">
           <Search className="w-4 h-4" />
         </div>
 
@@ -106,7 +106,7 @@ export function FAQAccordion() {
           placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B0F1E] border border-white/10 rounded-2xl py-4 pl-12 pr-32 font-mono text-sm text-white placeholder-white/30 focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/40 shadow-[0_4px_20px_rgba(0,0,0,0.2)] transition-all duration-300"
+          className="w-full bg-surface border border-rule rounded-2xl py-4 pl-12 pr-32 font-mono text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/40 shadow-lift-1 transition-all duration-300"
         />
 
         {/* Live Match Counter Pill & Clear Button */}
@@ -124,7 +124,7 @@ export function FAQAccordion() {
 
             <button
               onClick={() => setSearchQuery("")}
-              className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center transition-colors"
+              className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors"
               title="Clear search"
             >
               <X className="w-3.5 h-3.5" />
@@ -146,17 +146,17 @@ export function FAQAccordion() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="max-w-[800px]"
             >
-              <div className="text-white/40 font-mono text-xs mb-8 uppercase tracking-wider select-none">
+              <div className="text-ink-faint font-mono text-xs mb-8 uppercase tracking-wider select-none">
                 {totalMatches} {totalMatches === 1 ? "Result" : "Results"} Found
               </div>
 
               {totalMatches === 0 ? (
                 /* Search Empty State */
                 <div className="py-12 text-center flex flex-col items-center select-none">
-                  <p className="font-mono text-sm text-text-secondary mb-3">
+                  <p className="font-mono text-sm text-ink-soft mb-3">
                     No matching questions found.
                   </p>
-                  <p className="font-mono text-xs text-white/30 mb-8">
+                  <p className="font-mono text-xs text-ink-faint mb-8">
                     Try a different keyword or book a Strategic Discussion.
                   </p>
                   <Link 
@@ -170,8 +170,8 @@ export function FAQAccordion() {
               ) : (
                 searchResults.map((cat) => (
                   <div key={cat.id} className="mb-12">
-                    <div className="flex items-center gap-3 border-b border-white/5 pb-2 mb-6">
-                      <span className="text-white/30">
+                    <div className="flex items-center gap-3 border-b border-rule pb-2 mb-6">
+                      <span className="text-ink-faint">
                         {React.createElement(iconComponents[cat.iconName], { className: "w-4 h-4 stroke-[1.5]" })}
                       </span>
                       <span className="text-accent-gold font-mono text-xs uppercase tracking-[0.15em]">
@@ -208,7 +208,7 @@ export function FAQAccordion() {
                 
                 {/* Desktop Sidebar Selector */}
                 <div className="hidden lg:flex flex-col gap-4 w-full select-none">
-                  <span className="font-mono text-xs tracking-wider text-white/30 uppercase mb-2 block">
+                  <span className="font-mono text-xs tracking-wider text-ink-faint uppercase mb-2 block">
                     Browse by Topic
                   </span>
                   {faqCategories.map((cat) => {
@@ -218,29 +218,29 @@ export function FAQAccordion() {
                     return (
                       <div 
                         key={cat.id} 
-                        className="flex flex-col border-b border-white/[0.03] pb-3"
+                        className="flex flex-col border-b border-rule pb-3"
                       >
                         <button
                           onClick={() => setActiveCategory(cat.id)}
                           className={`group text-left flex items-start gap-4 py-3 px-4 rounded-xl transition-all duration-200 border-l-2 ${
-                            isActive ? "bg-[#0B0F1E] border-accent-gold" : "hover:bg-white/[0.01] border-transparent"
+                            isActive ? "bg-surface shadow-lift-1 border-accent-gold" : "hover:bg-canvas-sunk border-transparent"
                           }`}
                         >
-                          <span 
+                          <span
                             className="flex-shrink-0 mt-1 transition-colors duration-200"
-                            style={{ color: isActive ? "var(--accent-gold)" : "rgba(255,255,255,0.3)" }}
+                            style={{ color: isActive ? "var(--accent-gold)" : "var(--ink-faint)" }}
                           >
                             <Icon className="w-5 h-5 stroke-[1.5]" />
                           </span>
-                          
+
                           <div className="flex flex-col">
-                            <span 
+                            <span
                               className="font-display text-base transition-colors duration-200"
-                              style={{ color: isActive ? "#ffffff" : "rgba(244, 241, 236, 0.85)" }}
+                              style={{ color: isActive ? "var(--ink)" : "var(--ink-soft)" }}
                             >
                               {cat.title}
                             </span>
-                            <span className="font-mono text-[10px] text-white/35 mt-1">
+                            <span className="font-mono text-[10px] text-ink-faint mt-1">
                               {cat.questions.length} {cat.questions.length === 1 ? "Question" : "Questions"}
                             </span>
                           </div>
@@ -248,7 +248,7 @@ export function FAQAccordion() {
 
                         {/* Indented Scroll Spy List of active category questions */}
                         {isActive && (
-                          <div className="flex flex-col pl-14 pr-2 mt-2 gap-2.5 font-mono text-[11px] border-l border-white/5 ml-4">
+                          <div className="flex flex-col pl-14 pr-2 mt-2 gap-2.5 font-mono text-[11px] border-l border-rule ml-4">
                             {cat.questions.map((q, qIdx) => {
                               const qId = `q-${cat.id}-${qIdx}`;
                               const isQActive = activeQuestionId === qId;
@@ -256,9 +256,9 @@ export function FAQAccordion() {
                                 <button
                                   key={qIdx}
                                   onClick={() => scrollToQuestion(qId)}
-                                  className="text-left leading-relaxed py-0.5 hover:text-white transition-colors duration-200 truncate"
+                                  className="text-left leading-relaxed py-0.5 hover:text-ink transition-colors duration-200 truncate"
                                   style={{
-                                    color: isQActive ? "var(--accent-gold)" : "rgba(255, 255, 255, 0.45)"
+                                    color: isQActive ? "var(--accent-gold)" : "var(--ink-faint)"
                                   }}
                                 >
                                   {q.question}
@@ -273,7 +273,7 @@ export function FAQAccordion() {
                 </div>
 
                 {/* Mobile Scrollable Chips (horizontal scroll row) */}
-                <div className="lg:hidden flex overflow-x-auto gap-2 pb-3 whitespace-nowrap scrollbar-hide border-b border-white/5 select-none -mx-4 px-4">
+                <div className="lg:hidden flex overflow-x-auto gap-2 pb-3 whitespace-nowrap scrollbar-hide border-b border-rule select-none -mx-4 px-4">
                   {faqCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
                     return (
@@ -281,9 +281,9 @@ export function FAQAccordion() {
                         key={cat.id}
                         onClick={() => setActiveCategory(cat.id)}
                         className={`inline-flex items-center gap-2 py-2.5 px-4 rounded-full font-mono text-xs transition-colors duration-200 ${
-                          isActive 
-                            ? "bg-accent-gold text-black font-semibold" 
-                            : "bg-[#0B0F1E] text-white/60 hover:text-white border border-white/5"
+                          isActive
+                            ? "bg-accent-gold text-white font-semibold"
+                            : "bg-surface text-ink-muted hover:text-ink border border-rule"
                         }`}
                       >
                         {React.createElement(iconComponents[cat.iconName], { className: "w-3.5 h-3.5 stroke-[2]" })}
@@ -307,14 +307,14 @@ export function FAQAccordion() {
                     className="w-full flex flex-col"
                   >
                     {/* Category Editorial Introduction Block */}
-                    <div className="max-w-[700px] border-b border-white/5 pb-6 mb-8 text-left">
-                      <h2 className="font-display text-3xl font-normal leading-[1.2] mb-3 text-white">
+                    <div className="max-w-[700px] border-b border-rule pb-6 mb-8 text-left">
+                      <h2 className="font-display text-3xl font-normal leading-[1.2] mb-3 text-ink">
                         {activeCategoryData.title}
                       </h2>
-                      <p className="font-mono text-sm leading-relaxed text-text-secondary mb-4">
+                      <p className="font-mono text-sm leading-relaxed text-ink-soft mb-4">
                         {activeCategoryData.description}
                       </p>
-                      <div className="font-mono text-xs text-white/30">
+                      <div className="font-mono text-xs text-ink-faint">
                         {activeCategoryData.questions.length} {activeCategoryData.questions.length === 1 ? "Question" : "Questions"} • Updated July 2026
                       </div>
                     </div>
@@ -373,8 +373,8 @@ function FAQAccordionItem({
       id={qId}
       className={`question-item w-full rounded-xl transition-all duration-300 overflow-hidden select-none border ${
         isExpanded
-          ? "border-accent-gold/40 bg-[#0B0F1E] shadow-[0_8px_30px_rgba(201,168,76,0.12)] border-l-4 border-l-accent-gold"
-          : "border-white/5 bg-[#0B0F1E]/80 hover:border-white/15"
+          ? "border-accent-gold/40 bg-surface shadow-lift-2 border-l-4 border-l-accent-gold"
+          : "border-rule bg-surface hover:border-rule-strong"
       }`}
     >
       {/* Header Panel */}
@@ -384,7 +384,7 @@ function FAQAccordionItem({
       >
         <span 
           className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${
-            isExpanded ? "text-white font-semibold" : "text-white/85 group-hover:text-white"
+            isExpanded ? "text-ink font-semibold" : "text-ink-soft group-hover:text-ink"
           }`}
         >
           {question}
@@ -410,8 +410,8 @@ function FAQAccordionItem({
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="overflow-hidden"
       >
-        <div className="pb-6 px-6 border-t border-white/[0.04] pt-4 max-w-[760px]">
-          <p className="font-mono text-sm leading-[1.8] text-text-secondary">
+        <div className="pb-6 px-6 border-t border-rule pt-4 max-w-[760px]">
+          <p className="font-mono text-sm leading-[1.8] text-ink-soft">
             {answer}
           </p>
 
@@ -420,11 +420,11 @@ function FAQAccordionItem({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
               
               {/* Trading box */}
-              <div className="p-5 rounded-xl border border-white/5 bg-white/[0.01]">
+              <div className="p-5 rounded-xl border border-rule bg-canvas-sunk">
                 <h4 className="font-mono text-xs text-[#6F86B7] uppercase tracking-wider mb-3 font-semibold">
                   Trading Business
                 </h4>
-                <ul className="flex flex-col gap-2 font-mono text-xs text-white/60">
+                <ul className="flex flex-col gap-2 font-mono text-xs text-ink-muted">
                   <li className="flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-[#6F86B7]" /> Defined process
                   </li>
@@ -444,11 +444,11 @@ function FAQAccordionItem({
               </div>
               
               {/* Gambling box */}
-              <div className="p-5 rounded-xl border border-white/5 bg-white/[0.01]" style={{ borderColor: "rgba(248, 113, 113, 0.15)" }}>
+              <div className="p-5 rounded-xl border border-rule bg-canvas-sunk" style={{ borderColor: "rgba(248, 113, 113, 0.15)" }}>
                 <h4 className="font-mono text-xs text-red-400/80 uppercase tracking-wider mb-3 font-semibold">
                   Gambling
                 </h4>
-                <ul className="flex flex-col gap-2 font-mono text-xs text-white/50">
+                <ul className="flex flex-col gap-2 font-mono text-xs text-ink-muted">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400/30" /> Outcome driven
                   </li>

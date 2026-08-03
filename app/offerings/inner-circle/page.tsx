@@ -48,7 +48,7 @@ const modules = [
     number: "Module 03",
     title: "Quantitative Theme Audits",
     icon: Cpu,
-    accentColor: "#C9A84C",
+    accentColor: "#0F7A40",
     items: [
       "High-conviction sector breakdowns",
       "Stage 2 breakout screenings",
@@ -96,7 +96,7 @@ const modules = [
 
 export default function InnerCirclePage() {
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary select-none">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink select-none">
       {/* Global Navigation Bar */}
       <Navbar />
 
@@ -113,7 +113,7 @@ export default function InnerCirclePage() {
           <div className="mb-8">
             <Link 
               href="/offerings" 
-              className="inline-flex items-center gap-2 font-mono text-xs text-white/50 hover:text-accent-gold transition-colors group"
+              className="inline-flex items-center gap-2 font-mono text-xs text-ink-muted hover:text-accent-gold transition-colors group"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
               <span>Back to Offerings</span>
@@ -135,7 +135,7 @@ export default function InnerCirclePage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.05 }}
-              className="font-display text-4xl sm:text-6xl md:text-[68px] leading-[1.1] text-white font-normal tracking-tight mb-8"
+              className="font-display text-4xl sm:text-6xl md:text-[68px] leading-[1.1] text-ink font-normal tracking-tight mb-8"
             >
               VSC Inner Circle
             </motion.h1>
@@ -144,7 +144,7 @@ export default function InnerCirclePage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
-              className="font-mono text-sm sm:text-base md:text-lg text-white/80 leading-relaxed max-w-[760px] mx-auto"
+              className="font-mono text-sm sm:text-base md:text-lg text-ink-soft leading-relaxed max-w-[760px] mx-auto"
             >
               VSC Inner Circle is an institutional research membership providing direct access to quantitative market audits, macro regime breakdowns, and proprietary trade desk parameters.
             </motion.p>
@@ -152,7 +152,7 @@ export default function InnerCirclePage() {
 
           {/* Section Heading */}
           <div className="text-center mb-12">
-            <h2 className="font-display text-2xl sm:text-4xl text-white font-normal tracking-tight">
+            <h2 className="font-display text-2xl sm:text-4xl text-ink font-normal tracking-tight">
               Inner Circle Includes
             </h2>
           </div>
@@ -170,15 +170,15 @@ export default function InnerCirclePage() {
                   transition={{ duration: 0.3, delay: idx * 0.08 }}
                 >
                   <SpotlightCard
-                    className="p-8 h-full flex flex-col justify-between hover:border-white/20 transition-all duration-300 group"
+                    className="p-8 h-full flex flex-col justify-between hover:border-rule transition-all duration-300 group"
                     spotlightColor={`${mod.accentColor}1F`}
                     borderColor={`${mod.accentColor}50`}
                   >
                     <div>
                       {/* Top Row: Icon Badge & Module Number */}
-                      <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+                      <div className="flex items-center justify-between mb-6 pb-4 border-b border-rule">
                         <div 
-                          className="w-10 h-10 rounded-xl flex items-center justify-center border bg-white/[0.03]"
+                          className="w-10 h-10 rounded-xl flex items-center justify-center border bg-canvas-sunk"
                           style={{ borderColor: `${mod.accentColor}40` }}
                         >
                           <IconComponent className="w-5 h-5 stroke-[1.75]" style={{ color: mod.accentColor }} />
@@ -192,14 +192,14 @@ export default function InnerCirclePage() {
                       </div>
 
                       {/* Module Title */}
-                      <h3 className="font-display text-xl sm:text-2xl text-white font-normal mb-6 group-hover:text-accent-gold transition-colors duration-200">
+                      <h3 className="font-display text-xl sm:text-2xl text-ink font-normal mb-6 group-hover:text-accent-gold transition-colors duration-200">
                         {mod.title}
                       </h3>
 
                       {/* Module Bullet List */}
                       <ul className="space-y-3">
                         {mod.items.map((item, itemIdx) => (
-                          <li key={itemIdx} className="flex items-start gap-3 font-mono text-xs sm:text-sm text-text-secondary">
+                          <li key={itemIdx} className="flex items-start gap-3 font-mono text-xs sm:text-sm text-ink-soft">
                             <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: mod.accentColor }} />
                             <span className="leading-relaxed">{item}</span>
                           </li>
@@ -213,19 +213,19 @@ export default function InnerCirclePage() {
           </div>
 
           {/* Bottom Action Footer CTAs */}
-          <div className="flex flex-col items-center justify-center gap-4 pt-12 border-t border-white/10 text-center select-none">
-            <p className="font-mono text-sm sm:text-base text-text-secondary flex items-center gap-2 flex-wrap justify-center">
+          <div className="flex flex-col items-center justify-center gap-4 pt-12 border-t border-rule text-center select-none">
+            <p className="font-mono text-sm sm:text-base text-ink-soft flex items-center gap-2 flex-wrap justify-center">
               <span>Ready to begin?</span>
               <Link 
                 href="/enquire" 
                 className="text-accent-gold font-semibold hover:underline inline-flex items-center gap-1 transition-all"
               >
-                <span>Contact Us</span>
+                <span>Enquire</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </p>
 
-            <p className="font-mono text-sm sm:text-base text-text-secondary flex items-center gap-2 flex-wrap justify-center">
+            <p className="font-mono text-sm sm:text-base text-ink-soft flex items-center gap-2 flex-wrap justify-center">
               <span>Get your queries answered</span>
               <Link 
                 href="/faq" 

@@ -23,7 +23,7 @@ export function EnquireHero() {
           
           {/* Heading */}
           <motion.h1 
-            className="font-display text-4xl sm:text-5xl md:text-[56px] leading-[1.1] text-text-primary font-normal tracking-tight mb-8"
+            className="font-display text-4xl sm:text-5xl md:text-[56px] leading-[1.1] text-ink font-normal tracking-tight mb-8"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.05 }}
           >
@@ -32,7 +32,7 @@ export function EnquireHero() {
           
           {/* Short Supporting Copy */}
           <motion.p 
-            className="font-mono text-xs sm:text-sm text-white/50 leading-relaxed max-w-[650px]"
+            className="font-mono text-xs sm:text-sm text-ink-muted leading-relaxed max-w-[650px]"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.1 }}
           >

@@ -10,12 +10,12 @@ export function PersonalReview() {
   } as const;
 
   return (
-    <section className="relative w-full pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden border-t border-white/[0.03] select-none z-10">
+    <section className="relative w-full pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden border-t border-rule select-none z-10">
       <div className="container max-w-[1200px] text-center">
         
         {/* Eyebrow */}
         <motion.span 
-          className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30 mb-6 block"
+          className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint mb-6 block"
           {...animProps}
         >
           PERSONAL REVIEW
@@ -23,7 +23,7 @@ export function PersonalReview() {
         
         {/* Message statement */}
         <motion.h3 
-          className="font-display text-xl sm:text-2xl text-text-secondary leading-relaxed max-w-[650px] mx-auto font-normal"
+          className="font-display text-xl sm:text-2xl text-ink-soft leading-relaxed max-w-[650px] mx-auto font-normal"
           {...animProps}
           transition={{ ...animProps.transition, delay: 0.05 }}
         >

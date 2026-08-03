@@ -16,7 +16,7 @@ export function WhenWeInvest() {
   return (
     <SectionContainer 
       id="when-we-invest" 
-      className="pt-20 pb-12 overflow-hidden select-none border-t border-white/[0.02]"
+      className="pt-20 pb-12 overflow-hidden select-none border-t border-rule"
     >
       <div className="max-w-[1100px] mx-auto text-left px-4">
         
@@ -25,10 +25,10 @@ export function WhenWeInvest() {
           <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-4 block font-semibold">
             EXECUTION TIMELINE
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] leading-[1.2] text-white font-normal tracking-tight mb-5">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-[38px] leading-[1.2] text-ink font-normal tracking-tight mb-5">
             When We Invest
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed max-w-[500px]">
+          <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed max-w-[500px]">
             Traditional models stay fully invested through all cycles. VSC scales exposure dynamically based on leadership success rates.
           </p>
         </div>
@@ -44,10 +44,10 @@ export function WhenWeInvest() {
               <div key={idx} className="flex flex-col items-start lg:items-center text-left lg:text-center group flex-1 relative">
                 
                 {/* Visual Node Dot on the line */}
-                <div className="w-3 h-3 rounded-full bg-accent-gold mb-5 transition-all duration-300 shadow-[0_0_12px_rgba(201,168,76,0.6)] group-hover:scale-125 lg:mx-auto"></div>
+                <div className="w-3 h-3 rounded-full bg-accent-gold mb-5 transition-all duration-300 shadow-[0_0_12px_rgba(15, 122, 64,0.6)] group-hover:scale-125 lg:mx-auto"></div>
                 
                 {/* Step text */}
-                <span className="font-display text-xs sm:text-sm font-medium tracking-tight text-white max-w-[110px] lg:mx-auto leading-tight">
+                <span className="font-display text-xs sm:text-sm font-medium tracking-tight text-ink max-w-[110px] lg:mx-auto leading-tight">
                   {step}
                 </span>
 

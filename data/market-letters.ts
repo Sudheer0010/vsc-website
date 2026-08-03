@@ -1,5 +1,16 @@
 import { MarketLetter } from "@/types/market-letter";
 
+/**
+ * Chronological order, most recent first. This is the one place that
+ * defines "latest" — every page that needs the current letter or the full
+ * archive order should import this rather than re-declaring its own copy,
+ * which is how the homepage and the blog page previously ended up
+ * describing two different letters as "the latest one."
+ */
+export const sortedMonths = ["JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
+
+export const latestMonthKey = sortedMonths[0];
+
 export const marketLetters: { [key: string]: MarketLetter } = {
   JAN: {
     month: "JANUARY",

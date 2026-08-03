@@ -15,7 +15,7 @@ export default function ThankYou() {
   } as const;
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
       {/* Global Navigation Bar */}
       <Navbar />
 
@@ -23,7 +23,7 @@ export default function ThankYou() {
       <PaperGrain />
 
       {/* Dynamic Background Colored Ambient Light Pool */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.02)" className="left-[70%] top-[25%] scale-[1.2]" />
+      <AmbientLightPool color="rgba(15, 122, 64, 0.02)" className="left-[70%] top-[25%] scale-[1.2]" />
 
       <main className="relative w-full flex items-center justify-center pt-40 pb-28 md:pt-48 md:pb-36 z-10">
         <div className="container max-w-[1200px]">
@@ -31,7 +31,7 @@ export default function ThankYou() {
             
             {/* Serif Title */}
             <motion.h1 
-              className="font-display text-5xl sm:text-6xl md:text-7xl font-normal leading-tight text-white mb-6"
+              className="font-display text-5xl sm:text-6xl md:text-7xl font-normal leading-tight text-ink mb-6"
               {...animProps}
             >
               Thank you.
@@ -39,7 +39,7 @@ export default function ThankYou() {
             
             {/* Supporting Copy */}
             <motion.p 
-              className="font-mono text-sm leading-relaxed text-text-secondary mb-16 max-w-[500px]"
+              className="font-mono text-sm leading-relaxed text-ink-soft mb-16 max-w-[500px]"
               {...animProps}
               transition={{ ...animProps.transition, delay: 0.05 }}
             >
@@ -48,11 +48,11 @@ export default function ThankYou() {
             
             {/* Continue Section */}
             <motion.div 
-              className="w-full border-t border-white/5 pt-10 text-center flex flex-col items-center"
+              className="w-full border-t border-rule pt-10 text-center flex flex-col items-center"
               {...animProps}
               transition={{ ...animProps.transition, delay: 0.1 }}
             >
-              <span className="font-mono text-xs uppercase tracking-widest text-white/30 block mb-6">
+              <span className="font-mono text-xs uppercase tracking-widest text-ink-faint block mb-6">
                 Continue Exploring
               </span>
               
@@ -60,15 +60,15 @@ export default function ThankYou() {
                 <li>
                   <Link 
                     href="/blog" 
-                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
-                    → Read Market Letters
+                    → Read the research
                   </Link>
                 </li>
                 <li>
                   <Link 
                     href="/about" 
-                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Learn More About VSC
                   </Link>
@@ -76,7 +76,7 @@ export default function ThankYou() {
                 <li>
                   <Link 
                     href="/faq" 
-                    className="text-text-secondary hover:text-accent-gold transition-colors duration-200"
+                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Frequently Asked Questions
                   </Link>

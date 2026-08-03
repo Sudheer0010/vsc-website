@@ -33,7 +33,7 @@ export function NextStepCTA({ service }: NextStepCTAProps) {
           
           {/* Headline */}
           <motion.h2 
-            className="font-display text-4xl sm:text-[44px] leading-[1.2] text-text-primary font-normal tracking-tight mb-8"
+            className="font-display text-4xl sm:text-[44px] leading-[1.2] text-ink font-normal tracking-tight mb-8"
             {...animProps}
             transition={{ ...animProps.transition, delay: 0.05 }}
           >

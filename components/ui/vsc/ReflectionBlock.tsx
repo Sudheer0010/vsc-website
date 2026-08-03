@@ -1,25 +1,31 @@
 "use client";
 
 import React from "react";
+import { Reveal } from "@/components/ui/vsc/Reveal";
 
-interface ReflectionBlockProps {
+/**
+ * A single question, given a whole band of the page.
+ *
+ * The only section on the site that asks rather than tells. It gets the
+ * green wash and nothing else — no icon, no glow dot, no caption — because
+ * the pause is the design. Anything added here would be something to look
+ * at instead of something to think about.
+ */
+export function ReflectionBlock({
+  question,
+  className = "",
+}: {
   question: string;
   className?: string;
-}
-
-export function ReflectionBlock({ question, className = "" }: ReflectionBlockProps) {
+}) {
   return (
-    <section className={`relative z-10 w-full py-16 sm:py-24 border-t border-white/[0.04] select-none ${className}`}>
-      <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
-        <div className="max-w-[850px] mx-auto text-center flex flex-col items-center">
-          {/* Sky Blue indicator dot */}
-          <div aria-hidden="true" className="w-2 h-2 rounded-full bg-[#38BDF8] mb-8 shadow-[0_0_12px_rgba(56,189,248,0.6)]" />
-
-          {/* Intellectual Reflection Question in Sky Blue (#38BDF8) */}
-          <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[42px] text-[#38BDF8] font-normal leading-[1.3] tracking-tight text-center drop-shadow-md">
-            &ldquo;{question}&rdquo;
+    <section className={`w-full border-b border-rule bg-growth-wash py-20 sm:py-28 ${className}`}>
+      <div className="container mx-auto max-w-[1120px]">
+        <Reveal className="mx-auto max-w-[24ch] text-center">
+          <blockquote className="font-display text-[clamp(30px,4.4vw,52px)] font-semibold leading-[1.08] tracking-[-0.03em] text-growth-deep">
+            {question}
           </blockquote>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

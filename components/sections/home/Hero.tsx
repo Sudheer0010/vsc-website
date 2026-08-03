@@ -37,7 +37,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[95vh] flex items-center pt-32 pb-24 overflow-hidden select-none bg-[radial-gradient(circle_at_20%_45%,rgba(201,168,76,0.02),transparent_45%)]"
+      className="relative min-h-[95vh] flex items-center pt-32 pb-24 overflow-hidden select-none bg-[radial-gradient(circle_at_20%_45%,rgba(15, 122, 64,0.02),transparent_45%)]"
     >
       <div className="container relative z-10 max-w-[1200px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
@@ -57,7 +57,7 @@ export function Hero() {
             </motion.span>
 
             <motion.h1
-              className="font-display text-4xl sm:text-5xl md:text-[58px] leading-[1.1] text-white font-normal tracking-tight mb-5"
+              className="font-display text-4xl sm:text-5xl md:text-[58px] leading-[1.1] text-ink font-normal tracking-tight mb-5"
               variants={itemVariants}
             >
               A Smarter Way to Build and Protect Capital.
@@ -72,7 +72,7 @@ export function Hero() {
 
             {/* 3 Institutional Pillars */}
             <motion.div
-              className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 font-mono text-xs sm:text-sm text-white/50 tracking-wider uppercase mb-12 border-y border-white/5 py-5 w-full"
+              className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 font-mono text-xs sm:text-sm text-ink-muted tracking-wider uppercase mb-12 border-y border-rule py-5 w-full"
               variants={itemVariants}
             >
               <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export function Hero() {
           {/* Right Column (Logo Video Animation / Editorial cover photo) */}
           <div className="lg:col-span-5 w-full flex justify-end">
             <motion.div
-              className="relative w-full max-w-[420px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-[#0B0F1E] shadow-[0_25px_60px_rgba(0,0,0,0.7)] group"
+              className="relative w-full max-w-[420px] aspect-[4/5] rounded-2xl overflow-hidden border border-rule bg-[#FFFFFF] shadow-[0_25px_60px_rgba(0,0,0,0.7)] group"
               variants={imageVariants}
               initial="hidden"
               animate="visible"
@@ -113,7 +113,7 @@ export function Hero() {
               {/* Subtle ambient lighting behind video */}
               <div className="absolute -inset-1 bg-gradient-to-r from-accent-gold/20 via-transparent to-accent-gold/10 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-700"></div>
 
-              <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden bg-black/40">
+              <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden bg-surface">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
 
                 {/* 10-second Logo Animation Video with Automatic Fallback */}

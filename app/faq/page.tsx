@@ -11,20 +11,23 @@ import { FAQAccordion } from "@/components/sections/faq/FAQAccordion";
 
 export default function FAQ() {
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
       {/* Global Navigation Bar */}
       <Navbar />
 
       {/* Global Matte Charcoal Paper Noise Overlay */}
       <PaperGrain />
 
-      {/* Blended Custom Background Texture (FAQ Page Only) */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-0 opacity-35 mix-blend-screen bg-cover bg-center bg-no-repeat transition-opacity duration-500"
+      {/* Faint texture layer. `mix-blend-screen` only ever lightens, which is
+          why at dark-theme opacity this washed the whole page toward white —
+          `multiply` darkens instead, so it reads as a trace of paper texture
+          rather than a haze sitting on top of the content. */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-[0.06] mix-blend-multiply bg-cover bg-center bg-no-repeat transition-opacity duration-500"
         style={{
           backgroundImage: "url('/images/faq-bg.png')",
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.1) 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.1) 100%)"
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%)"
         }}
       />
 

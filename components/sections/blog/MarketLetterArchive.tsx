@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarketLetter } from "@/types/market-letter";
 import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
+import { getReadingTime } from "@/lib/reading-time";
 
 interface MarketLetterArchiveProps {
   sortedMonths: string[];
@@ -40,27 +41,27 @@ export function MarketLetterArchive({
   }, [sortedMonths, marketLetters, activeYear]);
 
   return (
-    <section className="py-24 border-t border-white/5 select-none">
+    <section className="py-24 border-t border-rule select-none">
       {/* Header & Horizontal Year Filter Tabs */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
         <div className="max-w-[600px] text-left">
-          <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block font-semibold">
+          <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
             MONTHLY LOGS
           </span>
           <h2
             ref={archiveHeadingRef}
-            className="font-display text-3xl md:text-[38px] text-white font-normal leading-[1.2] mb-3"
+            className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2] mb-3"
           >
             Market Letter Archive
           </h2>
-          <p className="font-mono text-sm leading-relaxed text-text-secondary">
+          <p className="font-mono text-sm leading-relaxed text-ink-soft">
             A chronological archive of our monthly market letters documenting market observations, portfolio decisions, and lessons learned.
           </p>
         </div>
 
         {/* Year Category Tabs */}
         {years.length > 1 && (
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md shrink-0">
+          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-surface border border-rule rounded-full  shrink-0">
             {years.map((yr) => {
               const isActive = activeYear === yr;
               return (
@@ -68,7 +69,7 @@ export function MarketLetterArchive({
                   key={yr}
                   onClick={() => setActiveYear(yr)}
                   className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
-                    isActive ? "text-bg-dark font-semibold" : "text-white/60 hover:text-white"
+                    isActive ? "text-white font-semibold" : "text-ink-muted hover:text-ink"
                   }`}
                 >
                   {isActive && (
@@ -107,16 +108,16 @@ export function MarketLetterArchive({
               >
                 <SpotlightCard
                   className="p-6 h-full flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-300 group"
-                  spotlightColor="rgba(201, 168, 76, 0.12)"
+                  spotlightColor="rgba(15, 122, 64, 0.12)"
                 >
                   <div className="flex flex-col gap-4">
                     {/* Top Row: Month & Year + Return Metric Tag */}
-                    <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-4">
+                    <div className="flex items-center justify-between gap-2 border-b border-rule pb-4">
                       <div>
-                        <span className="font-display text-xl text-white font-medium group-hover:text-accent-gold transition-colors duration-200 block">
+                        <span className="font-display text-xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200 block">
                           {fullMonth} {letter.year}
                         </span>
-                        <span className="font-mono text-[10px] text-white/40 block mt-0.5">
+                        <span className="font-mono text-[10px] text-ink-faint block mt-0.5">
                           {m === "JUL" ? "24 July 2026" : `Published in ${fullMonth}`}
                         </span>
                       </div>
@@ -128,7 +129,7 @@ export function MarketLetterArchive({
                               ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                               : letter.metrics["Monthly Return"].startsWith("-")
                               ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                              : "bg-white/5 text-white/60 border-white/10"
+                              : "bg-canvas-sunk text-ink-muted border-rule"
                           }`}
                         >
                           {letter.metrics["Monthly Return"]}
@@ -137,18 +138,18 @@ export function MarketLetterArchive({
                     </div>
 
                     {/* Letter Short Description */}
-                    <p className="font-mono text-xs text-text-secondary leading-relaxed line-clamp-2">
+                    <p className="font-mono text-xs text-ink-soft leading-relaxed line-clamp-2">
                       {letter.description}
                     </p>
                   </div>
 
                   {/* Read Trigger */}
-                  <div className="pt-4 mt-6 border-t border-white/5 flex items-center justify-between">
-                    <span className="font-mono text-[11px] text-white/40">
-                      {m === "JUL" ? "12" : m === "FEB" ? "10" : "8"} min read
+                  <div className="pt-4 mt-6 border-t border-rule flex items-center justify-between">
+                    <span className="font-mono text-[11px] text-ink-faint">
+                      {getReadingTime(letter)} min read
                     </span>
                     <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
-                      Read Letter &rarr;
+                      Read the letter &rarr;
                     </span>
                   </div>
                 </SpotlightCard>

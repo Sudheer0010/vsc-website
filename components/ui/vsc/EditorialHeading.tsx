@@ -4,15 +4,15 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
- * VSC Component: EditorialHeading
- * 
- * 1. Purpose: Displays thesis entrances and chapter titles with high-contrast publication typography.
- * 2. Atlas Alignment: Expresses Ritual #2 (Thesis Entrances) and Signature 02 (Research Document Identifiers).
- * 3. One Memorable Idea: Always paired with an monospaced document coordinate tag (`R-01 / ARRIVAL / 2026`) and Cormorant Garamond display serif typography.
- * 4. Accessibility: Uses proper HTML heading tags (h1, h2, h3). Respects reduced motion with instant static placement.
- * 5. Performance: Sub-10px y-float; CSS transform GPU accelerated.
- * 6. Uniquely VSC: Formatted like the opening statement of a Howard Marks memo or Financial Times editorial.
- */
+* VSC Component: EditorialHeading
+* 
+* 1. Purpose: Displays thesis entrances and chapter titles with high-contrast publication typography.
+* 2. Atlas Alignment: Expresses Ritual #2 (Thesis Entrances) and Signature 02 (Research Document Identifiers).
+* 3. One Memorable Idea: Always paired with an monospaced document coordinate tag (`R-01 / ARRIVAL / 2026`) and Cormorant Garamond display serif typography.
+* 4. Accessibility: Uses proper HTML heading tags (h1, h2, h3). Respects reduced motion with instant static placement.
+* 5. Performance: Sub-10px y-float; CSS transform GPU accelerated.
+* 6. Uniquely VSC: Formatted like the opening statement of a Howard Marks memo or Financial Times editorial.
+*/
 
 interface EditorialHeadingProps {
   level?: "h1" | "h2" | "h3";
@@ -55,7 +55,7 @@ export function EditorialHeading({
 
       {/* Main Thesis Display Headline */}
       <motion.div {...animProps} transition={shouldReduceMotion ? {} : { duration: 0.6, delay: 0.05, ease: "easeOut" as const }}>
-        <Component className="font-display text-3xl sm:text-5xl md:text-[58px] lg:text-[68px] leading-[1.08] text-white font-normal tracking-tight mb-6">
+        <Component className="font-display text-3xl sm:text-5xl md:text-[58px] lg:text-[68px] leading-[1.08] text-ink font-normal tracking-tight mb-6">
           {thesis}
         </Component>
       </motion.div>
@@ -63,7 +63,7 @@ export function EditorialHeading({
       {/* Optional Subthesis Copy */}
       {subthesis && (
         <motion.p
-          className="font-mono text-sm sm:text-base text-text-secondary leading-relaxed max-w-[680px]"
+          className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[680px]"
           {...animProps}
           transition={shouldReduceMotion ? {} : { duration: 0.6, delay: 0.1, ease: "easeOut" as const }}
         >

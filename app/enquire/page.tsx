@@ -16,7 +16,7 @@ export default function Enquire() {
   } as const;
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary overflow-x-hidden text-text-primary select-none flex flex-col justify-between">
+    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink select-none flex flex-col justify-between">
       {/* Global Navigation Bar */}
       <Navbar />
 
@@ -24,7 +24,7 @@ export default function Enquire() {
       <PaperGrain />
 
       {/* Dynamic Ambient Light Glow */}
-      <AmbientLightPool color="rgba(201, 168, 76, 0.04)" className="left-[70%] top-[30%] scale-[1.4]" />
+      <AmbientLightPool color="rgba(15, 122, 64, 0.04)" className="left-[70%] top-[30%] scale-[1.4]" />
 
       <main className="relative w-full z-10 pt-32 pb-16 sm:pt-36 sm:pb-20 flex-grow flex items-center">
         <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
@@ -42,24 +42,24 @@ export default function Enquire() {
               </motion.span>
 
               <motion.h1 
-                className="font-display text-3xl sm:text-5xl lg:text-[52px] leading-[1.1] text-white font-normal tracking-tight mb-6"
+                className="font-display text-3xl sm:text-5xl lg:text-[52px] leading-[1.1] text-ink font-normal tracking-tight mb-6"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
                 Every great investment process starts with a conversation.
               </motion.h1>
 
-              <motion.p 
-                className="font-mono text-xs sm:text-sm text-text-secondary leading-relaxed mb-8"
+              <motion.p
+                className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed mb-8"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Every investor&apos;s journey is different. Before discussing markets, we first understand your goals, risk tolerance, and capital allocation structure.
+                Tell us what&apos;s on your mind — a specific question, or just curiosity. We read every submission before we say anything back.
               </motion.p>
 
               {/* Institutional Assurance / Credibility Highlights */}
               <motion.div 
-                className="space-y-4 pt-6 border-t border-white/10 mb-8"
+                className="space-y-4 pt-6 border-t border-rule mb-8"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.15 }}
               >
@@ -68,10 +68,10 @@ export default function Enquire() {
                     <Lock className="w-4 h-4 text-accent-gold" />
                   </div>
                   <div>
-                    <h4 className="font-mono text-xs text-white font-semibold uppercase tracking-wider mb-0.5">
+                    <h4 className="font-mono text-xs text-ink font-semibold uppercase tracking-wider mb-0.5">
                       100% Confidential Discussion
                     </h4>
-                    <p className="font-mono text-xs text-white/50">
+                    <p className="font-mono text-xs text-ink-muted">
                       Direct alignment with our quantitative research desk.
                     </p>
                   </div>
@@ -82,10 +82,10 @@ export default function Enquire() {
                     <Clock className="w-4 h-4 text-accent-gold" />
                   </div>
                   <div>
-                    <h4 className="font-mono text-xs text-white font-semibold uppercase tracking-wider mb-0.5">
+                    <h4 className="font-mono text-xs text-ink font-semibold uppercase tracking-wider mb-0.5">
                       24-Hour Desk Response
                     </h4>
-                    <p className="font-mono text-xs text-white/50">
+                    <p className="font-mono text-xs text-ink-muted">
                       Our desk reviews every inquiry within 24 business hours.
                     </p>
                   </div>
@@ -96,10 +96,10 @@ export default function Enquire() {
                     <ShieldCheck className="w-4 h-4 text-accent-gold" />
                   </div>
                   <div>
-                    <h4 className="font-mono text-xs text-white font-semibold uppercase tracking-wider mb-0.5">
+                    <h4 className="font-mono text-xs text-ink font-semibold uppercase tracking-wider mb-0.5">
                       Zero Sales Pressure
                     </h4>
-                    <p className="font-mono text-xs text-white/50">
+                    <p className="font-mono text-xs text-ink-muted">
                       Pure process evaluation and risk parameter reviews.
                     </p>
                   </div>
@@ -108,12 +108,17 @@ export default function Enquire() {
 
               {/* Direct Desk Contact */}
               <motion.div 
-                className="flex items-center gap-2 font-mono text-xs text-white/40"
+                className="flex items-center gap-2 font-mono text-xs text-ink-faint"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.2 }}
               >
                 <Mail className="w-3.5 h-3.5 text-accent-gold" />
-                <span>Direct Research Desk: <span className="text-white/80 font-medium">contact@vsccapital.in</span></span>
+                <span>
+                  Direct Research Desk:{" "}
+                  <a href="mailto:sudheer@vsccapital.in" className="text-ink-soft font-medium hover:text-accent-gold transition-colors">
+                    sudheer@vsccapital.in
+                  </a>
+                </span>
               </motion.div>
             </div>
 

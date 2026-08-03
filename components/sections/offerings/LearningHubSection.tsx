@@ -35,7 +35,7 @@ export function LearningHubSection() {
         
         {/* 3-line Editorial Intro */}
         <div className="max-w-[700px] mb-16">
-          <p className="font-mono text-sm text-text-secondary leading-relaxed">
+          <p className="font-mono text-sm text-ink-soft leading-relaxed">
             The VSC Learning Hub is a professional learning framework built to develop systematic market structure analysis, technical setups, and risk bounds before committing capital.
           </p>
         </div>
@@ -47,7 +47,7 @@ export function LearningHubSection() {
           <div 
             className="absolute left-0 sm:left-4 lg:left-6 top-3 bottom-3 w-[1px]"
             style={{ 
-              background: "linear-gradient(to bottom, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, rgba(255,255,255,0.03) 100%)" 
+              background: "linear-gradient(to bottom, rgba(22,29,24,0.05) 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, rgba(22,29,24,0.05) 100%)" 
             }}
           />
 
@@ -64,7 +64,7 @@ export function LearningHubSection() {
                 >
                   {/* Node circle */}
                   <div 
-                    className="absolute -left-[37px] sm:-left-[53px] lg:-left-[69px] w-[9px] h-[9px] rounded-full border bg-[#060810] z-20 transition-all duration-[240ms] ease-out"
+                    className="absolute -left-[37px] sm:-left-[53px] lg:-left-[69px] w-[9px] h-[9px] rounded-full border bg-[#FBFAF6] z-20 transition-all duration-[240ms] ease-out"
                     style={{
                       borderColor: isRowHovered ? "#6F86B7" : "rgba(255, 255, 255, 0.15)",
                       boxShadow: isRowHovered ? "0 0 8px rgba(111, 134, 183, 0.3)" : "none",
@@ -73,7 +73,7 @@ export function LearningHubSection() {
                   />
 
                   <div className="flex items-center gap-6">
-                    <span className="font-mono text-xs text-white/30">{stepNum}</span>
+                    <span className="font-mono text-xs text-ink-faint">{stepNum}</span>
                     <h3 
                       className="font-display text-xl sm:text-2xl transition-colors duration-[240ms] ease-out"
                       style={{
@@ -103,7 +103,7 @@ export function LearningHubSection() {
         </div>
 
         {/* Bottom Restrained CTA */}
-        <div className="border-t border-white/5 pt-8 mt-12 flex justify-start">
+        <div className="border-t border-rule pt-8 mt-12 flex justify-start">
           <Link 
             href="/enquire" 
             className="inline-flex items-center gap-2 font-mono text-xs md:text-sm tracking-wider transition-colors duration-200 uppercase"

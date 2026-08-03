@@ -9,7 +9,7 @@ export function FAQHero() {
       <h1 className="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.1] font-normal tracking-tight mb-6">
         Answers Before You Invest.
       </h1>
-      <p className="font-mono text-sm leading-relaxed text-text-secondary">
+      <p className="font-mono text-sm leading-relaxed text-ink-soft">
         Everything you need to know about VSC Capital & Advisory, our philosophy, education, advisory framework, and investment process.
       </p>
     </div>
