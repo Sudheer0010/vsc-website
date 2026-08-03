@@ -1,0 +1,68 @@
+
+> vsc-website@0.1.0 lint /app
+> eslint
+
+
+/app/components/sections/faq/FAQAccordion.tsx
+  21:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/components/sections/faq/FAQAccordion.tsx:21:5
+  19 |   // Category switch scroll reset & accordion collapse
+  20 |   useEffect(() => {
+> 21 |     setExpandedIndex(null);
+     |     ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  22 |     const target = document.getElementById("faq-content-area");
+  23 |     if (target) {
+  24 |       const yOffset = -140; // Spacing for sticky navigation header  react-hooks/set-state-in-effect
+
+/app/components/ui/SectionHeading.tsx
+  11:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/app/components/ui/button.tsx
+  44:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/app/components/ui/vsc/NumberFlow.tsx
+  28:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/components/ui/vsc/NumberFlow.tsx:28:7
+  26 |   useEffect(() => {
+  27 |     if (shouldReduceMotion) {
+> 28 |       setDisplayValue(value);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |       return;
+  30 |     }
+  31 |  react-hooks/set-state-in-effect
+
+/app/components/ui/vsc/VSCNavigation.tsx
+  41:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/components/ui/vsc/VSCNavigation.tsx:41:5
+  39 |   // Close mobile drawer on route change
+  40 |   useEffect(() => {
+> 41 |     setMobileOpen(false);
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  42 |   }, [pathname]);
+  43 |
+  44 |   // Lock body scroll when mobile menu is open  react-hooks/set-state-in-effect
+
+✖ 5 problems (5 errors, 0 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.

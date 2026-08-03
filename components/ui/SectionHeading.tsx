@@ -8,6 +8,7 @@ interface SectionHeadingProps extends React.HTMLAttributes<HTMLDivElement> {
   description?: string;
   alignment?: "left" | "center";
   useMotion?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   motionProps?: any;
 }
 

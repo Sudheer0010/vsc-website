@@ -1,0 +1,3 @@
+## 2024-05-24 - Missing Focus and ARIA attributes on Accordions
+**Learning:** Custom interactive components like accordions in this app frequently missed `aria-expanded`, `aria-controls` bindings, and `focus-visible` ring indicators, making keyboard navigation difficult and screen readers less effective. The search input also lacked an explicit label.
+**Action:** When working on interactive elements (accordions, modal toggles, search inputs), always explicitly pair `aria-expanded` with `aria-controls`, provide descriptive `aria-label`s for inputs without visual labels, and apply `focus-visible:ring-2 focus-visible:ring-accent-gold/50` for clear keyboard focus indicators.

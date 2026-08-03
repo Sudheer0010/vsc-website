@@ -18,6 +18,7 @@ export function FAQAccordion() {
 
   // Category switch scroll reset & accordion collapse
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setExpandedIndex(null);
     const target = document.getElementById("faq-content-area");
     if (target) {
@@ -103,6 +104,7 @@ export function FAQAccordion() {
 
         <input
           type="text"
+          aria-label="Search FAQ questions"
           placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -124,8 +126,9 @@ export function FAQAccordion() {
 
             <button
               onClick={() => setSearchQuery("")}
-              className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors"
+              className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50"
               title="Clear search"
+              aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -387,7 +390,9 @@ function FAQAccordionItem({
       {/* Header Panel */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none group"
+        aria-expanded={isExpanded}
+        aria-controls={`${qId}-content`}
+        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 rounded-xl group"
       >
         <span 
           className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${
@@ -409,6 +414,7 @@ function FAQAccordionItem({
 
       {/* Collapsible Answer Body */}
       <motion.div
+        id={`${qId}-content`}
         initial={false}
         animate={{ 
           height: isExpanded ? "auto" : 0,

@@ -41,6 +41,7 @@ export function Button({
   }
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <button className={cn(baseClass, className)} style={style} {...(props as any)}>
       {children}
     </button>
