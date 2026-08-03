@@ -87,7 +87,7 @@ export function DiscussionForm() {
           </h3>
 
           <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed mb-8 max-w-[500px]">
-            Your inquiry has been logged with our research desk. We review every submission personally within 24 business hours.
+            Your inquiry has been logged with our research desk. I review every submission personally within 24 business hours.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-rule w-full">

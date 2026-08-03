@@ -28,6 +28,19 @@ export interface OfferingItem {
   bestIf: string;
   proofLabel: string;
   proofHref: string;
+  /**
+   * The hierarchy axis (v2.1 §1.2): access, not price. "tier" drives the
+   * row's visual treatment (paper / cream / matte-black); stateLabel and
+   * availabilityShort are the two facts the row states about that access.
+   * availabilityShort deliberately does NOT claim a review cadence for
+   * Inner Circle ("quarterly") or a frequency for Advantage ("monthly") —
+   * neither is anywhere in this file's other fields, and inventing one
+   * here would be exactly the kind of unverified specific claim this site
+   * has spent this whole project removing.
+   */
+  tier: "open" | "apply" | "invite";
+  stateLabel: string;
+  availabilityShort: string;
 }
 
 export const offeringsConfig: OfferingItem[] = [
@@ -54,10 +67,13 @@ export const offeringsConfig: OfferingItem[] = [
     glowColor: "rgba(111, 134, 183, 0.06)",
     path: "/offerings/learning-hub",
     quote: "I'm still learning the mechanics.",
-    format: "Self-paced + live desk briefings",
+    format: "Six modules, self-paced, with live desk briefings.",
     bestIf: "you're new to markets, or trading without a written process yet.",
     proofLabel: "See the full curriculum",
-    proofHref: "/offerings/learning-hub"
+    proofHref: "/offerings/learning-hub",
+    tier: "open",
+    stateLabel: "01 · Open",
+    availabilityShort: "Available now"
   },
   {
     slug: "advantage",
@@ -82,10 +98,13 @@ export const offeringsConfig: OfferingItem[] = [
     glowColor: "rgba(15, 122, 64, 0.06)",
     path: "/offerings/advantage",
     quote: "I trade already, but my results are inconsistent.",
-    format: "Ongoing desk consultations + audits",
+    format: "Periodic portfolio review against defined risk gates.",
     bestIf: "you hold positions but have no defined rule for sizing or exits.",
     proofLabel: "See what a review covers",
-    proofHref: "/offerings/advantage"
+    proofHref: "/offerings/advantage",
+    tier: "apply",
+    stateLabel: "02 · By application",
+    availabilityShort: "Limited capacity"
   },
   {
     slug: "inner-circle",
@@ -103,16 +122,26 @@ export const offeringsConfig: OfferingItem[] = [
     ],
     deliveryFormat: "Weekly research desk letters, quarterly regime breakdowns, and research archive access.",
     expectedOutcome: "Institutional macro clarity, early regime shift detection, and systematic market insight.",
-    availability: "Available Soon",
+    availability: "By Invitation",
     pricing: "Pricing: To be announced",
     accent: "emerald",
     accentColor: "#5D8B73",
     glowColor: "rgba(93, 139, 115, 0.06)",
     path: "/offerings/inner-circle",
-    quote: "I just want to read good research.",
-    format: "Monthly letter + full archive",
-    bestIf: "you already run your own book and want a second, independent view.",
-    proofLabel: "Read last month's letter, free",
-    proofHref: "/blog"
+    /**
+     * Rewritten per v2.1 §3. The Research page already publishes every
+     * letter for free — describing Inner Circle as "the letter" put it in
+     * direct competition with something else on this site that's free.
+     * Its actual value is what the letter isn't: the room, the argument,
+     * the second opinion before capital moves. Never say "free" here.
+     */
+    quote: "I want a room where my thinking gets argued with.",
+    format: "Members bring positions, not questions.",
+    bestIf: "you already run your own book and want a second, independent view before you act.",
+    proofLabel: "Request an invitation",
+    proofHref: "/offerings/inner-circle",
+    tier: "invite",
+    stateLabel: "03 · By invitation",
+    availabilityShort: "By invitation"
   }
 ];

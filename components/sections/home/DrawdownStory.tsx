@@ -146,6 +146,9 @@ export function DrawdownStory() {
                 </p>
               </div>
             </div>
+            <p className="exhibit__caption border-t border-rule px-5 py-3 sm:px-6">
+              Illustrative. Not a forecast or a live portfolio.
+            </p>
           </div>
         </Reveal>
 

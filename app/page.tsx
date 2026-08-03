@@ -136,14 +136,14 @@ export default function Home() {
         {/* ================================================================
             CONTRAST
             The narrowest, most defensible version of the claim: a fund with
-            an always-invested mandate cannot do this. We can.
+            an always-invested mandate cannot do this. I can.
            ================================================================ */}
         <section id="proof" className="relative w-full border-b border-rule bg-canvas-sunk py-20 sm:py-28">
           <div className="container mx-auto max-w-[1120px]">
             <Reveal className="max-w-[54ch]">
               <span className="eyebrow">Where the mandate differs</span>
               <h2 className="font-display text-ink">
-                A fund must stay invested. We don&apos;t have to.
+                A fund must stay invested. I don&apos;t have to.
               </h2>
             </Reveal>
 

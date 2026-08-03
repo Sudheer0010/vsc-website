@@ -1,6 +1,7 @@
 import React from "react";
 import { MarketLetter } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
+import { Byline } from "@/components/ui/vsc/Byline";
 
 interface FeaturedPublicationProps {
   featuredLetter: MarketLetter;
@@ -28,13 +29,14 @@ export function FeaturedPublication({
             {featuredLetter.month.charAt(0) + featuredLetter.month.slice(1).toLowerCase()} {featuredLetter.year} Market Letter
           </span>
           <h3 className="font-display text-2xl sm:text-3xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200">
-            {featuredLetter.description || "How we interpreted markets, managed risk and positioned capital."}
+            {featuredLetter.description || "How I interpreted markets, managed risk and positioned capital."}
           </h3>
           <span className="font-mono text-xs text-ink-faint mt-1">
             Published {featuredLetter.year === 2026 && latestMonthKey === "JUL" ? "24 July 2026" : `in ${featuredLetter.month}`} • {getReadingTime(featuredLetter)} minute read
           </span>
+          <Byline className="mt-0.5" />
         </div>
-        
+
         <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200 sm:self-center">
           Read the letter →
         </span>

@@ -22,6 +22,7 @@ import {
 import { BlogHero } from "@/components/sections/blog/BlogHero";
 import { FeaturedPublication } from "@/components/sections/blog/FeaturedPublication";
 import { MarketLetterArchive } from "@/components/sections/blog/MarketLetterArchive";
+import { MonthlyReturnsSparkline } from "@/components/sections/blog/MonthlyReturnsSparkline";
 import { ResearchGrid } from "@/components/sections/blog/ResearchGrid";
 import { FrameworkLibrary } from "@/components/sections/blog/FrameworkLibrary";
 import { ReadingDesk } from "@/components/sections/blog/ReadingDesk";
@@ -143,6 +144,8 @@ export default function Blog() {
             archiveHeadingRef={archiveHeadingRef}
             DEFAULT_VISIBLE_LETTERS={DEFAULT_VISIBLE_LETTERS}
           />
+
+          <MonthlyReturnsSparkline />
 
           <ResearchGrid
             categories={categories}

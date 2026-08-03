@@ -9,23 +9,28 @@ import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { GradientText } from "@/components/ui/vsc/GradientText";
 import { ShinyText } from "@/components/ui/vsc/ShinyText";
-import { TimelineBeam, TimelineStep } from "@/components/ui/vsc/TimelineBeam";
+import { TimelineRail, TimelineStep } from "@/components/ui/vsc/TimelineRail";
+import { EmotionalVsRuledChart } from "@/components/sections/about/EmotionalVsRuledChart";
+import { marketLetters, sortedMonths } from "@/data/market-letters";
+
+const earliestMonthKey = sortedMonths[sortedMonths.length - 1];
+const earliestLetter = marketLetters[earliestMonthKey];
 
 const originSteps: TimelineStep[] = [
   {
     number: "01",
-    title: "The more we learned...",
-    description: "the more we realized information wasn't the problem. Financial news was everywhere, but actionable understanding was scarce."
+    title: "The more I learned...",
+    description: "the more I realized information wasn't the problem. Financial news was everywhere, but actionable understanding was scarce."
   },
   {
     number: "02",
-    title: "Markets humbled us repeatedly.",
-    description: "Early emotional entries and unmanaged risk taught us that opinions are cheap, while systematic risk rules are indispensable."
+    title: "Markets humbled me repeatedly.",
+    description: "Early emotional entries and unmanaged risk taught me that opinions are cheap, while systematic risk rules are indispensable."
   },
   {
     number: "03",
-    title: "Eventually experience became our teacher.",
-    description: "We stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation."
+    title: "Eventually experience became the teacher.",
+    description: "I stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation."
   },
   {
     number: "04",
@@ -47,7 +52,7 @@ const observationsData = [
     badge: "LIQUIDITY & POSITIONING",
     isFeatured: false,
     title: "Cash is a position, not an admission of defeat.",
-    desc: "Preserving liquidity and optionality allows capital deployment when risk-reward shifts overwhelmingly in our favor."
+    desc: "Preserving liquidity and optionality allows capital deployment when risk-reward shifts overwhelmingly in my favor."
   },
   {
     code: "03",
@@ -176,7 +181,7 @@ export default function OurStory() {
       <main className="relative w-full animate-fade-in">
         
         {/* =========================================================================
-            1. HERO SECTION (Atmospheric Humanized Team Background + High Contrast Typography)
+            1. HERO SECTION (Texture background + byline, no team imagery)
            ========================================================================= */}
         <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-rule">
           {/* Paper grain, not a photo — vsc_our_story_hero.png was a stock
@@ -224,7 +229,31 @@ export default function OurStory() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Over years of studying markets, we came to believe that successful investing is built less on prediction and more on disciplined decision-making. VSC exists to share that way of thinking.
+                Since 2019 I&apos;ve come to believe that successful investing is built less on prediction and more on disciplined decision-making. VSC exists to share that way of thinking.
+              </motion.p>
+
+              {/* Byline (v2.2 §1.1) — "This single line delivers most of
+                  the available trust gain." Body face, not mono: this is
+                  an author's name, not a data label. */}
+              <motion.p
+                className="mt-5 text-[15px] text-ink"
+                {...animProps}
+                transition={{ ...animProps.transition, delay: 0.12 }}
+              >
+                Sudheer Vobhilineni · Founder, VSC Capital &amp; Advisory
+              </motion.p>
+
+              {/* Type E mark — a typographic full stop, not a refilled
+                  hero image. The date is the one verifiable fact here
+                  (earliest published letter), not an invented founding
+                  year the way the brief's own example ("EST. 2024") is
+                  just a placeholder. */}
+              <motion.p
+                className="mt-8 font-mono text-[11px] tracking-[0.14em] text-growth uppercase"
+                {...animProps}
+                transition={{ ...animProps.transition, delay: 0.15 }}
+              >
+                Publishing since {earliestLetter.month.charAt(0) + earliestLetter.month.slice(1).toLowerCase()} {earliestLetter.year} · Systematic · Capital preservation first
               </motion.p>
             </div>
           </div>
@@ -239,8 +268,8 @@ export default function OurStory() {
               className="font-display text-3xl sm:text-4xl md:text-5xl text-ink font-normal leading-[1.3] max-w-[800px] mx-auto text-center"
               {...animProps}
             >
-              We didn&apos;t want to predict markets.<br />
-              <ShinyText text="We wanted to understand them better." speed={5} />
+              I didn&apos;t want to predict markets.<br />
+              <ShinyText text="I wanted to understand them better." speed={5} />
             </motion.h2>
           </div>
         </section>
@@ -268,9 +297,9 @@ export default function OurStory() {
                 </motion.h2>
               </div>
 
-              {/* Human Progression Sequence with Scroll-Connected Beam */}
+              {/* Human Progression Sequence — Type A vertical rail */}
               <div className="lg:col-span-8 max-w-[700px]">
-                <TimelineBeam steps={originSteps} />
+                <TimelineRail steps={originSteps} />
               </div>
 
             </div>
@@ -295,24 +324,31 @@ export default function OurStory() {
                   {...animProps}
                   transition={{ ...animProps.transition, delay: 0.05 }}
                 >
-                  Experience Shapes Every Decision We Make.
+                  Experience Shapes Every Decision I Make.
                 </motion.h2>
               </div>
-              
+
               <div className="lg:col-span-8 flex flex-col gap-8 max-w-[720px]">
                 <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
-                  We entered the markets like most retail participants—experiencing emotional decisions, premature entries, and unnecessary drawdowns. Markets humbled us repeatedly. Every cycle exposed weaknesses in our thinking.
+                  I entered the markets like most retail participants—experiencing emotional decisions, premature entries, and unnecessary drawdowns. Markets humbled me repeatedly. Every cycle exposed weaknesses in my thinking.
                 </p>
 
                 {/* Single Human Emotional Sentence Highlight */}
                 <blockquote className="font-display text-2xl sm:text-3xl text-accent-gold font-normal italic border-l-2 border-accent-gold pl-6 py-2 my-2">
-                  &ldquo;Every mistake we made became a rule we refused to break again.&rdquo;
+                  &ldquo;Every mistake I made became a rule I refuse to break.&rdquo;
                 </blockquote>
 
                 <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
-                  Gradually, we stopped chasing predictions and started studying process. We realized that protecting capital mattered far more than chasing speculative returns. That journey of trial, error, and discipline forged the philosophy behind VSC.
+                  Gradually, I stopped chasing predictions and started studying process. I realized that protecting capital mattered far more than chasing speculative returns. That journey of trial, error, and discipline forged the philosophy behind VSC.
                 </p>
               </div>
+            </div>
+
+            {/* The claim above, drawn — this is the page's thesis, so it
+                gets the full section width rather than being squeezed
+                into the 8-column text rail above it. */}
+            <div className="mt-14 sm:mt-16">
+              <EmotionalVsRuledChart />
             </div>
           </div>
         </section>
@@ -451,7 +487,7 @@ export default function OurStory() {
                 Where VSC Is Heading
               </h2>
               <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[700px]">
-                We are building an enduring institution over decades—focused on intellectual research quality rather than chasing short-term business metrics.
+                I am building an enduring institution over decades—focused on intellectual research quality rather than chasing short-term business metrics.
               </p>
             </div>
 
@@ -550,6 +586,19 @@ export default function OurStory() {
            ========================================================================= */}
         <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-rule z-10 select-none">
           <div className="container max-w-[1200px]">
+            {/* Signature (v2.2 §2). Left-aligned, above a hairline, separate
+                from the centred CTA below — a page that argues for showing
+                the work rather than asserting conclusions should say who
+                wrote it and when it was last true. */}
+            <div className="mx-auto mb-14 max-w-[700px] md:mb-16">
+              <p className="text-left font-mono text-[11px] leading-relaxed text-ink-muted">
+                Written by Sudheer Vobhilineni · Founder, VSC Capital &amp; Advisory
+                <br />
+                Last revised August 2026
+              </p>
+              <div className="mt-6 h-px w-full bg-rule" />
+            </div>
+
             <div className="max-w-[700px] mx-auto text-center flex flex-col items-center">
               
               <motion.span 

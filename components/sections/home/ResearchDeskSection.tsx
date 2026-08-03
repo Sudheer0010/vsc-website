@@ -66,7 +66,7 @@ export function ResearchDeskSection() {
             <Reveal>
               <span className="eyebrow">From the research desk</span>
               <h2 className="font-display text-ink">
-                We don&apos;t publish news. We publish thinking.
+                I don&apos;t publish news. I publish thinking.
               </h2>
             </Reveal>
 
@@ -108,20 +108,20 @@ export function ResearchDeskSection() {
             <Reveal delay={0.06}>
               <span className="eyebrow">Instead of testimonials</span>
               <h2 className="font-display text-ink">
-                We&apos;re new, and we&apos;d rather show you the work than
-                quote ourselves.
+                I&apos;m new, and I&apos;d rather show you the work than
+                quote myself.
               </h2>
             </Reveal>
 
             <Reveal delay={0.12} className="mt-6 space-y-4">
               <p className="max-w-[46ch] text-[16px] leading-relaxed text-ink-soft">
                 VSC started publishing in {earliestLetterLabel} {earliestLetter.year}.
-                We don&apos;t have a decade of client stories yet, and we&apos;re
-                not going to write ones that sound like us.
+                I don&apos;t have a decade of client stories yet, and I&apos;m
+                not going to write ones that sound like me.
               </p>
               <p className="max-w-[46ch] text-[16px] leading-relaxed text-ink-soft">
-                What we do have: {monthCountLabel} months of letters, every
-                regime call we&apos;ve made with its date, and a process you
+                What I do have: {monthCountLabel} months of letters, every
+                regime call I&apos;ve made with its date, and a process you
                 can read in full before you speak to anyone.
               </p>
             </Reveal>

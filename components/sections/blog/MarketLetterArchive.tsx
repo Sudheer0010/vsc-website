@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MarketLetter } from "@/types/market-letter";
 import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
 import { getReadingTime } from "@/lib/reading-time";
+import { Byline } from "@/components/ui/vsc/Byline";
 
 interface MarketLetterArchiveProps {
   sortedMonths: string[];
@@ -144,13 +145,16 @@ export function MarketLetterArchive({
                   </div>
 
                   {/* Read Trigger */}
-                  <div className="pt-4 mt-6 border-t border-rule flex items-center justify-between">
-                    <span className="font-mono text-[11px] text-ink-faint">
-                      {getReadingTime(letter)} min read
-                    </span>
-                    <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
-                      Read the letter &rarr;
-                    </span>
+                  <div className="pt-4 mt-6 border-t border-rule">
+                    <Byline className="mb-2 block" />
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] text-ink-faint">
+                        {getReadingTime(letter)} min read
+                      </span>
+                      <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
+                        Read the letter &rarr;
+                      </span>
+                    </div>
                   </div>
                 </SpotlightCard>
               </motion.div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Article } from "@/types/article";
 import { Card } from "@/components/ui/Card";
+import { Byline } from "@/components/ui/vsc/Byline";
 
 interface ResearchGridProps {
   categories: string[];
@@ -110,13 +111,16 @@ export function ResearchGrid({
                 </p>
               </div>
 
-              <div className="flex items-center justify-between mt-8 border-t border-rule pt-4">
-                <span className="font-mono text-[10px] text-ink-faint uppercase">
-                  {art.category}
-                </span>
-                <span className="font-mono text-[10px] text-ink-faint">
-                  {art.readingTime}
-                </span>
+              <div className="mt-8 border-t border-rule pt-4">
+                <Byline className="block" />
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="font-mono text-[10px] text-ink-faint uppercase">
+                    {art.category}
+                  </span>
+                  <span className="font-mono text-[10px] text-ink-faint">
+                    {art.readingTime}
+                  </span>
+                </div>
               </div>
             </Card>
           ))}

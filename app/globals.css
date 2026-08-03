@@ -986,6 +986,38 @@ select.form-input option {
     color: var(--ink);
 }
 
+/* EXHIBIT ==================================================================
+   The numbered-diagram wrapper. See components/ui/vsc/Exhibit.tsx for why
+   its label is tracked-out uppercase mono when nothing else on the site is
+   — it's quoting a report's figure numbering, not a section eyebrow. */
+.exhibit {
+    width: 100%;
+}
+
+.exhibit__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--growth);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+}
+
+.exhibit__art {
+    width: 100%;
+}
+
+.exhibit__caption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+    margin-top: 14px;
+}
+
 /* RANGE CONTROL ===========================================================
    The exposure instrument. Pseudo-elements can't be reached by utilities,
    so the one range control on the site is styled here. */

@@ -206,19 +206,25 @@ export function FAQAccordion() {
               {/* Category Navigation (Sticky Left Sidebar (25%) / Horizontal Chips on Mobile) */}
               <div className="lg:col-span-3 lg:sticky lg:top-[120px] flex flex-col gap-6 self-start">
                 
-                {/* Desktop Sidebar Selector */}
+                {/* Desktop Sidebar Selector — Type D: six topics as one
+                    joined structure (a bordered stack of blocks, hairline
+                    dividers between them) rather than a plain underlined
+                    list. Same buttons, same behaviour — this is the actual
+                    table of contents, restyled to read as a diagram of the
+                    six-part structure instead of a loose list. */}
                 <div className="hidden lg:flex flex-col gap-4 w-full select-none">
                   <span className="font-mono text-xs tracking-wider text-ink-faint uppercase mb-2 block">
                     Browse by Topic
                   </span>
-                  {faqCategories.map((cat) => {
+                  <div className="overflow-hidden rounded-vsc-xl border border-rule bg-surface">
+                  {faqCategories.map((cat, catIdx) => {
                     const Icon = iconComponents[cat.iconName];
                     const isActive = activeCategory === cat.id;
 
                     return (
-                      <div 
-                        key={cat.id} 
-                        className="flex flex-col border-b border-rule pb-3"
+                      <div
+                        key={cat.id}
+                        className={`flex flex-col pb-3 ${catIdx > 0 ? "border-t border-rule pt-1" : ""}`}
                       >
                         <button
                           onClick={() => setActiveCategory(cat.id)}
@@ -270,6 +276,7 @@ export function FAQAccordion() {
                       </div>
                     );
                   })}
+                  </div>
                 </div>
 
                 {/* Mobile Scrollable Chips (horizontal scroll row) */}

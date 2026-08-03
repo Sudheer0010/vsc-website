@@ -4,10 +4,22 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Framework } from "@/types/framework";
 import { Card } from "@/components/ui/Card";
+import { FrameworkGlyph, FrameworkGlyphVariant } from "./FrameworkGlyph";
 
 interface FrameworkLibraryProps {
   frameworkLibrary: Framework[];
 }
+
+/** One shape-language variant per module — see FrameworkGlyph.tsx for why
+ * "Trading Psychology" alone breaks from the shared baseline grammar. */
+const GLYPH_BY_TITLE: Record<string, FrameworkGlyphVariant> = {
+  "Stage Analysis": "ascending",
+  "Risk Management": "capped",
+  "Position Sizing": "sized",
+  "Trading Psychology": "balanced",
+  "Execution Framework": "linked",
+  "Business Analysis": "marked",
+};
 
 export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
   const categories = ["ALL", "Macro & Regimes", "Risk Rules", "Execution", "Psychology"];
@@ -71,9 +83,7 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
               <Card className="bg-[#FFFFFF] border border-rule rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-rule transition-all duration-200 h-full">
                 <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] text-accent-gold/70 tracking-wider uppercase font-semibold">
-                      SYSTEM MODULE
-                    </span>
+                    <FrameworkGlyph variant={GLYPH_BY_TITLE[fw.title] ?? "ascending"} size={40} />
                     {fw.category && (
                       <span className="font-mono text-[10px] text-ink-faint bg-canvas-sunk px-2.5 py-0.5 rounded-full border border-rule">
                         {fw.category}

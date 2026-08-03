@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { marketLetters } from "@/data/market-letters";
 import { getReadingTime } from "@/lib/reading-time";
+import { Byline } from "@/components/ui/vsc/Byline";
 
 interface MarketLetterModalProps {
   isOpen: boolean;
@@ -183,8 +184,16 @@ export default function MarketLetterModal({
 
           </div>
 
-          {/* 4. Footer Divider & Previous/Next Navigation */}
-          <div className="border-t border-rule pt-8 mt-16 select-none">
+          {/* Byline, immediately above the closing navigation — every
+              letter carries the same author line (v2.2 §3). */}
+          <div className="mt-16">
+            <Byline variant="full" />
+            <div className="mt-6 h-px w-full bg-rule" />
+          </div>
+
+          {/* 4. Previous/Next Navigation (hairline now lives on the byline
+              block above, not duplicated here) */}
+          <div className="pt-8 select-none">
             <span className="font-mono text-[10px] tracking-widest text-ink-faint uppercase text-center block mb-6 font-semibold">
               RESEARCH ARCHIVE
             </span>

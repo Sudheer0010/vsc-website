@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { DiscussionForm } from "@/components/sections/enquire/DiscussionForm";
+import { AfterYouSubmit } from "@/components/sections/enquire/AfterYouSubmit";
 import { motion } from "framer-motion";
 import { ShieldCheck, Clock, Mail, Lock } from "lucide-react";
 
@@ -54,7 +55,7 @@ export default function Enquire() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Tell us what&apos;s on your mind — a specific question, or just curiosity. We read every submission before we say anything back.
+                Tell me what&apos;s on your mind — a specific question, or just curiosity. I read every submission before I say anything back.
               </motion.p>
 
               {/* Institutional Assurance / Credibility Highlights */}
@@ -125,6 +126,7 @@ export default function Enquire() {
             {/* Right Column: Discussion Form Card */}
             <div className="lg:col-span-7">
               <DiscussionForm />
+              <AfterYouSubmit />
             </div>
 
           </div>
