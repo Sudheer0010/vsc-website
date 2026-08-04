@@ -59,7 +59,7 @@ export default function ThankYou() {
               <ul className="flex flex-col gap-4 font-mono text-sm">
                 <li>
                   <Link 
-                    href="/blog" 
+                    href="/research"
                     className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Read the research

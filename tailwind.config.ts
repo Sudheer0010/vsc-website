@@ -113,6 +113,8 @@ const config: Config = {
         sans: ["var(--font-ui-next)", "Instrument Sans", "system-ui", "sans-serif"],
         // Figures only — never labels, never body copy.
         mono: ["var(--font-mono-next)", "Geist Mono", "ui-monospace", "monospace"],
+        // The founder's signature, About page only. Not a general face.
+        signature: ["var(--font-signature-next)", "cursive"],
       },
 
       fontSize: {

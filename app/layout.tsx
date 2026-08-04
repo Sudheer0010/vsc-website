@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist_Mono, Instrument_Sans } from "next/font/google";
+import { Alex_Brush, Bricolage_Grotesque, Geist_Mono, Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -33,6 +33,16 @@ const instrumentSans = Instrument_Sans({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono-next",
+  display: "swap",
+});
+
+// Single-purpose: the founder's signature on the About page only. Not a
+// general display face — a script that reads as a pen signature, not
+// italicised body type standing in for one.
+const alexBrush = Alex_Brush({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-signature-next",
   display: "swap",
 });
 
@@ -83,6 +93,7 @@ export default function RootLayout({
         bricolage.variable,
         instrumentSans.variable,
         geistMono.variable,
+        alexBrush.variable,
         "font-sans"
       )}
     >

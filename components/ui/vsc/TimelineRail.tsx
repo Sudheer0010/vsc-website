@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 export interface TimelineStep {
   number: string;
+  year?: string;
   title: string;
   description: string;
 }
@@ -59,6 +60,11 @@ export function TimelineRail({
               {idx + 1}
             </motion.span>
 
+            {step.year && (
+              <span className="mb-1.5 block font-mono text-[11px] tracking-[0.1em] text-growth">
+                {step.year}
+              </span>
+            )}
             <h3 className="font-display text-2xl sm:text-3xl text-ink font-normal tracking-tight">
               {step.title}
             </h3>

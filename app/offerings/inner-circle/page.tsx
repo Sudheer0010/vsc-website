@@ -110,7 +110,7 @@ export default function InnerCirclePage() {
                 (and should never be described using that word). */}
             <p className="mt-5 max-w-[58ch] text-[16px] leading-relaxed text-ink-soft">
               Every monthly letter is published in full on the{" "}
-              <Link href="/blog" className="font-semibold text-growth underline-offset-4 hover:underline">
+              <Link href="/research" className="font-semibold text-growth underline-offset-4 hover:underline">
                 Research page
               </Link>
               . That&apos;s the artifact. Membership is the room around it — the

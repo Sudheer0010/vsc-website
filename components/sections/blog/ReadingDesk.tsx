@@ -56,9 +56,9 @@ export function ReadingDesk({
         <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-4 block font-semibold">
           RECOMMENDATIONS
         </span>
-        <h2 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
+        <h1 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
           Reading Desk
-        </h2>
+        </h1>
       </div>
 
       <div className="flex flex-col gap-16 select-none">

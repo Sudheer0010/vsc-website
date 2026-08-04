@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 import { latestMonthKey, marketLetters, sortedMonths } from "@/data/market-letters";
 import { getReadingTime } from "@/lib/reading-time";
+import { letterHref } from "@/lib/letter-urls";
 
 /**
  * Research and candour, on one warm band.
@@ -72,7 +73,7 @@ export function ResearchDeskSection() {
 
             <Reveal delay={0.08} className="mt-7">
               <Link
-                href="/blog"
+                href={letterHref(latestMonthKey)}
                 className="group block rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[box-shadow,transform,border-color] duration-200 ease-physical hover:-translate-y-1 hover:border-rule-strong hover:shadow-lift-3 sm:p-8"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-rule pb-3">
@@ -120,19 +121,20 @@ export function ResearchDeskSection() {
                 not going to write ones that sound like me.
               </p>
               <p className="max-w-[46ch] text-[16px] leading-relaxed text-ink-soft">
-                What I do have: {monthCountLabel} months of letters, every
-                regime call I&apos;ve made with its date, and a process you
-                can read in full before you speak to anyone.
+                What I do have: {monthCountLabel}{" "}
+                months of letters, every regime call I&apos;ve made with its
+                date, and a process you can read in full before you speak to
+                anyone.
               </p>
             </Reveal>
 
             <Reveal delay={0.18} className="mt-7 flex items-center gap-3">
               <StepRule size="sm" className="shrink-0" />
               <Link
-                href="/blog"
+                href="/start"
                 className="group inline-flex items-center gap-2 text-[16px] font-semibold text-growth"
               >
-                Read the letters
+                Start here
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-physical group-hover:translate-x-1" />
               </Link>
             </Reveal>

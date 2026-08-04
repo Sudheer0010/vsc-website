@@ -17,7 +17,7 @@ const NAV = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Offerings", href: "/offerings" },
-  { label: "Research", href: "/blog" },
+  { label: "Research", href: "/research" },
   { label: "FAQ", href: "/faq" },
   { label: "Enquire", href: "/enquire" },
 ];

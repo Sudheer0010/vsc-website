@@ -2,12 +2,12 @@
 
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
-import { GradientText } from "@/components/ui/vsc/GradientText";
 import { ShinyText } from "@/components/ui/vsc/ShinyText";
 import { TimelineRail, TimelineStep } from "@/components/ui/vsc/TimelineRail";
 import { EmotionalVsRuledChart } from "@/components/sections/about/EmotionalVsRuledChart";
@@ -19,23 +19,27 @@ const earliestLetter = marketLetters[earliestMonthKey];
 const originSteps: TimelineStep[] = [
   {
     number: "01",
-    title: "The more I learned...",
-    description: "the more I realized information wasn't the problem. Financial news was everywhere, but actionable understanding was scarce."
+    year: "2021",
+    title: "First systematic framework written down.",
+    description: "Rules for entry, sizing, and exit recorded before use rather than after."
   },
   {
     number: "02",
-    title: "Markets humbled me repeatedly.",
-    description: "Early emotional entries and unmanaged risk taught me that opinions are cheap, while systematic risk rules are indispensable."
+    year: "2024",
+    title: "Process rebuilt around capital preservation.",
+    description: "Risk defined before entry; position size derived from the stop, not from conviction."
   },
   {
     number: "03",
-    title: "Eventually experience became the teacher.",
-    description: "I stopped chasing short-term price forecasts and began constructing quantitative risk parameters focused on capital preservation."
+    year: "2025",
+    title: "Research expanded to US equities.",
+    description: "Same framework applied across two markets."
   },
   {
     number: "04",
-    title: "That's when VSC began.",
-    description: "Designed not as a retail brokerage or advisory storefront, but as the digital headquarters of an institutional research desk."
+    year: "2026",
+    title: "VSC Capital & Advisory founded. Publishing since January.",
+    description: "Built as a research desk that publishes its process, not a brokerage or tip service."
   }
 ];
 
@@ -81,20 +85,20 @@ const roadmapData = [
   {
     horizon: "TODAY",
     commitment: "COMMITMENT I",
-    title: "Empower investors through systematic decision frameworks.",
-    desc: "Replacing retail financial noise with repeatable quantitative risk models."
+    title: "Publish a market letter every month—even when things don't go as planned.",
+    desc: "Every letter stays in the archive as it was originally published. No edits after the fact."
   },
   {
     horizon: "NEXT",
     commitment: "COMMITMENT II",
-    title: "Build India's most respected independent research desk.",
-    desc: "Publishing thorough, evidence-based market research with zero commercial bias."
+    title: "Publish the rules before the results.",
+    desc: "Each framework is written down and dated before it's used—so it can be checked against what actually happened."
   },
   {
     horizon: "LONG TERM",
     commitment: "COMMITMENT III",
-    title: "Become a trusted partner in every investor's financial journey.",
-    desc: "Building long-term relationships through transparent research, systematic risk frameworks, and disciplined advisory."
+    title: "Be here ten years from now, with every letter still available.",
+    desc: "Over time, consistency and a complete public record matter more than claims."
   }
 ];
 
@@ -262,7 +266,7 @@ export default function OurStory() {
         {/* =========================================================================
             2. MANIFESTO QUOTE PAUSE
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden z-10 border-t border-rule select-none">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden z-10 border-t border-rule select-none">
           <div className="container max-w-[1200px] text-center">
             <motion.h2 
               className="font-display text-3xl sm:text-4xl md:text-5xl text-ink font-normal leading-[1.3] max-w-[800px] mx-auto text-center"
@@ -275,9 +279,64 @@ export default function OurStory() {
         </section>
 
         {/* =========================================================================
-            3. WHERE IT ALL BEGAN (Human Emotional Milestones Progression)
+            2.5 THE RESEARCHER (Founder letter)
+            Sits between the manifesto statement and the origin timeline so
+            the origin story that follows has a named subject. First-person
+            letter, not a fact panel — text left, photo right, top-aligned.
+            Grid/gap/breakpoint values are literal per spec, not mapped to
+            the Tailwind scale.
            ========================================================================= */}
         <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10">
+          <div className="container max-w-[1200px]">
+            <div className="grid grid-cols-1 items-start gap-[clamp(40px,6vw,72px)] max-[860px]:grid-cols-1 lg:grid-cols-[1fr_minmax(300px,34%)]">
+
+              {/* Text column */}
+              <motion.div className="max-[860px]:order-2" {...animProps}>
+                <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
+                  The Researcher
+                </span>
+
+                <h2 className="mb-8 font-display text-4xl font-normal leading-[1.15] text-ink md:text-5xl">
+                  Hi, I&apos;m Sudheer.
+                </h2>
+
+                <div className="max-w-[56ch] space-y-6 text-[16px] leading-[1.75] text-ink-soft">
+                  <p>
+                    I started trading in 2019, while I was preparing for the UPSC exam. In 2023 I lost 41% of my capital averaging into losers — the single most expensive lesson I&apos;ve had. Every rule I use now came out of that year: define the risk before entry, size by formula, exit by plan.
+                  </p>
+                  <p>
+                    I built VSC to publish that process rather than sell predictions. The letters show how I think. You can decide from those whether it&apos;s worth a conversation.
+                  </p>
+                </div>
+
+                <div className="mt-10 h-px w-12 bg-growth" />
+
+                <p className="mt-1 font-signature text-5xl leading-none text-ink">
+                  Sudheer
+                </p>
+              </motion.div>
+
+              {/* Photo column — top-aligned, capped narrower than the grid
+                  track so it ends above the signature rule at left. */}
+              <motion.div className="max-[860px]:order-1" {...animProps}>
+                <Image
+                  src="/images/sudheer.png"
+                  alt="Sudheer Vobhilineni, founder of VSC Capital & Advisory"
+                  width={468}
+                  height={585}
+                  sizes="(min-width: 860px) 250px, 200px"
+                  className="h-auto w-full max-w-[250px] rounded max-[860px]:max-w-[200px]"
+                />
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            3. WHERE IT ALL BEGAN (Dated Record)
+           ========================================================================= */}
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               
@@ -307,9 +366,11 @@ export default function OurStory() {
         </section>
 
         {/* =========================================================================
-            4. EXPERIENCE SECTION (With Single Human Emotional Sentence)
+            4. EXPERIENCE SECTION (Heading, pull-quote, exhibit only — the
+            narrative prose used to restate the founder letter and the
+            origin timeline, so it's been cut to just this)
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/60">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/60">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               <div className="lg:col-span-4">
@@ -328,19 +389,10 @@ export default function OurStory() {
                 </motion.h2>
               </div>
 
-              <div className="lg:col-span-8 flex flex-col gap-8 max-w-[720px]">
-                <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
-                  I entered the markets like most retail participants—experiencing emotional decisions, premature entries, and unnecessary drawdowns. Markets humbled me repeatedly. Every cycle exposed weaknesses in my thinking.
-                </p>
-
-                {/* Single Human Emotional Sentence Highlight */}
-                <blockquote className="font-display text-2xl sm:text-3xl text-accent-gold font-normal italic border-l-2 border-accent-gold pl-6 py-2 my-2">
+              <div className="lg:col-span-8 flex flex-col max-w-[720px]">
+                <blockquote className="font-display text-2xl sm:text-3xl text-accent-gold font-normal italic border-l-2 border-accent-gold pl-6 py-2">
                   &ldquo;Every mistake I made became a rule I refuse to break.&rdquo;
                 </blockquote>
-
-                <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed">
-                  Gradually, I stopped chasing predictions and started studying process. I realized that protecting capital mattered far more than chasing speculative returns. That journey of trial, error, and discipline forged the philosophy behind VSC.
-                </p>
               </div>
             </div>
 
@@ -487,7 +539,7 @@ export default function OurStory() {
                 Where VSC Is Heading
               </h2>
               <p className="font-mono text-sm sm:text-base text-ink-soft leading-relaxed max-w-[700px]">
-                I am building an enduring institution over decades—focused on intellectual research quality rather than chasing short-term business metrics.
+                I&apos;m building VSC with a long-term view. In the early years, earning trust through the quality and consistency of the work matters more than growing quickly.
               </p>
             </div>
 
@@ -566,16 +618,19 @@ export default function OurStory() {
         </section>
 
         {/* =========================================================================
-            7. ICONIC SKY-BLUE POSTER STATEMENT (Massive Apple/Museum Poster Climax)
+            7. POSTER STATEMENT (Massive Apple/Museum Poster Climax)
+            Was an animated cyan→green gradient (off-palette); flagged by
+            v2 §8 and v2.1 §0.2 as the only element on the page outside the
+            palette. Fixed to a flat var(--growth), no animation.
            ========================================================================= */}
-        <section className="relative w-full py-36 md:py-56 overflow-hidden border-t border-rule select-none z-10 bg-gradient-to-b from-transparent via-[#38BDF8]/[0.02] to-transparent">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule select-none z-10 bg-gradient-to-b from-transparent via-[#0F7A40]/[0.02] to-transparent">
           <div className="container max-w-[1200px] text-center">
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center justify-center text-center py-6"
               {...animProps}
             >
               <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-normal italic leading-[1.15] tracking-tight max-w-[900px] mx-auto text-center drop-shadow-lg">
-                &ldquo;<GradientText colors={["#38BDF8", "#0F7A40", "#0B6435", "#38BDF8"]} animationSpeed={6}>Clarity compounds over time.</GradientText>&rdquo;
+                &ldquo;<span className="text-growth">Clarity compounds over time.</span>&rdquo;
               </h2>
             </motion.div>
           </div>
@@ -584,21 +639,8 @@ export default function OurStory() {
         {/* =========================================================================
             8. FINAL CTA (Refined Headline & Preserved Structure)
            ========================================================================= */}
-        <section className="relative w-full py-28 md:py-36 overflow-hidden border-t border-rule z-10 select-none">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10 select-none">
           <div className="container max-w-[1200px]">
-            {/* Signature (v2.2 §2). Left-aligned, above a hairline, separate
-                from the centred CTA below — a page that argues for showing
-                the work rather than asserting conclusions should say who
-                wrote it and when it was last true. */}
-            <div className="mx-auto mb-14 max-w-[700px] md:mb-16">
-              <p className="text-left font-mono text-[11px] leading-relaxed text-ink-muted">
-                Written by Sudheer Vobhilineni · Founder, VSC Capital &amp; Advisory
-                <br />
-                Last revised August 2026
-              </p>
-              <div className="mt-6 h-px w-full bg-rule" />
-            </div>
-
             <div className="max-w-[700px] mx-auto text-center flex flex-col items-center">
               
               <motion.span 
@@ -640,6 +682,20 @@ export default function OurStory() {
             </div>
           </div>
         </section>
+
+        {/* =========================================================================
+            9. COLOPHON — page foot, immediately above the footer. Left-
+            aligned, not centred with the CTA above it: a signature line,
+            not part of the pitch.
+           ========================================================================= */}
+        <div className="container max-w-[1200px] pb-16 pt-10 select-none">
+          <div className="h-px w-full bg-rule" />
+          <p className="mt-6 text-left font-mono text-[11px] leading-relaxed text-ink-muted">
+            Written by Sudheer Vobhilineni · Founder, VSC Capital &amp; Advisory
+            <br />
+            Last revised August 2026
+          </p>
+        </div>
 
       </main>
 

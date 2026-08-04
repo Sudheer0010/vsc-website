@@ -8,6 +8,10 @@ export interface NavItem {
     label: string;
     href: string;
     dropdownItems?: NavItem[];
+    /** Extra path prefixes that should count as this item being active
+     *  (e.g. Research staying highlighted on /letters, a sub-area with
+     *  its own URL that isn't literally under /research). */
+    activeMatch?: string[];
 }
 
 export interface SpotlightNavbarProps {

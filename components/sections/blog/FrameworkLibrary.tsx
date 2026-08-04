@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Framework } from "@/types/framework";
+import { PrimaryTopic } from "@/types/taxonomy";
 import { Card } from "@/components/ui/Card";
 import { FrameworkGlyph, FrameworkGlyphVariant } from "./FrameworkGlyph";
+import { frameworkHref } from "@/lib/framework-urls";
 
 interface FrameworkLibraryProps {
   frameworkLibrary: Framework[];
@@ -22,13 +25,16 @@ const GLYPH_BY_TITLE: Record<string, FrameworkGlyphVariant> = {
 };
 
 export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
-  const categories = ["ALL", "Macro & Regimes", "Risk Rules", "Execution", "Psychology"];
-  const [activeCategory, setActiveCategory] = useState("ALL");
+  const topics: (PrimaryTopic | "ALL")[] = [
+    "ALL",
+    ...Array.from(new Set(frameworkLibrary.map((fw) => fw.primaryTopic))),
+  ];
+  const [activeTopic, setActiveTopic] = useState<PrimaryTopic | "ALL">("ALL");
 
   const filteredFrameworks =
-    activeCategory === "ALL"
+    activeTopic === "ALL"
       ? frameworkLibrary
-      : frameworkLibrary.filter((fw) => fw.category === activeCategory);
+      : frameworkLibrary.filter((fw) => fw.primaryTopic === activeTopic);
 
   return (
     <section className="py-24 border-t border-rule">
@@ -37,31 +43,31 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
           <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
             EVERGREEN SYSTEMS
           </span>
-          <h2 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
+          <h1 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
             Framework Library
-          </h2>
+          </h1>
         </div>
 
-        {/* Fluid Sliding Pill Category Filter Tabs */}
+        {/* Primary-topic filter tabs (Architecture doc §4.1) */}
         <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-surface border border-rule rounded-full ">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat;
+          {topics.map((topic) => {
+            const isActive = activeTopic === topic;
             return (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={topic}
+                onClick={() => setActiveTopic(topic)}
                 className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
                   isActive ? "text-white font-semibold" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {isActive && (
                   <motion.div
-                    layoutId="categoryPill"
+                    layoutId="frameworkTopicPill"
                     className="absolute inset-0 bg-accent-gold rounded-full z-0"
                     transition={{ type: "spring", stiffness: 350, damping: 28 }}
                   />
                 )}
-                <span className="relative z-10">{cat}</span>
+                <span className="relative z-10">{topic}</span>
               </button>
             );
           })}
@@ -73,34 +79,36 @@ export function FrameworkLibrary({ frameworkLibrary }: FrameworkLibraryProps) {
         <AnimatePresence mode="popLayout">
           {filteredFrameworks.map((fw) => (
             <motion.div
-              key={fw.title}
+              key={fw.slug}
               layout
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
             >
-              <Card className="bg-[#FFFFFF] border border-rule rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-rule transition-all duration-200 h-full">
-                <div className="flex flex-col gap-6">
-                  <div className="flex items-center justify-between">
-                    <FrameworkGlyph variant={GLYPH_BY_TITLE[fw.title] ?? "ascending"} size={40} />
-                    {fw.category && (
-                      <span className="font-mono text-[10px] text-ink-faint bg-canvas-sunk px-2.5 py-0.5 rounded-full border border-rule">
-                        {fw.category}
-                      </span>
-                    )}
+              <Link href={frameworkHref(fw)} className="block h-full">
+                <Card className="bg-[#FFFFFF] border border-rule rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-200 h-full">
+                  <div className="flex flex-col gap-6">
+                    <div className="flex items-center justify-between">
+                      <FrameworkGlyph variant={GLYPH_BY_TITLE[fw.title] ?? "ascending"} size={40} />
+                      {fw.category && (
+                        <span className="font-mono text-[10px] text-ink-faint bg-canvas-sunk px-2.5 py-0.5 rounded-full border border-rule">
+                          {fw.category}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-display text-lg sm:text-xl text-ink font-medium">
+                      {fw.title}
+                    </h3>
+                    <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed">
+                      {fw.desc}
+                    </p>
                   </div>
-                  <h3 className="font-display text-lg sm:text-xl text-ink font-medium">
-                    {fw.title}
-                  </h3>
-                  <p className="font-mono text-xs sm:text-sm text-ink-soft leading-relaxed">
-                    {fw.desc}
-                  </p>
-                </div>
-                <span className="font-mono text-[10px] text-ink-faint uppercase mt-8 block">
-                  Coming Soon
-                </span>
-              </Card>
+                  <span className="font-mono text-[10px] text-ink-faint uppercase mt-8 block">
+                    {fw.body ? "Read the framework →" : "Full write-up in progress"}
+                  </span>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </AnimatePresence>

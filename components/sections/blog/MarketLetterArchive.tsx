@@ -1,26 +1,24 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarketLetter } from "@/types/market-letter";
 import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
 import { getReadingTime } from "@/lib/reading-time";
 import { Byline } from "@/components/ui/vsc/Byline";
+import { formatLongDate } from "@/lib/format-date";
+import { letterHref } from "@/lib/letter-urls";
 
 interface MarketLetterArchiveProps {
   sortedMonths: string[];
   marketLetters: { [key: string]: MarketLetter };
-  isArchiveExpanded?: boolean;
-  setIsArchiveExpanded?: (expanded: boolean) => void;
-  onOpenLetter: (month: string) => void;
   archiveHeadingRef?: React.RefObject<HTMLHeadingElement | null>;
-  DEFAULT_VISIBLE_LETTERS?: number;
 }
 
 export function MarketLetterArchive({
   sortedMonths,
   marketLetters,
-  onOpenLetter,
   archiveHeadingRef,
 }: MarketLetterArchiveProps) {
   // Extract all available years from market letters
@@ -49,14 +47,14 @@ export function MarketLetterArchive({
           <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
             MONTHLY LOGS
           </span>
-          <h2
+          <h1
             ref={archiveHeadingRef}
             className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2] mb-3"
           >
             Market Letter Archive
-          </h2>
+          </h1>
           <p className="font-mono text-sm leading-relaxed text-ink-soft">
-            A chronological archive of our monthly market letters documenting market observations, portfolio decisions, and lessons learned.
+            A chronological archive of my monthly market letters documenting market observations, portfolio decisions, and lessons learned.
           </p>
         </div>
 
@@ -104,59 +102,42 @@ export function MarketLetterArchive({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                onClick={() => onOpenLetter(m)}
-                className="cursor-pointer"
               >
-                <SpotlightCard
-                  className="p-6 h-full flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-300 group"
-                  spotlightColor="rgba(15, 122, 64, 0.12)"
-                >
-                  <div className="flex flex-col gap-4">
-                    {/* Top Row: Month & Year + Return Metric Tag */}
-                    <div className="flex items-center justify-between gap-2 border-b border-rule pb-4">
-                      <div>
+                <Link href={letterHref(m)} className="block h-full">
+                  <SpotlightCard
+                    className="p-6 h-full flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-300 group"
+                    spotlightColor="rgba(15, 122, 64, 0.12)"
+                  >
+                    <div className="flex flex-col gap-4">
+                      <div className="border-b border-rule pb-4">
                         <span className="font-display text-xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200 block">
                           {fullMonth} {letter.year}
                         </span>
                         <span className="font-mono text-[10px] text-ink-faint block mt-0.5">
-                          {m === "JUL" ? "24 July 2026" : `Published in ${fullMonth}`}
+                          Letter {String(letter.letterNumber).padStart(3, "0")} · {formatLongDate(letter.publishedDate)}
                         </span>
                       </div>
 
-                      {letter.metrics?.["Monthly Return"] && (
-                        <span
-                          className={`font-mono text-xs px-2.5 py-1 rounded-full font-bold border shrink-0 ${
-                            letter.metrics["Monthly Return"].startsWith("+")
-                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                              : letter.metrics["Monthly Return"].startsWith("-")
-                              ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                              : "bg-canvas-sunk text-ink-muted border-rule"
-                          }`}
-                        >
-                          {letter.metrics["Monthly Return"]}
+                      {/* Letter Short Description */}
+                      <p className="font-mono text-xs text-ink-soft leading-relaxed line-clamp-2">
+                        {letter.description}
+                      </p>
+                    </div>
+
+                    {/* Read Trigger */}
+                    <div className="pt-4 mt-6 border-t border-rule">
+                      <Byline className="mb-2 block" />
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-ink-faint">
+                          {getReadingTime(letter)} min read
                         </span>
-                      )}
+                        <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
+                          Read the letter &rarr;
+                        </span>
+                      </div>
                     </div>
-
-                    {/* Letter Short Description */}
-                    <p className="font-mono text-xs text-ink-soft leading-relaxed line-clamp-2">
-                      {letter.description}
-                    </p>
-                  </div>
-
-                  {/* Read Trigger */}
-                  <div className="pt-4 mt-6 border-t border-rule">
-                    <Byline className="mb-2 block" />
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] text-ink-faint">
-                        {getReadingTime(letter)} min read
-                      </span>
-                      <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
-                        Read the letter &rarr;
-                      </span>
-                    </div>
-                  </div>
-                </SpotlightCard>
+                  </SpotlightCard>
+                </Link>
               </motion.div>
             );
           })}

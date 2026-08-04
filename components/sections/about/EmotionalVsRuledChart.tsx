@@ -24,10 +24,15 @@ const IMPULSIVE =
   "C 260 196, 320 190, 380 195 C 430 198, 480 186, 530 178 " +
   "C 555 174, 575 172, 594 175";
 
+// Right-hand portion deliberately flattened — this used to climb steeply
+// off the top-right corner, which reads as a return claim rather than a
+// behavioural contrast. The point is the shape of the drawdown (the small
+// dip around x=210-260), not the size of the eventual gain, so the line
+// ends only modestly above where it started (y 170 -> 117).
 const RULED =
   "M 8 170 C 50 168, 90 160, 130 145 C 160 136, 186 133, 210 140 " +
-  "C 230 146, 246 150, 260 145 C 300 133, 350 111, 400 90 " +
-  "C 450 70, 500 52, 550 38 C 565 34, 580 30, 594 26";
+  "C 230 146, 246 150, 260 145 C 310 139, 370 131, 430 126 " +
+  "C 470 123, 510 121, 550 119 C 565 118.3, 580 117.6, 594 117";
 
 export function EmotionalVsRuledChart() {
   const reduce = useReducedMotion();
@@ -53,7 +58,7 @@ export function EmotionalVsRuledChart() {
         <svg
           viewBox="0 0 602 232"
           role="img"
-          aria-label="Two schematic capital curves starting from the same point. The impulsive path spikes up on an excited entry, crashes down on a fearful exit, then drifts sideways with no net progress. The ruled path rises gently on a sized entry, dips only slightly on a capped loss, and compounds steadily to a clearly higher level."
+          aria-label="Two schematic capital curves starting from the same point. The impulsive path spikes up on an excited entry, crashes down on a fearful exit, then drifts sideways with no net progress. The ruled path rises gently on a sized entry, dips only slightly on a capped loss, recovers, and ends only modestly above where it started."
           className="h-auto w-full min-w-[520px]"
         >
           <line x1="8" y1="200" x2="594" y2="200" stroke="var(--rule-strong)" strokeWidth="1" />
@@ -85,7 +90,7 @@ export function EmotionalVsRuledChart() {
           <text x="175" y="222" style={{ font: "500 12px var(--font-ui)", fill: "var(--ink-muted)" }}>
             Sold on fear
           </text>
-          <text x="290" y="108" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
+          <text x="205" y="68" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
             Small, controlled loss
           </text>
         </svg>

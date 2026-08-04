@@ -99,7 +99,7 @@ export default function Home() {
                     The hero's job is to earn the ask made at the bottom. */}
                 <Reveal delay={0.18}>
                   <div className="mt-9 flex flex-wrap items-center gap-3">
-                    <VSCButton href="/blog" variant="growth">
+                    <VSCButton href="/research" variant="growth">
                       Read the research
                     </VSCButton>
                   </div>

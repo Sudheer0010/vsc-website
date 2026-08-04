@@ -13,6 +13,8 @@ export const latestMonthKey = sortedMonths[0];
 
 export const marketLetters: { [key: string]: MarketLetter } = {
   JAN: {
+    letterNumber: 1,
+    publishedDate: "2026-01-31",
     month: "JANUARY",
     year: 2026,
     description: "Sector leadership screenings and momentum execution models.",
@@ -30,6 +32,8 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   FEB: {
+    letterNumber: 2,
+    publishedDate: "2026-02-28",
     month: "FEBRUARY",
     year: 2026,
     description: "Capitalizing on banking sector relative strength and Stage 2 breakouts.",
@@ -47,6 +51,8 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   MAR: {
+    letterNumber: 3,
+    publishedDate: "2026-03-31",
     month: "MARCH",
     year: 2026,
     description: "Strict risk controls during geopolitical volatility cycles.",
@@ -64,6 +70,8 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   APR: {
+    letterNumber: 4,
+    publishedDate: "2026-04-30",
     month: "APRIL",
     year: 2026,
     description: "Preserving capital and managing cash balances during high-volatility ranges.",
@@ -81,6 +89,8 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   MAY: {
+    letterNumber: 5,
+    publishedDate: "2026-05-31",
     month: "MAY",
     year: 2026,
     description: "Allocating capital to AI proxy breakout trends and defense relative strength.",
@@ -98,6 +108,8 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   JUN: {
+    letterNumber: 6,
+    publishedDate: "2026-06-30",
     month: "JUNE",
     year: 2026,
     description: "Navigating sector rotation and trailing leadership setups.",
@@ -115,9 +127,11 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     }
   },
   JUL: {
+    letterNumber: 7,
+    publishedDate: "2026-07-24",
     month: "JULY",
     year: 2026,
-    description: "How we interpreted markets, managed risk and positioned capital.",
+    description: "How I interpreted markets, managed risk and positioned capital.",
     metrics: {
       "Monthly Return": "+5.82%",
       "Risk / Trade": "1.5%",

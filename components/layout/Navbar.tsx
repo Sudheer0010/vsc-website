@@ -25,9 +25,12 @@ const NAV_ITEMS = [
       { label: "Inner Circle", href: "/offerings/inner-circle" },
     ],
   },
-  { label: "Research", href: "/blog" },
+  {
+    label: "Research",
+    href: "/research",
+    activeMatch: ["/research", "/letters", "/notes", "/frameworks", "/reading", "/start"],
+  },
   { label: "FAQ", href: "/faq" },
-  { label: "Enquire", href: "/enquire" },
 ];
 
 export default function Navbar() {
@@ -65,7 +68,9 @@ export default function Navbar() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const activeIdx = NAV_ITEMS.findIndex((item) => isActive(item.href));
+  const activeIdx = NAV_ITEMS.findIndex((item) =>
+    item.activeMatch ? item.activeMatch.some(isActive) : isActive(item.href)
+  );
 
   const handleItemClick = (item: NavItem) => {
     router.push(item.href);
