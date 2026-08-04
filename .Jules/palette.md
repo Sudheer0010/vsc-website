@@ -1,0 +1,3 @@
+## 2026-08-04 - Keyboard Accessibility on Carousel Components
+**Learning:** Custom interactive elements, like carousel navigation buttons and indicator dots, often lack default focus rings when navigated via keyboard. This degrades the accessibility of these components for keyboard users since they cannot visually distinguish when these interactive elements have focus.
+**Action:** When implementing custom interactive elements such as carousel controls or custom pagination indicators, always append appropriate focus classes (e.g., `focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas-sunk`) to ensure keyboard users have visual feedback that aligns with the brand design.
