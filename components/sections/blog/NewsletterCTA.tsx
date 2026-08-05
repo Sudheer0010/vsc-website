@@ -101,6 +101,7 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
             </p>
             
             <input 
+              aria-label="Email address"
               type="email" 
               name="email" 
               placeholder="Enter your email address*" 
@@ -110,7 +111,7 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="btn btn-gold" 
+              className="btn btn-gold disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ padding: "12px 28px", fontSize: "11px", fontFamily: "var(--font-mono)", letterSpacing: "1px" }}
             >
               {isSubmitting ? "Submitting..." : newsletterConfig.buttonText}

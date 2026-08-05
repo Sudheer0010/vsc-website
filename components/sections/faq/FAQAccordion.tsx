@@ -102,6 +102,7 @@ export function FAQAccordion() {
         </div>
 
         <input
+          aria-label="Search FAQs"
           type="text"
           placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
