@@ -103,6 +103,7 @@ export function FAQAccordion() {
 
         <input
           type="text"
+          aria-label="Search questions"
           placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
