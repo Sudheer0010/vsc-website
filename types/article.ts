@@ -21,6 +21,11 @@ export interface Article {
   slug: string;
   /** Full note body. Undefined = not yet written. */
   body?: string;
+  /** Explicit `false` hides this note from the /notes index and the
+   *  sitemap until it has real content — six identical "In progress"
+   *  cards reads as an abandoned section, so unfinished notes wait
+   *  offstage rather than all being shown at once. Undefined = visible. */
+  published?: boolean;
   /** Hand-picked, never auto-generated (§5.3). Undefined until chosen. */
   relatedSlugs?: string[];
 }

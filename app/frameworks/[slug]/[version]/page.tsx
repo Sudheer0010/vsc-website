@@ -79,7 +79,7 @@ export default async function FrameworkVersionPage({ params }: VersionPageProps)
             </p>
             <p className="mt-1 font-mono text-xs text-ink-faint">
               This version is kept reachable for citation.{" "}
-              <Link href={frameworkHref(fw)} className="text-growth hover:underline">
+              <Link href={frameworkHref(fw)} className="text-growth link-underline">
                 Read the current version →
               </Link>
             </p>

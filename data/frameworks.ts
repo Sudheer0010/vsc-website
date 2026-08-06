@@ -1,65 +1,66 @@
 import { Framework } from "@/types/framework";
 
 /**
- * Version 1 entries carry no `year` — these summaries have been live on
- * the site for a while, but nobody confirmed the exact date the
- * underlying framework was first codified, so it stays undated rather
- * than guessed. `body` and `appliedInLetters` are empty until real
- * content and real citations exist; the page says so honestly rather
- * than rendering nothing.
+ * The VSC Decision Pipeline — five stages, in order. Each one's output is
+ * the next one's input, which is why this is a sequence and not a topic
+ * grid: "Risk Management" or "Trading Psychology" as standalone cards
+ * implied six unrelated subjects, when the actual system is one process
+ * read top to bottom.
+ *
+ * Version 1 entries carry no `year` — undated is honest; a guessed date
+ * isn't. `body` stays empty until a real write-up exists; the framework
+ * detail page already says so plainly rather than rendering nothing.
  */
 export const frameworkLibrary: Framework[] = [
   {
-    slug: "stage-analysis",
-    title: "Stage Analysis",
-    desc: "Identifying institutional capital footprints and Stage 2 breakout trends.",
-    category: "Macro & Regimes",
+    slug: "market-environment",
+    title: "Market Environment",
+    question: "What kind of market is this?",
+    desc: "Determines whether the environment is aggressive, neutral, or defensive — and sets the maximum total exposure.",
     primaryTopic: "Market Structure",
+    versions: [
+      {
+        version: 1,
+        year: 2026,
+        changeNote:
+          "Initial version. Three-factor equal-weight model. Sub-dimension scoring for Trend and Leadership Quality. All thresholds provisional — to be calibrated against NSE data over the first 12–24 months.",
+      },
+    ],
+    appliedInLetters: [],
+  },
+  {
+    slug: "opportunity-universe",
+    title: "Opportunity Universe",
+    question: "What stocks deserve attention?",
+    desc: "Filters the market down to a watchlist based on liquidity, price, sector, and relative strength.",
+    primaryTopic: "Momentum",
     versions: [{ version: 1, changeNote: "Original." }],
     appliedInLetters: [],
   },
   {
-    slug: "risk-management",
-    title: "Risk Management",
-    desc: "Capital preservation rules and mathematical expectation modeling.",
-    category: "Risk Rules",
+    slug: "setup-grading",
+    title: "Setup Grading",
+    question: "Which stocks deserve capital?",
+    desc: "Grades each setup as A+, A, or B based on trend quality, base quality, volume, and risk-reward. The grade sets the capital cap.",
+    primaryTopic: "Momentum",
+    versions: [{ version: 1, changeNote: "Original." }],
+    appliedInLetters: [],
+  },
+  {
+    slug: "sizing",
+    title: "Sizing",
+    question: "How much?",
+    desc: "Calculates position size from stop-loss distance and capital risk, then caps it by the setup grade. The smaller number wins.",
     primaryTopic: "Risk",
     versions: [{ version: 1, changeNote: "Original." }],
     appliedInLetters: [],
   },
   {
-    slug: "position-sizing",
-    title: "Position Sizing",
-    desc: "Defining exact stop-loss margins and allocation sizes.",
-    category: "Execution",
-    primaryTopic: "Risk",
-    versions: [{ version: 1, changeNote: "Original." }],
-    appliedInLetters: [],
-  },
-  {
-    slug: "trading-psychology",
-    title: "Trading Psychology",
-    desc: "Managing emotional variance and sticking to quantitative rules.",
-    category: "Psychology",
-    primaryTopic: "Behaviour",
-    versions: [{ version: 1, changeNote: "Original." }],
-    appliedInLetters: [],
-  },
-  {
-    slug: "execution-framework",
-    title: "Execution Framework",
-    desc: "Systematic buy and sell checklists for repeatable trades.",
-    category: "Execution",
+    slug: "trade-management",
+    title: "Trade Management",
+    question: "Entry, exit, hold, add, partials — what now?",
+    desc: "Covers entry triggers, stop placement and movement, pyramiding, partial profits, and exit rules. Everything after the sizing decision.",
     primaryTopic: "Process",
-    versions: [{ version: 1, changeNote: "Original." }],
-    appliedInLetters: [],
-  },
-  {
-    slug: "business-analysis",
-    title: "Business Analysis",
-    desc: "Understanding competitive edges, moats, and financial metrics.",
-    category: "Macro & Regimes",
-    primaryTopic: "Macro",
     versions: [{ version: 1, changeNote: "Original." }],
     appliedInLetters: [],
   },

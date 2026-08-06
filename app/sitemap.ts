@@ -59,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   const noteRoutes: MetadataRoute.Sitemap = articles
-    .filter((a) => a.type === "RESEARCH NOTE")
+    .filter((a) => a.type === "RESEARCH NOTE" && a.published !== false)
     .map((note) => ({
       url: `${BASE_URL}/notes/${note.slug}`,
       changeFrequency: "yearly",

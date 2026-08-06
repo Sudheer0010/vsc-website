@@ -64,7 +64,7 @@ function SectionIntro({
 }
 
 export default function ResearchHub() {
-  const notesCount = articles.filter((a) => a.type === "RESEARCH NOTE").length;
+  const notesCount = articles.filter((a) => a.type === "RESEARCH NOTE" && a.published !== false).length;
   const totalLetters = sortedMonths.length;
   const frameworksCount = frameworkLibrary.length;
   const readingCount = books.length + annualLetters.length + talks.length;

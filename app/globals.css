@@ -225,6 +225,25 @@ a {
     color: inherit;
 }
 
+/* A typeset hover underline for inline text links — grows in from the
+   left instead of snapping on, so it reads as considered rather than
+   default-browser. Opt-in via class rather than a blanket `a:hover`
+   because button-style and card-style links (nav, CTAs, exhibit cards)
+   already have their own hover treatment and shouldn't get a second one. */
+.link-underline {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 0% 1px;
+    transition: background-size var(--dur-base, 200ms) var(--ease-swift, ease-out);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+    background-size: 100% 1px;
+}
+
 strong {
     color: var(--ink);
     font-weight: 600;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
@@ -7,10 +7,11 @@ import { marketLetters, sortedMonths } from "@/data/market-letters";
 import { letterHref } from "@/lib/letter-urls";
 
 /**
- * A guided path, not a list (Architecture doc §8). Three steps, not four —
- * "how the framework works" is left out on purpose: the doc's own rule is
- * "never publish a step that has no content behind it," and the Framework
- * Library doesn't have real write-ups yet. Add it back once it does.
+ * A guided path, not a list (Architecture doc §8). Four steps — the
+ * decision pipeline is now in it, because /frameworks itself carries real
+ * content (the five-stage diagram and questions), not just placeholder
+ * cards, so it clears the doc's own "never publish a step with no content
+ * behind it" bar.
  */
 const RECENT_FIVE = sortedMonths.slice(0, 5);
 
@@ -23,6 +24,14 @@ export default function StartHere() {
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6">
+          <Link
+            href="/research"
+            className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
+            Back to Research
+          </Link>
+
           <span className="mb-4 block font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent-gold">
             NEW TO VSC?
           </span>
@@ -30,7 +39,7 @@ export default function StartHere() {
             Start here.
           </h1>
           <p className="mb-16 max-w-[58ch] text-[18px] leading-relaxed text-ink-soft">
-            Three steps, in order. Nothing here is padded to look bigger than it is — this is the
+            Four steps, in order. Nothing here is padded to look bigger than it is — this is the
             short, complete version of getting to know how I think.
           </p>
 
@@ -51,6 +60,20 @@ export default function StartHere() {
 
             <li>
               <div className="mb-3 font-mono text-sm font-semibold text-growth">02</div>
+              <h2 className="mb-3 font-display text-2xl font-normal text-ink sm:text-3xl">
+                How the decision pipeline works
+              </h2>
+              <p className="mb-4 max-w-[56ch] text-[16px] leading-relaxed text-ink-soft">
+                Five frameworks, in order — from reading the market to managing a trade.
+              </p>
+              <Link href="/frameworks" className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
+                Browse the framework library
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+            </li>
+
+            <li>
+              <div className="mb-3 font-mono text-sm font-semibold text-growth">03</div>
               <h2 className="mb-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                 Five market letters
               </h2>
@@ -78,7 +101,7 @@ export default function StartHere() {
             </li>
 
             <li>
-              <div className="mb-3 font-mono text-sm font-semibold text-growth">03</div>
+              <div className="mb-3 font-mono text-sm font-semibold text-growth">04</div>
               <h2 className="mb-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                 Recommended reading
               </h2>

@@ -683,20 +683,6 @@ export default function OurStory() {
           </div>
         </section>
 
-        {/* =========================================================================
-            9. COLOPHON — page foot, immediately above the footer. Left-
-            aligned, not centred with the CTA above it: a signature line,
-            not part of the pitch.
-           ========================================================================= */}
-        <div className="container max-w-[1200px] pb-16 pt-10 select-none">
-          <div className="h-px w-full bg-rule" />
-          <p className="mt-6 text-left font-mono text-[11px] leading-relaxed text-ink-muted">
-            Written by Sudheer Vobhilineni · Founder, VSC Capital &amp; Advisory
-            <br />
-            Last revised August 2026
-          </p>
-        </div>
-
       </main>
 
       {/* Global Footer */}

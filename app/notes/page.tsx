@@ -9,7 +9,7 @@ import { NotesLibrary } from "@/components/sections/blog/NotesLibrary";
 import { articles } from "@/data/research";
 
 export default function NotesIndex() {
-  const notes = articles.filter((a) => a.type === "RESEARCH NOTE");
+  const notes = articles.filter((a) => a.type === "RESEARCH NOTE" && a.published !== false);
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">

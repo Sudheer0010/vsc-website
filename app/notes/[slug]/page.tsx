@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Byline } from "@/components/ui/vsc/Byline";
+import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { articles } from "@/data/research";
 
 interface NotePageProps {
@@ -57,6 +58,7 @@ export default async function NotePage({ params }: NotePageProps) {
         />
       )}
 
+      <ReadingProgress />
       <Navbar />
       <PaperGrain />
 
@@ -105,7 +107,7 @@ export default async function NotePage({ params }: NotePageProps) {
               </h2>
               <div className="flex flex-col gap-2">
                 {related.map((r) => (
-                  <Link key={r.slug} href={`/notes/${r.slug}`} className="font-mono text-sm text-growth hover:underline">
+                  <Link key={r.slug} href={`/notes/${r.slug}`} className="font-mono text-sm text-growth link-underline">
                     {r.title} →
                   </Link>
                 ))}

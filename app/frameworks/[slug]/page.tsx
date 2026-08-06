@@ -5,11 +5,14 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Byline } from "@/components/ui/vsc/Byline";
+import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { frameworkLibrary } from "@/data/frameworks";
 import { marketLetters } from "@/data/market-letters";
 import { frameworkHref, frameworkVersionHref, currentVersion } from "@/lib/framework-urls";
 import { letterHref } from "@/lib/letter-urls";
 import { ArrowLeft } from "lucide-react";
+import { MarketEnvironmentFramework } from "@/components/sections/frameworks/MarketEnvironmentFramework";
+import { OpportunityUniverseFramework } from "@/components/sections/frameworks/OpportunityUniverseFramework";
 
 interface FrameworkPageProps {
   params: Promise<{ slug: string }>;
@@ -24,6 +27,15 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
   const fw = frameworkLibrary.find((f) => f.slug === slug);
   if (!fw) return {};
 
+  if (fw.slug === "opportunity-universe") {
+    return {
+      title: "Opportunity Universe — Framework 02 | VSC Capital",
+      description:
+        "A systematic process for reducing a universe of 2,000 stocks into a focused watchlist of 20–40 names worthy of further study.",
+      alternates: { canonical: frameworkHref(fw) },
+    };
+  }
+
   return {
     title: `${fw.title} | Framework Library | VSC Capital & Advisory`,
     description: fw.desc,
@@ -35,6 +47,16 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
   const { slug } = await params;
   const fw = frameworkLibrary.find((f) => f.slug === slug);
   if (!fw) notFound();
+
+  // Market Environment has real content — prose, tables, five inline-SVG
+  // exhibits — a different shape from the generic "body: string" template
+  // below, which the other four frameworks still use while unwritten.
+  if (fw.slug === "market-environment") {
+    return <MarketEnvironmentFramework />;
+  }
+  if (fw.slug === "opportunity-universe") {
+    return <OpportunityUniverseFramework />;
+  }
 
   const current = currentVersion(fw);
 
@@ -58,6 +80,7 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
         />
       )}
 
+      <ReadingProgress />
       <Navbar />
       <PaperGrain />
 
@@ -116,7 +139,7 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
                   return (
                     <span key={monthKey}>
                       {i > 0 && <span className="mr-4 text-ink-faint">·</span>}
-                      <Link href={letterHref(monthKey)} className="text-growth hover:underline">
+                      <Link href={letterHref(monthKey)} className="text-growth link-underline">
                         Letter {String(letter.letterNumber).padStart(3, "0")} ({monthName} {letter.year})
                       </Link>
                     </span>

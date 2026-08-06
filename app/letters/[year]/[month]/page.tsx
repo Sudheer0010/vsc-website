@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Byline } from "@/components/ui/vsc/Byline";
+import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
+import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatLongDate } from "@/lib/format-date";
@@ -94,6 +96,7 @@ export default async function LetterPage({ params }: LetterPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <ReadingProgress />
       <Navbar />
       <PaperGrain />
 
@@ -130,7 +133,7 @@ export default async function LetterPage({ params }: LetterPageProps) {
               return (
                 <div className="flex flex-col justify-between py-2 text-center" key={key}>
                   <div className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">{key}</div>
-                  <div className={classNames}>{value}</div>
+                  <AnimatedMetric value={value} className={classNames} />
                 </div>
               );
             })}
@@ -232,7 +235,7 @@ export default async function LetterPage({ params }: LetterPageProps) {
             </div>
 
             <div className="mt-8 text-center">
-              <Link href="/letters" className="font-mono text-[11px] text-ink-muted underline-offset-4 hover:text-ink hover:underline">
+              <Link href="/letters" className="font-mono text-[11px] text-ink-muted hover:text-ink link-underline">
                 &larr; Back to the archive
               </Link>
             </div>

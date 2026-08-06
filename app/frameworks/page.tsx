@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
-import { FrameworkLibrary } from "@/components/sections/blog/FrameworkLibrary";
+import { DecisionPipeline } from "@/components/sections/blog/DecisionPipeline";
 import { frameworkLibrary } from "@/data/frameworks";
 
 export default function FrameworksIndex() {
@@ -25,7 +25,7 @@ export default function FrameworksIndex() {
             Back to Research
           </Link>
 
-          <FrameworkLibrary frameworkLibrary={frameworkLibrary} />
+          <DecisionPipeline frameworkLibrary={frameworkLibrary} />
         </div>
       </main>
 

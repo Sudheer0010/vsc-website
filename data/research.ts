@@ -8,6 +8,15 @@ import { Article } from "@/types/article";
  * Research Notes rather than deleted: the content itself reads as
  * explainer/educational, not VSC's own versioned methodology, so "Note"
  * is the more honest type regardless of the duplication fix.
+ *
+ * None of the six have a `body` yet — all would show "In progress" on
+ * the index, which reads as an abandoned section. `published: false`
+ * holds three offstage until they have real content; the three left
+ * visible were picked for topic spread (Behaviour, Risk, Market
+ * Structure) and least overlap with content that already exists
+ * elsewhere (Trading vs Gambling covers the same ground as the FAQ's
+ * gambling-comparison answer; Risk Management Rules overlaps Position
+ * Sizing Explained).
  */
 export const articles: Article[] = [
   {
@@ -50,7 +59,8 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Beginner",
     tags: ["momentum", "breakouts", "investing"],
-    slug: "momentum-investing-basics"
+    slug: "momentum-investing-basics",
+    published: false
   },
   {
     id: "trading-vs-gambling",
@@ -64,7 +74,8 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Beginner",
     tags: ["philosophy", "edge", "process"],
-    slug: "trading-vs-gambling"
+    slug: "trading-vs-gambling",
+    published: false
   },
   {
     id: "risk-management-rules",
@@ -78,7 +89,8 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Intermediate",
     tags: ["risk", "preservation", "rules"],
-    slug: "risk-management-rules"
+    slug: "risk-management-rules",
+    published: false
   },
   {
     id: "market-structure-analysis",

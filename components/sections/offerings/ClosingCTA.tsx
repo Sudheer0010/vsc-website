@@ -36,7 +36,7 @@ export function ClosingCTA({
           </div>
           <Link
             href="/faq"
-            className="mt-6 text-[14.5px] font-medium text-ink-muted underline-offset-4 transition-colors hover:text-growth hover:underline"
+            className="mt-6 text-[14.5px] font-medium text-ink-muted transition-colors hover:text-growth link-underline"
           >
             Or get your questions answered in the FAQ
           </Link>

@@ -19,6 +19,10 @@ export interface Framework {
   desc: string;
   category?: string;
   primaryTopic: PrimaryTopic;
+  /** The single question this stage of the decision pipeline answers —
+   *  e.g. "What kind of market is this?" Every framework in the library
+   *  is a pipeline stage, so this is required, not decorative copy. */
+  question: string;
   /** Full write-up. Undefined = not yet written; the page says so rather
    *  than rendering nothing or faking content. */
   body?: string;
