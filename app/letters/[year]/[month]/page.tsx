@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
-import { Byline } from "@/components/ui/vsc/Byline";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
+import { FrameworkReviewRow } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatLongDate } from "@/lib/format-date";
 import { letterHref, monthKeyFromParams } from "@/lib/letter-urls";
@@ -30,6 +30,86 @@ function getLetterOrNotFound(year: string, month: string) {
   return { key, letter: marketLetters[key] };
 }
 
+/** Splits on blank lines so multi-paragraph fields render as real <p> tags. */
+function paragraphs(text: string): string[] {
+  return text.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+}
+
+function MetricCell({
+  label,
+  value,
+  tone,
+  isWord,
+}: {
+  label: string;
+  value: string;
+  tone: "growth" | "clay" | "ink";
+  isWord?: boolean;
+}) {
+  const toneClass = tone === "growth" ? "text-growth" : tone === "clay" ? "text-clay" : "text-ink";
+  return (
+    <div className="flex flex-col items-center gap-2 py-2 text-center">
+      <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">
+        {label}
+      </span>
+      {isWord ? (
+        <span className={`font-display text-xl font-medium sm:text-2xl ${toneClass}`}>{value}</span>
+      ) : (
+        <AnimatedMetric value={value} className={`font-display text-2xl font-semibold sm:text-3xl ${toneClass}`} />
+      )}
+    </div>
+  );
+}
+
+function FrameworkReviewExhibit({ rows }: { rows: FrameworkReviewRow[] }) {
+  return (
+    <div className="mb-14 rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+      <span className="mb-5 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+        Framework Review
+      </span>
+      <div className="flex flex-col">
+        {rows.map((row, i) => (
+          <div
+            key={row.framework}
+            className={`flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${
+              i > 0 ? "border-t border-rule" : ""
+            }`}
+          >
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint sm:w-52 sm:shrink-0">
+              {row.framework}
+            </span>
+            <div className="flex-1">
+              <p className="text-[16px] font-medium text-ink">{row.interpretation}</p>
+              <p className="mt-1 font-mono text-[12px] text-ink-faint">{row.detail}</p>
+            </div>
+            {row.direction && (
+              <span
+                className={`shrink-0 text-[14px] font-bold ${row.direction === "down" ? "text-clay" : "text-growth"}`}
+                aria-hidden="true"
+              >
+                {row.direction === "down" ? "▼" : "▲"}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProseSection({ heading, text }: { heading: string; text: string }) {
+  return (
+    <section className="flex flex-col gap-4">
+      <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">{heading}</h2>
+      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+        {paragraphs(text).map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export async function generateMetadata({ params }: LetterPageProps): Promise<Metadata> {
   const { year, month } = await params;
   const found = getLetterOrNotFound(year, month);
@@ -38,7 +118,7 @@ export async function generateMetadata({ params }: LetterPageProps): Promise<Met
   const { letter } = found;
   const monthName = letter.month.charAt(0) + letter.month.slice(1).toLowerCase();
   const title = `${monthName} ${letter.year} Market Letter · Letter ${String(letter.letterNumber).padStart(3, "0")} | VSC Capital & Advisory`;
-  const description = letter.description || `Letter ${letter.letterNumber}: what the market did, what the framework said, and where exposure stands now.`;
+  const description = letter.description || letter.thesis;
   const canonical = letterHref(found.key);
 
   return {
@@ -72,11 +152,13 @@ export default async function LetterPage({ params }: LetterPageProps) {
     return `${l.month.charAt(0) + l.month.slice(1).toLowerCase()} ${l.year}`;
   };
 
+  const isNegativeReturn = letter.metrics.monthlyReturn.trim().startsWith("-");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: `${monthName} ${letter.year} Market Letter`,
-    description: letter.description,
+    description: letter.description || letter.thesis,
     datePublished: letter.publishedDate,
     dateModified: letter.publishedDate,
     author: {
@@ -102,117 +184,84 @@ export default async function LetterPage({ params }: LetterPageProps) {
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6">
-          {/* 1. Report Header */}
-          <div className="market-letter-header mb-12 select-none text-center">
-            <div className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-widest text-ink-faint">
-              RESEARCH ARCHIVE
-            </div>
-            <h4 className="mb-2 font-display text-lg font-normal italic text-accent-gold sm:text-xl">
-              Market Letter
-            </h4>
-            <h1 className="mb-6 font-display text-4xl font-normal leading-none text-ink sm:text-5xl">
+          {/* 1. Header */}
+          <header className="mb-10 select-none text-center">
+            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
+              Research Archive · Market Letter
+            </span>
+            <h1 className="mb-4 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
               {monthName} {letter.year}
             </h1>
             <div className="font-mono text-xs text-ink-faint">
               Letter {String(letter.letterNumber).padStart(3, "0")} · Published {formatLongDate(letter.publishedDate)} · {getReadingTime(letter)} minute read
             </div>
+          </header>
+
+          {/* 2. The Thesis — impossible to scroll past */}
+          <div className="mb-12 rounded-vsc-xl bg-growth-tint p-8 text-center sm:p-12">
+            <p className="font-display text-[24px] font-medium leading-snug text-ink sm:text-[28px]">
+              {letter.thesis}
+            </p>
           </div>
 
-          {/* 2. KPI Metrics Grid */}
-          <div className="mb-16 grid grid-cols-2 gap-4 border-y border-rule py-8 select-none md:grid-cols-4">
-            {Object.keys(letter.metrics).map((key) => {
-              const value = letter.metrics[key];
-              const isMarketType = key === "Market Type";
-              const isLoss = value.includes("-");
+          {/* 3. Metrics strip */}
+          <div className="mb-10 grid grid-cols-2 gap-4 border-y border-rule py-8 sm:grid-cols-3">
+            <MetricCell
+              label="Monthly Return"
+              value={letter.metrics.monthlyReturn}
+              tone={isNegativeReturn ? "clay" : "growth"}
+            />
+            <MetricCell label="Trades Taken" value={String(letter.metrics.tradesTaken)} tone="ink" />
+            <MetricCell label="Environment" value={letter.metrics.environment} tone="ink" isWord />
+          </div>
 
-              let classNames = "mt-3 block font-display text-2xl font-semibold sm:text-3xl";
-              if (isMarketType) classNames += " text-ink text-lg sm:text-xl font-normal mt-3";
-              else if (isLoss) classNames += " text-loss";
-              else classNames += " text-[#0F7A40]";
+          {/* 3b. Framework Review */}
+          <FrameworkReviewExhibit rows={letter.frameworkReview} />
 
-              return (
-                <div className="flex flex-col justify-between py-2 text-center" key={key}>
-                  <div className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">{key}</div>
-                  <AnimatedMetric value={value} className={classNames} />
+          {/* 4. Prose sections */}
+          <div className="flex flex-col gap-14 text-left">
+            <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior} />
+            <ProseSection heading="What I did about it" text={letter.sections.whatIDid} />
+
+            {letter.sections.theTrade && (
+              <section className="flex flex-col gap-4">
+                <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+                  The trade that explains the month
+                </h2>
+                <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+                  <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                    {paragraphs(letter.sections.theTrade).map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
                 </div>
-              );
-            })}
+              </section>
+            )}
+
+            {letter.sections.whatSurprisedMe && (
+              <section className="flex flex-col gap-4">
+                <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">What surprised me</h2>
+                <div className="border-l-[3px] border-clay py-1 pl-5">
+                  <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                    {paragraphs(letter.sections.whatSurprisedMe).map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
+            <ProseSection heading="What I'm watching" text={letter.sections.whatImWatching} />
           </div>
 
-          {/* 3. Narrative Flow Stack */}
-          <div className="flex flex-col gap-16 text-left">
-            {letter.sections["Market Environment"] && (
-              <div className="flex flex-col gap-4">
-                <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-gold">
-                  Market Environment
-                </h2>
-                <div className="mb-2 h-px w-full bg-canvas-sunk" />
-                <p className="font-mono text-base leading-[1.8] text-ink sm:text-[18px]">
-                  {letter.sections["Market Environment"]}
-                </p>
-              </div>
-            )}
-
-            {letter.sections["What Worked"] && (
-              <div className="flex flex-col gap-4">
-                <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-gold">
-                  What Worked
-                </h2>
-                <div className="mb-2 h-px w-full bg-canvas-sunk" />
-                <ul className="flex list-none flex-col gap-4 font-mono text-base leading-[1.8] text-ink sm:text-[18px]">
-                  {letter.sections["What Worked"].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-lg leading-none text-accent-gold">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {letter.sections["Adjustment"] && (
-              <div className="flex flex-col gap-4">
-                <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-gold">
-                  Tactical Adjustment
-                </h2>
-                <div className="mb-2 h-px w-full bg-canvas-sunk" />
-                <ul className="flex list-none flex-col gap-4 font-mono text-base leading-[1.8] text-ink sm:text-[18px]">
-                  {letter.sections["Adjustment"].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-lg leading-none text-accent-gold">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {letter.sections["Looking Ahead"] && (
-              <div className="flex flex-col gap-4">
-                <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-gold">
-                  Looking Ahead
-                </h2>
-                <div className="mb-2 h-px w-full bg-canvas-sunk" />
-                <p className="whitespace-pre-line font-mono text-base leading-[1.8] text-ink sm:text-[18px]">
-                  {letter.sections["Looking Ahead"]}
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Byline, immediately above the closing navigation. */}
-          <div className="mt-16">
-            <Byline variant="full" />
-            <div className="mt-6 h-px w-full bg-rule" />
-          </div>
-
-          {/* 4. Previous/Next Navigation */}
-          <div className="select-none pt-8">
-            <span className="mb-6 block text-center font-mono text-[10px] font-semibold uppercase tracking-widest text-ink-faint">
+          {/* 5. Previous/Next Navigation */}
+          <div className="select-none pt-16">
+            <div className="h-px w-full bg-rule" />
+            <span className="mb-6 mt-10 block text-center font-mono text-[10px] font-semibold uppercase tracking-widest text-ink-faint">
               RESEARCH ARCHIVE
             </span>
 
-            <div className="flex items-center justify-between font-mono text-xs text-accent-gold">
+            <div className="flex items-center justify-between font-mono text-xs text-growth">
               <div>
                 {prevMonthKey ? (
                   <Link href={letterHref(prevMonthKey)} className="transition-colors duration-200 hover:text-ink">

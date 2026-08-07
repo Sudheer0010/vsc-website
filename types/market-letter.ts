@@ -1,3 +1,20 @@
+/** Framework 01's three regimes — the only values the environment metric takes. */
+export type LetterEnvironment = "Aggressive" | "Neutral" | "Defensive";
+
+/**
+ * One row of the Framework Review exhibit. Rows are ordered 01–05 but the
+ * array itself may hold fewer than five — the standard format's own rule
+ * is "publish the rows you can sustain, not the rows that look complete."
+ * `detail` carries the supporting evidence/figures; `direction` only
+ * appears on rows with a real month-over-month comparison to show.
+ */
+export interface FrameworkReviewRow {
+  framework: string;
+  interpretation: string;
+  detail: string;
+  direction?: "up" | "down";
+}
+
 export interface MarketLetter {
   /** Sequential, permanent, never reused — Letter 001 is Jan 2026. */
   letterNumber: number;
@@ -7,14 +24,31 @@ export interface MarketLetter {
   publishedDate: string;
   month: string;
   year: number;
+  /** SEO/RSS summary — a different job from `thesis` (the on-page idea of
+   *  the month), so it stays a separate field rather than being replaced. */
   description?: string;
+  /** The one sentence a reader could repeat a week later. Required for
+   *  every letter — if it can't be written, the letter isn't ready. */
+  thesis: string;
   metrics: {
-    [key: string]: string;
+    monthlyReturn: string;
+    tradesTaken: number;
+    environment: LetterEnvironment;
   };
+  /** 1–5 rows. See `FrameworkReviewRow` — not every framework's tracking
+   *  exists for every month, and a short accurate exhibit beats a full
+   *  one that quietly goes stale. */
+  frameworkReview: FrameworkReviewRow[];
   sections: {
-    "Market Environment"?: string;
-    "What Worked"?: string[];
-    "Adjustment"?: string[];
-    "Looking Ahead"?: string;
+    marketBehavior: string;
+    whatIDid: string;
+    /** Optional: letters published before this format existed don't have
+     *  a captured trade to walk through, and inventing one would misstate
+     *  the record. Required for every letter going forward. */
+    theTrade?: string;
+    /** Optional for the same reason as `theTrade`. Non-negotiable for new
+     *  letters — see the editorial template. */
+    whatSurprisedMe?: string;
+    whatImWatching: string;
   };
 }

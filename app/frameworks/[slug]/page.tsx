@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
-import { Byline } from "@/components/ui/vsc/Byline";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { frameworkLibrary } from "@/data/frameworks";
 import { marketLetters } from "@/data/market-letters";
@@ -13,6 +12,9 @@ import { letterHref } from "@/lib/letter-urls";
 import { ArrowLeft } from "lucide-react";
 import { MarketEnvironmentFramework } from "@/components/sections/frameworks/MarketEnvironmentFramework";
 import { OpportunityUniverseFramework } from "@/components/sections/frameworks/OpportunityUniverseFramework";
+import { SetupGradingFramework } from "@/components/sections/frameworks/SetupGradingFramework";
+import { SizingFramework } from "@/components/sections/frameworks/SizingFramework";
+import { TradeManagementFramework } from "@/components/sections/frameworks/TradeManagementFramework";
 
 interface FrameworkPageProps {
   params: Promise<{ slug: string }>;
@@ -32,6 +34,33 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
       title: "Opportunity Universe — Framework 02 | VSC Capital",
       description:
         "A systematic process for reducing a universe of 2,000 stocks into a focused watchlist of 20–40 names worthy of further study.",
+      alternates: { canonical: frameworkHref(fw) },
+    };
+  }
+
+  if (fw.slug === "setup-grading") {
+    return {
+      title: "Setup Grading — Framework 03 | VSC Capital",
+      description:
+        "A three-layer decision architecture for deciding which trading setups deserve capital: eligibility, integrity, then quality ranking.",
+      alternates: { canonical: frameworkHref(fw) },
+    };
+  }
+
+  if (fw.slug === "sizing") {
+    return {
+      title: "Sizing — Framework 04 | VSC Capital",
+      description:
+        "Three questions determine position size: can I afford the risk, does the setup deserve the capital, and is there room in the portfolio.",
+      alternates: { canonical: frameworkHref(fw) },
+    };
+  }
+
+  if (fw.slug === "trade-management") {
+    return {
+      title: "Trade Management — Framework 05 | VSC Capital",
+      description:
+        "What happens after capital is committed: when stops move, when positions grow, when they shrink, and when the trade ends.",
       alternates: { canonical: frameworkHref(fw) },
     };
   }
@@ -56,6 +85,15 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
   }
   if (fw.slug === "opportunity-universe") {
     return <OpportunityUniverseFramework />;
+  }
+  if (fw.slug === "setup-grading") {
+    return <SetupGradingFramework />;
+  }
+  if (fw.slug === "sizing") {
+    return <SizingFramework />;
+  }
+  if (fw.slug === "trade-management") {
+    return <TradeManagementFramework />;
   }
 
   const current = currentVersion(fw);
@@ -183,11 +221,6 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
               </div>
             </div>
           )}
-
-          <div className="mt-16">
-            <Byline variant="full" />
-            <div className="mt-6 h-px w-full bg-rule" />
-          </div>
         </div>
       </main>
 

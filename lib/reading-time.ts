@@ -14,13 +14,14 @@ function countWords(text: string): number {
  * instead of four that can silently disagree with each other.
  */
 export function getReadingTime(letter: MarketLetter): number {
-  const parts: string[] = [];
+  const parts: string[] = [letter.thesis];
 
-  if (letter.description) parts.push(letter.description);
-  if (letter.sections["Market Environment"]) parts.push(letter.sections["Market Environment"]);
-  if (letter.sections["What Worked"]) parts.push(letter.sections["What Worked"].join(" "));
-  if (letter.sections["Adjustment"]) parts.push(letter.sections["Adjustment"].join(" "));
-  if (letter.sections["Looking Ahead"]) parts.push(letter.sections["Looking Ahead"]);
+  parts.push(...letter.frameworkReview.map((row) => `${row.interpretation} ${row.detail}`));
+
+  const { marketBehavior, whatIDid, theTrade, whatSurprisedMe, whatImWatching } = letter.sections;
+  parts.push(marketBehavior, whatIDid, whatImWatching);
+  if (theTrade) parts.push(theTrade);
+  if (whatSurprisedMe) parts.push(whatSurprisedMe);
 
   const wordCount = countWords(parts.join(" "));
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));

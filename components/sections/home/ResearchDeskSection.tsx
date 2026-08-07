@@ -86,11 +86,11 @@ export function ResearchDeskSection() {
                 </div>
 
                 <h3 className="mt-5 max-w-[24ch] font-display text-[26px] font-semibold leading-tight tracking-tight text-ink transition-colors duration-200 group-hover:text-growth-deep sm:text-[30px]">
-                  {latestLetter.description}
+                  {latestLetter.thesis}
                 </h3>
 
                 <p className="mt-3 max-w-[52ch] text-[16px] leading-relaxed text-ink-soft">
-                  {latestLetter.sections["Market Environment"]}
+                  {latestLetter.sections.marketBehavior}
                 </p>
 
                 <span className="mt-6 inline-flex items-center gap-2 text-[16px] font-semibold text-growth">

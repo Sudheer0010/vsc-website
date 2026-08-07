@@ -4,7 +4,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
-import { Byline } from "@/components/ui/vsc/Byline";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { PipelineStrip } from "./PipelineStrip";
 import { OpportunityFunnelExhibit, TopDownFlowExhibit } from "./OpportunityUniverseExhibits";
@@ -614,11 +613,6 @@ export function OpportunityUniverseFramework() {
                 framework evolves.
               </p>
             </div>
-          </div>
-
-          <div className="mt-16">
-            <Byline variant="full" />
-            <div className="mt-6 h-px w-full bg-rule" />
           </div>
         </div>
       </main>

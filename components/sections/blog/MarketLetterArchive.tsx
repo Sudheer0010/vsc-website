@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MarketLetter } from "@/types/market-letter";
 import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
 import { getReadingTime } from "@/lib/reading-time";
-import { Byline } from "@/components/ui/vsc/Byline";
 import { formatLongDate } from "@/lib/format-date";
 import { letterHref } from "@/lib/letter-urls";
 
@@ -118,15 +117,14 @@ export function MarketLetterArchive({
                         </span>
                       </div>
 
-                      {/* Letter Short Description */}
-                      <p className="font-mono text-xs text-ink-soft leading-relaxed line-clamp-2">
-                        {letter.description}
+                      {/* The thesis — the idea of the month, not a truncated summary */}
+                      <p className="font-display text-[17px] font-normal leading-snug text-ink">
+                        {letter.thesis}
                       </p>
                     </div>
 
                     {/* Read Trigger */}
                     <div className="pt-4 mt-6 border-t border-rule">
-                      <Byline className="mb-2 block" />
                       <div className="flex items-center justify-between">
                         <span className="font-mono text-[11px] text-ink-faint">
                           {getReadingTime(letter)} min read

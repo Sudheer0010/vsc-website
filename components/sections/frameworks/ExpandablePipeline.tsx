@@ -31,19 +31,19 @@ const NODE_META: Record<string, NodeMeta> = {
     published: true,
   },
   "setup-grading": {
-    output: "Setup Grade (A+ / A / B)",
-    status: "In Development",
-    published: false,
+    output: "Setup Grade (A / B / C / No allocation)",
+    status: "V0.1 · August 2026",
+    published: true,
   },
   sizing: {
-    output: "Position Size + Exposure Cap",
-    status: "In Development",
-    published: false,
+    output: "Position Size (smallest of three constraints)",
+    status: "V0.1 · August 2026",
+    published: true,
   },
   "trade-management": {
-    output: "Trade Plan",
-    status: "In Development",
-    published: false,
+    output: "Trade Plan (adjustment, not entry)",
+    status: "V0.1 · August 2026",
+    published: true,
   },
 };
 
