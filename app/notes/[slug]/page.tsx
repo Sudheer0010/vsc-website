@@ -22,10 +22,15 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
   const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE");
   if (!note) return {};
 
+  const title = `${note.title} | Research Notes | VSC Capital & Advisory`;
+  const description = note.description;
+  const canonical = `/notes/${note.slug}`;
+
   return {
-    title: `${note.title} | Research Notes | VSC Capital & Advisory`,
-    description: note.description,
-    alternates: { canonical: `/notes/${note.slug}` },
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { type: "article", title, description, url: canonical },
   };
 }
 

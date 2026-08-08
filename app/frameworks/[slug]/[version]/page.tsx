@@ -44,6 +44,10 @@ export async function generateMetadata({ params }: VersionPageProps): Promise<Me
   return {
     title: `${found.fw.title} (Version ${found.entry.version}, superseded) | VSC Capital & Advisory`,
     description: `Superseded version of ${found.fw.title}. ${found.entry.changeNote}`,
+    // Superseded content canonicalizes to the current version, not itself —
+    // this page and the live one are the same framework, and only one
+    // should be the canonical target for search.
+    alternates: { canonical: frameworkHref(found.fw) },
   };
 }
 

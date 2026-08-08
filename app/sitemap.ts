@@ -30,7 +30,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/faq`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE_URL}/enquire`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/privacy`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${BASE_URL}/thank-you`, changeFrequency: "yearly", priority: 0.1 },
   ];
 
   const letterRoutes: MetadataRoute.Sitemap = sortedMonths.map((key) => ({

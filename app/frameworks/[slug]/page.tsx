@@ -30,45 +30,65 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
   if (!fw) return {};
 
   if (fw.slug === "opportunity-universe") {
+    const title = "Opportunity Universe — Framework 02 | VSC Capital";
+    const description =
+      "A systematic process for reducing a universe of 2,000 stocks into a focused watchlist of 20–40 names worthy of further study.";
+    const canonical = frameworkHref(fw);
     return {
-      title: "Opportunity Universe — Framework 02 | VSC Capital",
-      description:
-        "A systematic process for reducing a universe of 2,000 stocks into a focused watchlist of 20–40 names worthy of further study.",
-      alternates: { canonical: frameworkHref(fw) },
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: { type: "article", title, description, url: canonical },
     };
   }
 
   if (fw.slug === "setup-grading") {
+    const title = "Setup Grading — Framework 03 | VSC Capital";
+    const description =
+      "A three-layer decision architecture for deciding which trading setups deserve capital: eligibility, integrity, then quality ranking.";
+    const canonical = frameworkHref(fw);
     return {
-      title: "Setup Grading — Framework 03 | VSC Capital",
-      description:
-        "A three-layer decision architecture for deciding which trading setups deserve capital: eligibility, integrity, then quality ranking.",
-      alternates: { canonical: frameworkHref(fw) },
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: { type: "article", title, description, url: canonical },
     };
   }
 
   if (fw.slug === "sizing") {
+    const title = "Sizing — Framework 04 | VSC Capital";
+    const description =
+      "Three questions determine position size: can I afford the risk, does the setup deserve the capital, and is there room in the portfolio.";
+    const canonical = frameworkHref(fw);
     return {
-      title: "Sizing — Framework 04 | VSC Capital",
-      description:
-        "Three questions determine position size: can I afford the risk, does the setup deserve the capital, and is there room in the portfolio.",
-      alternates: { canonical: frameworkHref(fw) },
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: { type: "article", title, description, url: canonical },
     };
   }
 
   if (fw.slug === "trade-management") {
+    const title = "Trade Management — Framework 05 | VSC Capital";
+    const description =
+      "What happens after capital is committed: when stops move, when positions grow, when they shrink, and when the trade ends.";
+    const canonical = frameworkHref(fw);
     return {
-      title: "Trade Management — Framework 05 | VSC Capital",
-      description:
-        "What happens after capital is committed: when stops move, when positions grow, when they shrink, and when the trade ends.",
-      alternates: { canonical: frameworkHref(fw) },
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: { type: "article", title, description, url: canonical },
     };
   }
 
+  const title = `${fw.title} | Framework Library | VSC Capital & Advisory`;
+  const description = fw.desc;
+  const canonical = frameworkHref(fw);
   return {
-    title: `${fw.title} | Framework Library | VSC Capital & Advisory`,
-    description: fw.desc,
-    alternates: { canonical: frameworkHref(fw) },
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { type: "article", title, description, url: canonical },
   };
 }
 
