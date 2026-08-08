@@ -16,9 +16,18 @@ export function FAQAccordion() {
   const [activeQuestionId, setActiveQuestionId] = useState<string>("");
   const shouldReduceMotion = useReducedMotion();
 
-  // Category switch scroll reset & accordion collapse
-  useEffect(() => {
+  // Collapse any open accordion item the moment the category changes —
+  // adjusted during render (React's documented pattern for resetting state
+  // in response to a prop/state change) instead of inside an effect, which
+  // would cost an extra render pass for no benefit here.
+  const [prevCategory, setPrevCategory] = useState(activeCategory);
+  if (activeCategory !== prevCategory) {
+    setPrevCategory(activeCategory);
     setExpandedIndex(null);
+  }
+
+  // Category switch scroll reset
+  useEffect(() => {
     const target = document.getElementById("faq-content-area");
     if (target) {
       const yOffset = -140; // Spacing for sticky navigation header
@@ -387,7 +396,7 @@ function FAQAccordionItem({
       {/* Header Panel */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none group"
+        className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-surface group"
       >
         <span 
           className={`font-display text-base font-medium leading-snug transition-colors duration-200 pr-4 ${

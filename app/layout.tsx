@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { SkipToContent } from "@/components/ui/vsc/SkipToContent";
 
 /**
 * Typography — chosen for reading, not for looking expensive.
@@ -101,6 +102,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
+        <SkipToContent />
         {/* Google Analytics Tag Manager */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-F2SZMY24JR"
