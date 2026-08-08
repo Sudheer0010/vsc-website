@@ -21,6 +21,35 @@ export function NotesLibrary({ notes }: NotesLibraryProps) {
 
   const filtered = activeTopic === "ALL" ? notes : notes.filter((n) => n.primaryTopic === activeTopic);
 
+  if (notes.length === 0) {
+    return (
+      <section className="py-12">
+        <div className="max-w-[600px] text-left select-none">
+          <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
+            OBSERVATIONS
+          </span>
+          <h1 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2] mb-6">
+            Research Notes
+          </h1>
+          <p className="font-mono text-sm text-ink-soft mb-2">
+            Nothing published here yet.
+          </p>
+          <p className="font-mono text-xs text-ink-faint mb-8">
+            Notes go live once they&apos;re finished — no in-progress placeholders. The Market
+            Letters and Frameworks are the current, complete record in the meantime.
+          </p>
+          <Link
+            href="/research"
+            className="btn btn-gold"
+            style={{ padding: "12px 24px", fontSize: "11px", fontFamily: "var(--font-mono)", letterSpacing: "1px" }}
+          >
+            BACK TO RESEARCH
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-12">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8 select-none">

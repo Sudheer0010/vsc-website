@@ -10,13 +10,12 @@ import { Article } from "@/types/article";
  * is the more honest type regardless of the duplication fix.
  *
  * None of the six have a `body` yet — all would show "In progress" on
- * the index, which reads as an abandoned section. `published: false`
- * holds three offstage until they have real content; the three left
- * visible were picked for topic spread (Behaviour, Risk, Market
- * Structure) and least overlap with content that already exists
- * elsewhere (Trading vs Gambling covers the same ground as the FAQ's
- * gambling-comparison answer; Risk Management Rules overlaps Position
- * Sizing Explained).
+ * the index. An earlier version kept three visible on the theory that a
+ * partial index reads better than an empty one; in practice three
+ * permanently-"in progress" tiles read as unfinished research, which is
+ * the opposite of what this section is for. All six stay `published:
+ * false` until they have real content — a visitor should only ever find
+ * a Research Note that's actually there to read.
  */
 export const articles: Article[] = [
   {
@@ -31,7 +30,8 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Beginner",
     tags: ["psychology", "risk", "discipline"],
-    slug: "why-most-traders-lose"
+    slug: "why-most-traders-lose",
+    published: false
   },
   {
     id: "position-sizing-explained",
@@ -45,7 +45,8 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Intermediate",
     tags: ["math", "risk", "position-sizing"],
-    slug: "position-sizing-explained"
+    slug: "position-sizing-explained",
+    published: false
   },
   {
     id: "momentum-investing-basics",
@@ -104,6 +105,7 @@ export const articles: Article[] = [
     featured: false,
     difficulty: "Advanced",
     tags: ["structure", "volume", "trends"],
-    slug: "market-structure-analysis"
+    slug: "market-structure-analysis",
+    published: false
   }
 ];
