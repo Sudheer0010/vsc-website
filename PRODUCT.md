@@ -84,17 +84,14 @@ architecture applied in real time.
 - Full name: "VSC Capital & Advisory"; short form "VSC Capital" (titles /
   meta); shorthand "VSC" in body copy and offering names ("VSC Inner
   Circle," "VSC Advantage," "VSC Learning Hub").
-- Visual-system authority is `docs/DESIGN_PRINCIPLES.md` — confirmed by the
-  user as authoritative for the current "Daylight Growth" implementation
-  (light paper palette, green primary, clay for risk, no gold/blue).
-  **`docs/BRAND_GUIDELINES.md` is stale**: it documents an earlier dark-navy
-  / warm-gold palette that predates the Daylight Growth redesign already
-  shipped across this codebase, and conflicts with what's actually
-  implemented. Future design work should not treat it as current.
-- Tone, per `docs/BRAND_GUIDELINES.md`'s copy rules (still applicable
-  independent of the stale palette section): calm, direct, measured; never
-  salesy — no "Buy Now," "Act Fast," "Unlock Returns," "Limited Spots," or
-  equivalents.
+- Visual-system authority is `DESIGN_PRINCIPLES.md` at the project root. It is
+  authoritative for the current "Daylight Growth" implementation: light paper
+  palette, green primary, clay for risk, no gold/navy default, no glassmorphism,
+  and no generic premium-finance styling.
+- `docs/BRAND_GUIDELINES.md` is legacy documentation from the previous dark-navy /
+  warm-gold system and must not be used as a current design source.
+- Copy tone remains calm, direct, and measured; never salesy — no "Buy Now,"
+  "Act Fast," "Unlock Returns," "Limited Spots," or equivalents.
 
 ## Evidence on Hand
 
