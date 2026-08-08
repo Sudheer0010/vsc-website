@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, AlertCircle } from "lucide-react";
 
 /**
  * Three required fields — name, email, phone — not five. Investment
@@ -18,6 +18,7 @@ import { CheckCircle2, ArrowRight } from "lucide-react";
 export function DiscussionForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
   const animProps = {
@@ -30,6 +31,7 @@ export function DiscussionForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const form = e.currentTarget;
@@ -46,19 +48,24 @@ export function DiscussionForm() {
         params.set("form-name", "enquiry");
       }
 
-      // Try Netlify forms submission (silently catch 404 in local dev mode)
-      await fetch("/__forms.html", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString(),
-      }).catch(() => {
-        // Local dev fallback
       });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed with status ${response.status}`);
+      }
 
       // Show inline thank-you state on the page
       setIsSubmitted(true);
     } catch {
-      setIsSubmitted(true);
+      // Entered values stay in the (uncontrolled) fields — the form stays
+      // mounted so the visitor can just fix things and press submit again.
+      setSubmitError(
+        "Something went wrong sending your inquiry. Please try again, or email sudheer@vsccapital.in directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -185,13 +192,24 @@ export function DiscussionForm() {
             />
           </div>
 
+          {/* Inline error state — visible only after a failed submission */}
+          {submitError && (
+            <div
+              role="alert"
+              className="flex items-start gap-3 rounded-lg border border-clay/30 bg-clay-tint px-4 py-3"
+            >
+              <AlertCircle className="w-4 h-4 text-clay flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="font-mono text-xs text-clay leading-relaxed">{submitError}</p>
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
             className="btn btn-gold w-full mt-4 py-3.5 text-xs font-mono tracking-wider uppercase font-semibold hover:bg-accent-gold/90 transition-colors"
           >
-            {isSubmitting ? "Sending..." : "Enquire →"}
+            {isSubmitting ? "Sending..." : submitError ? "Retry →" : "Enquire →"}
           </button>
 
           <p className="font-mono text-[10.5px] text-ink-faint text-center -mt-2">
