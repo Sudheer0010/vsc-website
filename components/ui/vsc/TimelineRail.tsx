@@ -68,7 +68,7 @@ export function TimelineRail({
             <h3 className="font-display text-2xl sm:text-3xl text-ink font-normal tracking-tight">
               {step.title}
             </h3>
-            <p className="mt-2.5 font-mono text-xs sm:text-sm text-ink-soft leading-relaxed max-w-[640px]">
+            <p className="mt-2.5 text-sm sm:text-[15px] text-ink-soft leading-relaxed max-w-[640px]">
               {step.description}
             </p>
           </motion.div>
