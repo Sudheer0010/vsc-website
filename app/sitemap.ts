@@ -4,6 +4,7 @@ import { letterHref } from "@/lib/letter-urls";
 import { frameworkLibrary } from "@/data/frameworks";
 import { frameworkHref, frameworkVersionHref, currentVersion } from "@/lib/framework-urls";
 import { articles } from "@/data/research";
+import { researchNotes } from "@/data/research-notes";
 
 const BASE_URL = "https://vsccapital.in";
 
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/start`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/letters`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/notes`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/research/notes`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/frameworks`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/reading`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE_URL}/faq`, changeFrequency: "monthly", priority: 0.5 },
@@ -65,11 +67,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     }));
 
+  const researchNoteRoutes: MetadataRoute.Sitemap = researchNotes.map((note) => ({
+    url: `${BASE_URL}/research/notes/${note.slug}`,
+    changeFrequency: "yearly",
+    priority: 0.6,
+  }));
+
   return [
     ...staticRoutes,
     ...letterRoutes,
     ...frameworkRoutes,
     ...frameworkVersionRoutes,
     ...noteRoutes,
+    ...researchNoteRoutes,
   ];
 }

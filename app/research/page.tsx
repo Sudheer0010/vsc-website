@@ -8,7 +8,7 @@ import Footer from "@/components/layout/Footer";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
-import { articles, frameworkLibrary, books, annualLetters, talks, newsletterConfig } from "@/data";
+import { frameworkLibrary, books, annualLetters, talks, newsletterConfig, researchNotes } from "@/data";
 
 import { BlogHero } from "@/components/sections/blog/BlogHero";
 import { FeaturedPublication } from "@/components/sections/blog/FeaturedPublication";
@@ -64,7 +64,7 @@ function SectionIntro({
 }
 
 export default function ResearchHub() {
-  const notesCount = articles.filter((a) => a.type === "RESEARCH NOTE" && a.published !== false).length;
+  const notesCount = researchNotes.length;
   const totalLetters = sortedMonths.length;
   const frameworksCount = frameworkLibrary.length;
   const readingCount = books.length + annualLetters.length + talks.length;
@@ -125,9 +125,9 @@ export default function ResearchHub() {
           <SectionIntro
             eyebrow="Observations"
             title="Research Notes"
-            description="Shorter, dated pieces — a specific observation or a worked example, not a lasting rule. They get revised slowly, if at all, and the revision date is noted rather than hidden."
-            href="/notes"
-            linkLabel="Browse the research notes"
+            description="One market behaviour at a time — with evidence, limits, and a link to the framework it sharpens."
+            href="/research/notes"
+            linkLabel="Browse notes"
           />
 
           {/* TIMELESS — what I believe: Frameworks, Reading */}
