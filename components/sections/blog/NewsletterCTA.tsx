@@ -103,6 +103,7 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
             <input 
               type="email" 
               name="email" 
+              aria-label="Email address"
               placeholder="Enter your email address*" 
               required 
               className="bg-transparent border-b border-rule focus:border-accent-gold/45 pb-3 px-1 font-mono text-sm text-ink focus:outline-none flex-grow" 
