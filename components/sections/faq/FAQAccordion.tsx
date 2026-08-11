@@ -113,6 +113,7 @@ export function FAQAccordion() {
         <input
           type="text"
           placeholder="Search questions (e.g. risk, process, portfolio)..."
+          aria-label="Search FAQ"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-surface border border-rule rounded-2xl py-4 pl-12 pr-32 font-mono text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/40 shadow-lift-1 transition-all duration-300"
@@ -135,6 +136,7 @@ export function FAQAccordion() {
               onClick={() => setSearchQuery("")}
               className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors"
               title="Clear search"
+              aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" />
             </button>

@@ -1,0 +1,3 @@
+## 2025-02-15 - Missing Accessible Names on Standalone Inputs
+**Learning:** Found a recurring pattern where standalone interactive form inputs (like newsletter signups in `NewsletterCTA` and search fields in `FAQAccordion`) rely entirely on visual placeholders for context, lacking semantic `<label>` elements or `aria-label` attributes for screen readers. Icon-only utility buttons (like the 'clear search' cross) also occasionally lack `aria-label` descriptions.
+**Action:** When implementing or reviewing standalone inputs or icon-only buttons that do not have an explicit textual label next to them, always add a descriptive `aria-label` attribute to ensure screen readers can provide proper context.
