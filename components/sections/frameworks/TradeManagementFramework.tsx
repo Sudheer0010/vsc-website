@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -69,7 +67,6 @@ export function TradeManagementFramework() {
       />
 
       <ReadingProgress />
-      <Navbar />
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
@@ -326,8 +323,6 @@ export function TradeManagementFramework() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

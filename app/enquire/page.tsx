@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { DiscussionForm } from "@/components/sections/enquire/DiscussionForm";
 import { AfterYouSubmit } from "@/components/sections/enquire/AfterYouSubmit";
@@ -18,9 +16,6 @@ export default function Enquire() {
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink select-none flex flex-col justify-between">
-      {/* Global Navigation Bar */}
-      <Navbar />
-
       {/* Global Matte Charcoal Paper Noise Overlay */}
       <PaperGrain />
 
@@ -132,9 +127,6 @@ export default function Enquire() {
           </div>
         </div>
       </main>
-
-      {/* Global Footer */}
-      <Footer />
     </div>
   );
 }

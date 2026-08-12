@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { OfferingsLayout } from "@/components/sections/offerings/OfferingsLayout";
 import { OfferingsHero } from "@/components/sections/offerings/OfferingsHero";

@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { SubPageHero } from "@/components/sections/offerings/SubPageHero";
 import { ModuleCard } from "@/components/sections/offerings/ModuleCard";
@@ -64,7 +62,6 @@ const modules = [
 export default function LearningHubPage() {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <Navbar />
       <PaperGrain />
       <AmbientLightPool color="rgba(111, 134, 183, 0.05)" className="left-[50%] top-[25%] -translate-x-1/2 scale-[1.5]" />
 
@@ -110,7 +107,6 @@ export default function LearningHubPage() {
         headline="Ready to start learning?"
         subline="No pitch and no obligation — a conversation about whether this is the right starting point for you."
       />
-      <Footer />
     </div>
   );
 }

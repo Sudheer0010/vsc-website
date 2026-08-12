@@ -3,8 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
 export default function ThankYou() {
@@ -16,9 +14,6 @@ export default function ThankYou() {
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      {/* Global Navigation Bar */}
-      <Navbar />
-
       {/* Global Matte Charcoal Paper Noise Overlay */}
       <PaperGrain />
 
@@ -87,9 +82,6 @@ export default function ThankYou() {
           </div>
         </div>
       </main>
-
-      {/* Global Footer */}
-      <Footer />
     </div>
   );
 }

@@ -5,8 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { ShinyText } from "@/components/ui/vsc/ShinyText";
 import { TimelineRail, TimelineStep } from "@/components/ui/vsc/TimelineRail";
@@ -165,9 +163,6 @@ export default function OurStory() {
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      {/* Global Navigation Bar */}
-      <Navbar />
-
       {/* Global Matte Charcoal Paper Noise Overlay */}
       <PaperGrain />
 
@@ -647,9 +642,6 @@ export default function OurStory() {
         </section>
 
       </main>
-
-      {/* Global Footer */}
-      <Footer />
     </div>
   );
 }

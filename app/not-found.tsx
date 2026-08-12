@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 
 export const metadata = {
@@ -11,7 +9,6 @@ export const metadata = {
 export default function NotFound() {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <Navbar />
       <PaperGrain />
       <AmbientLightPool color="rgba(15, 122, 64, 0.02)" className="left-[70%] top-[25%] scale-[1.2]" />
 
@@ -56,8 +53,6 @@ export default function NotFound() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

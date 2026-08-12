@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { SubPageHero } from "@/components/sections/offerings/SubPageHero";
 import { ModuleCard } from "@/components/sections/offerings/ModuleCard";
@@ -88,7 +86,6 @@ const modules = [
 export default function AdvantagePage() {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <Navbar />
       <PaperGrain />
       <AmbientLightPool color="rgba(15, 122, 64, 0.05)" className="left-[50%] top-[25%] -translate-x-1/2 scale-[1.5]" />
 
@@ -134,7 +131,6 @@ export default function AdvantagePage() {
         headline="Ready for a review?"
         subline="No pitch and no obligation — a conversation about your current positions and whether this fits."
       />
-      <Footer />
     </div>
   );
 }

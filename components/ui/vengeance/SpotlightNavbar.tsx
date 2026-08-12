@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -172,13 +173,10 @@ export function SpotlightNavbar({
                             onMouseEnter={() => item.dropdownItems && setHoveredDropdownIdx(idx)}
                             onMouseLeave={() => setHoveredDropdownIdx(null)}
                         >
-                            <a
+                            <Link
                                 href={item.href}
                                 data-index={idx}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleItemClick(item, idx);
-                                }}
+                                onClick={() => handleItemClick(item, idx)}
                                 className={cn(
                                   "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
                                     // Colour comes from `.spotlight-nav a` in the token layer, so the
@@ -187,23 +185,22 @@ export function SpotlightNavbar({
                                   )}
                             >
                                 {item.label}
-                            </a>
+                            </Link>
 
                             {item.dropdownItems && hoveredDropdownIdx === idx && (
                                 <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-48 rounded-vsc-lg border border-rule bg-surface p-1 shadow-lift-3 flex flex-col z-[100]">
                                     {item.dropdownItems.map((sub, sIdx) => (
-                                        <a
+                                        <Link
                                             key={sIdx}
                                             href={sub.href}
-                                            onClick={(e) => {
-                                                e.preventDefault();
+                                            onClick={() => {
                                                 setHoveredDropdownIdx(null);
                                                 onItemClick?.(sub, idx);
                                             }}
                                             className="block w-full rounded-vsc-md px-3.5 py-2.5 text-left text-[14.5px] font-medium text-ink-soft transition-colors duration-200 hover:bg-growth-tint hover:text-growth-deep"
                                         >
                                             {sub.label}
-                                        </a>
+                                        </Link>
                                     ))}
                                 </div>
                             )}

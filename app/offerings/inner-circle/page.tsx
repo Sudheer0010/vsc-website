@@ -1,7 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { SubPageHero } from "@/components/sections/offerings/SubPageHero";
 import { ModuleCard } from "@/components/sections/offerings/ModuleCard";
@@ -91,7 +89,6 @@ const MONTH_STAGES = ["Letter published", "Member discussion", "Idea review", "P
 export default function InnerCirclePage() {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <Navbar />
       <PaperGrain />
       <AmbientLightPool color="rgba(93, 139, 115, 0.05)" className="left-[50%] top-[25%] -translate-x-1/2 scale-[1.5]" />
 
@@ -150,7 +147,6 @@ export default function InnerCirclePage() {
         headline="Request an invitation"
         subline="Tell me about your book and what you're looking for — membership is by invitation, reviewed directly, not sold through a form."
       />
-      <Footer />
     </div>
   );
 }

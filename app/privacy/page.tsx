@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 
 /**
@@ -37,8 +35,6 @@ function Section({
 export default function Privacy() {
   return (
     <div className="relative min-h-screen w-full bg-canvas text-ink">
-      <Navbar />
-
       <main className="relative w-full pt-32 pb-24 sm:pt-40 sm:pb-32">
         <div className="container mx-auto max-w-[820px]">
           <span className="eyebrow">Privacy policy</span>
@@ -123,8 +119,6 @@ export default function Privacy() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

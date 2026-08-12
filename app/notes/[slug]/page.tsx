@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { Byline } from "@/components/ui/vsc/Byline";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -64,7 +62,6 @@ export default async function NotePage({ params }: NotePageProps) {
       )}
 
       <ReadingProgress />
-      <Navbar />
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
@@ -126,8 +123,6 @@ export default async function NotePage({ params }: NotePageProps) {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

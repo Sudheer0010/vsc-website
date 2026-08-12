@@ -1,8 +1,4 @@
-"use client";
-
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "./OfferingsBackground";
 
 interface OfferingsLayoutProps {
@@ -19,9 +15,6 @@ interface OfferingsLayoutProps {
 export function OfferingsLayout({ children }: OfferingsLayoutProps) {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden">
-      {/* Global Navigation Bar */}
-      <Navbar />
-
       {/* Global Matte Charcoal Paper Noise Overlay */}
       <PaperGrain />
 
@@ -29,9 +22,6 @@ export function OfferingsLayout({ children }: OfferingsLayoutProps) {
       <main className="relative w-full">
         {children}
       </main>
-
-      {/* Global Footer & Compliance Disclaimers */}
-      <Footer />
     </div>
   );
 }

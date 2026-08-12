@@ -5,6 +5,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SkipToContent } from "@/components/ui/vsc/SkipToContent";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 /**
 * Typography — chosen for reading, not for looking expensive.
@@ -117,7 +119,11 @@ export default function RootLayout({
             gtag('config', 'G-F2SZMY24JR');
           `}
         </Script>
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

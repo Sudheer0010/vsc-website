@@ -1,9 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { DecisionPipeline } from "@/components/sections/blog/DecisionPipeline";
 import { frameworkLibrary } from "@/data/frameworks";
@@ -11,7 +7,6 @@ import { frameworkLibrary } from "@/data/frameworks";
 export default function FrameworksIndex() {
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <Navbar />
       <PaperGrain />
       <AmbientLightPool color="rgba(15, 122, 64, 0.04)" className="left-[50%] top-[600px] scale-[1.4]" />
 
@@ -28,8 +23,6 @@ export default function FrameworksIndex() {
           <DecisionPipeline frameworkLibrary={frameworkLibrary} />
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

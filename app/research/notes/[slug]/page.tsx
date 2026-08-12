@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { ResearchNoteTemplate } from "@/components/sections/research-notes/ResearchNoteTemplate";
@@ -61,14 +59,11 @@ export default async function ResearchNotePage({ params }: ResearchNotePageProps
       />
 
       <ReadingProgress />
-      <Navbar />
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
         <ResearchNoteTemplate note={note} prevNote={prevNote} nextNote={nextNote} />
       </main>
-
-      <Footer />
     </div>
   );
 }

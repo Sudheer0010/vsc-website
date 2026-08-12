@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { NavItem, SpotlightNavbar } from "@/components/ui/vengeance/SpotlightNavbar";
+import { usePathname } from "next/navigation";
+import { SpotlightNavbar } from "@/components/ui/vengeance/SpotlightNavbar";
 
 /**
  * Navigation sits on paper now, so it needs no glass and no glow. The chrome
@@ -37,7 +37,6 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -72,8 +71,7 @@ export default function Navbar() {
     item.activeMatch ? item.activeMatch.some(isActive) : isActive(item.href)
   );
 
-  const handleItemClick = (item: NavItem) => {
-    router.push(item.href);
+  const handleItemClick = () => {
     closeMenu();
   };
 

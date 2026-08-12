@@ -1,5 +1,3 @@
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
 import { BeliefSection } from "@/components/sections/home/BeliefSection";
 import { Compliance } from "@/components/sections/home/Compliance";
 import { DrawdownStory } from "@/components/sections/home/DrawdownStory";
@@ -28,8 +26,6 @@ import { VSCButton } from "@/components/ui/vsc/VSCButton";
 export default function Home() {
   return (
     <>
-      <Navbar />
-
       <main className="relative w-full bg-canvas">
         {/* ================================================================
             ARRIVAL
@@ -184,8 +180,6 @@ export default function Home() {
 
         <Compliance />
       </main>
-
-      <Footer />
     </>
   );
 }

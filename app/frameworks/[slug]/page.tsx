@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { frameworkLibrary } from "@/data/frameworks";
@@ -139,7 +137,6 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
       )}
 
       <ReadingProgress />
-      <Navbar />
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
@@ -243,8 +240,6 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

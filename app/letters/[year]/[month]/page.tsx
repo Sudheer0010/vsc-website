@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
@@ -179,7 +177,6 @@ export default async function LetterPage({ params }: LetterPageProps) {
       />
 
       <ReadingProgress />
-      <Navbar />
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
@@ -291,8 +288,6 @@ export default async function LetterPage({ params }: LetterPageProps) {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
