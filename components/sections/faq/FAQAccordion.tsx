@@ -114,6 +114,7 @@ export function FAQAccordion() {
 
         <input
           type="text"
+          aria-label="Search questions"
           placeholder="Search questions (e.g. risk, process, portfolio)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -137,6 +138,7 @@ export function FAQAccordion() {
               onClick={() => setSearchQuery("")}
               className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors"
               title="Clear search"
+              aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -398,6 +400,8 @@ function FAQAccordionItem({
       {/* Header Panel */}
       <button
         onClick={onToggle}
+        aria-expanded={isExpanded}
+        aria-controls={`content-${qId}`}
         className="w-full flex items-center justify-between py-5 px-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-surface group"
       >
         <span 
@@ -420,6 +424,8 @@ function FAQAccordionItem({
 
       {/* Collapsible Answer Body */}
       <motion.div
+        id={`content-${qId}`}
+        role="region"
         initial={false}
         animate={{ 
           height: isExpanded ? "auto" : 0,
