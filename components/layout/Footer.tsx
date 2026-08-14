@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Globe, Mail } from "lucide-react";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 
 /**
@@ -135,6 +136,10 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="border-b border-rule py-8">
+          <EmailCapture variant="footer" />
         </div>
 
         <div className="flex flex-col items-center justify-between gap-3 pt-7 text-[14px] text-ink-muted sm:flex-row">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { PipelineStrip } from "./PipelineStrip";
@@ -582,6 +583,10 @@ export function SetupGradingFramework() {
                 Version 0.1 — Scoring anchors and gate thresholds are provisional and will be
                 refined as the framework evolves.
               </p>
+            </div>
+
+            <div className={PROSE}>
+              <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
             </div>
           </div>
         </div>

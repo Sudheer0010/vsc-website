@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ResearchNote } from "@/data/research-notes";
 import { ImageLightbox } from "@/components/ui/vsc/ImageLightbox";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 
 /**
  * One market behaviour, one chart, one limit — shared shell for every
@@ -130,6 +131,8 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
           </Link>
           <p className="text-[15px] text-ink-soft">{note.whereItFeeds.description}</p>
         </NoteSection>
+
+        <EmailCapture context="This note is part of an ongoing research series." />
       </div>
 
       {/* Footer */}

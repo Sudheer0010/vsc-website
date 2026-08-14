@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { frameworkLibrary } from "@/data/frameworks";
 import { marketLetters } from "@/data/market-letters";
@@ -238,6 +239,10 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
               </div>
             </div>
           )}
+
+          <div className="mt-16 border-t border-rule pt-8">
+            <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
+          </div>
         </div>
       </main>
     </div>

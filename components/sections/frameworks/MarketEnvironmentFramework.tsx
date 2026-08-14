@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { formatLongDate } from "@/lib/format-date";
@@ -657,6 +658,10 @@ export function MarketEnvironmentFramework() {
                 </table>
               </div>
             </section>
+
+            <div className={PROSE}>
+              <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
+            </div>
           </div>
         </div>
       </main>

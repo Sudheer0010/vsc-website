@@ -5,6 +5,7 @@ import { ExposureInstrument } from "@/components/sections/home/ExposureInstrumen
 import { HowWeHelpSection } from "@/components/sections/home/HowWeHelpSection";
 import { ProcessStepper } from "@/components/sections/home/ProcessStepper";
 import { ResearchDeskSection } from "@/components/sections/home/ResearchDeskSection";
+import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
 import { ReflectionBlock } from "@/components/ui/vsc/ReflectionBlock";
 import { Reveal } from "@/components/ui/vsc/Reveal";
@@ -179,6 +180,18 @@ export default function Home() {
         </section>
 
         <Compliance />
+
+        {/* ================================================================
+            QUIET SIGNUP BAND
+            Sits below every other section and above the footer. No
+            heading, no context line — the component's own proposition
+            text carries it. Not a hero, not competing with "Enquire".
+           ================================================================ */}
+        <section className="w-full border-t border-rule bg-canvas-sunk py-16 sm:py-20">
+          <div className="container mx-auto max-w-[1120px]">
+            <EmailCapture />
+          </div>
+        </section>
       </main>
     </>
   );
