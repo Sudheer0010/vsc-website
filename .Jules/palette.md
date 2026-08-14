@@ -1,0 +1,5 @@
+
+
+## 2024-05-18 - Standalone Inputs & Accordion Accessibility
+**Learning:** In this project, I identified an accessibility issue pattern where standalone inputs (like the search field in the FAQ component) lacked proper labeling for screen readers. Similarly, the custom accordion component was missing the standard `aria-expanded` and `aria-controls` pair, and its answer section needed a `role="region"` for screen readers to announce the collapsible content correctly. These patterns are critical to remember as this application uses heavily styled custom UI components (often animated via Framer Motion) which can obscure missing semantic attributes.
+**Action:** When implementing or modifying custom input fields or collapsible UI components (like Accordions or disclosure widgets), always ensure they are accompanied by explicit `aria-label` attributes (for standalone inputs) and standard `aria-expanded`/`aria-controls`/`role="region"` bindings. Do not assume custom React components naturally handle these semantics.
