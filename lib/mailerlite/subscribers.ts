@@ -81,18 +81,18 @@ interface ImportJobResponse {
 
 interface ImportProgressResponse {
   data?: {
-    status?: string;
+    total?: number;
+    processed?: number;
     imported?: number;
     updated?: number;
     errored?: number;
+    percent?: number;
+    /** The only completion signal this endpoint documents — there is no
+     *  status string to key off. */
+    done?: boolean;
   };
-  status?: string;
-  imported?: number;
-  updated?: number;
-  errored?: number;
 }
 
-const TERMINAL_STATUSES = new Set(["done", "finished", "completed", "complete", "failed", "error"]);
 const IMPORT_POLL_INTERVAL_MS = 1500;
 const IMPORT_POLL_MAX_ATTEMPTS = 20; // ~30s bounded wait, not indefinite
 
@@ -108,7 +108,7 @@ function sleep(ms: number): Promise<void> {
  * difference between this scaling fine and this eventually tripping the
  * limit as the list grows. The endpoint doesn't apply synchronously — it
  * hands back a progress URL, which this polls (bounded, never indefinite)
- * until MailerLite reports a terminal status.
+ * until MailerLite reports `data.done === true`.
  *
  * Used for both real sends (`groupId` = an alert trigger group, so
  * imported subscribers are enrolled and the automation fires) and the
@@ -144,14 +144,13 @@ export async function importSubscribersToGroup(
       apiToken,
     });
 
-    const body = progress.data ?? progress;
-    const status = (body.status ?? "").toLowerCase();
-    const imported = body.imported ?? 0;
-    const updated = body.updated ?? 0;
-    const errored = body.errored ?? 0;
-
-    if (TERMINAL_STATUSES.has(status) || (!status && (imported || updated || errored))) {
-      return { imported, updated, errored, timedOut: false };
+    if (progress.data?.done === true) {
+      return {
+        imported: progress.data.imported ?? 0,
+        updated: progress.data.updated ?? 0,
+        errored: progress.data.errored ?? 0,
+        timedOut: false,
+      };
     }
 
     if (attempt < IMPORT_POLL_MAX_ATTEMPTS - 1) {
