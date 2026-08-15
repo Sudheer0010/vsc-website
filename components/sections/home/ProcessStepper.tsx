@@ -83,11 +83,18 @@ export function ProcessStepper() {
   const stage = STAGES[active];
 
   return (
-    <section id="process" className="relative w-full border-b border-rule bg-canvas-sunk py-20 sm:py-28">
+    <section id="process" className="relative w-full border-b border-vsc-dark-hairline bg-vsc-dark py-20 sm:py-28">
       <div className="container mx-auto max-w-[1120px]">
         <Reveal className="max-w-[58ch]">
-          <span className="eyebrow">The process</span>
-          <h2 className="font-display text-ink">Five gates. Capital passes all of them or none.</h2>
+          {/* Can't reuse the shared `.eyebrow` class here: its colour is
+              hardcoded to `var(--growth)` outside any Tailwind layer, so it
+              always wins over a utility class regardless of source order.
+              Reproduced locally at the same size/weight/spacing instead. */}
+          <span className="mb-[18px] inline-flex items-center gap-2.5 text-[13px] font-semibold tracking-[0.01em] text-vsc-dark-accent">
+            <span aria-hidden="true" className="h-0.5 w-[18px] shrink-0 rounded-full bg-vsc-dark-accent" />
+            The process
+          </span>
+          <h2 className="font-display text-vsc-dark-ink">Five gates. Capital passes all of them or none.</h2>
         </Reveal>
 
         {/* --- The rail ---------------------------------------------------- */}
@@ -101,7 +108,7 @@ export function ProcessStepper() {
             {/* the track the nodes sit on */}
             <span
               aria-hidden="true"
-              className="absolute left-0 right-0 top-[19px] hidden h-[2px] bg-rule-strong sm:block"
+              className="absolute left-0 right-0 top-[19px] hidden h-[2px] bg-vsc-dark-hairline sm:block"
             />
             <motion.span
               aria-hidden="true"
@@ -134,7 +141,7 @@ export function ProcessStepper() {
                         ? "border-growth bg-growth text-white"
                         : isPast
                           ? "border-growth bg-growth-tint text-growth-deep"
-                          : "border-rule-strong bg-surface text-ink-faint group-hover:border-ink-faint group-hover:text-ink-muted",
+                          : "border-vsc-dark-hairline bg-transparent text-vsc-dark-ink-muted group-hover:border-vsc-dark-ink-muted group-hover:text-vsc-dark-ink",
                     ].join(" ")}
                   >
                     {i + 1}
@@ -143,12 +150,12 @@ export function ProcessStepper() {
                     <span
                       className={[
                         "block font-display text-[19px] font-semibold tracking-tight transition-colors duration-200",
-                        isActive ? "text-ink" : "text-ink-muted group-hover:text-ink",
+                        isActive ? "text-vsc-dark-ink" : "text-vsc-dark-ink-muted group-hover:text-vsc-dark-ink",
                       ].join(" ")}
                     >
                       {s.name}
                     </span>
-                    <span className="mt-0.5 block max-w-[22ch] text-[14px] leading-snug text-ink-faint">
+                    <span className="mt-0.5 block max-w-[22ch] text-[14px] leading-snug text-vsc-dark-ink-muted">
                       {s.summary}
                     </span>
                   </span>
@@ -165,7 +172,7 @@ export function ProcessStepper() {
             id="stage-panel"
             aria-labelledby={`stage-tab-${stage.id}`}
             tabIndex={0}
-            className="min-h-[210px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:min-h-[190px] sm:p-9"
+            className="min-h-[210px] rounded-vsc-xl border border-vsc-dark-hairline bg-vsc-dark p-6 shadow-lift-1 sm:min-h-[190px] sm:p-9"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -177,14 +184,14 @@ export function ProcessStepper() {
                 className="grid gap-6 md:grid-cols-12 md:gap-10"
               >
                 <div className="md:col-span-4">
-                  <div className="text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
+                  <div className="text-[13px] font-semibold uppercase tracking-wide text-vsc-dark-accent">
                     Gate {active + 1}
                   </div>
-                  <p className="mt-2 font-display text-[21px] font-semibold leading-tight tracking-tight text-growth-deep">
+                  <p className="mt-2 font-display text-[21px] font-semibold leading-tight tracking-tight text-vsc-dark-accent">
                     {stage.gate}
                   </p>
                 </div>
-                <p className="max-w-measure text-[17px] leading-relaxed text-ink-soft md:col-span-8">
+                <p className="max-w-measure text-[17px] leading-relaxed text-vsc-dark-ink md:col-span-8">
                   {stage.detail}
                 </p>
               </motion.div>

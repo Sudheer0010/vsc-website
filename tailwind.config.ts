@@ -62,6 +62,18 @@ const config: Config = {
           strong: "#CFCBBE",
         },
 
+        // --- Dark surface ----------------------------------------------
+        // The one deliberate exception to "backgrounds are light" (see
+        // DESIGN_PRINCIPLES.md §1) — reserved for high-contrast punctuation
+        // sections, not a general dark theme.
+        vsc: {
+          dark: "#0E1A14", // primary dark surface — deep green-black
+          "dark-ink": "#E9E4D2", // body text on dark
+          "dark-ink-muted": "#9AA097", // secondary text on dark
+          "dark-accent": "#7FB999", // eyebrows, small labels, accent italics on dark
+          "dark-hairline": "rgba(233,228,210,0.14)", // dividers/borders on dark
+        },
+
         // --- Deprecated aliases --------------------------------------
         // Kept so pages not yet re-composed stay coherent. Do not use in
         // new work; delete once every page is on the tokens above.
