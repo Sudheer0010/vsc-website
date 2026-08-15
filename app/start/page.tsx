@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
-import { letterHref } from "@/lib/letter-urls";
 import { getReadingTime } from "@/lib/reading-time";
+import { LetterCardGrid } from "@/components/sections/start/LetterCardGrid";
 
 /**
  * A guided path, not a list (Architecture doc §8). Four steps — the
@@ -108,23 +108,17 @@ export default function StartHere() {
                 </h2>
               </div>
               <div>
-                <p className="mb-4 max-w-[56ch] text-[16px] leading-relaxed text-ink-soft">
+                <p className="mb-6 max-w-[56ch] text-[16px] leading-relaxed text-ink-soft">
                   The most recent five, in order. Every letter uses the same fixed structure, so
                   these are enough to see how the process actually reads month to month.
                 </p>
-                <ul className="mb-4 flex flex-col gap-2">
-                  {RECENT_FIVE.map((key) => {
-                    const letter = marketLetters[key];
-                    const monthName = letter.month.charAt(0) + letter.month.slice(1).toLowerCase();
-                    return (
-                      <li key={key}>
-                        <Link href={letterHref(key)} className="font-mono text-sm text-ink hover:text-growth">
-                          Letter {String(letter.letterNumber).padStart(3, "0")} — {monthName} {letter.year}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+              </div>
+
+              <div className="md:col-span-2 md:mt-6">
+                <LetterCardGrid monthKeys={RECENT_FIVE} marketLetters={marketLetters} />
+              </div>
+
+              <div className="mt-4 md:col-span-2">
                 <Link href="/letters" className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
                   View the full archive
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
