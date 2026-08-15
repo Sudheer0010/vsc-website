@@ -395,8 +395,8 @@ export default function OurStory() {
         {/* =========================================================================
             5. TIMELESS OBSERVATIONS (VSC Renaissance 2.2 — Editorial Research Deck)
            ========================================================================= */}
-        <section 
-          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 focus:outline-none"
+        <section
+          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-vsc-dark-hairline bg-vsc-dark z-10 focus:outline-none"
           tabIndex={0}
           onKeyDown={handleObsKeyDown}
           aria-label="Timeless Observations Research Deck"
@@ -404,10 +404,20 @@ export default function OurStory() {
           <div className="container max-w-[1200px]">
             {/* Editorial Deck Header — one eyebrow, one heading. The
                 position within the five observations is communicated once,
-                by the pager below, not repeated here. */}
+                by the pager below, not repeated here.
+
+                The eyebrow can't reuse the shared `.eyebrow` class here:
+                its colour is hardcoded to `var(--growth)` outside any
+                Tailwind layer, so it always wins over a utility class
+                regardless of source order. Reproduced locally at the same
+                size/weight/spacing instead (same fix as the Five Gates
+                section). */}
             <div className="mb-12 select-none">
-              <span className="eyebrow">Lessons from the market</span>
-              <h2 className="font-display text-3xl sm:text-5xl text-ink font-normal leading-[1.12]">
+              <span className="mb-[18px] inline-flex items-center gap-2.5 text-[13px] font-semibold tracking-[0.01em] text-vsc-dark-accent">
+                <span aria-hidden="true" className="h-0.5 w-[18px] shrink-0 rounded-full bg-vsc-dark-accent" />
+                Lessons from the market
+              </span>
+              <h2 className="font-display text-3xl sm:text-5xl text-vsc-dark-ink font-normal leading-[1.12]">
                 Timeless Observations
               </h2>
             </div>
@@ -423,15 +433,15 @@ export default function OurStory() {
                   exit={{ opacity: 0, x: obsDirection > 0 ? -12 : 12 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
                 >
-                  <span className="inline-block rounded-full bg-canvas-sunk px-2.5 py-1 text-[13px] font-medium text-ink-muted">
+                  <span className="inline-block rounded-full bg-vsc-dark-accent/15 px-2.5 py-1 text-[13px] font-medium text-vsc-dark-accent">
                     {currentObs.topic}
                   </span>
 
-                  <h3 className="font-display text-2xl sm:text-4xl text-ink font-normal mt-5 mb-4 leading-snug">
+                  <h3 className="font-display text-2xl sm:text-4xl text-vsc-dark-ink font-normal mt-5 mb-4 leading-snug">
                     {currentObs.title}
                   </h3>
 
-                  <p className="text-sm sm:text-[15px] text-ink-soft leading-relaxed">
+                  <p className="text-sm sm:text-[15px] text-vsc-dark-ink-muted leading-relaxed">
                     {currentObs.desc}
                   </p>
                 </motion.div>
@@ -441,11 +451,11 @@ export default function OurStory() {
             {/* Pager — the single indicator of where you are in the five
                 observations, and the actual control for moving between
                 them. */}
-            <div className="max-w-[820px] mt-8 pt-6 border-t border-rule flex items-center justify-between select-none">
+            <div className="max-w-[820px] mt-8 pt-6 border-t border-vsc-dark-hairline flex items-center justify-between select-none">
               <button
                 onClick={prevObs}
                 disabled={obsIndex === 0}
-                className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-growth disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
+                className="inline-flex items-center gap-1.5 text-sm text-vsc-dark-accent hover:text-white disabled:opacity-30 disabled:hover:text-vsc-dark-accent transition-colors duration-200"
                 aria-label="Previous observation"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -457,10 +467,10 @@ export default function OurStory() {
                   <button
                     key={obs.code}
                     onClick={() => setObs(idx)}
-                    className={`font-mono text-xs font-semibold px-2.5 py-1 rounded transition-colors duration-200 ${
+                    className={`font-mono text-xs font-semibold px-2.5 py-1 rounded border transition-colors duration-200 ${
                       obsIndex === idx
-                        ? "bg-growth text-white"
-                        : "text-ink-faint hover:text-ink bg-canvas-sunk"
+                        ? "border-growth bg-growth text-white"
+                        : "border-vsc-dark-hairline text-vsc-dark-ink-muted hover:text-vsc-dark-ink hover:border-vsc-dark-ink-muted"
                     }`}
                     aria-label={`Jump to observation ${idx + 1} of ${observationsData.length}`}
                     aria-current={obsIndex === idx ? "true" : undefined}
@@ -473,7 +483,7 @@ export default function OurStory() {
               <button
                 onClick={nextObs}
                 disabled={obsIndex === observationsData.length - 1}
-                className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-growth disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
+                className="inline-flex items-center gap-1.5 text-sm text-vsc-dark-accent hover:text-white disabled:opacity-30 disabled:hover:text-vsc-dark-accent transition-colors duration-200"
                 aria-label="Next observation"
               >
                 <span>Next</span>
