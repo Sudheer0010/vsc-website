@@ -74,30 +74,9 @@ const observationsData = [
   }
 ];
 
-const roadmapData = [
-  {
-    horizon: "Today",
-    title: "Publish a market letter every month—even when things don't go as planned.",
-    desc: "Every letter stays in the archive as it was originally published. No edits after the fact."
-  },
-  {
-    horizon: "Next",
-    title: "Publish the rules before the results.",
-    desc: "Each framework is written down and dated before it's used—so it can be checked against what actually happened."
-  },
-  {
-    horizon: "Long term",
-    title: "Be here ten years from now, with every letter still available.",
-    desc: "Over time, consistency and a complete public record matter more than claims."
-  }
-];
-
 export default function OurStory() {
   const [obsIndex, setObsIndex] = useState(0);
   const [obsDirection, setObsDirection] = useState(1);
-
-  const [roadmapIndex, setRoadmapIndex] = useState(0);
-  const [roadmapDirection, setRoadmapDirection] = useState(1);
 
   const animProps = {
     initial: { opacity: 0, y: 12 },
@@ -126,40 +105,13 @@ export default function OurStory() {
     setObsIndex(idx);
   }, [obsIndex]);
 
-  // Roadmap Navigation
-  const prevRoadmap = useCallback(() => {
-    if (roadmapIndex > 0) {
-      setRoadmapDirection(-1);
-      setRoadmapIndex(prev => prev - 1);
-    }
-  }, [roadmapIndex]);
-
-  const nextRoadmap = useCallback(() => {
-    if (roadmapIndex < roadmapData.length - 1) {
-      setRoadmapDirection(1);
-      setRoadmapIndex(prev => prev + 1);
-    }
-  }, [roadmapIndex]);
-
-  const setRoadmap = useCallback((idx: number) => {
-    setRoadmapDirection(idx > roadmapIndex ? 1 : -1);
-    setRoadmapIndex(idx);
-  }, [roadmapIndex]);
-
   // Keyboard navigation for Observations Deck
   const handleObsKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") prevObs();
     if (e.key === "ArrowRight") nextObs();
   };
 
-  // Keyboard navigation for Roadmap Deck
-  const handleRoadmapKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") prevRoadmap();
-    if (e.key === "ArrowRight") nextRoadmap();
-  };
-
   const currentObs = observationsData[obsIndex];
-  const currentRoadmap = roadmapData[roadmapIndex];
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
@@ -485,98 +437,6 @@ export default function OurStory() {
                 disabled={obsIndex === observationsData.length - 1}
                 className="inline-flex items-center gap-1.5 text-sm text-vsc-dark-accent hover:text-white disabled:opacity-30 disabled:hover:text-vsc-dark-accent transition-colors duration-200"
                 aria-label="Next observation"
-              >
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            6. WHERE VSC IS HEADING (Executive Roadmap Deck)
-           ========================================================================= */}
-        <section 
-          className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/30 focus:outline-none"
-          tabIndex={0}
-          onKeyDown={handleRoadmapKeyDown}
-          aria-label="Executive Roadmap Deck"
-        >
-          <div className="container max-w-[1200px]">
-            {/* Header & Subtitle — one eyebrow, one heading; the horizon
-                pager below is the only "which phase" indicator. */}
-            <div className="max-w-[850px] mb-12 select-none">
-              <span className="eyebrow">Long-term direction</span>
-              <h2 className="font-display text-4xl md:text-[48px] text-ink font-normal leading-[1.15] mb-4">
-                Where VSC Is Heading
-              </h2>
-              <p className="text-sm sm:text-base text-ink-soft leading-relaxed max-w-[700px]">
-                I&apos;m building VSC with a long-term view. In the early years, earning trust through the quality and consistency of the work matters more than growing quickly.
-              </p>
-            </div>
-
-            {/* Current commitment — an open editorial block: one commitment
-                at a time, not a side-by-side comparison. */}
-            <div className="max-w-[780px] min-h-[190px] sm:min-h-[150px] relative select-none">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={roadmapIndex}
-                  initial={{ opacity: 0, x: roadmapDirection > 0 ? 12 : -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: roadmapDirection > 0 ? -12 : 12 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                >
-                  <span className="inline-block rounded-full bg-canvas-sunk px-2.5 py-1 text-[13px] font-medium text-ink-muted">
-                    {currentRoadmap.horizon}
-                  </span>
-
-                  <h3 className="font-display text-2xl sm:text-4xl text-ink font-normal mt-5 mb-3 leading-snug">
-                    {currentRoadmap.title}
-                  </h3>
-
-                  <p className="text-sm sm:text-base text-ink-soft leading-relaxed">
-                    {currentRoadmap.desc}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Horizon pager — the single indicator of which phase is
-                showing, and the control for moving between them. */}
-            <div className="max-w-[780px] mt-8 pt-6 border-t border-rule flex flex-wrap items-center justify-between gap-y-3 select-none">
-              <button
-                onClick={prevRoadmap}
-                disabled={roadmapIndex === 0}
-                className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-growth disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
-                aria-label="Previous phase"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Previous</span>
-              </button>
-
-              <div className="order-3 flex w-full items-center justify-center gap-3 sm:order-none sm:w-auto">
-                {roadmapData.map((rm, idx) => (
-                  <button
-                    key={rm.horizon}
-                    onClick={() => setRoadmap(idx)}
-                    className={`whitespace-nowrap text-sm font-medium px-3 py-1 rounded-full transition-colors duration-200 ${
-                      roadmapIndex === idx
-                        ? "bg-growth-tint text-growth"
-                        : "text-ink-faint hover:text-ink bg-canvas-sunk"
-                    }`}
-                    aria-label={`Jump to ${rm.horizon}`}
-                    aria-current={roadmapIndex === idx ? "true" : undefined}
-                  >
-                    {rm.horizon}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                onClick={nextRoadmap}
-                disabled={roadmapIndex === roadmapData.length - 1}
-                className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-growth disabled:opacity-30 disabled:hover:text-ink-muted transition-colors duration-200"
-                aria-label="Next phase"
               >
                 <span>Next</span>
                 <ChevronRight className="w-4 h-4" />
