@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -144,6 +145,14 @@ export default async function LetterPage({ params }: LetterPageProps) {
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6">
+          <Link
+            href="/research"
+            className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
+            Back to Research
+          </Link>
+
           {/* 1. Header */}
           <header className="mb-7 select-none text-center">
             <span className="mb-3 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
@@ -238,12 +247,6 @@ export default async function LetterPage({ params }: LetterPageProps) {
                   <span className="text-ink-faint">Latest Publication</span>
                 )}
               </div>
-            </div>
-
-            <div className="mt-6 text-center">
-              <Link href="/letters" className="font-mono text-[11px] text-ink-muted hover:text-ink link-underline">
-                &larr; Back to the archive
-              </Link>
             </div>
           </div>
         </div>
