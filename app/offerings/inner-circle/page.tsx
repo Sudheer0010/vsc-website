@@ -115,13 +115,22 @@ export default function InnerCirclePage() {
             </p>
           </div>
 
-          <div className="mb-20">
+          {/* No section background/padding existed here before — this
+              Exhibit sat directly on the page's canvas with no card
+              chrome. To flip it onto the dark surface without the text
+              running edge-to-edge, it gets the same rounded/padded
+              treatment already used for other bordered Exhibit cards on
+              the site (e.g. the framework pages), just filled with
+              vsc.dark instead of a border. The Exhibit's own content
+              (label, rail, caption) keeps its original size and layout. */}
+          <div className="mb-20 rounded-vsc-xl bg-vsc-dark p-6 sm:p-8">
             <Exhibit
               number={1}
               label="What a month looks like"
               caption="The shape of a typical month. Timing varies with the market, not a fixed schedule."
+              variant="dark"
             >
-              <HorizontalRail steps={MONTH_STAGES} />
+              <HorizontalRail steps={MONTH_STAGES} variant="dark" />
             </Exhibit>
           </div>
 
