@@ -16,8 +16,11 @@ export interface EmailCaptureProps {
   context?: string;
   /** `default`/`minimal` sit flush in page content. `minimal` drops the
    *  fixed proposition and the unsubscribe line for tight embeds.
-   *  `footer` is a single compact row for the site footer. */
-  variant?: "default" | "minimal" | "footer";
+   *  `footer` is a single compact row for the site footer. `centered-wide`
+   *  drops the proposition/unsubscribe line (the caller supplies its own
+   *  heading and sub-line) and centers a wide input + primary button —
+   *  for sections like the Research page's mid-page Newsletter block. */
+  variant?: "default" | "minimal" | "footer" | "centered-wide";
   className?: string;
 }
 
@@ -49,8 +52,9 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
 
   const isFooter = variant === "footer";
   const isMinimal = variant === "minimal";
-  const showProposition = !isMinimal;
-  const showUnsubscribe = !isFooter && !isMinimal;
+  const isCenteredWide = variant === "centered-wide";
+  const showProposition = !isMinimal && !isCenteredWide;
+  const showUnsubscribe = !isFooter && !isMinimal && !isCenteredWide;
   const submitting = status === "submitting";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +78,15 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
   if (status === "success") {
     return (
       <div className={className} role="status">
-        <p className={isFooter ? "text-[14px] font-medium text-growth-deep" : "text-[17px] font-medium text-growth-deep"}>
+        <p
+          className={
+            isFooter
+              ? "text-[14px] font-medium text-growth-deep"
+              : isCenteredWide
+                ? "text-center text-[17px] font-medium text-growth-deep"
+                : "text-[17px] font-medium text-growth-deep"
+          }
+        >
           You&apos;re in. Check your inbox.
         </p>
       </div>
@@ -135,7 +147,7 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
 
       <form
         onSubmit={handleSubmit}
-        className={`flex flex-col gap-3 sm:flex-row sm:items-center ${showProposition ? "mt-6" : ""}`}
+        className={`flex flex-col gap-3 ${isCenteredWide ? "items-center sm:flex-row sm:justify-center" : "sm:flex-row sm:items-center"} ${showProposition ? "mt-6" : ""}`}
       >
         <label htmlFor="email-capture-input" className="sr-only">Email address</label>
         <input
@@ -152,12 +164,12 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
         />
         <button type="submit" disabled={submitting} className={BUTTON_CLASS}>
           {submitting && <Spinner className="h-4 w-4" />}
-          Subscribe
+          {isCenteredWide ? "Subscribe →" : "Subscribe"}
         </button>
       </form>
 
       {status === "error" && (
-        <p role="alert" className="mt-3 text-[14px] text-clay">
+        <p role="alert" className={`mt-3 text-[14px] text-clay ${isCenteredWide ? "text-center" : ""}`}>
           Something went wrong. Try again.
         </p>
       )}
