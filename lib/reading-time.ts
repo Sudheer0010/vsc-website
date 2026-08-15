@@ -18,10 +18,26 @@ export function getReadingTime(letter: MarketLetter): number {
 
   parts.push(...letter.frameworkReview.map((row) => `${row.interpretation} ${row.detail}`));
 
-  const { marketBehavior, whatIDid, theTrade, whatSurprisedMe, whatImWatching } = letter.sections;
+  const {
+    marketBehavior,
+    whatIDid,
+    theTrade,
+    whatSurprisedMe,
+    whatImWatching,
+    theMarket,
+    theFrameworkRead,
+    thePositions,
+    theReview,
+    theWatch,
+  } = letter.sections;
   parts.push(marketBehavior, whatIDid, whatImWatching);
   if (theTrade) parts.push(theTrade);
   if (whatSurprisedMe) parts.push(whatSurprisedMe);
+  if (theMarket) parts.push(theMarket);
+  if (theFrameworkRead) parts.push(theFrameworkRead);
+  if (thePositions) parts.push(thePositions);
+  if (theReview) parts.push(theReview);
+  if (theWatch) parts.push(theWatch);
 
   const wordCount = countWords(parts.join(" "));
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));

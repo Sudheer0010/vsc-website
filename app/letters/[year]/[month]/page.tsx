@@ -116,6 +116,9 @@ export default async function LetterPage({ params }: LetterPageProps) {
 
   const isNegativeReturn = letter.metrics.monthlyReturn.trim().startsWith("-");
 
+  const { theMarket, theFrameworkRead, thePositions, theReview, theWatch } = letter.sections;
+  const hasStructuredBody = Boolean(theMarket || theFrameworkRead || thePositions || theReview || theWatch);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -186,38 +189,50 @@ export default async function LetterPage({ params }: LetterPageProps) {
 
           {/* 4. Prose sections */}
           <div className="flex flex-col gap-9 text-left">
-            <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior} />
-            <ProseSection heading="What I did about it" text={letter.sections.whatIDid} />
+            {hasStructuredBody ? (
+              <>
+                {theMarket && <ProseSection heading="The Market" text={theMarket} />}
+                {theFrameworkRead && <ProseSection heading="The Framework Read" text={theFrameworkRead} />}
+                {thePositions && <ProseSection heading="The Positions" text={thePositions} />}
+                {theReview && <ProseSection heading="The Review" text={theReview} />}
+                {theWatch && <ProseSection heading="The Watch" text={theWatch} />}
+              </>
+            ) : (
+              <>
+                <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior} />
+                <ProseSection heading="What I did about it" text={letter.sections.whatIDid} />
 
-            {letter.sections.theTrade && (
-              <section className="flex flex-col gap-4">
-                <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
-                  The trade that explains the month
-                </h2>
-                <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
-                  <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
-                    {paragraphs(letter.sections.theTrade).map((p, i) => (
-                      <p key={i}>{p}</p>
-                    ))}
-                  </div>
-                </div>
-              </section>
+                {letter.sections.theTrade && (
+                  <section className="flex flex-col gap-4">
+                    <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+                      The trade that explains the month
+                    </h2>
+                    <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+                      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                        {paragraphs(letter.sections.theTrade).map((p, i) => (
+                          <p key={i}>{p}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+                )}
+
+                {letter.sections.whatSurprisedMe && (
+                  <section className="flex flex-col gap-4">
+                    <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">What surprised me</h2>
+                    <div className="border-l-[3px] border-clay py-1 pl-5">
+                      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                        {paragraphs(letter.sections.whatSurprisedMe).map((p, i) => (
+                          <p key={i}>{p}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+                )}
+
+                <ProseSection heading="What I'm watching" text={letter.sections.whatImWatching} />
+              </>
             )}
-
-            {letter.sections.whatSurprisedMe && (
-              <section className="flex flex-col gap-4">
-                <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">What surprised me</h2>
-                <div className="border-l-[3px] border-clay py-1 pl-5">
-                  <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
-                    {paragraphs(letter.sections.whatSurprisedMe).map((p, i) => (
-                      <p key={i}>{p}</p>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            <ProseSection heading="What I'm watching" text={letter.sections.whatImWatching} />
           </div>
 
           {/* 5. Previous/Next Navigation */}

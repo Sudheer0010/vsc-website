@@ -54,5 +54,23 @@ export interface MarketLetter {
      *  letters — see the editorial template. */
     whatSurprisedMe?: string;
     whatImWatching: string;
+    /**
+     * The five-section structured body (Architecture doc's expanded
+     * template). All optional, and all-or-nothing in practice: once any
+     * one of these is populated, the letter page renders this set instead
+     * of the older three-section body above — see the letter page's own
+     * rendering rule. Letters that don't use this format simply leave all
+     * five undefined and keep rendering the older structure untouched.
+     */
+    /** Objective market observation. */
+    theMarket?: string;
+    /** How the frameworks read the month. */
+    theFrameworkRead?: string;
+    /** Trades taken, sizing, exits. */
+    thePositions?: string;
+    /** What worked, what didn't. */
+    theReview?: string;
+    /** Forward-looking signals. */
+    theWatch?: string;
   };
 }
