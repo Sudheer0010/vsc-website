@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
         destination: "/research",
         permanent: true,
       },
+      // The Framework Library index page is gone — the dark Framework
+      // Library section on /research is now the only listing. Permanent
+      // so external links and search ranking carry over.
+      {
+        source: "/frameworks",
+        destination: "/research#framework-library",
+        permanent: true,
+      },
     ];
   },
 };

@@ -27,7 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/letters`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/notes`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/research/notes`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/frameworks`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/reading`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE_URL}/faq`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE_URL}/enquire`, changeFrequency: "monthly", priority: 0.7 },
