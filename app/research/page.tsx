@@ -8,6 +8,7 @@ import { frameworkLibrary, books, annualLetters, talks, newsletterConfig, resear
 
 import { BlogHero } from "@/components/sections/blog/BlogHero";
 import { FeaturedPublication } from "@/components/sections/blog/FeaturedPublication";
+import { RecentLetters } from "@/components/sections/blog/RecentLetters";
 import { NewsletterCTA } from "@/components/sections/blog/NewsletterCTA";
 
 /**
@@ -107,6 +108,11 @@ export default function ResearchHub() {
               latestMonthKey={sortedMonths[0]}
             />
           )}
+
+          <RecentLetters
+            monthKeys={sortedMonths.slice(1, 5)}
+            marketLetters={marketLetters}
+          />
 
           <div className="pb-4 pt-2 text-right">
             <Link
