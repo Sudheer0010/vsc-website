@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "mailerlite:baseline-publications": "tsx scripts/mailerlite-baseline-publications.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
