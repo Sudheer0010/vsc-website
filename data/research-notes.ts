@@ -17,6 +17,10 @@ export interface ResearchNote {
   readingTime: string;
   /** The one-sentence claim — thesis block on the note page, hook line on the archive card. */
   thesis: string;
+  /** A short, human-written line for the "new note" email alert — purely
+   *  for the inbox, never rendered on the website. Optional — falls back
+   *  to `thesis` when a note doesn't specify one. */
+  emailHook?: string;
   claim: string[];
   whyItHappens: string[];
   evidence: {

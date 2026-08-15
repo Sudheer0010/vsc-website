@@ -34,6 +34,11 @@ export interface MarketLetter {
    *  Featured Publication card) where the thesis alone reads too clipped.
    *  Optional — falls back to `thesis` when a letter doesn't specify one. */
   pullQuote?: string;
+  /** A short, human-written line for the "new letter" email alert — a
+   *  different job from `thesis` (the on-page idea of the month) and from
+   *  `pullQuote` (an on-page editorial excerpt). Purely for the inbox;
+   *  never rendered on the website. Optional — falls back to `thesis`. */
+  emailHook?: string;
   metrics: {
     monthlyReturn: string;
     tradesTaken: number;
