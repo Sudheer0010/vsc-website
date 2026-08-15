@@ -56,63 +56,108 @@ export async function fetchActiveGroupSubscribers(
   return all;
 }
 
-export interface BatchUpsertOutcome {
-  succeeded: number;
-  failed: number;
+export interface ImportRecipient {
+  email: string;
+  fields: Record<string, string>;
 }
 
-const BATCH_CONCURRENCY = 5;
-const BATCH_DELAY_MS = 250;
+export interface ImportOutcome {
+  imported: number;
+  updated: number;
+  errored: number;
+  /** True if the job never reached a terminal state within the bounded
+   *  poll window. MailerLite may still finish the job server-side after
+   *  this returns — the counts below are 0 in that case because we have
+   *  no confirmed outcome to report, not because nothing happened. */
+  timedOut: boolean;
+}
+
+interface ImportJobResponse {
+  data?: {
+    import_progress_url?: string;
+  };
+  import_progress_url?: string;
+}
+
+interface ImportProgressResponse {
+  data?: {
+    status?: string;
+    imported?: number;
+    updated?: number;
+    errored?: number;
+  };
+  status?: string;
+  imported?: number;
+  updated?: number;
+  errored?: number;
+}
+
+const TERMINAL_STATUSES = new Set(["done", "finished", "completed", "complete", "failed", "error"]);
+const IMPORT_POLL_INTERVAL_MS = 1500;
+const IMPORT_POLL_MAX_ATTEMPTS = 20; // ~30s bounded wait, not indefinite
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 /**
- * Upserts a batch of subscribers by email, in small concurrent chunks with
- * a short pause between chunks — a batching facility built on the same
- * proven /subscribers upsert endpoint /api/subscribe already uses in
- * production, rather than either one unbounded burst of requests or a
- * fully serial loop. `groupId`, when given, adds every upserted subscriber
- * to that group in the same request (this is how a publication alert
- * enrolls subscribers into the MailerLite automation's trigger group);
- * omit it to update fields only, touching no group membership.
+ * MailerLite's own group-import endpoint — the one supported bulk facility
+ * for "these N subscribers all get these field values and this group,
+ * right now." One POST regardless of list size, instead of one request per
+ * subscriber; on a 120 requests/minute account-wide limit, that's the
+ * difference between this scaling fine and this eventually tripping the
+ * limit as the list grows. The endpoint doesn't apply synchronously — it
+ * hands back a progress URL, which this polls (bounded, never indefinite)
+ * until MailerLite reports a terminal status.
  *
- * Never logs which email succeeded or failed — only the caller's aggregate
- * counts are ever written to logs.
+ * Used for both real sends (`groupId` = an alert trigger group, so
+ * imported subscribers are enrolled and the automation fires) and the
+ * one-time baseline (`groupId` = the master VSC Research group recipients
+ * already belong to, so the import only ever touches fields — it can't
+ * add anyone to a group they're not already in).
  */
-export async function batchUpsertSubscribers(
-  emails: string[],
-  fields: Record<string, string>,
-  apiToken: string,
-  groupId?: string
-): Promise<BatchUpsertOutcome> {
-  let succeeded = 0;
-  let failed = 0;
+export async function importSubscribersToGroup(
+  groupId: string,
+  subscribers: ImportRecipient[],
+  apiToken: string
+): Promise<ImportOutcome> {
+  const job = await mailerLiteRequest<ImportJobResponse>({
+    method: "POST",
+    path: `/groups/${groupId}/import-subscribers`,
+    apiToken,
+    body: { subscribers },
+  });
 
-  for (let i = 0; i < emails.length; i += BATCH_CONCURRENCY) {
-    const chunk = emails.slice(i, i + BATCH_CONCURRENCY);
+  const progressUrl = job.data?.import_progress_url ?? job.import_progress_url;
 
-    const results = await Promise.allSettled(
-      chunk.map((email) =>
-        mailerLiteRequest({
-          method: "POST",
-          path: "/subscribers",
-          apiToken,
-          body: {
-            email,
-            fields,
-            ...(groupId ? { groups: [groupId] } : {}),
-          },
-        })
-      )
-    );
+  if (!progressUrl) {
+    // The import was accepted but MailerLite gave us nothing to poll —
+    // we can't confirm an outcome, so report it as such rather than
+    // guessing success.
+    return { imported: 0, updated: 0, errored: 0, timedOut: true };
+  }
 
-    for (const result of results) {
-      if (result.status === "fulfilled") succeeded += 1;
-      else failed += 1;
+  for (let attempt = 0; attempt < IMPORT_POLL_MAX_ATTEMPTS; attempt += 1) {
+    const progress = await mailerLiteRequest<ImportProgressResponse>({
+      method: "GET",
+      url: progressUrl,
+      apiToken,
+    });
+
+    const body = progress.data ?? progress;
+    const status = (body.status ?? "").toLowerCase();
+    const imported = body.imported ?? 0;
+    const updated = body.updated ?? 0;
+    const errored = body.errored ?? 0;
+
+    if (TERMINAL_STATUSES.has(status) || (!status && (imported || updated || errored))) {
+      return { imported, updated, errored, timedOut: false };
     }
 
-    if (i + BATCH_CONCURRENCY < emails.length) {
-      await new Promise((resolve) => setTimeout(resolve, BATCH_DELAY_MS));
+    if (attempt < IMPORT_POLL_MAX_ATTEMPTS - 1) {
+      await sleep(IMPORT_POLL_INTERVAL_MS);
     }
   }
 
-  return { succeeded, failed };
+  return { imported: 0, updated: 0, errored: 0, timedOut: true };
 }

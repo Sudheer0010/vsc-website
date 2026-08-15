@@ -15,7 +15,13 @@ export class MailerLiteError extends Error {
 
 interface MailerLiteRequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE";
-  path: string;
+  /** Path relative to the MailerLite API base, e.g. "/subscribers". */
+  path?: string;
+  /** A ready-made absolute URL — used for polling an import job's
+   *  progress endpoint, which MailerLite returns as a full URL rather
+   *  than a path this client would otherwise construct. Exactly one of
+   *  `path` / `url` must be given. */
+  url?: string;
   apiToken: string;
   body?: unknown;
   query?: Record<string, string>;
@@ -29,7 +35,7 @@ interface MailerLiteRequestOptions {
  * plain status/message, or the parsed JSON on success.
  */
 export async function mailerLiteRequest<T>(opts: MailerLiteRequestOptions): Promise<T> {
-  const url = new URL(`${MAILERLITE_BASE_URL}${opts.path}`);
+  const url = new URL(opts.url ?? `${MAILERLITE_BASE_URL}${opts.path ?? ""}`);
   if (opts.query) {
     for (const [key, value] of Object.entries(opts.query)) {
       url.searchParams.set(key, value);

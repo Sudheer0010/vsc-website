@@ -11,9 +11,13 @@
  * nothing else.
  *
  * It does NOT add anyone to VSC Research Note Alert or VSC Market Letter
- * Alert, and it does NOT send any email — it only sets two custom fields,
- * using the same field-update endpoint the site's own /api/subscribe
- * route relies on, called here without a `groups` key.
+ * Alert, and it does NOT send any email. It uses MailerLite's bulk group-
+ * import endpoint — the same properly rate-limited mechanism the real
+ * publication-alert sends use — but targets MAILERLITE_GROUP_ID (the
+ * master VSC Research group every one of these subscribers already
+ * belongs to), not an alert group. Importing subscribers into a group
+ * they're already in only updates their fields; it cannot change their
+ * group memberships.
  *
  * Run manually, exactly once, before setting PUBLICATION_ALERTS_ENABLED=true:
  *
@@ -26,7 +30,7 @@
  * Prints only aggregate counts — never a subscriber email address.
  */
 import { getLatestResearchNote, getLatestMarketLetter } from "@/lib/publications";
-import { fetchActiveGroupSubscribers, batchUpsertSubscribers } from "@/lib/mailerlite/subscribers";
+import { fetchActiveGroupSubscribers, importSubscribersToGroup } from "@/lib/mailerlite/subscribers";
 
 async function main() {
   const apiToken = process.env.MAILERLITE_API_TOKEN;
@@ -62,17 +66,25 @@ async function main() {
   if (latestNote) fields.last_note_notification = latestNote.id;
   if (latestLetter) fields.last_letter_notification = latestLetter.id;
 
-  // No `groupId` argument here — deliberately field-only, no group change.
-  const outcome = await batchUpsertSubscribers(
-    subscribers.map((s) => s.email),
-    fields,
+  // Target groupId is the master group itself — every recipient is
+  // already a member, so this import can only touch fields.
+  const outcome = await importSubscribersToGroup(
+    groupId,
+    subscribers.map((s) => ({ email: s.email, fields })),
     apiToken
   );
 
-  console.log(`[baseline] Updated=${outcome.succeeded} Failed=${outcome.failed}`);
+  if (outcome.timedOut) {
+    console.error("[baseline] Import job did not reach a terminal state within the poll window.");
+    console.error("[baseline] It may still complete on MailerLite's side — check the dashboard before re-running.");
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log(`[baseline] Imported=${outcome.imported} Updated=${outcome.updated} Errored=${outcome.errored}`);
   console.log("[baseline] Done. No emails were sent. No group memberships were changed.");
 
-  if (outcome.failed > 0) {
+  if (outcome.errored > 0) {
     process.exitCode = 1;
   }
 }
