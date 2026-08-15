@@ -13,9 +13,14 @@ import React from "react";
 export function StepRule({
   className = "",
   size = "md",
+  active = false,
 }: {
   className?: string;
   size?: "sm" | "md" | "lg";
+  /** Renders all three bars at full opacity instead of the default
+   *  fading-in look — marks a selected state elsewhere on the site (e.g.
+   *  a persona picker) without a second icon. Default is unchanged. */
+  active?: boolean;
 }) {
   const heights = {
     sm: ["5px", "8px", "11px"],
@@ -33,8 +38,8 @@ export function StepRule({
       {heights.map((h, i) => (
         <span
           key={h}
-          className="block rounded-[2px] bg-growth"
-          style={{ height: h, width: widths, opacity: [0.4, 0.68, 1][i] }}
+          className="block rounded-[2px] bg-growth transition-opacity duration-200"
+          style={{ height: h, width: widths, opacity: active ? 1 : [0.4, 0.68, 1][i] }}
         />
       ))}
     </span>
