@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Framework } from "@/types/framework";
 import { frameworkHref } from "@/lib/framework-urls";
 
@@ -20,10 +19,15 @@ interface FrameworkLibrarySectionProps {
  * always wins over a text-vsc-dark-accent utility regardless of source
  * order. Reproduced locally at the same size/weight/spacing instead —
  * the same fix already used for the other dark-surface rollouts.
+ *
+ * This is now the ONLY framework listing on the site — the old
+ * /frameworks index page (and its "Browse the framework library" link)
+ * is gone, redirected here. The five rows below are the library; there's
+ * nowhere further to browse to.
  */
 export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionProps) {
   return (
-    <div className="my-8 sm:my-10">
+    <div id="framework-library" className="my-8 scroll-mt-24 sm:my-10">
       <div className="rounded-2xl bg-vsc-dark px-6 py-10 sm:px-10 sm:py-12">
         <span className="mb-3 inline-flex items-center gap-2.5 text-[13px] font-semibold tracking-[0.01em] text-vsc-dark-accent">
           <span aria-hidden="true" className="h-0.5 w-[18px] shrink-0 rounded-full bg-vsc-dark-accent" />
@@ -34,8 +38,11 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
           Framework Library
         </h2>
 
-        <p className="mb-8 max-w-[58ch] text-[16px] leading-relaxed text-vsc-dark-ink-muted">
-          The systematic rules the desk actually trades by. Versioned and dated — when a framework changes, the old version stays reachable and the page says what changed and why.
+        <p className="mb-1.5 max-w-[58ch] text-[16px] leading-relaxed text-vsc-dark-ink">
+          Five frameworks, in order. Each one answers one question. The output of each becomes the input for the next.
+        </p>
+        <p className="mb-8 max-w-[58ch] text-[14px] leading-relaxed text-vsc-dark-ink-muted">
+          Versioned and dated — when a framework changes, the old version stays reachable and the page says what changed and why.
         </p>
 
         <div className="divide-y divide-vsc-dark-hairline border-t border-vsc-dark-hairline">
@@ -59,14 +66,6 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
             </Link>
           ))}
         </div>
-
-        <Link
-          href="/frameworks"
-          className="group mt-8 inline-flex items-center gap-2 font-mono text-sm font-semibold text-vsc-dark-accent transition-colors duration-200 hover:text-white"
-        >
-          Browse the framework library
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-        </Link>
       </div>
     </div>
   );
