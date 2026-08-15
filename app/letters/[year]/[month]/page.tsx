@@ -5,7 +5,6 @@ import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground"
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
-import { FrameworkReviewRow } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatLongDate } from "@/lib/format-date";
 import { letterHref, monthKeyFromParams } from "@/lib/letter-urls";
@@ -55,42 +54,6 @@ function MetricCell({
       ) : (
         <AnimatedMetric value={value} className={`font-display text-2xl font-semibold sm:text-3xl ${toneClass}`} />
       )}
-    </div>
-  );
-}
-
-function FrameworkReviewExhibit({ rows }: { rows: FrameworkReviewRow[] }) {
-  return (
-    <div className="mb-14 rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
-      <span className="mb-5 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
-        Framework Review
-      </span>
-      <div className="flex flex-col">
-        {rows.map((row, i) => (
-          <div
-            key={row.framework}
-            className={`flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${
-              i > 0 ? "border-t border-rule" : ""
-            }`}
-          >
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint sm:w-52 sm:shrink-0">
-              {row.framework}
-            </span>
-            <div className="flex-1">
-              <p className="text-[16px] font-medium text-ink">{row.interpretation}</p>
-              <p className="mt-1 font-mono text-[12px] text-ink-faint">{row.detail}</p>
-            </div>
-            {row.direction && (
-              <span
-                className={`shrink-0 text-[14px] font-bold ${row.direction === "down" ? "text-clay" : "text-growth"}`}
-                aria-hidden="true"
-              >
-                {row.direction === "down" ? "▼" : "▲"}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
@@ -182,11 +145,11 @@ export default async function LetterPage({ params }: LetterPageProps) {
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6">
           {/* 1. Header */}
-          <header className="mb-10 select-none text-center">
-            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
+          <header className="mb-7 select-none text-center">
+            <span className="mb-3 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
               Research Archive · Market Letter
             </span>
-            <h1 className="mb-4 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
+            <h1 className="mb-3 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
               {monthName} {letter.year}
             </h1>
             <div className="font-mono text-xs text-ink-faint">
@@ -195,14 +158,14 @@ export default async function LetterPage({ params }: LetterPageProps) {
           </header>
 
           {/* 2. The Thesis — impossible to scroll past */}
-          <div className="mb-12 rounded-vsc-xl bg-growth-tint p-8 text-center sm:p-12">
-            <p className="font-display text-[24px] font-medium leading-snug text-ink sm:text-[28px]">
+          <div className="mb-8 rounded-vsc-xl bg-growth-tint p-6 text-center sm:p-9">
+            <p className="font-display text-[21px] font-medium leading-snug text-ink sm:text-[24px]">
               {letter.thesis}
             </p>
           </div>
 
           {/* 3. Metrics strip */}
-          <div className="mb-10 grid grid-cols-2 gap-4 border-y border-rule py-8 sm:grid-cols-3">
+          <div className="mb-8 grid grid-cols-2 gap-4 py-6 sm:grid-cols-3">
             <MetricCell
               label="Monthly Return"
               value={letter.metrics.monthlyReturn}
@@ -212,11 +175,8 @@ export default async function LetterPage({ params }: LetterPageProps) {
             <MetricCell label="Environment" value={letter.metrics.environment} tone="ink" isWord />
           </div>
 
-          {/* 3b. Framework Review */}
-          <FrameworkReviewExhibit rows={letter.frameworkReview} />
-
           {/* 4. Prose sections */}
-          <div className="flex flex-col gap-14 text-left">
+          <div className="flex flex-col gap-9 text-left">
             <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior} />
             <ProseSection heading="What I did about it" text={letter.sections.whatIDid} />
 
@@ -252,9 +212,9 @@ export default async function LetterPage({ params }: LetterPageProps) {
           </div>
 
           {/* 5. Previous/Next Navigation */}
-          <div className="select-none pt-16">
+          <div className="select-none pt-10">
             <div className="h-px w-full bg-rule" />
-            <span className="mb-6 mt-10 block text-center font-mono text-[10px] font-semibold uppercase tracking-widest text-ink-faint">
+            <span className="mb-4 mt-6 block text-center font-mono text-[10px] font-semibold uppercase tracking-widest text-ink-faint">
               RESEARCH ARCHIVE
             </span>
 
@@ -280,7 +240,7 @@ export default async function LetterPage({ params }: LetterPageProps) {
               </div>
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="mt-6 text-center">
               <Link href="/letters" className="font-mono text-[11px] text-ink-muted hover:text-ink link-underline">
                 &larr; Back to the archive
               </Link>
