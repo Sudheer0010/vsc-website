@@ -17,10 +17,13 @@ import { StepRule } from "@/components/ui/vsc/StepRule";
  * does — and gets out of the way.
  *
  * The audience bullets are now a persona picker. Clicking one narrows the
- * four "what changes" paragraphs to that reader specifically; clicking it
+ * three "what changes" paragraphs to that reader specifically; clicking it
  * again (or nothing) returns to the general "any of the above" copy. State
  * is one useState<number | null> — the index of the selected persona, or
  * null for the default — kept local to this component.
+ *
+ * The right column is a vertical numbered list, not a card grid — three
+ * deliberate ideas with room between them, not a boxed comparison.
  */
 
 const AUDIENCE = [
@@ -36,10 +39,6 @@ const OUTCOMES = [
     body: "Both sides of the trade exist before capital moves, so no decision gets made while money is on the line.",
   },
   {
-    title: "Risk per position is capped at 2%",
-    body: "Sizing is derived from the stop, not from how good the idea feels that morning.",
-  },
-  {
     title: "Cash counts as a position",
     body: "Being out of the market is a legitimate state with its own trigger, not an admission of having no ideas.",
   },
@@ -52,7 +51,7 @@ const OUTCOMES = [
 interface Persona {
   shortName: string;
   /** Index-aligned with AUDIENCE and OUTCOMES. */
-  bodies: [string, string, string, string];
+  bodies: [string, string, string];
 }
 
 const PERSONAS: Persona[] = [
@@ -60,7 +59,6 @@ const PERSONAS: Persona[] = [
     shortName: "Working professional",
     bodies: [
       "Set your rules on Sunday. Follow them the rest of the week — no market-hours attention required.",
-      "Stops are placed once and honored automatically. Your day job doesn't pay for you to watch charts.",
       "When you don't have time to research, staying in cash is a legitimate stance — not a missed opportunity.",
       "One 30-minute weekly review is the whole process. Trades and reasoning logged, patterns spotted, done.",
     ],
@@ -69,7 +67,6 @@ const PERSONAS: Persona[] = [
     shortName: "Business owner",
     bodies: [
       "Your capital works to a written plan while you run the business. Portfolio decisions don't compete with operating hours.",
-      "Sized like a business risk — a small, known cost of learning. Not a bet-the-farm move.",
       "Holding cash is a treasury decision, not indecision. The same instinct that runs your working capital.",
       "Quarterly-quality thinking on a weekly cadence. The portfolio gets the same rigor as the P&L.",
     ],
@@ -78,7 +75,6 @@ const PERSONAS: Persona[] = [
     shortName: "Self-directed investor",
     bodies: [
       "Your process outlasts any single opinion — including your own on a bad day.",
-      "The rule protects you from your best ideas. Conviction doesn't waive the cap.",
       "The framework says 'don't act' more often than it says 'buy.' That is the edge.",
       "You see whether your reasoning was right — separately from whether the trade paid.",
     ],
@@ -87,7 +83,6 @@ const PERSONAS: Persona[] = [
     shortName: "Method-first trader",
     bodies: [
       "The rule is the trigger. Not the mood, not the chart, not the tip.",
-      "A hard 2% ceiling — the discipline you already know you need, made structural.",
       "No qualifying setup, no position. Learning to sit out is where the method actually starts to work.",
       "Wins with bad reasoning get flagged. Losses with correct reasoning get kept. The scoreboard is process.",
     ],
@@ -112,7 +107,7 @@ export function HowWeHelpSection() {
   };
 
   return (
-    <section id="fit" className="relative w-full border-b border-rule bg-canvas py-20 sm:py-28">
+    <section id="fit" className="relative w-full border-b border-rule bg-vsc-cream-2 py-20 sm:py-28">
       <div className="container mx-auto max-w-[1120px]">
         <div className="grid gap-12 md:grid-cols-12 md:gap-16">
           {/* Who it's for — the qualifying column. */}
@@ -158,7 +153,8 @@ export function HowWeHelpSection() {
             </Reveal>
           </div>
 
-          {/* What changes — the substantive column. */}
+          {/* What changes — the substantive column. Vertical numbered list,
+              no cards: spacing and typography carry the layout. */}
           <div className="md:col-span-7">
             <Reveal delay={0.06}>
               {persona && (
@@ -170,14 +166,14 @@ export function HowWeHelpSection() {
                 <span className="eyebrow">What changes</span>
               </div>
             </Reveal>
-            <div className="mt-2 grid gap-px bg-rule sm:grid-cols-2">
+            <div className="mt-6 flex flex-col gap-12 sm:gap-14">
               {OUTCOMES.map((item, i) => (
-                <Reveal
-                  key={item.title}
-                  delay={0.08 + i * 0.05}
-                  className="bg-canvas py-7 sm:px-6 sm:first:pl-0 sm:[&:nth-child(3)]:pl-0"
-                >
-                  <h3 className="max-w-[26ch] font-display text-[20px] font-semibold leading-tight tracking-tight text-ink">
+                <Reveal key={item.title} delay={0.08 + i * 0.05}>
+                  <span className="font-mono text-[13px] font-semibold text-growth">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="mt-2 h-px w-6 bg-growth" />
+                  <h3 className="mt-4 max-w-[26ch] font-display text-[20px] font-semibold leading-tight tracking-tight text-ink">
                     {item.title}
                   </h3>
                   <motion.p
