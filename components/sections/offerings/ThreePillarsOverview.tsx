@@ -73,14 +73,14 @@ export function ThreePillarsOverview() {
         </Reveal>
 
         <Reveal delay={0.08} className="mt-10 sm:mt-14">
-          <div className="flex flex-col gap-1">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {offeringsConfig.map((row) => {
               const isInvite = row.tier === "invite";
               const t = TIER_STYLES[row.tier];
               return (
                 <article
                   key={row.slug}
-                  className={`rounded-vsc-lg p-8 sm:p-10 ${t.wrapper}`}
+                  className={`flex flex-col rounded-vsc-lg p-7 sm:p-9 ${t.wrapper}`}
                   style={isInvite ? { backgroundColor: "#111110", color: "#F2EFE6" } : undefined}
                 >
                   <header
@@ -128,7 +128,7 @@ export function ThreePillarsOverview() {
 
                   <Link
                     href={row.proofHref}
-                    className={`group inline-flex items-center gap-1.5 text-[14px] font-semibold ${t.cta}`}
+                    className={`group mt-auto inline-flex w-fit items-center gap-1.5 text-[14px] font-semibold ${t.cta}`}
                     style={isInvite ? { color: "#7FB894" } : undefined}
                   >
                     {row.proofLabel}
