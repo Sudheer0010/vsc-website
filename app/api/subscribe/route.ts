@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getLatestResearchNote, getLatestMarketLetter } from "@/lib/publications";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -50,6 +51,16 @@ async function subscribeToMailerLite(email: string): Promise<boolean> {
     return false;
   }
 
+  // A subscriber who joins today shouldn't be treated as "needing" a Note
+  // or Letter that shipped before they signed up just because an unrelated
+  // deploy happens tomorrow — stamp them with today's latest IDs up front,
+  // the same fields the deploy-alert flow later checks for eligibility.
+  const latestNote = getLatestResearchNote();
+  const latestLetter = getLatestMarketLetter();
+  const fields: Record<string, string> = {};
+  if (latestNote) fields.last_note_notification = latestNote.id;
+  if (latestLetter) fields.last_letter_notification = latestLetter.id;
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), MAILERLITE_TIMEOUT_MS);
 
@@ -61,7 +72,7 @@ async function subscribeToMailerLite(email: string): Promise<boolean> {
         Accept: "application/json",
         Authorization: `Bearer ${apiToken}`,
       },
-      body: JSON.stringify({ email, groups: [groupId] }),
+      body: JSON.stringify({ email, groups: [groupId], fields }),
       signal: controller.signal,
     });
 
