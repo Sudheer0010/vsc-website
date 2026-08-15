@@ -1,9 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { MarketLetter } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
-import { Byline } from "@/components/ui/vsc/Byline";
-import { formatLongDate } from "@/lib/format-date";
 import { letterHref } from "@/lib/letter-urls";
 
 interface FeaturedPublicationProps {
@@ -11,36 +10,54 @@ interface FeaturedPublicationProps {
   latestMonthKey: string;
 }
 
+/**
+ * The visual anchor of the Research page — the cover of the monthly
+ * publication, not a form field. The oversized issue number sits behind
+ * the copy as a low-contrast watermark (pointer-events-none, aria-hidden):
+ * a design element, not a second headline competing with the real one.
+ */
 export function FeaturedPublication({
   featuredLetter,
   latestMonthKey,
 }: FeaturedPublicationProps) {
+  const monthName = featuredLetter.month.charAt(0) + featuredLetter.month.slice(1).toLowerCase();
+  const excerpt = featuredLetter.pullQuote ?? featuredLetter.thesis;
+  const paddedNumber = String(featuredLetter.letterNumber).padStart(3, "0");
+
   return (
     <section className="py-12 border-t border-rule select-none animate-fade-in">
-      <div className="text-ink-faint font-mono text-[10px] tracking-widest uppercase mb-6">
-        FEATURED PUBLICATION
-      </div>
+      <span className="eyebrow">This month&apos;s letter</span>
 
       <Link
         href={letterHref(latestMonthKey)}
-        className="group bg-[#FFFFFF] border border-rule hover:border-accent-gold/25 rounded-2xl p-8 sm:p-12 flex flex-col sm:flex-row sm:items-center justify-between gap-8 transition-all duration-[240ms]"
+        className="group relative block overflow-hidden rounded-2xl bg-growth-tint p-8 sm:p-12"
       >
-        <div className="flex flex-col gap-3 max-w-[600px]">
-          <span className="font-mono text-xs text-accent-gold/60">
-            {featuredLetter.month.charAt(0) + featuredLetter.month.slice(1).toLowerCase()} {featuredLetter.year} Market Letter
-          </span>
-          <h3 className="font-display text-2xl sm:text-3xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200">
-            {featuredLetter.description || "How I interpreted markets, managed risk and positioned capital."}
-          </h3>
-          <span className="font-mono text-xs text-ink-faint mt-1">
-            Letter {String(featuredLetter.letterNumber).padStart(3, "0")} · Published {formatLongDate(featuredLetter.publishedDate)} • {getReadingTime(featuredLetter)} minute read
-          </span>
-          <Byline className="mt-0.5" />
-        </div>
-
-        <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200 sm:self-center">
-          Read the letter →
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-6 -right-2 z-0 select-none font-display font-bold leading-none text-growth/[0.12] sm:-right-4"
+          style={{ fontSize: "220px" }}
+        >
+          {paddedNumber}
         </span>
+
+        <div className="relative z-10 flex max-w-[600px] flex-col gap-5">
+          <h3 className="font-display text-3xl font-medium text-ink sm:text-4xl">
+            {monthName} {featuredLetter.year}
+          </h3>
+
+          <p className="font-display text-[19px] font-medium leading-snug text-ink sm:text-[21px]">
+            {excerpt}
+          </p>
+
+          <span className="font-mono text-xs text-ink-faint">
+            Sudheer Vobhilineni · {monthName} {featuredLetter.year} · {getReadingTime(featuredLetter)} minute read · Letter {paddedNumber}
+          </span>
+
+          <span className="inline-flex w-fit items-center gap-2 rounded-vsc-md bg-growth px-6 py-3 font-ui text-[16px] font-semibold text-white shadow-lift-growth transition-[background-color,transform] duration-200 ease-physical group-hover:-translate-y-0.5 group-hover:bg-growth-deep">
+            Read the letter
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </div>
       </Link>
     </section>
   );
