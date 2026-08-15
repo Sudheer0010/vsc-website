@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 import { letterHref } from "@/lib/letter-urls";
+import { getReadingTime } from "@/lib/reading-time";
 
 /**
  * A guided path, not a list (Architecture doc §8). Four steps — the
@@ -12,6 +13,28 @@ import { letterHref } from "@/lib/letter-urls";
  * behind it" bar.
  */
 const RECENT_FIVE = sortedMonths.slice(0, 5);
+
+/**
+ * Step 3's time is real, computed from the same getReadingTime() the rest
+ * of the site uses for these letters — not a typed-in guess. Steps 1, 2,
+ * and 4 point at pages/data with no modeled word count or reading-time
+ * field (About is static prose, frameworks and reading-list items carry
+ * no time field), so those three stay editorial estimates.
+ */
+const STEP_1_MIN = 4;
+const STEP_2_MIN = 6;
+const STEP_3_MIN = RECENT_FIVE.reduce((total, key) => total + getReadingTime(marketLetters[key]), 0);
+const STEP_4_MIN = 3;
+
+function StepMeta({ number, minutes }: { number: string; minutes: number }) {
+  return (
+    <div className="font-mono text-sm font-semibold">
+      <span className="text-growth">{number}</span>
+      <span className="mx-1.5 text-ink-faint">&middot;</span>
+      <span className="text-ink-faint">{minutes} min</span>
+    </div>
+  );
+}
 
 export default function StartHere() {
   return (
@@ -43,7 +66,7 @@ export default function StartHere() {
           <ol className="flex flex-col gap-10">
             <li className="md:grid md:grid-cols-[35fr_65fr] md:items-start md:gap-x-10">
               <div className="mb-4 md:mb-0">
-                <div className="font-mono text-sm font-semibold text-growth">01</div>
+                <StepMeta number="01" minutes={STEP_1_MIN} />
                 <h2 className="mt-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                   What VSC believes
                 </h2>
@@ -61,7 +84,7 @@ export default function StartHere() {
 
             <li className="md:grid md:grid-cols-[35fr_65fr] md:items-start md:gap-x-10">
               <div className="mb-4 md:mb-0">
-                <div className="font-mono text-sm font-semibold text-growth">02</div>
+                <StepMeta number="02" minutes={STEP_2_MIN} />
                 <h2 className="mt-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                   How the decision pipeline works
                 </h2>
@@ -79,7 +102,7 @@ export default function StartHere() {
 
             <li className="md:grid md:grid-cols-[35fr_65fr] md:items-start md:gap-x-10">
               <div className="mb-4 md:mb-0">
-                <div className="font-mono text-sm font-semibold text-growth">03</div>
+                <StepMeta number="03" minutes={STEP_3_MIN} />
                 <h2 className="mt-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                   Five market letters
                 </h2>
@@ -111,7 +134,7 @@ export default function StartHere() {
 
             <li className="md:grid md:grid-cols-[35fr_65fr] md:items-start md:gap-x-10">
               <div className="mb-4 md:mb-0">
-                <div className="font-mono text-sm font-semibold text-growth">04</div>
+                <StepMeta number="04" minutes={STEP_4_MIN} />
                 <h2 className="mt-3 font-display text-2xl font-normal text-ink sm:text-3xl">
                   Recommended reading
                 </h2>
