@@ -72,6 +72,13 @@ const config: Config = {
           "dark-ink-muted": "#9AA097", // secondary text on dark
           "dark-accent": "#7FB999", // eyebrows, small labels, accent italics on dark
           "dark-hairline": "rgba(233,228,210,0.14)", // dividers/borders on dark
+
+          // A very slight warm/darker shift from canvas — barely perceptible
+          // scrolling from one to the other. Gives a section gentle
+          // differentiation without introducing a new visual weight class,
+          // the way vsc.dark does. Third cream in the stack: canvas (FBFAF6)
+          // → canvas.sunk (F2F0E9) → this (EEEAE0).
+          "cream-2": "#EEEAE0",
         },
 
         // --- Deprecated aliases --------------------------------------
