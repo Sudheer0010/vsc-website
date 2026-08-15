@@ -9,6 +9,7 @@ import { frameworkLibrary, books, annualLetters, talks, newsletterConfig, resear
 import { BlogHero } from "@/components/sections/blog/BlogHero";
 import { FeaturedPublication } from "@/components/sections/blog/FeaturedPublication";
 import { RecentLetters } from "@/components/sections/blog/RecentLetters";
+import { FrameworkLibrarySection } from "@/components/sections/blog/FrameworkLibrarySection";
 import { NewsletterCTA } from "@/components/sections/blog/NewsletterCTA";
 
 /**
@@ -134,13 +135,7 @@ export default function ResearchHub() {
           {/* TIMELESS — what I believe: Frameworks, Reading */}
           <GroupLabel>Timeless — what I believe</GroupLabel>
 
-          <SectionIntro
-            eyebrow="Evergreen systems"
-            title="Framework Library"
-            description="The systematic rules the desk actually trades by. Versioned and dated — when a framework changes, the old version stays reachable and the page says what changed and why."
-            href="/frameworks"
-            linkLabel="Browse the framework library"
-          />
+          <FrameworkLibrarySection frameworks={frameworkLibrary} />
 
           <SectionIntro
             eyebrow="Recommendations"
