@@ -416,6 +416,15 @@ strong {
     transition: var(--transition);
 }
 
+/* pointer-events: none means a disabled button can't receive hover at
+   all, so every .btn-* variant's :hover rule is neutralized here without
+   needing its own :not(:disabled) guard. */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .btn-gold,
 .btn-growth {
     background: var(--growth);

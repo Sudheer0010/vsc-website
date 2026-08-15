@@ -100,12 +100,13 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
               <input type="hidden" name="form-name" value="newsletter" />
             </p>
             
-            <input 
-              type="email" 
-              name="email" 
-              placeholder="Enter your email address*" 
-              required 
-              className="bg-transparent border-b border-rule focus:border-accent-gold/45 pb-3 px-1 font-mono text-sm text-ink focus:outline-none flex-grow" 
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email address*"
+              aria-label="Email address"
+              required
+              className="bg-transparent border-b border-rule focus:border-accent-gold/45 pb-3 px-1 font-mono text-sm text-ink focus:outline-none flex-grow"
             />
             <button 
               type="submit" 

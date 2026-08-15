@@ -207,6 +207,7 @@ export function DiscussionForm() {
           <button
             type="submit"
             disabled={isSubmitting}
+            aria-busy={isSubmitting}
             className="btn btn-gold w-full mt-4 py-3.5 text-xs font-mono tracking-wider uppercase font-semibold hover:bg-accent-gold/90 transition-colors"
           >
             {isSubmitting ? "Sending..." : submitError ? "Retry →" : "Enquire →"}
