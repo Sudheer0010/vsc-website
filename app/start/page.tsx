@@ -93,7 +93,7 @@ export default function StartHere() {
                 <p className="mb-4 max-w-[56ch] text-[16px] leading-relaxed text-ink-soft">
                   Five frameworks, in order — from reading the market to managing a trade.
                 </p>
-                <Link href="/frameworks" className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
+                <Link href="/research#framework-library" className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
                   Browse the framework library
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
