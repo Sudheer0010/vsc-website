@@ -50,12 +50,12 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
             <Link
               key={fw.slug}
               href={frameworkHref(fw)}
-              className="group flex items-start gap-4 py-5 sm:gap-6"
+              className="group -mx-3 flex items-center gap-4 rounded-lg px-3 py-5 transition-colors duration-200 hover:bg-vsc-dark-ink/[0.04] sm:-mx-4 sm:gap-6 sm:px-4"
             >
-              <span className="shrink-0 font-mono text-sm text-vsc-dark-accent">
+              <span className="shrink-0 self-start font-mono text-sm text-vsc-dark-accent">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div>
+              <div className="flex-1">
                 <div className="font-display text-lg font-medium text-vsc-dark-ink transition-colors duration-200 group-hover:text-white sm:text-xl">
                   {fw.title}
                 </div>
@@ -63,6 +63,12 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
                   {fw.question}
                 </p>
               </div>
+              <span
+                aria-hidden="true"
+                className="shrink-0 font-mono text-sm text-vsc-dark-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                &rarr;
+              </span>
             </Link>
           ))}
         </div>
