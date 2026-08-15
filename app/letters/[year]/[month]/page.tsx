@@ -6,6 +6,7 @@ import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground"
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
+import { FrameworkReviewRow } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatLongDate } from "@/lib/format-date";
 import { letterHref, monthKeyFromParams } from "@/lib/letter-urls";
@@ -55,6 +56,48 @@ function MetricCell({
       ) : (
         <AnimatedMetric value={value} className={`font-display text-2xl font-semibold sm:text-3xl ${toneClass}`} />
       )}
+    </div>
+  );
+}
+
+/**
+ * Shown only on letters that haven't migrated to the five-section
+ * structured body yet (gated on !hasStructuredBody below) — once a letter
+ * sets theFrameworkRead, this content lives in "The Framework Read"
+ * section instead and the accordion disappears on its own.
+ */
+function FrameworkReviewExhibit({ rows }: { rows: FrameworkReviewRow[] }) {
+  return (
+    <div className="mb-8 rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+      <span className="mb-5 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+        Framework Review
+      </span>
+      <div className="flex flex-col">
+        {rows.map((row, i) => (
+          <div
+            key={row.framework}
+            className={`flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${
+              i > 0 ? "border-t border-rule" : ""
+            }`}
+          >
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint sm:w-52 sm:shrink-0">
+              {row.framework}
+            </span>
+            <div className="flex-1">
+              <p className="text-[16px] font-medium text-ink">{row.interpretation}</p>
+              <p className="mt-1 font-mono text-[12px] text-ink-faint">{row.detail}</p>
+            </div>
+            {row.direction && (
+              <span
+                className={`shrink-0 text-[14px] font-bold ${row.direction === "down" ? "text-clay" : "text-growth"}`}
+                aria-hidden="true"
+              >
+                {row.direction === "down" ? "▼" : "▲"}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -186,6 +229,9 @@ export default async function LetterPage({ params }: LetterPageProps) {
             <MetricCell label="Trades Taken" value={String(letter.metrics.tradesTaken)} tone="ink" />
             <MetricCell label="Environment" value={letter.metrics.environment} tone="ink" isWord />
           </div>
+
+          {/* 3b. Framework Review — only for letters not yet migrated to the structured body */}
+          {!hasStructuredBody && <FrameworkReviewExhibit rows={letter.frameworkReview} />}
 
           {/* 4. Prose sections */}
           <div className="flex flex-col gap-9 text-left">
