@@ -26,20 +26,42 @@ export function Exhibit({
   caption,
   children,
   className = "",
+  variant = "light",
 }: {
   number: number;
   label: string;
   caption?: string;
   children: React.ReactNode;
   className?: string;
+  /**
+   * "dark" swaps the label/caption to the vsc-dark surface tokens instead
+   * of the shared .exhibit__label / .exhibit__caption CSS — that CSS is
+   * hardcoded to var(--growth) / var(--ink-faint) outside any Tailwind
+   * layer, so a className override can't reach it. Default "light" is
+   * byte-identical to before this prop existed.
+   */
+  variant?: "light" | "dark";
 }) {
+  const isDark = variant === "dark";
   return (
     <figure className={`exhibit ${className}`}>
-      <div className="exhibit__label">
+      <div
+        className={
+          isDark
+            ? "mb-4 border-b border-vsc-dark-hairline pb-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-vsc-dark-accent"
+            : "exhibit__label"
+        }
+      >
         Exhibit {String(number).padStart(2, "0")} · {label}
       </div>
       <div className="exhibit__art">{children}</div>
-      {caption && <figcaption className="exhibit__caption">{caption}</figcaption>}
+      {caption && (
+        <figcaption
+          className={isDark ? "mt-3.5 font-mono text-[12px] leading-[1.6] text-vsc-dark-ink-muted" : "exhibit__caption"}
+        >
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }
