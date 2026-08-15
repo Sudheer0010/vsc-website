@@ -184,6 +184,7 @@ export const marketLetters: { [key: string]: MarketLetter } = {
     year: 2026,
     description: "How I interpreted markets, managed risk and positioned capital.",
     thesis: "Healthy indices can hide unhealthy opportunities.",
+    pullQuote: "The broader indices remained resilient through July, closing the month largely where they started. Almost nothing underneath that resilience held up the same way — most breakout attempts failed to sustain momentum and lacked meaningful follow-through, and the market rewarded patience over activity.",
     metrics: {
       monthlyReturn: "+5.82%",
       tradesTaken: 2,

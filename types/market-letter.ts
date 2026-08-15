@@ -30,6 +30,10 @@ export interface MarketLetter {
   /** The one sentence a reader could repeat a week later. Required for
    *  every letter — if it can't be written, the letter isn't ready. */
   thesis: string;
+  /** A longer excerpt for editorial contexts (e.g. the Research page's
+   *  Featured Publication card) where the thesis alone reads too clipped.
+   *  Optional — falls back to `thesis` when a letter doesn't specify one. */
+  pullQuote?: string;
   metrics: {
     monthlyReturn: string;
     tradesTaken: number;
