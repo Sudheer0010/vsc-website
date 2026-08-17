@@ -187,33 +187,111 @@ export const marketLetters: { [key: string]: MarketLetter } = {
   JUL: {
     letterNumber: 7,
     publishedDate: "2026-07-24",
+    dataThrough: "2026-07-31",
     month: "JULY",
     year: 2026,
-    description: "How I interpreted markets, managed risk and positioned capital.",
-    thesis: "Healthy indices can hide unhealthy opportunities.",
-    pullQuote: "The broader indices remained resilient through July, closing the month largely where they started. Almost nothing underneath that resilience held up the same way — most breakout attempts failed to sustain momentum and lacked meaningful follow-through, and the market rewarded patience over activity.",
+    description: "The market repeatedly recovered from drawdowns, but weak breadth, poor breakout follow-through and pressure from crude kept the underlying environment difficult.",
+    thesis: "Healthy recovery. Weak structure.",
+    pullQuote: "The market repeatedly recovered from drawdowns, but weak breadth, poor breakout follow-through and pressure from crude kept the underlying environment difficult.",
     metrics: {
-      monthlyReturn: "+5.82%",
-      tradesTaken: 2,
+      monthlyReturn: "+7.68%",
+      tradesTaken: 6,
       environment: "Defensive",
     },
-    frameworkReview: [
-      {
-        framework: "01 Market Environment",
-        interpretation: "Defensive",
-        detail: "Index resilient, but most breakout attempts failed to sustain momentum",
-        direction: "down",
-      },
-      {
-        framework: "05 Trade Management",
-        interpretation: "Protect",
-        detail: "Reduced frequency sharply, protected both financial and psychological capital",
-      },
+    // Superseded by marketHealth/vscRead below — the old two-row exhibit
+    // (from the pre-Spec-v4 template) no longer matches this letter's
+    // content (e.g. it recorded 2 trades; the real figure is 6) and the
+    // Framework Review accordion no longer renders once marketHealth is
+    // set, so it's left empty rather than carrying stale numbers forward.
+    frameworkReview: [],
+
+    subThesis: "The market repeatedly recovered from drawdowns, but weak breadth, poor breakout follow-through and pressure from crude kept the underlying environment difficult.",
+    regimeTagEditorial: "Narrow Breadth",
+
+    marketSnapshot: [
+      { asset: "NIFTY 50", monthEnd: "24,383.60", mtdPct: 2.17, ytdPct: -6.68, read: "Fragile recovery" },
+      { asset: "GOLD", monthEnd: "₹1,42,860 / 10g", mtdPct: 1.11, ytdPct: 7.33, read: "Firm" },
+      { asset: "SILVER", monthEnd: "₹2,18,295 / kg", mtdPct: -3.16, ytdPct: -4.85, read: "Cooling" },
+      { asset: "CRUDE", monthEnd: "$90.12 / bbl", mtdPct: 23.59, ytdPct: 48.10, read: "Key pressure" },
+      { asset: "USD/INR", monthEnd: "95.3706", mtdPct: 0.82, ytdPct: 6.06, read: "INR weaker" },
     ],
-    sections: {
-      marketBehavior: "The broader indices remained resilient through July, closing the month largely where they started. Almost nothing underneath that resilience held up the same way — most breakout attempts failed to sustain momentum and lacked meaningful follow-through, and the market rewarded patience over activity.",
-      whatIDid: "I reduced trading frequency significantly and operated in capital preservation mode throughout the month, avoiding trades as conditions deteriorated rather than forcing exposure to stay active. The two setups I did take passed strict, predefined risk criteria — everything else stayed on the sidelines while I waited for quality rather than manufacturing it.",
-      whatImWatching: "Whether sustainable momentum and high-quality breakout structures reappear. Until they do, the priority stays patience, disciplined execution, and improving the process.",
+
+    marketHealth: [
+      { factor: "Trend", current: "Weak", status: "red", vsPrev: "down", vscRead: "Key structure remained under pressure" },
+      { factor: "Breadth", current: "Narrowing", status: "amber", vsPrev: "flat", vscRead: "Participation continued to deteriorate" },
+      { factor: "Leadership", current: "Very Concentrated", status: "red", vsPrev: "down", vscRead: "Tradeable leadership stayed narrow" },
+      { factor: "Breakout Quality", current: "Poor", status: "red", vsPrev: "down", vscRead: "Follow-through repeatedly failed" },
+      { factor: "Volatility", current: "Elevated", status: "amber", vsPrev: "down", vscRead: "Drawdowns followed by fast recoveries" },
+    ],
+    overallEnvironment: {
+      label: "Defensive",
+      vsPrev: "down",
+      vscRead: "Selectivity over activity",
     },
+
+    // Stored now so Section 04 activates automatically once Letter 006 is
+    // backfilled with its own marketHealth/vscRead — nothing else about
+    // this letter needs to change when that happens.
+    netChange: "The index held up better than opportunity quality: leadership narrowed, breakouts deteriorated and volatility increased, forcing a more defensive playbook.",
+
+    whatHappened: {
+      index: {
+        headline: "The headline recovered faster than the underlying structure.",
+        explanation: "Nifty recovered repeatedly from drawdowns, but remaining below the key 200 EMA kept the broader structure fragile.",
+      },
+      breadth: {
+        headline: "Participation continued to narrow.",
+        explanation: "The longer the index remained below its key moving average, the harder it became to find sustained participation underneath it.",
+      },
+      leadership: {
+        headline: "Headline leadership existed, but tradeable leadership stayed narrow.",
+        explanation: "IT provided headline strength while, inside the VSC opportunity set, chemicals were among the few areas showing repeatable resilience.",
+      },
+      flowsRisk: {
+        headline: "Crude remained the key external pressure point.",
+        explanation: "Strength in crude repeatedly weighed on Nifty, while periods of cooling gave the index room to breathe.",
+      },
+    },
+
+    // No chart asset exists yet for July (public/research/market-letters/
+    // is empty) — left unset rather than fabricated. Content pack names
+    // "Nifty 50 vs 200 EMA — July 2026" as the intended chart.
+
+    vscRead: {
+      opportunityUniverse: "Narrow",
+      setupQuality: "Weak",
+      riskAllocation: "Reduced",
+      tradeFrequency: "Reduced",
+      primaryObjective: "Preservation",
+      conclusion: "Fast recoveries did not justify aggressive exposure while breakouts lacked follow-through and the broader structure remained weak.",
+    },
+
+    playbook: {
+      exposure: "Reduced",
+      positionSize: "Below normal",
+      preferredSetup: "Mean reversion near moving averages",
+      avoided: "Breakout chasing",
+      triggerToIncreaseRisk: "Structure and breadth improve",
+    },
+
+    monthInReview: {
+      monthlyReturn: "+7.68%",
+      trades: 6,
+      worked: "Mean-reversion setups near moving averages and taking profits progressively rather than waiting for outsized moves.",
+      didnt: "Breakouts repeatedly lacked follow-through and often returned toward their original pivots.",
+      lesson: "When the market changes, the setup selection has to change with it.",
+    },
+
+    watchingNext: {
+      conditions: [
+        { if: "Nifty reclaims the 200 EMA", then: "become more constructive" },
+        { if: "breadth starts expanding", then: "increase participation" },
+        { if: "breakout follow-through improves", then: "reconsider breakout setups" },
+        { if: "crude remains contained", then: "pressure on Nifty should ease" },
+      ],
+      currentStance: "Stay defensive until market structure and participation improve.",
+    },
+
+    sections: {},
   },
 };
