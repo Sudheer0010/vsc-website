@@ -326,8 +326,26 @@ function WhatHappenedZone({ letter }: { letter: MarketLetter }) {
   );
 }
 
+/** A tight label/value row for VscViewZone's two small tables — a fixed
+ *  label width keeps values close to their labels (one relationship, not
+ *  two pieces of text at opposite ends of a wide row) while still lining
+ *  values up down the table. */
+function DataRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline gap-x-5 border-t border-rule py-2.5 first:border-t-0">
+      <span className="w-[9.5rem] shrink-0 font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
+        {label}
+      </span>
+      <span className="min-w-0 flex-1 text-[16px] font-semibold text-ink">{value}</span>
+    </div>
+  );
+}
+
 /** Sections 07 + 08 collapsed — diagnosis becomes action, split by a
- *  "Therefore" hinge rather than rendered as two independent sections. */
+ *  "Therefore" hinge rather than rendered as two independent sections.
+ *  Constrained to a narrower, centred column (rather than the article's
+ *  full width) so this reads as VSC's reasoning column, not a spreadsheet
+ *  spanning the page. */
 function VscViewZone({ letter }: { letter: MarketLetter }) {
   const read = letter.vscRead!;
   const playbook = letter.playbook!;
@@ -354,30 +372,30 @@ function VscViewZone({ letter }: { letter: MarketLetter }) {
     <section className="flex flex-col gap-6">
       <ZoneHeading>VSC View</ZoneHeading>
 
-      <div className="flex flex-col gap-2">
-        {diagnosisRows.map(([label, value]) => (
-          <div key={label} className="flex items-baseline justify-between gap-4 border-t border-rule py-2 first:border-t-0">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">{label}</span>
-            <span className="text-right text-[15px] font-medium text-ink">{value}</span>
-          </div>
-        ))}
-      </div>
+      <div className="mx-auto flex w-full max-w-[540px] flex-col gap-8">
+        <div className="flex flex-col">
+          {diagnosisRows.map(([label, value]) => (
+            <DataRow key={label} label={label} value={value} />
+          ))}
+        </div>
 
-      <p className="text-[18px] font-medium italic leading-snug text-growth">{read.conclusion}</p>
+        <p className="text-center font-display text-[19px] font-medium italic leading-snug text-growth-deep">
+          {read.conclusion}
+        </p>
 
-      <div className="flex items-center gap-3 text-ink-faint">
-        <span className="h-px flex-1 bg-rule" />
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">Therefore</span>
-        <span className="h-px flex-1 bg-rule" />
-      </div>
+        <div className="flex flex-col items-center gap-2">
+          <span className="h-px w-8 bg-growth/50" />
+          <span className="font-mono text-[12px] font-bold uppercase tracking-[0.22em] text-growth-deep">
+            Therefore
+          </span>
+          <span className="h-px w-8 bg-growth/50" />
+        </div>
 
-      <div className="flex flex-col gap-2">
-        {playbookRows.map(([label, value]) => (
-          <div key={label} className="flex items-baseline justify-between gap-4 border-t border-rule py-2 first:border-t-0">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">{label}</span>
-            <span className="text-right text-[15px] font-medium text-ink">{value}</span>
-          </div>
-        ))}
+        <div className="flex flex-col">
+          {playbookRows.map(([label, value]) => (
+            <DataRow key={label} label={label} value={value} />
+          ))}
+        </div>
       </div>
     </section>
   );
