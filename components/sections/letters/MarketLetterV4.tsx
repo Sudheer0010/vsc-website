@@ -175,42 +175,45 @@ function MarketSnapshotZone({ letter }: { letter: MarketLetter }) {
   );
 }
 
-/** Section 03. */
+/** Section 03. Panel is capped narrower than the article column (~820px)
+ *  and rows use a fixed-track grid rather than flex+justify-between, so
+ *  factor/status/read stay visually grouped instead of spreading to the
+ *  row's full width. */
 function MarketHealthZone({ letter }: { letter: MarketLetter }) {
   const overall = letter.overallEnvironment!;
   return (
     <section className="flex flex-col gap-5">
       <ZoneHeading>Market Health</ZoneHeading>
-      <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+      <div className="mx-auto w-full max-w-[820px] rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
         <div className="flex flex-col">
           {letter.marketHealth!.map((row, i) => (
             <div
               key={row.factor}
-              className={`flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${
+              className={`flex flex-col gap-1.5 py-4 sm:grid sm:grid-cols-[9rem_auto_1fr] sm:items-baseline sm:gap-x-6 ${
                 i > 0 ? "border-t border-rule" : ""
               }`}
             >
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint sm:w-44 sm:shrink-0">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
                 {row.factor}
               </span>
-              <div className="flex flex-1 items-baseline gap-2">
+              <div className="flex items-baseline gap-2">
                 <StatusDot status={row.status} />
                 <p className="text-[16px] font-medium text-ink">{row.current}</p>
                 <ArrowMark direction={row.vsPrev} />
               </div>
-              <p className="font-mono text-[12px] text-ink-faint sm:max-w-[38%] sm:text-right">{row.vscRead}</p>
+              <p className="font-mono text-[12px] text-ink-faint">{row.vscRead}</p>
             </div>
           ))}
 
-          <div className="flex flex-col gap-1.5 border-t-2 border-rule-strong py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink sm:w-44 sm:shrink-0">
+          <div className="flex flex-col gap-1.5 border-t-2 border-rule-strong py-4 sm:grid sm:grid-cols-[9rem_auto_1fr] sm:items-baseline sm:gap-x-6">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink">
               Overall
             </span>
-            <div className="flex flex-1 items-baseline gap-2">
+            <div className="flex items-baseline gap-2">
               <p className="font-display text-[17px] font-medium text-ink">{overall.label}</p>
               <ArrowMark direction={overall.vsPrev} />
             </div>
-            <p className="font-mono text-[12px] text-ink-faint sm:max-w-[38%] sm:text-right">{overall.vscRead}</p>
+            <p className="font-mono text-[12px] text-ink-faint">{overall.vscRead}</p>
           </div>
           {letter.environmentOverride && (
             <p className="pt-1 font-mono text-[11px] italic text-ink-faint">
@@ -247,36 +250,42 @@ function WhatChangedZone({
     <section className="flex flex-col gap-5">
       <ZoneHeading>What Changed</ZoneHeading>
 
-      <div className="rounded-vsc-xl border border-rule bg-surface p-6 sm:p-8">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-x-3 gap-y-2 sm:gap-x-6">
-          <span className="col-span-3 mb-1 grid grid-cols-[1fr_auto_1fr] gap-x-3 font-mono text-[10px] font-semibold uppercase tracking-wide text-ink-faint sm:gap-x-6">
-            <span />
-            <span className="text-center">{previousMonthName} &rarr; {currentMonthName}</span>
-            <span />
-          </span>
-          {letter.marketHealth.map((row) => {
-            const prevRow = previousLetter.marketHealth!.find((p) => p.factor === row.factor);
-            return (
-              <div key={row.factor} className="col-span-3 grid grid-cols-[1fr_auto_1fr] items-baseline gap-x-3 border-t border-rule py-2.5 first:border-t-0 sm:gap-x-6">
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
-                  {row.factor}
-                </span>
-                <span className="text-center text-[15px] text-ink-soft">{prevRow?.current ?? "—"}</span>
-                <span className="text-right text-[15px] font-medium text-ink">{row.current}</span>
-              </div>
-            );
-          })}
+      <div className="mx-auto flex w-full max-w-[740px] flex-col gap-5">
+        <div className="rounded-vsc-xl border border-rule bg-surface p-6 sm:p-8">
+          <div className="flex flex-col">
+            <span className="mb-1 text-center font-mono text-[10px] font-semibold uppercase tracking-wide text-ink-faint">
+              {previousMonthName} &rarr; {currentMonthName}
+            </span>
+            {letter.marketHealth.map((row) => {
+              const prevRow = previousLetter.marketHealth!.find((p) => p.factor === row.factor);
+              return (
+                <div
+                  key={row.factor}
+                  className="grid grid-cols-[7rem_1fr_1.25rem_1fr] items-baseline gap-x-2 border-t border-rule py-2.5 first:border-t-0 sm:grid-cols-[8rem_1fr_1.5rem_1fr] sm:gap-x-3"
+                >
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
+                    {row.factor}
+                  </span>
+                  <span className="text-[15px] text-ink-soft">{prevRow?.current ?? "—"}</span>
+                  <span className="text-center font-mono text-[13px] text-ink-faint" aria-hidden="true">
+                    &rarr;
+                  </span>
+                  <span className="text-[15px] font-medium text-ink">{row.current}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          {prevRisk && currRisk && (
+            <p className="mt-5 border-t border-rule pt-4 text-center font-mono text-[12px] text-ink-soft">
+              VSC posture: <span className="font-semibold text-ink">{prevRisk}</span> &rarr;{" "}
+              <span className="font-semibold text-ink">{currRisk}</span>
+            </p>
+          )}
         </div>
 
-        {prevRisk && currRisk && (
-          <p className="mt-5 border-t border-rule pt-4 text-center font-mono text-[12px] text-ink-soft">
-            VSC posture: <span className="font-semibold text-ink">{prevRisk}</span> &rarr;{" "}
-            <span className="font-semibold text-ink">{currRisk}</span>
-          </p>
-        )}
+        {letter.netChange && <p className="text-[16px] leading-relaxed text-ink-soft">{letter.netChange}</p>}
       </div>
-
-      {letter.netChange && <p className="text-[16px] leading-relaxed text-ink-soft">{letter.netChange}</p>}
     </section>
   );
 }
@@ -326,7 +335,7 @@ function WhatHappenedZone({ letter }: { letter: MarketLetter }) {
   );
 }
 
-/** A tight label/value row for VscViewZone's two small tables — a fixed
+/** A tight label/value row for VscViewZone's action rows — a fixed
  *  label width keeps values close to their labels (one relationship, not
  *  two pieces of text at opposite ends of a wide row) while still lining
  *  values up down the table. */
@@ -341,40 +350,39 @@ function DataRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-/** Sections 07 + 08 collapsed — diagnosis becomes action, split by a
- *  "Therefore" hinge rather than rendered as two independent sections.
+/** Sections 07 + 08 collapsed into one diagnosis-then-action read. Diagnosis
+ *  renders as three scannable chips (reusing the header's RegimeTag look,
+ *  not a new visual language); action renders as four tight rows derived
+ *  from the Playbook fields — riskAllocation, tradeFrequency and
+ *  primaryObjective stay in the data model but are not surfaced here.
  *  Constrained to a narrower, centred column (rather than the article's
  *  full width) so this reads as VSC's reasoning column, not a spreadsheet
  *  spanning the page. */
 function VscViewZone({ letter }: { letter: MarketLetter }) {
   const read = letter.vscRead!;
   const playbook = letter.playbook!;
+  const regime = letter.overallEnvironment!.label;
 
-  const diagnosisRows: [string, string][] = [
-    ["Environment", letter.overallEnvironment!.label],
-    ["Opportunity", read.opportunityUniverse],
-    ["Setup Quality", read.setupQuality],
-    ["Risk", read.riskAllocation],
-    ["Trade Frequency", read.tradeFrequency],
-    ["Primary Objective", read.primaryObjective],
-  ];
-
-  const playbookRows: [string, string][] = [
-    ["Exposure", playbook.exposure],
-    ["Position Sizing", playbook.positionSize],
-    ["Trade Frequency", read.tradeFrequency],
+  const actionRows: [string, string][] = [
+    ["Positioning", `${playbook.exposure} exposure · ${playbook.positionSize.trim().split(/\s+/).join("-")} sizing`],
     ["Preferred", playbook.preferredSetup],
     ["Avoid", playbook.avoided],
-    ["Increase Risk When", playbook.triggerToIncreaseRisk],
+    ["Increase risk when", playbook.triggerToIncreaseRisk.replace(/\s+and\s+/gi, " + ")],
   ];
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-5">
       <ZoneHeading>VSC View</ZoneHeading>
 
-      <div className="mx-auto flex w-full max-w-[540px] flex-col gap-8">
+      <div className="mx-auto flex w-full max-w-[540px] flex-col gap-5">
+        <div className="flex flex-wrap justify-center gap-2">
+          <RegimeTag className={regimeToneClasses(regime)}>{regime}</RegimeTag>
+          <RegimeTag className="border-rule bg-canvas-sunk text-ink-soft">{read.opportunityUniverse}</RegimeTag>
+          <RegimeTag className="border-rule bg-canvas-sunk text-ink-soft">{read.setupQuality} setups</RegimeTag>
+        </div>
+
         <div className="flex flex-col">
-          {diagnosisRows.map(([label, value]) => (
+          {actionRows.map(([label, value]) => (
             <DataRow key={label} label={label} value={value} />
           ))}
         </div>
@@ -382,20 +390,6 @@ function VscViewZone({ letter }: { letter: MarketLetter }) {
         <p className="text-center font-display text-[19px] font-medium italic leading-snug text-growth-deep">
           {read.conclusion}
         </p>
-
-        <div className="flex flex-col items-center gap-2">
-          <span className="h-px w-8 bg-growth/50" />
-          <span className="font-mono text-[12px] font-bold uppercase tracking-[0.22em] text-growth-deep">
-            Therefore
-          </span>
-          <span className="h-px w-8 bg-growth/50" />
-        </div>
-
-        <div className="flex flex-col">
-          {playbookRows.map(([label, value]) => (
-            <DataRow key={label} label={label} value={value} />
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -449,16 +443,18 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
         <span className="h-px flex-1 bg-rule" />
       </div>
 
-      <div className="flex flex-col gap-2.5">
-        {watching.conditions.map((c, i) => (
-          <div key={i} className="flex items-baseline justify-between gap-4 font-mono text-[13px]">
-            <span className="text-ink-soft">If {c.if}</span>
-            <span className="text-right text-growth">&rarr; {c.then}</span>
-          </div>
-        ))}
-      </div>
+      <div className="mx-auto flex w-full max-w-[480px] flex-col gap-5">
+        <div className="flex flex-col gap-2.5">
+          {watching.conditions.map((c, i) => (
+            <div key={i} className="grid grid-cols-2 items-baseline gap-x-4 font-mono text-[13px]">
+              <span className="text-ink-soft">If {c.if}</span>
+              <span className="text-right text-growth">&rarr; {c.then}</span>
+            </div>
+          ))}
+        </div>
 
-      <p className="text-center text-[16px] font-medium text-ink">Current stance: {watching.currentStance}</p>
+        <p className="text-center text-[16px] font-medium text-ink">Current stance: {watching.currentStance}</p>
+      </div>
     </section>
   );
 }
