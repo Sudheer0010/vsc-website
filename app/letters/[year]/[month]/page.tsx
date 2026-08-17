@@ -10,6 +10,8 @@ import { FrameworkReviewRow } from "@/types/market-letter";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatLongDate } from "@/lib/format-date";
 import { letterHref, monthKeyFromParams } from "@/lib/letter-urls";
+import { hasV4Content } from "@/lib/market-letter-format";
+import { MarketLetterV4 } from "@/components/sections/letters/MarketLetterV4";
 
 interface LetterPageProps {
   params: Promise<{ year: string; month: string }>;
@@ -161,6 +163,9 @@ export default async function LetterPage({ params }: LetterPageProps) {
 
   const { theMarket, theFrameworkRead, thePositions, theReview, theWatch } = letter.sections;
   const hasStructuredBody = Boolean(theMarket || theFrameworkRead || thePositions || theReview || theWatch);
+  const isV4 = hasV4Content(letter);
+  const previousLetter = prevMonthKey ? marketLetters[prevMonthKey] : null;
+  const readTime = getReadingTime(letter);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -199,87 +204,98 @@ export default async function LetterPage({ params }: LetterPageProps) {
             Back to Research
           </Link>
 
-          {/* 1. Header */}
-          <header className="mb-7 select-none text-center">
-            <span className="mb-3 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-              Research Archive · Market Letter
-            </span>
-            <h1 className="mb-3 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              {monthName} {letter.year}
-            </h1>
-            <div className="font-mono text-xs text-ink-faint">
-              Letter {String(letter.letterNumber).padStart(3, "0")} · Published {formatLongDate(letter.publishedDate)} · {getReadingTime(letter)} minute read
-            </div>
-          </header>
-
-          {/* 2. The Thesis — impossible to scroll past */}
-          <div className="mb-8 rounded-vsc-xl bg-growth-tint p-6 text-center sm:p-9">
-            <p className="font-display text-[21px] font-medium leading-snug text-ink sm:text-[24px]">
-              {letter.thesis}
-            </p>
-          </div>
-
-          {/* 3. Metrics strip */}
-          <div className="mb-8 grid grid-cols-2 gap-4 py-6 sm:grid-cols-3">
-            <MetricCell
-              label="Monthly Return"
-              value={letter.metrics.monthlyReturn}
-              tone={isNegativeReturn ? "clay" : "growth"}
+          {isV4 ? (
+            <MarketLetterV4
+              letter={letter}
+              previousLetter={previousLetter}
+              previousMonthKey={prevMonthKey}
+              readTime={readTime}
             />
-            <MetricCell label="Trades Taken" value={String(letter.metrics.tradesTaken)} tone="ink" />
-            <MetricCell label="Environment" value={letter.metrics.environment} tone="ink" isWord />
-          </div>
+          ) : (
+            <>
+              {/* 1. Header */}
+              <header className="mb-7 select-none text-center">
+                <span className="mb-3 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
+                  Research Archive · Market Letter
+                </span>
+                <h1 className="mb-3 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
+                  {monthName} {letter.year}
+                </h1>
+                <div className="font-mono text-xs text-ink-faint">
+                  Letter {String(letter.letterNumber).padStart(3, "0")} · Published {formatLongDate(letter.publishedDate)} · {readTime} minute read
+                </div>
+              </header>
 
-          {/* 3b. Framework Review — only for letters not yet migrated to the structured body */}
-          {!hasStructuredBody && <FrameworkReviewExhibit rows={letter.frameworkReview} />}
+              {/* 2. The Thesis — impossible to scroll past */}
+              <div className="mb-8 rounded-vsc-xl bg-growth-tint p-6 text-center sm:p-9">
+                <p className="font-display text-[21px] font-medium leading-snug text-ink sm:text-[24px]">
+                  {letter.thesis}
+                </p>
+              </div>
 
-          {/* 4. Prose sections */}
-          <div className="flex flex-col gap-9 text-left">
-            {hasStructuredBody ? (
-              <>
-                {theMarket && <ProseSection heading="The Market" text={theMarket} />}
-                {theFrameworkRead && <ProseSection heading="The Framework Read" text={theFrameworkRead} />}
-                {thePositions && <ProseSection heading="The Positions" text={thePositions} />}
-                {theReview && <ProseSection heading="The Review" text={theReview} />}
-                {theWatch && <ProseSection heading="The Watch" text={theWatch} />}
-              </>
-            ) : (
-              <>
-                <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior} />
-                <ProseSection heading="What I did about it" text={letter.sections.whatIDid} />
+              {/* 3. Metrics strip */}
+              <div className="mb-8 grid grid-cols-2 gap-4 py-6 sm:grid-cols-3">
+                <MetricCell
+                  label="Monthly Return"
+                  value={letter.metrics.monthlyReturn}
+                  tone={isNegativeReturn ? "clay" : "growth"}
+                />
+                <MetricCell label="Trades Taken" value={String(letter.metrics.tradesTaken)} tone="ink" />
+                <MetricCell label="Environment" value={letter.metrics.environment} tone="ink" isWord />
+              </div>
 
-                {letter.sections.theTrade && (
-                  <section className="flex flex-col gap-4">
-                    <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
-                      The trade that explains the month
-                    </h2>
-                    <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
-                      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
-                        {paragraphs(letter.sections.theTrade).map((p, i) => (
-                          <p key={i}>{p}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </section>
+              {/* 3b. Framework Review — only for letters not yet migrated to the structured body */}
+              {!hasStructuredBody && <FrameworkReviewExhibit rows={letter.frameworkReview} />}
+
+              {/* 4. Prose sections */}
+              <div className="flex flex-col gap-9 text-left">
+                {hasStructuredBody ? (
+                  <>
+                    {theMarket && <ProseSection heading="The Market" text={theMarket} />}
+                    {theFrameworkRead && <ProseSection heading="The Framework Read" text={theFrameworkRead} />}
+                    {thePositions && <ProseSection heading="The Positions" text={thePositions} />}
+                    {theReview && <ProseSection heading="The Review" text={theReview} />}
+                    {theWatch && <ProseSection heading="The Watch" text={theWatch} />}
+                  </>
+                ) : (
+                  <>
+                    <ProseSection heading="What the market was doing" text={letter.sections.marketBehavior ?? ""} />
+                    <ProseSection heading="What I did about it" text={letter.sections.whatIDid ?? ""} />
+
+                    {letter.sections.theTrade && (
+                      <section className="flex flex-col gap-4">
+                        <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+                          The trade that explains the month
+                        </h2>
+                        <div className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+                          <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                            {paragraphs(letter.sections.theTrade).map((p, i) => (
+                              <p key={i}>{p}</p>
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+                    )}
+
+                    {letter.sections.whatSurprisedMe && (
+                      <section className="flex flex-col gap-4">
+                        <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">What surprised me</h2>
+                        <div className="border-l-[3px] border-clay py-1 pl-5">
+                          <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+                            {paragraphs(letter.sections.whatSurprisedMe).map((p, i) => (
+                              <p key={i}>{p}</p>
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+                    )}
+
+                    <ProseSection heading="What I'm watching" text={letter.sections.whatImWatching ?? ""} />
+                  </>
                 )}
-
-                {letter.sections.whatSurprisedMe && (
-                  <section className="flex flex-col gap-4">
-                    <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">What surprised me</h2>
-                    <div className="border-l-[3px] border-clay py-1 pl-5">
-                      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
-                        {paragraphs(letter.sections.whatSurprisedMe).map((p, i) => (
-                          <p key={i}>{p}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-                )}
-
-                <ProseSection heading="What I'm watching" text={letter.sections.whatImWatching} />
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
 
           {/* 5. Previous/Next Navigation */}
           <div className="select-none pt-10">

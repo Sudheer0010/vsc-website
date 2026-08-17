@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
+import { MarketLetter } from "@/types/market-letter";
 import { letterHref } from "@/lib/letter-urls";
 import { formatLongDate } from "@/lib/format-date";
 
@@ -36,10 +37,24 @@ function firstSentences(text: string, count: number): string {
   return sentences.slice(0, count).join("").trim();
 }
 
+/**
+ * marketBehavior only exists on legacy-format letters — once a letter
+ * migrates to Template Spec v4 it may leave that field unset, so this
+ * falls through to the new format's own narrative field, then to the
+ * shorter thesis-level fields, rather than assuming the legacy field
+ * is always there.
+ */
+function excerptFor(letter: MarketLetter): string {
+  if (letter.sections.marketBehavior) return firstSentences(letter.sections.marketBehavior, 2);
+  if (letter.whatHappened) return letter.whatHappened.index.explanation;
+  if (letter.subThesis) return letter.subThesis;
+  return letter.thesis;
+}
+
 function LetterExcerptCard({ monthKey }: { monthKey: string }) {
   const letter = marketLetters[monthKey];
   const monthName = letter.month.charAt(0) + letter.month.slice(1).toLowerCase();
-  const excerpt = firstSentences(letter.sections.marketBehavior, 2);
+  const excerpt = excerptFor(letter);
 
   return (
     <Link

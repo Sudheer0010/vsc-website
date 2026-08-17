@@ -263,8 +263,11 @@ export interface MarketLetter {
   watchingNext?: WatchingNext;
 
   sections: {
-    marketBehavior: string;
-    whatIDid: string;
+    /** Required for legacy-format letters. Optional once a letter migrates
+     *  to Template Spec v4 — its narrative content lives in
+     *  `whatHappened`/`vscRead`/etc. instead. */
+    marketBehavior?: string;
+    whatIDid?: string;
     /** Optional: letters published before this format existed don't have
      *  a captured trade to walk through, and inventing one would misstate
      *  the record. Required for every letter going forward. */
@@ -272,7 +275,7 @@ export interface MarketLetter {
     /** Optional for the same reason as `theTrade`. Non-negotiable for new
      *  letters — see the editorial template. */
     whatSurprisedMe?: string;
-    whatImWatching: string;
+    whatImWatching?: string;
     /**
      * The five-section structured body (Architecture doc's expanded
      * template). All optional, and all-or-nothing in practice: once any
