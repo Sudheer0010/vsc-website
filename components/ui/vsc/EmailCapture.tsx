@@ -81,7 +81,7 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
         <p
           className={
             isFooter
-              ? "text-[14px] font-medium text-growth-deep"
+              ? "text-[14px] font-medium text-vsc-dark-accent"
               : isCenteredWide
                 ? "text-center text-[17px] font-medium text-growth-deep"
                 : "text-[17px] font-medium text-growth-deep"
@@ -97,7 +97,7 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
     return (
       <div className={className}>
         <form onSubmit={handleSubmit} className="flex flex-wrap items-center gap-3">
-          <span className="text-[14px] text-ink-muted">Market observations and one monthly letter.</span>
+          <span className="text-[14px] text-vsc-dark-ink-muted">Market observations and one monthly letter.</span>
 
           <label htmlFor="email-capture-footer" className="sr-only">Email address</label>
           <input
@@ -110,7 +110,7 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={submitting}
-            className="h-11 min-w-0 flex-1 rounded-vsc-md border border-rule bg-surface px-4 font-ui text-[15px] text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none disabled:opacity-60 sm:w-[220px] sm:flex-none"
+            className="h-11 min-w-0 flex-1 rounded-vsc-md border border-vsc-dark-hairline bg-vsc-dark-ink/[0.06] px-4 font-ui text-[15px] text-vsc-dark-ink placeholder:text-vsc-dark-ink-muted transition-colors duration-200 focus:border-vsc-dark-accent focus:outline-none disabled:opacity-60 sm:w-[220px] sm:flex-none"
           />
           <button
             type="submit"

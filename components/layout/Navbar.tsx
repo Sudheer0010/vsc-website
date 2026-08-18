@@ -91,7 +91,7 @@ export default function Navbar() {
             </div>
             <div className="logo-wordmark">
               <div className="logo-title">VSC Capital &amp; Advisory</div>
-              <div className="logo-tagline">Disciplined capital growth</div>
+              <div className="logo-tagline">Built on research. Shaped by markets.</div>
             </div>
           </Link>
 
