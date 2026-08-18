@@ -87,7 +87,7 @@ function LetterExcerptCard({ monthKey }: { monthKey: string }) {
 function WhatArrives() {
   const items = [
     "Each month's Market Letter on the first working day",
-    "Research Notes as they're published (2–4 per month)",
+    "Trading Insights as they're published (2–4 per month)",
     "Framework revisions when they happen",
   ];
 

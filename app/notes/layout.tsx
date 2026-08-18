@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Research Notes | VSC Capital & Advisory",
+  title: "Trading Insights | VSC Capital & Advisory",
   description: "Observational and educational notes — separate from the dated market letters and the versioned frameworks.",
   alternates: { canonical: "/notes" },
 };

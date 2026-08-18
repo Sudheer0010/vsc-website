@@ -111,7 +111,7 @@ export const researchNotes: ResearchNote[] = [
     category: "EARNINGS BEHAVIOUR",
     title: "Waiting three days after a gap down",
     subtitle: "What the rule protects you from, and what it doesn't",
-    publishedDate: "August 2026",
+    publishedDate: "June 2026",
     readingTime: "3 min read",
     thesis: "The three-day rule tells you when not to buy. It never tells you when to.",
     claim: [
@@ -154,7 +154,7 @@ export const researchNotes: ResearchNote[] = [
         "A stock can look cheap and still fail the structure, trend and confirmation requirements of a good setup.",
     },
     seo: {
-      title: "Waiting Three Days After a Gap Down — Research Note 001 | VSC Capital",
+      title: "Waiting Three Days After a Gap Down — Trading Insight 001 | VSC Capital",
       description:
         "The three-day rule tells you when not to buy after an earnings gap down. It never tells you when to. An annotated chart of Jain Resource Recycling, May–August 2026.",
     },
@@ -163,7 +163,7 @@ export const researchNotes: ResearchNote[] = [
     number: "002",
     slug: "test-your-trading-style",
     category: "TRADING PROCESS",
-    title: "Don't Choose a Trading Style. Test One.",
+    title: "Find Your Trading Style. Don't Copy Someone Else's.",
     subtitle: "A practical way to test whether intraday, swing or another style actually fits how you make decisions.",
     publishedDate: "August 2026",
     readingTime: "5 min read",
@@ -339,7 +339,7 @@ export const researchNotes: ResearchNote[] = [
     ],
 
     seo: {
-      title: "Don't Choose a Trading Style. Test One. | VSC Capital",
+      title: "Find Your Trading Style. Don't Copy Someone Else's. | VSC Capital",
       description:
         "Most traders copy the style of someone whose results they want. A practical way to test whether intraday, swing trading or another approach actually fits the way you make decisions.",
     },

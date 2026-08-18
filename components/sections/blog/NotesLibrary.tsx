@@ -29,7 +29,7 @@ export function NotesLibrary({ notes }: NotesLibraryProps) {
             OBSERVATIONS
           </span>
           <h1 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2] mb-6">
-            Research Notes
+            Trading Insights
           </h1>
           <p className="font-mono text-sm text-ink-soft mb-2">
             Nothing published here yet.
@@ -58,7 +58,7 @@ export function NotesLibrary({ notes }: NotesLibraryProps) {
             OBSERVATIONS
           </span>
           <h1 className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2]">
-            Research Notes
+            Trading Insights
           </h1>
         </div>
 

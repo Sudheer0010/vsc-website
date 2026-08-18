@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
   const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE");
   if (!note) return {};
 
-  const title = `${note.title} | Research Notes | VSC Capital & Advisory`;
+  const title = `${note.title} | Trading Insights | VSC Capital & Advisory`;
   const description = note.description;
   const canonical = `/notes/${note.slug}`;
 
@@ -71,7 +71,7 @@ export default async function NotePage({ params }: NotePageProps) {
             className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
-            Back to Research Notes
+            Back to Trading Insights
           </Link>
 
           <div className="mb-4 flex items-center gap-3">

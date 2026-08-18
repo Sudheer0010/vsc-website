@@ -6,15 +6,15 @@ import { ResearchNotesArchive } from "@/components/sections/research-notes/Resea
 import { researchNotes } from "@/data/research-notes";
 
 export const metadata: Metadata = {
-  title: "Research Notes | VSC Capital",
+  title: "Trading Insights | VSC Capital",
   description:
-    "One market behaviour, one chart, one limit — shorter, evidence-led notes that each sharpen a specific framework.",
+    "Trading ideas you can actually use — shorter, evidence-led notes that each sharpen a specific framework.",
   alternates: { canonical: "/research/notes" },
   openGraph: {
     type: "website",
-    title: "Research Notes | VSC Capital",
+    title: "Trading Insights | VSC Capital",
     description:
-      "One market behaviour, one chart, one limit — shorter, evidence-led notes that each sharpen a specific framework.",
+      "Trading ideas you can actually use — shorter, evidence-led notes that each sharpen a specific framework.",
     url: "/research/notes",
   },
 };
@@ -40,10 +40,10 @@ export default function ResearchNotesIndex() {
               Research
             </span>
             <h1 className="mb-4 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              Research Notes
+              Trading Insights
             </h1>
             <p className="max-w-[58ch] text-[18px] leading-relaxed text-ink-soft">
-              One market behaviour. One chart. One limit.
+              Trading ideas you can actually use.
             </p>
           </header>
 

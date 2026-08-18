@@ -33,7 +33,7 @@ export function getLatestResearchNote(): PublicationPayload | null {
 
   return {
     id: latest.number,
-    title: `Research Note ${latest.number} — ${latest.title}`,
+    title: `Trading Insight ${latest.number} — ${latest.title}`,
     hook: latest.emailHook ?? latest.thesis,
     url: `${SITE_URL}/research/notes/${latest.slug}`,
   };

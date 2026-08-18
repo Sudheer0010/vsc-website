@@ -126,8 +126,8 @@ export default function ResearchHub() {
 
           <SectionIntro
             eyebrow="Observations"
-            title="Research Notes"
-            description="One market behaviour at a time — with evidence, limits, and a link to the framework it sharpens."
+            title="Trading Insights"
+            description="Trading ideas you can actually use — one market behaviour at a time, with evidence and limits."
             href="/research/notes"
             linkLabel="Browse notes"
           />

@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
   description: "Independent market research, frameworks, and portfolio observation log archives.",
   url: "https://vsccapital.in",
   stats: {
-    notesLabel: "Research Notes",
+    notesLabel: "Trading Insights",
     lettersLabel: "Market Letters",
     frameworksLabel: "Framework Guides",
     readingsLabel: "Curated Readings"

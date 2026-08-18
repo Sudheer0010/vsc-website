@@ -329,13 +329,13 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
         className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
-        Back to Research Notes
+        Back to Trading Insights
       </Link>
 
       {/* Header */}
       <header className="mb-10 select-none">
         <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
-          Research Note {note.number} · {note.category}
+          Trading Insight {note.number} · {note.category}
         </span>
         <h1 className="mb-4 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
           {note.title}
@@ -470,7 +470,7 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
         )}
 
         <Link href="/research/notes" className="font-mono text-[11px] text-ink-muted hover:text-ink link-underline">
-          &larr; Back to Research Notes
+          &larr; Back to Trading Insights
         </Link>
       </div>
     </div>
