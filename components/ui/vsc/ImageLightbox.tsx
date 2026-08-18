@@ -71,10 +71,11 @@ export function ImageLightbox({
         type="button"
         onClick={() => setIsOpen(true)}
         aria-haspopup="dialog"
+        aria-label={`Enlarge image: ${alt}`}
         className="group relative block w-full cursor-zoom-in"
       >
         <Image src={src} alt={alt} width={width} height={height} className={className} />
-        <span className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-ink/70 text-canvas opacity-70 transition-opacity duration-200 group-hover:opacity-100">
+        <span aria-hidden="true" className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-ink/70 text-canvas opacity-70 transition-opacity duration-200 group-hover:opacity-100">
           <Maximize2 className="h-4 w-4" />
         </span>
       </button>

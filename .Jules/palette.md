@@ -1,0 +1,3 @@
+## 2026-08-16 - Image Lightbox Accessibility
+**Learning:** Trigger buttons that open a dialog or enlarged view (e.g., Image Lightbox) must have an explicit `aria-label` describing their action, rather than relying solely on child image `alt` attributes for screen reader support. The `alt` text describes the image content, but not the button's action (to open the lightbox). Decorative icons should also be hidden from screen readers.
+**Action:** Ensure all interactive trigger components have an explicit `aria-label` that conveys the interaction (e.g., "Enlarge image", "Open dialog"), even if their child content already has some descriptive text. Hide purely decorative elements with `aria-hidden="true"`.
