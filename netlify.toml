@@ -4,3 +4,21 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+# -----------------------------------
+# VSC TRACKING LINKS
+# -----------------------------------
+
+[[redirects]]
+  from = "/go/linkedin"
+  to = "/?utm_source=linkedin&utm_medium=social&utm_campaign=profile&utm_content=founder_profile"
+  status = 302
+
+[[redirects]]
+  from = "/go/x"
+  to = "/?utm_source=x&utm_medium=social&utm_campaign=profile&utm_content=founder_profile"
+  status = 302
+
+[[redirects]]
+  from = "/go/whatsapp"
+  to = "/?utm_source=whatsapp&utm_medium=messaging&utm_campaign=profile&utm_content=profile_link"
+  status = 302
