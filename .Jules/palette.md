@@ -1,0 +1,3 @@
+## 2024-03-24 - Explicit Actions for Image-Only Buttons
+**Learning:** Any trigger button that opens a dialog or enlarged view (e.g., Image Lightbox) must have an explicit `aria-label` describing its action, rather than relying solely on child image `alt` attributes for screen reader support. Purely decorative elements (like maximize icons overlaid on the image) should be hidden from screen readers using `aria-hidden="true"`.
+**Action:** Always add descriptive `aria-label`s to buttons containing primarily images/icons when the button performs an action (like enlarging), and apply `aria-hidden="true"` to purely decorative sub-elements.
