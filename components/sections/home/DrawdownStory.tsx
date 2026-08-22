@@ -43,12 +43,11 @@ export function DrawdownStory() {
         };
 
   return (
-    <section id="problem" className="relative w-full border-b border-rule bg-canvas-deep py-20 sm:py-28">
+    <section id="problem" className="relative w-full border-b border-rule bg-canvas-sunk py-20 sm:py-28">
       <div className="container mx-auto max-w-[1120px]">
         <Reveal className="max-w-[62ch]">
-          <span className="eyebrow">The difference</span>
           <h2 className="font-display text-ink">
-            Everyone survives the rise. The gap opens on the way down.
+            Everyone looks good on the way up. The difference shows on the way down.
           </h2>
         </Reveal>
 
@@ -113,13 +112,13 @@ export function DrawdownStory() {
                     overlapping text. Comfortable vertical separation is more
                     robust than trying to hand-measure glyph widths. */}
                 <text x="256" y="30" className="fill-growth" style={{ font: "600 12px var(--font-ui)" }}>
-                  Threshold crossed — exposure cut
+                  Market weakens — reduce risk
                 </text>
                 <text x="256" y="46" style={{ font: "500 12px var(--font-ui)", fill: "var(--ink-muted)" }}>
-                  Cash is held here
+                  Hold more cash here
                 </text>
                 <text x="436" y="66" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
-                  Re-entry
+                  Market improves — add back
                 </text>
               </svg>
             </div>
@@ -128,26 +127,24 @@ export function DrawdownStory() {
               <div className="bg-surface p-5 sm:p-6">
                 <div className="flex items-center gap-2.5">
                   <span className="h-[3px] w-6 rounded-full bg-clay-bright" />
-                  <span className="text-[15px] font-semibold text-ink">Always invested</span>
+                  <span className="text-[15px] font-semibold text-ink">Stay fully invested</span>
                 </div>
                 <p className="mt-2 max-w-[38ch] text-[15px] leading-snug text-ink-soft">
-                  The mandate forbids stepping aside. The whole drawdown is
-                  taken, and the recovery starts from the bottom of it.
+                  The full fall is taken, so there is more ground to recover.
                 </p>
               </div>
               <div className="bg-surface p-5 sm:p-6">
                 <div className="flex items-center gap-2.5">
                   <span className="h-[3px] w-6 rounded-full bg-growth" />
-                  <span className="text-[15px] font-semibold text-ink">Exposure answers to risk</span>
+                  <span className="text-[15px] font-semibold text-ink">Reduce risk when the market weakens</span>
                 </div>
                 <p className="mt-2 max-w-[38ch] text-[15px] leading-snug text-ink-soft">
-                  A threshold is crossed, so exposure comes down. Less is
-                  given back, so the recovery starts from higher up.
+                  Move more to cash when conditions worsen. Add back when they improve.
                 </p>
               </div>
             </div>
             <p className="exhibit__caption border-t border-rule px-5 py-3 sm:px-6">
-              Illustrative. Not a forecast or a live portfolio.
+              Illustration only — not a live portfolio or forecast.
             </p>
           </div>
         </Reveal>
@@ -155,8 +152,7 @@ export function DrawdownStory() {
         <Reveal delay={0.14} className="mt-8 flex items-start gap-3">
           <StepRule size="md" className="mt-1.5 shrink-0" />
           <p className="max-w-[52ch] font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-            Markets don&apos;t reward information. They reward what you do when
-            the information turns.
+            Seeing risk early matters only if you act on it.
           </p>
         </Reveal>
       </div>

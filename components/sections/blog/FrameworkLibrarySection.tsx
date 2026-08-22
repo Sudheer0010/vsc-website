@@ -29,20 +29,15 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
   return (
     <div id="framework-library" className="my-8 scroll-mt-24 sm:my-10">
       <div className="rounded-2xl bg-vsc-dark px-6 py-10 sm:px-10 sm:py-12">
-        <span className="mb-3 inline-flex items-center gap-2.5 text-[13px] font-semibold tracking-[0.01em] text-vsc-dark-accent">
-          <span aria-hidden="true" className="h-0.5 w-[18px] shrink-0 rounded-full bg-vsc-dark-accent" />
-          Evergreen systems
-        </span>
-
         <h2 className="mb-3 font-display text-2xl font-normal text-vsc-dark-ink sm:text-3xl">
           Framework Library
         </h2>
 
         <p className="mb-1.5 max-w-[58ch] text-[16px] leading-relaxed text-vsc-dark-ink">
-          Five frameworks, in order. Each one answers one question. The output of each becomes the input for the next.
+          Five questions. One decision process. Each answer feeds the next.
         </p>
         <p className="mb-8 max-w-[58ch] text-[14px] leading-relaxed text-vsc-dark-ink-muted">
-          Versioned and dated — when a framework changes, the old version stays reachable and the page says what changed and why.
+          Versioned &middot; Dated &middot; Changes documented
         </p>
 
         <div className="divide-y divide-vsc-dark-hairline border-t border-vsc-dark-hairline">

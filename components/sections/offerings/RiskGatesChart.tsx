@@ -40,7 +40,7 @@ export function RiskGatesChart() {
       <svg
         viewBox="0 0 602 200"
         role="img"
-        aria-label="A schematic risk curve. Two small, contained dips each represent one trade's 1.5% risk bound, recovered normally. A longer uncontained climb approaches a dashed drawdown-limit line, at which point the curve flattens sharply — exposure is cut and risk stops accumulating further."
+        aria-label="A schematic risk curve. Two small, contained dips each represent a trade developing normally within its risk limit. A longer uncontained climb approaches a dashed line marking where the risk limit is set, at which point the curve flattens sharply — the rule breaks, so risk is cut."
         className="h-auto w-full min-w-[520px]"
       >
         <line x1="8" y1="40" x2="594" y2="40" stroke="var(--rule-strong)" strokeWidth="1" strokeDasharray="3 4" />
@@ -60,13 +60,13 @@ export function RiskGatesChart() {
             matters: each label sits in its own y-band with 30px+
             clearance from the others, not just visually "far enough." */}
         <text x="16" y="132" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
-          1.5% — one trade&apos;s risk bound
+          Trade develops
         </text>
         <text x="16" y="30" style={{ font: "600 12px var(--font-ui)", fill: "var(--ink-muted)" }}>
-          Drawdown limit
+          Risk limit set here
         </text>
         <text x="430" y="66" style={{ font: "600 12px var(--font-ui)", fill: "var(--clay-bright)" }}>
-          Exposure cuts here
+          If the rule breaks — cut risk
         </text>
       </svg>
     </div>

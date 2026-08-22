@@ -3,9 +3,18 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Globe, Mail } from "lucide-react";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+
+/**
+ * Routes that already carry their own contextual or full-experience email
+ * signup (Research's mid-page newsletter block, the dedicated /letter
+ * subscribe page) — the footer omits its own form there so a visitor never
+ * sees two signup forms on one page.
+ */
+const ROUTES_WITH_OWN_SIGNUP = ["/research", "/letter"];
 
 /**
  * The footer keeps the easter egg — V·S·C decoded — because it is the one
@@ -25,11 +34,23 @@ const NAV = [
 
 export default function Footer() {
   const [decoded, setDecoded] = useState(false);
+  const pathname = usePathname();
+  const hideEmailCapture = ROUTES_WITH_OWN_SIGNUP.includes(pathname ?? "");
 
   return (
     <footer className="w-full border-t border-vsc-dark-hairline bg-vsc-dark pb-10 pt-16">
       <div className="container mx-auto max-w-[1120px]">
-        <div className="grid gap-10 border-b border-vsc-dark-hairline pb-12 md:grid-cols-12 md:gap-12">
+        {!hideEmailCapture && (
+          <div className="border-b border-vsc-dark-hairline pb-8">
+            <EmailCapture variant="footer" />
+          </div>
+        )}
+
+        <div
+          className={`grid gap-10 border-b border-vsc-dark-hairline pb-12 md:grid-cols-12 md:gap-12 ${
+            hideEmailCapture ? "" : "pt-12"
+          }`}
+        >
           {/* Brand */}
           <div className="md:col-span-5">
             <Link href="/" className="group inline-flex items-center gap-3">
@@ -53,10 +74,10 @@ export default function Footer() {
             >
               <StepRule size="sm" />
               {decoded ? (
-                <span className="font-semibold text-vsc-dark-accent">
-                  <strong className="font-bold">V</strong>elocity ·{" "}
-                  <strong className="font-bold">S</strong>tructure ·{" "}
-                  <strong className="font-bold">C</strong>onviction
+                <span className="font-semibold text-vsc-dark-ink-muted">
+                  <strong className="font-bold text-vsc-dark-accent">V</strong>elocity ·{" "}
+                  <strong className="font-bold text-vsc-dark-accent">S</strong>tructure ·{" "}
+                  <strong className="font-bold text-vsc-dark-accent">C</strong>onviction
                 </span>
               ) : (
                 <span>How VSC thinks</span>
@@ -135,10 +156,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-        </div>
-
-        <div className="border-b border-vsc-dark-hairline py-8">
-          <EmailCapture variant="footer" />
         </div>
 
         <div className="flex flex-col items-center justify-between gap-3 pt-7 text-[14px] text-vsc-dark-ink-muted sm:flex-row">

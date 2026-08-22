@@ -6,9 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
-import { ShinyText } from "@/components/ui/vsc/ShinyText";
 import { TimelineRail, TimelineStep } from "@/components/ui/vsc/TimelineRail";
-import { EmotionalVsRuledChart } from "@/components/sections/about/EmotionalVsRuledChart";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 
 const earliestMonthKey = sortedMonths[sortedMonths.length - 1];
@@ -44,33 +42,27 @@ const originSteps: TimelineStep[] = [
 const observationsData = [
   {
     code: "01",
-    topic: "Patience and timing",
-    title: "Markets reward patience more often than prediction.",
-    desc: "Waiting in cash during uncompensated market regimes is an active, institutional investment decision."
+    topic: "Patience",
+    title: "You don't have to act on every opportunity.",
+    desc: "Sometimes the better decision is to wait."
   },
   {
     code: "02",
-    topic: "Liquidity and positioning",
-    title: "Cash is a position, not an admission of defeat.",
-    desc: "Preserving liquidity and optionality allows capital deployment when risk-reward shifts overwhelmingly in my favor."
+    topic: "Risk",
+    title: "Know what you can lose before thinking about what you can make.",
+    desc: "Risk comes before return."
   },
   {
     code: "03",
-    topic: "Risk management",
-    title: "Risk must be understood before returns are pursued.",
-    desc: "Defining downside parameters and maximum allowable drawdown precedes sizing upside targets on every trade."
+    topic: "Drawdowns",
+    title: "Every drawdown teaches something profits cannot.",
+    desc: "A difficult market can expose weaknesses that a rising market hides."
   },
   {
     code: "04",
-    topic: "Cycle experience",
-    title: "Every drawdown teaches something profits cannot.",
-    desc: "Drawdowns expose structural system weaknesses; bull market momentum frequently masks risk accumulation."
-  },
-  {
-    code: "05",
-    topic: "Systematic process",
-    title: "Process creates consistency when emotions cannot.",
-    desc: "Pre-defined quantitative risk parameters protect capital during volatile regime shifts when human discretion fails."
+    topic: "Process",
+    title: "Good rules matter most when emotions get loud.",
+    desc: "A clear process helps stop one bad decision from becoming several."
   }
 ];
 
@@ -163,7 +155,7 @@ export default function OurStory() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
-                What if successful investing had less to do with predictions—and more to do with process?
+                Built from markets. Built to keep learning.
               </motion.h1>
 
               {/* Conviction-Driven Paragraph */}
@@ -172,7 +164,7 @@ export default function OurStory() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Since 2019 I&apos;ve come to believe that successful investing is built less on prediction and more on disciplined decision-making. VSC exists to share that way of thinking.
+                VSC Capital &amp; Advisory is a research-led markets business built around education, disciplined decision-making and serious market participation.
               </motion.p>
 
               {/* Byline (v2.2 §1.1) — "This single line delivers most of
@@ -203,22 +195,7 @@ export default function OurStory() {
         </section>
 
         {/* =========================================================================
-            2. MANIFESTO QUOTE PAUSE
-           ========================================================================= */}
-        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden z-10 border-t border-rule select-none">
-          <div className="container max-w-[1200px] text-center">
-            <motion.h2 
-              className="font-display text-3xl sm:text-4xl md:text-5xl text-ink font-normal leading-[1.3] max-w-[800px] mx-auto text-center"
-              {...animProps}
-            >
-              I didn&apos;t want to predict markets.<br />
-              <ShinyText text="I wanted to understand them better." speed={5} />
-            </motion.h2>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            2.5 THE RESEARCHER (Founder letter)
+            2. THE RESEARCHER (Founder letter)
             Sits between the manifesto statement and the origin timeline so
             the origin story that follows has a named subject. First-person
             letter, not a fact panel — text left, photo right, top-aligned.
@@ -280,12 +257,6 @@ export default function OurStory() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               
               <div className="lg:col-span-4 select-none">
-                <motion.span
-                  className="eyebrow"
-                  {...animProps}
-                >
-                  The origin
-                </motion.span>
                 <motion.h2
                   className="font-display text-4xl md:text-[44px] text-ink font-normal leading-[1.2]"
                   {...animProps}
@@ -305,73 +276,25 @@ export default function OurStory() {
         </section>
 
         {/* =========================================================================
-            4. EXPERIENCE SECTION (Heading, pull-quote, exhibit only — the
-            narrative prose used to restate the founder letter and the
-            origin timeline, so it's been cut to just this)
-           ========================================================================= */}
-        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10 bg-[#FFFFFF]/60">
-          <div className="container max-w-[1200px]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-              <div className="lg:col-span-4">
-                <motion.span
-                  className="eyebrow"
-                  {...animProps}
-                >
-                  Forged in real markets
-                </motion.span>
-                <motion.h2
-                  className="font-display text-3xl sm:text-5xl text-ink font-normal leading-[1.12]"
-                  {...animProps}
-                  transition={{ ...animProps.transition, delay: 0.05 }}
-                >
-                  Experience Shapes Every Decision I Make.
-                </motion.h2>
-              </div>
-
-              <div className="lg:col-span-8 flex flex-col max-w-[720px]">
-                <blockquote className="font-display text-2xl sm:text-3xl text-growth font-normal italic border-l-2 border-growth pl-6 py-2">
-                  &ldquo;Every mistake I made became a rule I refuse to break.&rdquo;
-                </blockquote>
-              </div>
-            </div>
-
-            {/* The claim above, drawn — this is the page's thesis, so it
-                gets the full section width rather than being squeezed
-                into the 8-column text rail above it. */}
-            <div className="mt-14 sm:mt-16">
-              <EmotionalVsRuledChart />
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            5. TIMELESS OBSERVATIONS (VSC Renaissance 2.2 — Editorial Research Deck)
+            4. WHAT THE MARKET TAUGHT US — consolidated from the old
+            "Experience Shapes Every Decision" pull-quote/chart section and
+            the five-item Timeless Observations deck into one section, four
+            observations, reusing the same dark carousel treatment.
            ========================================================================= */}
         <section
           className="relative w-full py-24 md:py-32 overflow-hidden border-t border-vsc-dark-hairline bg-vsc-dark z-10 focus:outline-none"
           tabIndex={0}
           onKeyDown={handleObsKeyDown}
-          aria-label="Timeless Observations Research Deck"
+          aria-label="What the market taught us"
         >
           <div className="container max-w-[1200px]">
-            {/* Editorial Deck Header — one eyebrow, one heading. The
-                position within the five observations is communicated once,
-                by the pager below, not repeated here.
-
-                The eyebrow can't reuse the shared `.eyebrow` class here:
-                its colour is hardcoded to `var(--growth)` outside any
-                Tailwind layer, so it always wins over a utility class
-                regardless of source order. Reproduced locally at the same
-                size/weight/spacing instead (same fix as the Five Gates
-                section). */}
             <div className="mb-12 select-none">
-              <span className="mb-[18px] inline-flex items-center gap-2.5 text-[13px] font-semibold tracking-[0.01em] text-vsc-dark-accent">
-                <span aria-hidden="true" className="h-0.5 w-[18px] shrink-0 rounded-full bg-vsc-dark-accent" />
-                Lessons from the market
-              </span>
               <h2 className="font-display text-3xl sm:text-5xl text-vsc-dark-ink font-normal leading-[1.12]">
-                Timeless Observations
+                Lessons shaped by markets.
               </h2>
+              <p className="mt-4 max-w-[52ch] text-[16px] leading-relaxed text-vsc-dark-ink-muted">
+                Experience matters only when it changes the next decision.
+              </p>
             </div>
 
             {/* Current observation — an open editorial block, not a boxed
@@ -470,20 +393,12 @@ export default function OurStory() {
         <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10 select-none">
           <div className="container max-w-[1200px]">
             <div className="max-w-[700px] mx-auto text-center flex flex-col items-center">
-              
-              <motion.span
-                className="eyebrow"
-                {...animProps}
-              >
-                Your next step
-              </motion.span>
-
               <motion.h2
                 className="font-display text-3xl sm:text-5xl leading-[1.15] text-ink font-normal tracking-tight mb-6"
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.05 }}
               >
-                Every great investment process starts somewhere.
+                See where VSC can help.
               </motion.h2>
 
               <motion.p
@@ -491,7 +406,7 @@ export default function OurStory() {
                 {...animProps}
                 transition={{ ...animProps.transition, delay: 0.1 }}
               >
-                Whether you&apos;re taking your first step or refining years of experience, VSC exists to help you invest with greater clarity, discipline, and confidence.
+                Education, research-led decision-making and community — built for different stages of your market journey.
               </motion.p>
 
               <motion.div
@@ -500,10 +415,10 @@ export default function OurStory() {
                 transition={{ ...animProps.transition, delay: 0.15 }}
               >
                 <Link
-                  href="/enquire"
+                  href="/offerings"
                   className="bg-growth text-white text-sm font-semibold px-8 py-4 rounded-xl hover:bg-growth-deep transition-colors duration-200"
                 >
-                  Enquire &rarr;
+                  Explore offerings &rarr;
                 </Link>
               </motion.div>
               

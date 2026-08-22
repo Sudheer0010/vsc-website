@@ -15,7 +15,7 @@ export const frameworkLibrary: Framework[] = [
   {
     slug: "market-environment",
     title: "Market Environment",
-    question: "What kind of market is this?",
+    question: "What market are we in?",
     desc: "Determines whether the environment is aggressive, neutral, or defensive — and sets the maximum total exposure.",
     primaryTopic: "Market Structure",
     versions: [
@@ -31,7 +31,7 @@ export const frameworkLibrary: Framework[] = [
   {
     slug: "opportunity-universe",
     title: "Opportunity Universe",
-    question: "What stocks deserve attention?",
+    question: "What deserves attention?",
     desc: "Filters the market down to a watchlist based on liquidity, price, sector, and relative strength.",
     primaryTopic: "Momentum",
     versions: [{ version: 1, changeNote: "Original." }],
@@ -40,7 +40,7 @@ export const frameworkLibrary: Framework[] = [
   {
     slug: "setup-grading",
     title: "Setup Grading",
-    question: "Which stocks deserve capital?",
+    question: "What deserves capital?",
     desc: "Grades each setup as A+, A, or B based on trend quality, base quality, volume, and risk-reward. The grade sets the capital cap.",
     primaryTopic: "Momentum",
     versions: [{ version: 1, changeNote: "Original." }],
@@ -49,7 +49,7 @@ export const frameworkLibrary: Framework[] = [
   {
     slug: "sizing",
     title: "Sizing",
-    question: "How much?",
+    question: "How much risk?",
     desc: "Calculates position size from stop-loss distance and capital risk, then caps it by the setup grade. The smaller number wins.",
     primaryTopic: "Risk",
     versions: [{ version: 1, changeNote: "Original." }],
@@ -58,7 +58,7 @@ export const frameworkLibrary: Framework[] = [
   {
     slug: "trade-management",
     title: "Trade Management",
-    question: "Entry, exit, hold, add, partials — what now?",
+    question: "What now?",
     desc: "Covers entry triggers, stop placement and movement, pyramiding, partial profits, and exit rules. Everything after the sizing decision.",
     primaryTopic: "Process",
     versions: [{ version: 1, changeNote: "Original." }],

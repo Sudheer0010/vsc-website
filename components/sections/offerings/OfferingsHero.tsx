@@ -29,8 +29,8 @@ const TIERS = [
   {
     ring: "inner" as const,
     color: "var(--growth-deep)",
-    name: "Inner Circle",
-    desc: "The core — direct access to the research desk.",
+    name: "VSC Community",
+    desc: "Learn and improve with others.",
   },
 ];
 

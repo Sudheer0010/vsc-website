@@ -26,8 +26,6 @@ export function FeaturedPublication({
 
   return (
     <section className="py-12 border-t border-rule select-none animate-fade-in">
-      <span className="eyebrow">This month&apos;s letter</span>
-
       <Link
         href={letterHref(latestMonthKey)}
         className="group relative block overflow-hidden rounded-2xl bg-growth-tint p-8 sm:p-12"

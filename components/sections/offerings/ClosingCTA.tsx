@@ -16,9 +16,15 @@ import { VSCButton } from "@/components/ui/vsc/VSCButton";
 export function ClosingCTA({
   headline = "Ready to begin?",
   subline = "No pitch and no obligation — a conversation about whether this is the right fit.",
+  ctaLabel = "Enquire",
+  faqLabel = "Or get your questions answered in the FAQ",
 }: {
   headline?: string;
   subline?: string;
+  /** Button text — override per page; defaults keep every existing caller
+   *  (Offerings gateway, Learning Hub, Advantage) byte-identical. */
+  ctaLabel?: string;
+  faqLabel?: string;
 }) {
   return (
     <section className="relative w-full border-t border-rule bg-canvas py-20 sm:py-28">
@@ -31,14 +37,14 @@ export function ClosingCTA({
           </p>
           <div className="mt-9">
             <VSCButton href="/enquire" variant="growth" className="px-8 text-[17px]">
-              Enquire
+              {ctaLabel}
             </VSCButton>
           </div>
           <Link
             href="/faq"
             className="mt-6 text-[14.5px] font-medium text-ink-muted transition-colors hover:text-growth link-underline"
           >
-            Or get your questions answered in the FAQ
+            {faqLabel}
           </Link>
         </Reveal>
       </div>

@@ -53,7 +53,7 @@ export function MarketLetterArchive({
             Market Letter Archive
           </h1>
           <p className="font-mono text-sm leading-relaxed text-ink-soft">
-            A chronological archive of my monthly market letters documenting market observations, portfolio decisions, and lessons learned.
+            A chronological archive of VSC&apos;s monthly Market Letters documenting market observations, portfolio decisions, and lessons learned.
           </p>
         </div>
 

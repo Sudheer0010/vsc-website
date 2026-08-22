@@ -19,8 +19,6 @@ export function RecentLetters({ monthKeys, marketLetters }: RecentLettersProps) 
 
   return (
     <div className="pb-6">
-      <span className="eyebrow">Recent letters</span>
-
       <div className="divide-y divide-rule border-t border-rule">
         {monthKeys.map((monthKey) => {
           const letter = marketLetters[monthKey];

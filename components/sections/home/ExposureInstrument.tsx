@@ -140,9 +140,13 @@ export function ExposureInstrument() {
         </p>
       </div>
 
-      <figcaption className="mt-2 border-t border-rule pt-4 text-[13px] leading-relaxed text-ink-faint">
-        Illustrative of the framework&apos;s logic, not a live portfolio or a
-        forecast. Drag the control.
+      <figcaption className="mt-2 border-t border-rule pt-4 text-[13px] leading-relaxed">
+        <span className="block text-ink-soft">
+          Move the slider. Watch exposure respond to market risk.
+        </span>
+        <span className="block text-ink-faint">
+          Illustrative framework logic &mdash; not a live portfolio.
+        </span>
       </figcaption>
 
     </figure>

@@ -11,11 +11,6 @@ export function NewsletterCTA({ newsletterConfig }: NewsletterCTAProps) {
     <section className="py-24 border-t border-rule select-none animate-fade-in">
       <div className="max-w-[650px] mx-auto text-center flex flex-col items-center">
 
-        {/* Label */}
-        <span className="font-mono text-xs tracking-[0.2em] text-accent-gold uppercase mb-6 block font-semibold">
-          {newsletterConfig.label}
-        </span>
-
         {/* Headline */}
         <h2 className="font-display text-3xl sm:text-4xl leading-[1.2] text-ink font-normal tracking-tight mb-4 max-w-[500px]">
           {newsletterConfig.title}

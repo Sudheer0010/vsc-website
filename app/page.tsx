@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BeliefSection } from "@/components/sections/home/BeliefSection";
 import { Compliance } from "@/components/sections/home/Compliance";
 import { DrawdownStory } from "@/components/sections/home/DrawdownStory";
@@ -5,12 +6,34 @@ import { ExposureInstrument } from "@/components/sections/home/ExposureInstrumen
 import { HowWeHelpSection } from "@/components/sections/home/HowWeHelpSection";
 import { ProcessStepper } from "@/components/sections/home/ProcessStepper";
 import { ResearchDeskSection } from "@/components/sections/home/ResearchDeskSection";
-import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
-import { InstitutionalBriefing } from "@/components/ui/vsc/InstitutionalBriefing";
-import { ReflectionBlock } from "@/components/ui/vsc/ReflectionBlock";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
+
+/**
+ * RISK — merged from the old fund-comparison ("proof") section and the
+ * standalone risk-question (ReflectionBlock) band. Same underlying claim
+ * (exposure should track market risk, not stay fixed), stated as three
+ * scannable principles instead of a fund-vs-VSC table or second-person
+ * question.
+ */
+const RISK_PRINCIPLES = [
+  {
+    number: "01",
+    title: "Trade less when the market gets weaker.",
+    body: "When good opportunities are hard to find, there is no need to keep all the money in the market.",
+  },
+  {
+    number: "02",
+    title: "Cash is also a choice.",
+    body: "Sometimes waiting is better than forcing a trade.",
+  },
+  {
+    number: "03",
+    title: "Protect capital first.",
+    body: "A strong idea is never a reason to ignore risk.",
+  },
+];
 
 /**
  * Homepage — Daylight Growth.
@@ -122,35 +145,45 @@ export default function Home() {
           </div>
         </section>
 
-        <DrawdownStory />
+        <BeliefSection />
 
         <HowWeHelpSection />
 
+        <DrawdownStory />
+
         <ProcessStepper />
 
-        <BeliefSection />
-
         {/* ================================================================
-            CONTRAST
-            The narrowest, most defensible version of the claim: a fund with
-            an always-invested mandate cannot do this. I can.
+            RISK
+            The pause, and the principle behind it, in one band.
            ================================================================ */}
-        <section id="proof" className="relative w-full border-b border-rule bg-canvas-sunk py-20 sm:py-28">
+        <section id="risk" className="relative w-full border-b border-rule bg-growth-wash py-12 sm:py-16">
           <div className="container mx-auto max-w-[1120px]">
-            <Reveal className="max-w-[54ch]">
-              <span className="eyebrow">Where the mandate differs</span>
-              <h2 className="font-display text-ink">
-                A fund must stay invested. I don&apos;t have to.
+            <Reveal className="text-center">
+              <h2 className="font-display text-[clamp(26px,3.6vw,42px)] font-semibold leading-[1.12] tracking-[-0.03em] text-growth-deep">
+                When markets get riskier, put less money at risk.
               </h2>
             </Reveal>
 
-            <div className="mt-10 sm:mt-14">
-              <InstitutionalBriefing />
-            </div>
+            <Reveal delay={0.08} className="mt-14 sm:mt-16">
+              <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
+                {RISK_PRINCIPLES.map((item) => (
+                  <div key={item.title} className="text-left">
+                    <span className="font-mono text-sm font-semibold text-growth">
+                      {item.number}
+                    </span>
+                    <h3 className="mt-6 font-display text-[19px] font-semibold tracking-tight text-ink">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 max-w-[30ch] text-[15.5px] leading-relaxed text-ink-soft">
+                      {item.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
         </section>
-
-        <ReflectionBlock question="If markets get riskier, should your portfolio stay fully invested?" />
 
         <ResearchDeskSection />
 
@@ -159,39 +192,33 @@ export default function Home() {
             One heading, one button, and room around both. Nothing here is
             urgent, so nothing here should look urgent.
            ================================================================ */}
-        <section id="action" className="relative w-full bg-canvas py-24 sm:py-32">
+        <section id="action" className="relative w-full bg-surface py-16 sm:py-24">
           <div className="container mx-auto max-w-[1120px]">
-            <Reveal className="mx-auto flex max-w-[24ch] flex-col items-center text-center">
-              <StepRule size="lg" />
-              <h2 className="mt-7 font-display text-ink">
-                Build a better process. Start with a conversation.
-              </h2>
+            <Reveal className="mx-auto flex max-w-[26ch] flex-col items-center text-center">
+              <span className="font-mono text-sm font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                Not sure where to begin?
+              </span>
+              <h2 className="mt-3 font-display text-ink">Start here.</h2>
               <p className="mt-5 max-w-[46ch] text-[18px] leading-relaxed text-ink-soft">
-                No pitch and no obligation — a discussion about how you
-                currently decide, and whether a framework would help.
+                A short path through what VSC believes, how the process
+                works, and the work behind it.
               </p>
               <div className="mt-9">
-                <VSCButton href="/enquire" variant="growth" className="px-8 text-[17px]">
-                  Enquire
+                <VSCButton href="/start" variant="growth" className="px-8 text-[17px]">
+                  Start here &rarr;
                 </VSCButton>
               </div>
+              <Link
+                href="/enquire"
+                className="mt-4 font-mono text-sm text-ink-muted transition-colors duration-200 hover:text-growth"
+              >
+                Already know what you&apos;re looking for? Enquire &rarr;
+              </Link>
             </Reveal>
           </div>
         </section>
 
         <Compliance />
-
-        {/* ================================================================
-            QUIET SIGNUP BAND
-            Sits below every other section and above the footer. No
-            heading, no context line — the component's own proposition
-            text carries it. Not a hero, not competing with "Enquire".
-           ================================================================ */}
-        <section className="w-full border-t border-rule bg-canvas-sunk py-16 sm:py-20">
-          <div className="container mx-auto max-w-[1120px]">
-            <EmailCapture />
-          </div>
-        </section>
       </main>
     </>
   );

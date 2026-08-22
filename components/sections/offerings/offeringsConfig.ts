@@ -109,7 +109,7 @@ export const offeringsConfig: OfferingItem[] = [
   {
     slug: "inner-circle",
     title: "Research Circle (Inner Circle)",
-    shortTitle: "Inner Circle",
+    shortTitle: "VSC Community",
     tagline: "Institutional Research Membership",
     description: "Gain direct access to quantitative audits, macro theme reviews, and codebase parameters.",
     whatItIs: "Direct institutional membership providing quantitative theme audits, macro regime analysis, and proprietary research notes.",
@@ -135,13 +135,13 @@ export const offeringsConfig: OfferingItem[] = [
      * Its actual value is what the letter isn't: the room, the argument,
      * the second opinion before capital moves. Never say "free" here.
      */
-    quote: "I want a room where my thinking gets argued with.",
-    format: "Members bring positions, not questions.",
-    bestIf: "you already run your own book and want a second, independent view before you act.",
-    proofLabel: "Request an invitation",
+    quote: "I want to get better around people who take markets seriously.",
+    format: "Market discussions, shared learning and different points of view — without tips or noise.",
+    bestIf: "you understand the basics and want to keep learning, discussing ideas and improving alongside other market participants.",
+    proofLabel: "Explore the community",
     proofHref: "/offerings/inner-circle",
     tier: "invite",
-    stateLabel: "03 · By invitation",
-    availabilityShort: "By invitation"
+    stateLabel: "03 · VSC Community",
+    availabilityShort: "Community"
   }
 ];

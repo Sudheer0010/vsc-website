@@ -1,90 +1,63 @@
 import React from "react";
-import Link from "next/link";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { SubPageHero } from "@/components/sections/offerings/SubPageHero";
-import { ModuleCard } from "@/components/sections/offerings/ModuleCard";
-import { HorizontalRail } from "@/components/sections/offerings/HorizontalRail";
 import { ClosingCTA } from "@/components/sections/offerings/ClosingCTA";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
-import {
-  FileText,
-  Globe,
-  Cpu,
-  Code2,
-  Layers,
-  Database,
-} from "lucide-react";
 
-const modules = [
+/**
+ * VSC Community — the route stays /offerings/inner-circle (see
+ * offeringsConfig.ts) since Inner Circle isn't gone, just no longer this
+ * page's framing: it may return later as a smaller invite-only layer
+ * inside the community this page now describes.
+ */
+
+const FLOW_STEPS = [
   {
-    number: "Module 01",
-    title: "Institutional Market Letters",
-    icon: FileText,
-    items: [
-      "Full monthly research publications",
-      "Macro market environment audits",
-      "Sector leadership rankings",
-      "Monthly return & trade attribution",
-    ],
+    number: "01",
+    title: "BRING AN IDEA",
+    body: "A market observation, stock, sector or question worth discussing.",
   },
   {
-    number: "Module 02",
-    title: "Macro Regime Shift Analysis",
-    icon: Globe,
-    items: [
-      "Early trend transition alerts",
-      "Liquidity & FII flow monitoring",
-      "Inter-market breadth indicators",
-      "Global risk sentiment tracking",
-    ],
+    number: "02",
+    title: "DISCUSS IT",
+    body: "Hear how other participants see it.",
   },
   {
-    number: "Module 03",
-    title: "Quantitative Theme Audits",
-    icon: Cpu,
-    items: [
-      "High-conviction sector breakdowns",
-      "Stage 2 breakout screenings",
-      "Relative strength rankings",
-      "Stock candidate shortlists",
-    ],
+    number: "03",
+    title: "CHALLENGE IT",
+    body: "Look for what may be missing or wrong.",
   },
   {
-    number: "Module 04",
-    title: "Codebase & Parameter Research",
-    icon: Code2,
-    items: [
-      "Algorithmic screening logic",
-      "Backtested setup statistics",
-      "Volatility adjustment matrices",
-      "System parameter documentation",
-    ],
-  },
-  {
-    number: "Module 05",
-    title: "Quarterly Macro Strategy Reviews",
-    icon: Layers,
-    items: [
-      "Deep-dive quarterly trend reports",
-      "Strategic portfolio positioning",
-      "Risk-reward regime outlooks",
-      "Institutional Q&A briefings",
-    ],
-  },
-  {
-    number: "Module 06",
-    title: "Private Research Archive Access",
-    icon: Database,
-    items: [
-      "Complete historical letter vault",
-      "Searchable framework index",
-      "Downloadable research PDFs",
-      "Institutional member Q&A desk",
-    ],
+    number: "04",
+    title: "LEARN FROM IT",
+    body: "Take the useful part back into your own process.",
   },
 ];
 
-const MONTH_STAGES = ["Letter published", "Member discussion", "Idea review", "Positions argued"];
+const INSIDE = [
+  {
+    number: "01",
+    word: "DISCUSS.",
+    body: "Talk through markets, sectors, companies and trading ideas.",
+  },
+  {
+    number: "02",
+    word: "CHALLENGE.",
+    body: "Hear another view before becoming too attached to your own.",
+  },
+  {
+    number: "03",
+    word: "IMPROVE.",
+    body: "Learn from other participants, review mistakes and sharpen your process.",
+  },
+];
+
+const FIT_POINTS = [
+  "You understand the basics and want to keep learning.",
+  "You enjoy discussing why an idea may be right or wrong.",
+  "You want thoughtful market conversations instead of constant alerts.",
+  "You're willing to contribute, not only consume.",
+];
 
 export default function InnerCirclePage() {
   return (
@@ -94,67 +67,110 @@ export default function InnerCirclePage() {
 
       <main className="relative w-full z-10 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
+          {/* --- Hero --------------------------------------------------- */}
           <div className="mb-16 sm:mb-20">
             <SubPageHero
-              eyebrow="Offerings // Inner Circle"
-              title="VSC Inner Circle"
-              description="A closed research desk for people who already run their own book. The published letters show how I think — Inner Circle is where that thinking gets tested before it becomes a position."
+              eyebrow="Offerings // VSC Community"
+              title="VSC Community"
+              description="Get better around people who take markets seriously."
             />
-
-            {/* v2.1 §3.3 — points at what's already public rather than
-                re-describing the letter as this offering's value, since the
-                letter is free on the Research page and Inner Circle isn't
-                (and should never be described using that word). */}
             <p className="mt-5 max-w-[58ch] text-[16px] leading-relaxed text-ink-soft">
-              Every monthly letter is published in full on the{" "}
-              <Link href="/research" className="font-semibold text-growth link-underline">
-                Research page
-              </Link>
-              . That&apos;s the artifact. Membership is the room around it — the
-              discussion, the pushback, the second opinion before capital moves.
+              A place to discuss markets, share what you&apos;re learning,
+              challenge ideas and keep improving — without tips, noise or
+              hype.
+            </p>
+            <p className="mt-3 max-w-[58ch] text-[14px] text-ink-faint">
+              Learn from the discussion. Contribute when you have something
+              useful to add.
             </p>
           </div>
 
-          {/* No section background/padding existed here before — this
-              Exhibit sat directly on the page's canvas with no card
-              chrome. To flip it onto the dark surface without the text
-              running edge-to-edge, it gets the same rounded/padded
-              treatment already used for other bordered Exhibit cards on
-              the site (e.g. the framework pages), just filled with
-              vsc.dark instead of a border. The Exhibit's own content
-              (label, rail, caption) keeps its original size and layout. */}
+          {/* --- How the community works --------------------------------
+              Same dark Exhibit treatment used elsewhere on the site, with
+              a four-step flow in place of the old month-in-the-life rail. */}
           <div className="mb-20 rounded-vsc-xl bg-vsc-dark p-6 sm:p-8">
             <Exhibit
               number={1}
-              label="What a month looks like"
-              caption="The shape of a typical month. Timing varies with the market, not a fixed schedule."
+              label="How the community works"
+              caption="Four steps, repeated with whatever you bring — not a fixed schedule."
               variant="dark"
             >
-              <HorizontalRail steps={MONTH_STAGES} variant="dark" />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 sm:gap-6">
+                {FLOW_STEPS.map((step) => (
+                  <div key={step.number}>
+                    <span className="font-mono text-sm font-semibold text-vsc-dark-accent">
+                      {step.number}
+                    </span>
+                    <h3 className="mt-2 font-display text-[15px] font-semibold tracking-tight text-vsc-dark-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-1.5 text-[13.5px] leading-snug text-vsc-dark-ink-muted">
+                      {step.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </Exhibit>
           </div>
 
+          {/* --- What happens inside — three principles, not six cards --- */}
           <h2 className="mb-10 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
-            Inner Circle Includes
+            What happens inside.
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {modules.map((mod) => (
-              <ModuleCard
-                key={mod.number}
-                number={mod.number}
-                title={mod.title}
-                icon={mod.icon}
-                items={mod.items}
-              />
+          <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
+            {INSIDE.map((item) => (
+              <div key={item.number}>
+                <span className="font-mono text-sm font-semibold text-growth">
+                  {item.number}
+                </span>
+                <div className="mt-3 font-display text-[clamp(28px,3.6vw,38px)] font-bold leading-[1.05] tracking-[-0.02em] text-ink">
+                  {item.word}
+                </div>
+                <p className="mt-2.5 max-w-[28ch] text-[15px] leading-relaxed text-ink-soft">
+                  {item.body}
+                </p>
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* --- No calls. No tips. No noise. ------------------------------
+            Short, strong, dark — same surface family as the process
+            exhibit above, full-bleed so it reads as a distinct band. */}
+        <div className="my-20 w-full bg-vsc-dark py-16 sm:py-20">
+          <div className="container max-w-[720px] mx-auto px-4 text-center sm:px-6">
+            <h2 className="font-display text-[clamp(28px,4vw,44px)] font-semibold tracking-tight text-vsc-dark-ink">
+              No calls. No tips. No noise.
+            </h2>
+            <p className="mx-auto mt-4 max-w-[46ch] text-[16px] leading-relaxed text-vsc-dark-ink-muted">
+              VSC Community isn&apos;t a signal group. The value is in the
+              discussion — not somebody telling you what to buy.
+            </p>
+          </div>
+        </div>
+
+        <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
+          {/* --- Who it's for -------------------------------------------- */}
+          <h2 className="mb-8 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
+            This may fit if...
+          </h2>
+          <ul className="max-w-[640px] flex flex-col gap-3.5">
+            {FIT_POINTS.map((point) => (
+              <li key={point} className="flex items-start gap-3 text-[16px] leading-relaxed text-ink-soft">
+                <span className="mt-[10px] h-1.5 w-1.5 shrink-0 rounded-full bg-growth" aria-hidden="true" />
+                {point}
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
 
       <ClosingCTA
-        headline="Request an invitation"
-        subline="Tell me about your book and what you're looking for — membership is by invitation, reviewed directly, not sold through a form."
+        headline="Interested in joining?"
+        subline="VSC Community is being built for people who want serious market discussion without the usual noise."
+        ctaLabel="Join the community →"
+        faqLabel="Already have a question? See the FAQ →"
       />
     </div>
   );

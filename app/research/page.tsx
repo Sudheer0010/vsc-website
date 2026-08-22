@@ -34,13 +34,11 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
  * own URL; repeating the cards here would just be the same content twice.
  */
 function SectionIntro({
-  eyebrow,
   title,
   description,
   href,
   linkLabel,
 }: {
-  eyebrow: string;
   title: string;
   description: string;
   href: string;
@@ -48,9 +46,6 @@ function SectionIntro({
 }) {
   return (
     <div className="border-t border-rule py-12 first:border-t-0">
-      <span className="mb-3 block font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ink-faint">
-        {eyebrow}
-      </span>
       <h2 className="mb-3 font-display text-2xl font-normal text-ink sm:text-3xl">{title}</h2>
       <p className="mb-5 max-w-[58ch] text-[16px] leading-relaxed text-ink-soft">{description}</p>
       <Link href={href} className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
@@ -83,25 +78,19 @@ export default function ResearchHub() {
             readingCount={readingCount}
           />
 
-          {/* New here? Point at the guided path before the full library. */}
-          <div className="mb-16 flex flex-col items-start justify-between gap-4 rounded-2xl border border-rule bg-surface p-6 sm:flex-row sm:items-center sm:p-8">
-            <div>
-              <span className="mb-1 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-                New to VSC?
-              </span>
-              <p className="text-[16px] text-ink">A three-step guided path, not the whole archive at once.</p>
-            </div>
+          {/* New here? A quiet pointer to the guided path, not a full-width panel. */}
+          <div className="mb-16">
             <Link
               href="/start"
-              className="group inline-flex shrink-0 items-center gap-2 font-mono text-sm font-semibold text-growth"
+              className="group inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors duration-200 hover:text-growth"
             >
-              Start here
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              New to VSC? Start here
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
           </div>
 
-          {/* TIME-BOUND — what I observed: Market Letters, Notes */}
-          <GroupLabel>Time-bound — what I observed</GroupLabel>
+          {/* TIME-BOUND — what we observed: Market Letters, Notes */}
+          <GroupLabel>Time-bound — what we observed</GroupLabel>
 
           {featuredLetter && (
             <FeaturedPublication
@@ -125,20 +114,18 @@ export default function ResearchHub() {
           </div>
 
           <SectionIntro
-            eyebrow="Observations"
             title="Trading Insights"
             description="Trading ideas you can actually use — one market behaviour at a time, with evidence and limits."
             href="/research/notes"
             linkLabel="Browse notes"
           />
 
-          {/* TIMELESS — what I believe: Frameworks, Reading */}
-          <GroupLabel>Timeless — what I believe</GroupLabel>
+          {/* TIMELESS — what we believe: Frameworks, Reading */}
+          <GroupLabel>Timeless — what we believe</GroupLabel>
 
           <FrameworkLibrarySection frameworks={frameworkLibrary} />
 
           <SectionIntro
-            eyebrow="Recommendations"
             title="Reading Desk"
             description="Books, annual letters, and talks that shaped the framework — hand-picked, not generated."
             href="/reading"

@@ -86,7 +86,7 @@ export function PipelineMapExhibit({ activeIndex = 0 }: { activeIndex?: number }
               x={nodeX + 22}
               y={cy + 4}
               style={{
-                font: `${isCurrent ? 700 : 500} 13px ${MONO}`,
+                font: `${isCurrent ? 700 : 500} 15px ${MONO}`,
                 fill: isCurrent ? "var(--growth)" : "var(--ink-faint)",
               }}
             >
@@ -196,7 +196,7 @@ export function ScoringFlowExhibit() {
           <text
             x={colX(i) + 16}
             y={box1Y + 30}
-            style={{ font: `600 15px ${UI}`, fill: "var(--ink)" }}
+            style={{ font: `600 17px ${UI}`, fill: "var(--ink)" }}
           >
             {f.name}
           </text>
@@ -240,7 +240,7 @@ export function ScoringFlowExhibit() {
         x={width / 2}
         y={resolverY + resolverH / 2 + 5}
         textAnchor="middle"
-        style={{ font: `600 13px ${MONO}`, fill: "var(--canvas)" }}
+        style={{ font: `600 15px ${MONO}`, fill: "var(--canvas)" }}
       >
         Count the Positive factors
       </text>
@@ -292,7 +292,7 @@ export function ScoringFlowExhibit() {
             x={centerX(i)}
             y={box3Y + 76}
             textAnchor="middle"
-            style={{ font: `400 11px ${MONO}`, fill: "var(--ink-faint)" }}
+            style={{ font: `400 12px ${MONO}`, fill: "var(--ink-faint)" }}
           >
             {r.exposure}
           </text>
@@ -374,7 +374,7 @@ export function SubScoringExhibit({
           <text
             x={colX(i)}
             y={headerY}
-            style={{ font: `700 11px ${MONO}`, fill: "var(--ink)", letterSpacing: "0.08em" }}
+            style={{ font: `700 12px ${MONO}`, fill: "var(--ink)", letterSpacing: "0.08em" }}
           >
             {col.heading.toUpperCase()}
           </text>
@@ -386,7 +386,7 @@ export function SubScoringExhibit({
                 <text
                   x={colX(i) + 12}
                   y={y + 18}
-                  style={{ font: `700 11px ${MONO}`, fill: row.text }}
+                  style={{ font: `700 12px ${MONO}`, fill: row.text }}
                 >
                   {row.label}
                 </text>
@@ -394,7 +394,7 @@ export function SubScoringExhibit({
                   x={colX(i) + colW - 12}
                   y={y + 33}
                   textAnchor="end"
-                  style={{ font: `400 12px ${MONO}`, fill: "var(--ink-soft)" }}
+                  style={{ font: `400 13px ${MONO}`, fill: "var(--ink-soft)" }}
                 >
                   {col[row.key]}
                 </text>
@@ -429,7 +429,7 @@ export function SubScoringExhibit({
           x={width / 2}
           y={arrowEndY + 22 + i * 18}
           textAnchor="middle"
-          style={{ font: `${i === 2 ? 400 : 600} 11px ${MONO}`, fill: "var(--canvas)" }}
+          style={{ font: `${i === 2 ? 400 : 600} 12px ${MONO}`, fill: "var(--canvas)" }}
         >
           {line}
         </text>
@@ -497,7 +497,7 @@ export function BreadthZonesExhibit() {
               x={cx}
               y={topLabelY}
               textAnchor="middle"
-              style={{ font: `700 12px ${MONO}`, fill: zone.text }}
+              style={{ font: `700 13px ${MONO}`, fill: zone.text }}
             >
               {zone.label}
             </text>
@@ -505,7 +505,7 @@ export function BreadthZonesExhibit() {
               x={cx}
               y={statusLabelY}
               textAnchor="middle"
-              style={{ font: `600 12px ${MONO}`, fill: zone.text }}
+              style={{ font: `600 13px ${MONO}`, fill: zone.text }}
             >
               {zone.status}
             </text>
@@ -592,7 +592,7 @@ export function ExposureLadderExhibit() {
           x={(pctToX(seg.from) + pctToX(seg.to)) / 2}
           y={labelY}
           textAnchor="middle"
-          style={{ font: `${seg.label === "Transition" ? 400 : 700} 11px ${MONO}`, fill: seg.labelFill }}
+          style={{ font: `${seg.label === "Transition" ? 400 : 700} 12px ${MONO}`, fill: seg.labelFill }}
         >
           {seg.label}
         </text>

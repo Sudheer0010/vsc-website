@@ -64,7 +64,6 @@ export function ThreePillarsOverview() {
     <section id="offerings-overview" className="relative w-full border-b border-rule bg-canvas py-20 sm:py-28">
       <div className="container mx-auto max-w-[880px]">
         <Reveal className="max-w-[46ch]">
-          <span className="eyebrow">Three ways in</span>
           <h2 className="font-display text-ink">Start where you are.</h2>
           <p className="mt-4 text-[17px] leading-relaxed text-ink-soft">
             These aren&apos;t tiers of the same thing — they fit different

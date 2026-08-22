@@ -16,7 +16,13 @@ import {
 
 const PUBLISHED_DATE = "2026-08-05";
 const CANONICAL = "/frameworks/market-environment";
-const PROSE = "max-w-[62ch]";
+/** Reading measure — long-form prose, ~72 characters per line, left-
+ *  anchored (no mx-auto) to the framework shell's left content edge. */
+const PROSE = "max-w-[72ch] mr-auto";
+/** Exhibit measure — diagrams/tables/panels that benefit from more room
+ *  than the prose rail, centered inside the wider page shell below. */
+const EXHIBIT_WIDE = "max-w-[960px] mx-auto";
+const EXHIBIT_MID = "max-w-[900px] mx-auto";
 
 const TREND_COLUMNS: SubScoringColumn[] = [
   { heading: "Structure", positive: "HH/HL", neutral: "Range-bound", negative: "LL/LH" },
@@ -114,7 +120,7 @@ function FactorDivider({
             Factor
           </span>
         </div>
-        <h2 className="mt-4 font-display text-[28px] font-normal leading-tight text-ink sm:text-[32px]">
+        <h2 className="mt-4 font-display text-[32px] font-normal leading-tight text-ink sm:text-[36px]">
           {name}
         </h2>
         <p className="mt-2 text-[17px] text-ink-faint">{question}</p>
@@ -214,7 +220,7 @@ export function MarketEnvironmentFramework() {
       <PaperGrain />
 
       <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
-        <div className="container mx-auto max-w-[820px] px-4 sm:px-6">
+        <div className="container mx-auto max-w-[1040px] px-4 sm:px-6">
           <Link
             href="/research#framework-library"
             className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
@@ -258,7 +264,7 @@ export function MarketEnvironmentFramework() {
               number={1}
               label="The five-stage pipeline"
               caption="You are reading Stage 1. Each stage feeds the next."
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+              className={`${PROSE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
             >
               <PipelineMapExhibit />
             </Exhibit>
@@ -292,9 +298,11 @@ export function MarketEnvironmentFramework() {
                   factor has been shown to carry more information than another. That
                   hasn&apos;t been tested. Neither Weinstein nor O&apos;Neil arrived at
                   weights through published research. Equal weighting is the honest
-                  starting point. After 12–24 months of scored readings alongside actual
-                  results, the data may justify weighting. Until then, each factor
-                  counts as one.
+                  starting point.
+                </p>
+                <p>
+                  After 12–24 months of scored readings alongside actual results, the
+                  data may justify weighting. Until then, each factor counts as one.
                 </p>
               </div>
             </section>
@@ -304,7 +312,7 @@ export function MarketEnvironmentFramework() {
               number={2}
               label="The scoring flow"
               caption="The exposure figure is a ceiling, not a target. The environment gives permission; the setups downstream earn the capital. Aggressive is not &ldquo;fully invested,&rdquo; and Defensive is not &ldquo;no positions&rdquo; — each is the most risk the evidence currently allows."
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+              className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
             >
               <ScoringFlowExhibit />
             </Exhibit>
@@ -324,7 +332,7 @@ export function MarketEnvironmentFramework() {
               <Exhibit
                 number={3}
                 label="Scoring Trend"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+                className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
               >
                 <SubScoringExhibit
                   columns={TREND_COLUMNS}
@@ -338,6 +346,12 @@ export function MarketEnvironmentFramework() {
                   desc="Structure, Location, and Slope are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes Trend positive, two or three negative makes Trend negative, and anything else makes Trend neutral."
                 />
               </Exhibit>
+
+              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+                <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
+                Trend is healthy when at least two of Structure, Location, and Slope
+                agree — not from any single signal alone.
+              </p>
             </div>
 
             <section className={`${PROSE} flex flex-col gap-5`}>
@@ -368,10 +382,16 @@ export function MarketEnvironmentFramework() {
               <Exhibit
                 number={4}
                 label="Breadth zones"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+                className={`${EXHIBIT_MID} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
               >
                 <BreadthZonesExhibit />
               </Exhibit>
+
+              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+                <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
+                Breadth shows whether a rally is broad or narrow, and it can shift
+                before the index itself does.
+              </p>
             </div>
 
             <section className={`${PROSE} flex flex-col gap-6`}>
@@ -434,7 +454,7 @@ export function MarketEnvironmentFramework() {
               <Exhibit
                 number={5}
                 label="Scoring Leadership Quality"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+                className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
               >
                 <SubScoringExhibit
                   columns={LEADERSHIP_COLUMNS}
@@ -448,6 +468,12 @@ export function MarketEnvironmentFramework() {
                   desc="Breakout Success, New High Expansion, and Sector Participation are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes the factor positive, two or three negative makes it negative, and anything else makes it neutral."
                 />
               </Exhibit>
+
+              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+                <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
+                When real setups keep working, the market is supporting risk-taking;
+                when they keep failing, that support has faded.
+              </p>
             </div>
 
             <section className={`${PROSE} flex flex-col gap-6`}>
@@ -478,7 +504,7 @@ export function MarketEnvironmentFramework() {
             <Exhibit
               number={6}
               label="Exposure ladder"
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+              className={`${EXHIBIT_MID} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
             >
               <ExposureLadderExhibit />
               <p className="mt-6 text-center font-display text-xl font-medium text-ink">
@@ -510,7 +536,9 @@ export function MarketEnvironmentFramework() {
 
             {/* Example Reading — the payoff, after the reader has worked through all three factors */}
             <div>
-              <VerdictBlock />
+              <div className="max-w-[720px] mx-auto">
+                <VerdictBlock />
+              </div>
               <p className={`${PROSE} mt-5 font-mono text-[13px] leading-relaxed text-ink-faint`}>
                 This is an example of the framework&apos;s output, not a live market
                 call. While SEBI Research Analyst registration is in process, I publish
@@ -534,13 +562,17 @@ export function MarketEnvironmentFramework() {
                   I&apos;m trying to understand what the market is rewarding right now.
                 </p>
                 <p>
-                  The framework is not a forecast. It is a reality check. An Aggressive
-                  reading does not mean the market will rise. A Defensive reading does
-                  not mean the market will fall — it measures the current balance of
-                  evidence, not where things are going. If the evidence says conditions
-                  are poor, reducing exposure is the correct response even if the
-                  market later rallies. The framework optimises for surviving
-                  what&apos;s likely, not for catching what&apos;s possible.
+                  <strong className="font-semibold text-ink">Not a forecast.</strong>{" "}
+                  It is a reality check. An Aggressive reading does not mean the market
+                  will rise. A Defensive reading does not mean the market will fall —
+                  it measures the current balance of evidence, not where things are
+                  going.
+                </p>
+                <p>
+                  If the evidence says conditions are poor, reducing exposure is the
+                  correct response even if the market later rallies. The framework
+                  optimises for surviving what&apos;s likely, not for catching
+                  what&apos;s possible.
                 </p>
                 <p>
                   Before looking at stocks, I want to know whether the market is

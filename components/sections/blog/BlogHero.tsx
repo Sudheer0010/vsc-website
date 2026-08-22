@@ -60,7 +60,7 @@ export function BlogHero({
               Market Letters & Research
             </h1>
             <blockquote className="font-display text-xl sm:text-2xl text-accent-gold font-normal italic border-l-2 border-accent-gold pl-4 py-1 mb-6">
-              &ldquo;I don&apos;t publish news. I publish thinking.&rdquo;
+              &ldquo;We don&apos;t publish news. We publish thinking.&rdquo;
             </blockquote>
             <p className="font-mono text-sm sm:text-base leading-relaxed text-ink-soft max-w-[560px]">
               A growing collection of research, market letters, investment frameworks and carefully curated resources designed to help investors think independently.
