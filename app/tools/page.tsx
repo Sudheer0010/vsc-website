@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 
@@ -24,6 +24,14 @@ export default function ToolsPage() {
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
+          <Link
+            href="/research"
+            className="mb-8 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back to Research
+          </Link>
+
           <header className="max-w-[760px]">
             <div className="mb-3 flex items-center gap-3 text-[13px] font-semibold text-growth">
               <StepRule size="sm" />
@@ -49,6 +57,26 @@ export default function ToolsPage() {
               </p>
               <Link
                 href="/tools/position-size-calculator"
+                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
+              >
+                Open calculator
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            </article>
+
+            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
+              <div className="mb-5 flex items-start justify-between gap-6">
+                <div>
+                  <p className="mb-2 text-[13px] font-semibold text-growth">Trade planning</p>
+                  <h2 className="text-step-2">Risk–Reward Ratio Calculator</h2>
+                </div>
+                <StepRule className="mt-1 shrink-0" active />
+              </div>
+              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
+                Compare planned reward against planned risk from your entry, stop-loss and target — with risk per share, reward per share and breakeven win rate.
+              </p>
+              <Link
+                href="/tools/risk-reward-calculator"
                 className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
               >
                 Open calculator
