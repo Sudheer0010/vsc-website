@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
@@ -84,7 +85,7 @@ function HowCard({
 }: {
   step: string;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <article className="rounded-vsc-lg border border-rule bg-surface p-5 shadow-lift-1">
