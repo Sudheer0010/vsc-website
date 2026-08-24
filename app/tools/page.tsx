@@ -83,6 +83,46 @@ export default function ToolsPage() {
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
               </Link>
             </article>
+
+            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
+              <div className="mb-5 flex items-start justify-between gap-6">
+                <div>
+                  <p className="mb-2 text-[13px] font-semibold text-growth">Capital preservation</p>
+                  <h2 className="text-step-2">Drawdown &amp; Recovery Calculator</h2>
+                </div>
+                <StepRule className="mt-1 shrink-0" active />
+              </div>
+              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
+                Measure the percentage decline from a prior peak to a current account value, and the gain required on the remaining capital to recover.
+              </p>
+              <Link
+                href="/tools/drawdown-recovery-calculator"
+                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
+              >
+                Open calculator
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            </article>
+
+            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
+              <div className="mb-5 flex items-start justify-between gap-6">
+                <div>
+                  <p className="mb-2 text-[13px] font-semibold text-growth">System evaluation</p>
+                  <h2 className="text-step-2">Trading Expectancy Calculator</h2>
+                </div>
+                <StepRule className="mt-1 shrink-0" active />
+              </div>
+              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
+                Combine win rate with average winner and average loser, in units of initial risk, to calculate the mathematical expectancy of a trading process.
+              </p>
+              <Link
+                href="/tools/trading-expectancy-calculator"
+                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
+              >
+                Open calculator
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            </article>
           </section>
         </div>
       </main>
