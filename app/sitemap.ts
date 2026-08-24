@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/offerings/inner-circle`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/offerings/learning-hub`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/research`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE_URL}/tools`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/tools/position-size-calculator`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/start`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/letters`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/notes`, changeFrequency: "monthly", priority: 0.7 },

@@ -120,10 +120,17 @@ export default function ResearchHub() {
             linkLabel="Browse notes"
           />
 
-          {/* TIMELESS — what we believe: Frameworks, Reading */}
+          {/* TIMELESS — what we believe: Frameworks, Tools, Reading */}
           <GroupLabel>Timeless — what we believe</GroupLabel>
 
           <FrameworkLibrarySection frameworks={frameworkLibrary} />
+
+          <SectionIntro
+            title="Risk Tools"
+            description="Interactive tools built around VSC frameworks — for decisions that should be calculated, not guessed."
+            href="/tools"
+            linkLabel="Open tools"
+          />
 
           <SectionIntro
             title="Reading Desk"
