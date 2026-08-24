@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/tools/risk-reward-calculator`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/tools/drawdown-recovery-calculator`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/tools/trading-expectancy-calculator`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/tools/portfolio-risk-calculator`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/start`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/letters`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/notes`, changeFrequency: "monthly", priority: 0.7 },

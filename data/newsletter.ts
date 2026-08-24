@@ -2,8 +2,8 @@ import { NewsletterConfig } from "@/types/newsletter";
 
 export const newsletterConfig: NewsletterConfig = {
   label: "NEWSLETTER",
-  title: "Receive each new Market Letter and major research publication.",
-  description: "No spam. No noise. Just thoughtful research.",
+  title: "Never miss the next Market Letter.",
+  description: "Major research and new publications, occasionally.",
   formName: "newsletter",
   action: "/thank-you",
   buttonText: "Subscribe →"

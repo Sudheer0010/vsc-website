@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { MarketLetter } from "@/types/market-letter";
 import { letterHref } from "@/lib/letter-urls";
 
@@ -29,14 +30,20 @@ export function RecentLetters({ monthKeys, marketLetters }: RecentLettersProps) 
             <Link
               key={monthKey}
               href={letterHref(monthKey)}
-              className="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-3"
+              className="group flex items-center justify-between gap-4 py-4"
             >
-              <span className="shrink-0 font-mono text-xs text-ink-faint">
-                Letter {String(letter.letterNumber).padStart(3, "0")} · {monthName} {letter.year}
+              <span className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
+                <span className="shrink-0 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
+                  Letter {String(letter.letterNumber).padStart(3, "0")} · {monthName} {letter.year}
+                </span>
+                <span className="text-[16px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep">
+                  {letter.thesis}
+                </span>
               </span>
-              <span className="text-[15px] leading-snug text-ink-soft transition-colors duration-200 group-hover:text-ink">
-                {letter.thesis}
-              </span>
+              <ArrowRight
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 text-ink-faint opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-growth group-hover:opacity-100"
+              />
             </Link>
           );
         })}

@@ -28,7 +28,7 @@ export function BlogHero({
   ];
 
   return (
-    <section className="relative w-full min-h-[80vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 -mt-32 sm:-mt-40 mb-16 overflow-hidden select-none border-b border-rule z-10">
+    <section className="relative w-full min-h-[70vh] flex items-center pt-24 pb-14 md:pt-32 md:pb-20 -mt-32 sm:-mt-40 mb-10 overflow-hidden select-none border-b border-rule z-10">
       {/* Paper grain, not a photo — vsc_blog_library_hero.jpg was a stock
           bookshelf shot that didn't say anything the headline and quote
           weren't already saying, and it competed with the stats for

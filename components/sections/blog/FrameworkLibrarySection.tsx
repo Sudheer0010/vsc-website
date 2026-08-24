@@ -49,18 +49,19 @@ export function FrameworkLibrarySection({ frameworks }: FrameworkLibrarySectionP
             >
               <span className="shrink-0 self-start font-mono text-sm text-vsc-dark-accent">
                 {String(i + 1).padStart(2, "0")}
+                <span className="text-vsc-dark-ink-muted"> / {String(frameworks.length).padStart(2, "0")}</span>
               </span>
               <div className="flex-1">
                 <div className="font-display text-lg font-medium text-vsc-dark-ink transition-colors duration-200 group-hover:text-white sm:text-xl">
                   {fw.title}
                 </div>
-                <p className="mt-1 text-[15px] leading-snug text-vsc-dark-ink-muted">
+                <p className="mt-1 text-[15px] leading-snug text-vsc-dark-ink-muted transition-colors duration-200 group-hover:text-vsc-dark-ink/75">
                   {fw.question}
                 </p>
               </div>
               <span
                 aria-hidden="true"
-                className="shrink-0 font-mono text-sm text-vsc-dark-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                className="shrink-0 font-mono text-sm text-vsc-dark-accent opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100"
               >
                 &rarr;
               </span>

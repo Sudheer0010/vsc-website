@@ -18,6 +18,44 @@ export const metadata: Metadata = {
   },
 };
 
+const TOOLS = [
+  {
+    category: "Pre-trade",
+    title: "Position Size Calculator",
+    description: "Size a position from account risk, entry and stop-loss.",
+    href: "/tools/position-size-calculator",
+    span: false,
+  },
+  {
+    category: "Pre-trade",
+    title: "Risk–Reward Ratio Calculator",
+    description: "Compare planned reward against the risk taken.",
+    href: "/tools/risk-reward-calculator",
+    span: false,
+  },
+  {
+    category: "Portfolio risk",
+    title: "Portfolio Risk Calculator",
+    description: "See total stop-loss risk across your open positions.",
+    href: "/tools/portfolio-risk-calculator",
+    span: false,
+  },
+  {
+    category: "Account risk",
+    title: "Drawdown & Recovery Calculator",
+    description: "Measure a loss and the return required to recover it.",
+    href: "/tools/drawdown-recovery-calculator",
+    span: false,
+  },
+  {
+    category: "System review",
+    title: "Trading Expectancy Calculator",
+    description: "Estimate whether your trading process has positive mathematical expectancy.",
+    href: "/tools/trading-expectancy-calculator",
+    span: true,
+  },
+] as const;
+
 export default function ToolsPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
@@ -43,86 +81,29 @@ export default function ToolsPage() {
             </p>
           </header>
 
-          <section className="mt-12 border-t border-rule pt-10">
-            <article className="group max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
-              <div className="mb-5 flex items-start justify-between gap-6">
-                <div>
-                  <p className="mb-2 text-[13px] font-semibold text-growth">Risk management</p>
-                  <h2 className="text-step-2">Position Size Calculator</h2>
-                </div>
-                <StepRule className="mt-1 shrink-0" active />
-              </div>
-              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
-                Convert account size, planned entry, stop-loss and maximum account risk into a risk-based share quantity — then check whether the position can be funded with available cash.
-              </p>
+          <section className="mt-12 grid gap-4 border-t border-rule pt-10 sm:grid-cols-2">
+            {TOOLS.map((tool) => (
               <Link
-                href="/tools/position-size-calculator"
-                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
+                key={tool.href}
+                href={tool.href}
+                className={`group flex flex-col rounded-vsc-xl border border-rule bg-surface p-4 shadow-lift-1 transition-[border-color,box-shadow] duration-200 hover:border-growth/40 hover:shadow-lift-2 sm:p-5 ${
+                  tool.span ? "sm:col-span-2" : ""
+                }`}
               >
-                Open calculator
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-              </Link>
-            </article>
-
-            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
-              <div className="mb-5 flex items-start justify-between gap-6">
-                <div>
-                  <p className="mb-2 text-[13px] font-semibold text-growth">Trade planning</p>
-                  <h2 className="text-step-2">Risk–Reward Ratio Calculator</h2>
+                <div className="mb-3 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="mb-1.5 text-[12px] font-semibold text-growth">{tool.category}</p>
+                    <h2 className="text-step-1 transition-colors duration-200 group-hover:text-growth-deep">{tool.title}</h2>
+                  </div>
+                  <StepRule className="mt-1 shrink-0" active />
                 </div>
-                <StepRule className="mt-1 shrink-0" active />
-              </div>
-              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
-                Compare planned reward against planned risk from your entry, stop-loss and target — with risk per share, reward per share and breakeven win rate.
-              </p>
-              <Link
-                href="/tools/risk-reward-calculator"
-                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
-              >
-                Open calculator
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                <p className="max-w-[58ch] text-[14px] leading-relaxed text-ink-muted">{tool.description}</p>
+                <span className="mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-growth">
+                  Open calculator
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
               </Link>
-            </article>
-
-            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
-              <div className="mb-5 flex items-start justify-between gap-6">
-                <div>
-                  <p className="mb-2 text-[13px] font-semibold text-growth">Capital preservation</p>
-                  <h2 className="text-step-2">Drawdown &amp; Recovery Calculator</h2>
-                </div>
-                <StepRule className="mt-1 shrink-0" active />
-              </div>
-              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
-                Measure the percentage decline from a prior peak to a current account value, and the gain required on the remaining capital to recover.
-              </p>
-              <Link
-                href="/tools/drawdown-recovery-calculator"
-                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
-              >
-                Open calculator
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-              </Link>
-            </article>
-
-            <article className="group mt-6 max-w-[760px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lift-3 sm:p-8">
-              <div className="mb-5 flex items-start justify-between gap-6">
-                <div>
-                  <p className="mb-2 text-[13px] font-semibold text-growth">System evaluation</p>
-                  <h2 className="text-step-2">Trading Expectancy Calculator</h2>
-                </div>
-                <StepRule className="mt-1 shrink-0" active />
-              </div>
-              <p className="max-w-[58ch] text-[15px] leading-relaxed text-ink-muted sm:text-[16px]">
-                Combine win rate with average winner and average loser, in units of initial risk, to calculate the mathematical expectancy of a trading process.
-              </p>
-              <Link
-                href="/tools/trading-expectancy-calculator"
-                className="mt-6 inline-flex min-h-11 items-center gap-2 text-[14px] font-semibold text-growth hover:text-growth-deep"
-              >
-                Open calculator
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-              </Link>
-            </article>
+            ))}
           </section>
         </div>
       </main>

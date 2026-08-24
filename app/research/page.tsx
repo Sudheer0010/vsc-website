@@ -9,8 +9,46 @@ import { frameworkLibrary, books, annualLetters, talks, newsletterConfig, resear
 import { BlogHero } from "@/components/sections/blog/BlogHero";
 import { FeaturedPublication } from "@/components/sections/blog/FeaturedPublication";
 import { RecentLetters } from "@/components/sections/blog/RecentLetters";
+import { LatestInsight } from "@/components/sections/blog/LatestInsight";
 import { FrameworkLibrarySection } from "@/components/sections/blog/FrameworkLibrarySection";
+import { UtilityStrip } from "@/components/sections/blog/UtilityStrip";
 import { NewsletterCTA } from "@/components/sections/blog/NewsletterCTA";
+
+const JUMP_LINKS = [
+  { href: "#letters", label: "Letters" },
+  { href: "#trading-insights", label: "Trading Insights" },
+  { href: "#framework-library", label: "Frameworks" },
+  { href: "#tools", label: "Tools" },
+  { href: "#reading-desk", label: "Reading Desk" },
+];
+
+/**
+ * A wayfinding strip, not a tab bar — plain text separated by middle dots,
+ * relying on the page's own anchor ids and the site-wide smooth scroll
+ * (html { scroll-behavior: smooth }, see app/globals.css) to move the
+ * reader without any client-side JS.
+ */
+function SectionJumpNav() {
+  return (
+    <nav
+      aria-label="Jump to section"
+      className="mb-16 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-y border-rule py-4 font-mono text-[13px]"
+    >
+      {JUMP_LINKS.map((item, i) => (
+        <React.Fragment key={item.href}>
+          {i > 0 && (
+            <span aria-hidden="true" className="text-ink-faint">
+              &middot;
+            </span>
+          )}
+          <a href={item.href} className="text-ink-muted transition-colors duration-200 hover:text-growth">
+            {item.label}
+          </a>
+        </React.Fragment>
+      ))}
+    </nav>
+  );
+}
 
 /**
  * TIME-BOUND / TIMELESS (Architecture doc §1) — a label, not a navigation
@@ -28,40 +66,13 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-/**
- * "A hub that introduces and links to all four" (§11) — one paragraph and
- * a link, not a duplicated grid. The full, filterable list lives at its
- * own URL; repeating the cards here would just be the same content twice.
- */
-function SectionIntro({
-  title,
-  description,
-  href,
-  linkLabel,
-}: {
-  title: string;
-  description: string;
-  href: string;
-  linkLabel: string;
-}) {
-  return (
-    <div className="border-t border-rule py-12 first:border-t-0">
-      <h2 className="mb-3 font-display text-2xl font-normal text-ink sm:text-3xl">{title}</h2>
-      <p className="mb-5 max-w-[58ch] text-[16px] leading-relaxed text-ink-soft">{description}</p>
-      <Link href={href} className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
-        {linkLabel}
-        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-      </Link>
-    </div>
-  );
-}
-
 export default function ResearchHub() {
   const notesCount = researchNotes.length;
   const totalLetters = sortedMonths.length;
   const frameworksCount = frameworkLibrary.length;
   const readingCount = books.length + annualLetters.length + talks.length;
   const featuredLetter = marketLetters[sortedMonths[0]];
+  const latestNote = researchNotes[researchNotes.length - 1];
 
   return (
     <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
@@ -89,57 +100,44 @@ export default function ResearchHub() {
             </Link>
           </div>
 
-          {/* TIME-BOUND — what we observed: Market Letters, Notes */}
+          <SectionJumpNav />
+
+          {/* TIME-BOUND — what we observed: Market Letters, Trading Insights */}
           <GroupLabel>Time-bound — what we observed</GroupLabel>
 
-          {featuredLetter && (
-            <FeaturedPublication
-              featuredLetter={featuredLetter}
-              latestMonthKey={sortedMonths[0]}
+          <div id="letters" className="scroll-mt-24">
+            {featuredLetter && (
+              <FeaturedPublication
+                featuredLetter={featuredLetter}
+                latestMonthKey={sortedMonths[0]}
+              />
+            )}
+
+            <RecentLetters
+              monthKeys={sortedMonths.slice(1, 5)}
+              marketLetters={marketLetters}
             />
-          )}
 
-          <RecentLetters
-            monthKeys={sortedMonths.slice(1, 5)}
-            marketLetters={marketLetters}
-          />
-
-          <div className="pb-4 pt-2 text-right">
-            <Link
-              href="/letters"
-              className="font-mono text-xs font-semibold text-accent-gold transition-colors duration-200 hover:text-accent-gold-light"
-            >
-              View the full letter archive &rarr;
-            </Link>
+            <div className="pb-4 pt-2 text-right">
+              <Link
+                href="/letters"
+                className="font-mono text-xs font-semibold text-accent-gold transition-colors duration-200 hover:text-accent-gold-light"
+              >
+                View the full letter archive &rarr;
+              </Link>
+            </div>
           </div>
 
-          <SectionIntro
-            title="Trading Insights"
-            description="Trading ideas you can actually use — one market behaviour at a time, with evidence and limits."
-            href="/research/notes"
-            linkLabel="Browse notes"
-          />
+          {latestNote && <LatestInsight note={latestNote} />}
 
           {/* TIMELESS — what we believe: Frameworks, Tools, Reading */}
           <GroupLabel>Timeless — what we believe</GroupLabel>
 
           <FrameworkLibrarySection frameworks={frameworkLibrary} />
 
-          <SectionIntro
-            title="Risk Tools"
-            description="Interactive tools built around VSC frameworks — for decisions that should be calculated, not guessed."
-            href="/tools"
-            linkLabel="Open tools"
-          />
+          <UtilityStrip readingCount={readingCount} />
 
-          <SectionIntro
-            title="Reading Desk"
-            description="Books, annual letters, and talks that shaped the framework — hand-picked, not generated."
-            href="/reading"
-            linkLabel="Open the reading desk"
-          />
-
-          <div className="pt-8">
+          <div className="pt-6">
             <NewsletterCTA newsletterConfig={newsletterConfig} />
           </div>
 
