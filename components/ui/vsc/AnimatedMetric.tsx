@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { motion, animate, useReducedMotion } from "framer-motion";
 
 /**
@@ -12,6 +12,12 @@ import { motion, animate, useReducedMotion } from "framer-motion";
  */
 const NUMERIC = /^([+-]?)(\d+(?:\.\d+)?)(.*)$/;
 
+const noopSubscribe = () => () => {};
+// True only once the client has taken over from the server-rendered HTML.
+function useHasMounted() {
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
+
 export function AnimatedMetric({ value, className }: { value: string; className?: string }) {
   const match = value.match(NUMERIC);
   // useReducedMotion() reads matchMedia synchronously during render, so on
@@ -19,12 +25,8 @@ export function AnimatedMetric({ value, className }: { value: string; className?
   // the server's value. Ignore it until after mount so that first render
   // is always identical server vs. client, then respect it from then on.
   const reduce = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHasMounted();
   const [display, setDisplay] = useState(!match ? value : `${match[1]}0${match[3]}`);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!match || (mounted && reduce)) {
     return <div className={className}>{value}</div>;

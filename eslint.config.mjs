@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Checked-in agent/tool bundles — vendored scripts, not application code.
+    ".agents/**",
+    ".claude/**",
   ]),
 ]);
 

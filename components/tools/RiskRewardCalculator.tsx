@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo, useState } from "react";
@@ -98,7 +99,6 @@ export function RiskRewardCalculator() {
       plannedRisk: hasQty ? risk * (Q as number) : null,
       potentialReward: hasQty ? reward * (Q as number) : null,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [E, S, T, Q, stopInvalid, targetInvalid, qtyInvalid]);
 
   const loadExample = () => {
