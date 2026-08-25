@@ -1,7 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { computeTradingExpectancy, type TradingExpectancyResult } from "@/lib/calculators/trading-expectancy";
+
+// Lets a click anywhere in the input's padded box focus the field, since
+// the visible box is taller than the native input element it wraps.
+function focusFirstInput(event: MouseEvent<HTMLDivElement>) {
+  event.currentTarget.querySelector("input")?.focus();
+}
 
 const DEFAULTS = {
   winRate: "40",
@@ -99,7 +105,7 @@ export function TradingExpectancyCalculator() {
               <label htmlFor="te-win-rate" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Win rate
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="te-win-rate"
                   className={inputClass}
@@ -122,7 +128,7 @@ export function TradingExpectancyCalculator() {
               <label htmlFor="te-avg-win" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Average winning trade
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="te-avg-win"
                   className={inputClass}
@@ -144,7 +150,7 @@ export function TradingExpectancyCalculator() {
               <label htmlFor="te-avg-loss" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Average losing trade
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="te-avg-loss"
                   className={inputClass}
@@ -166,7 +172,7 @@ export function TradingExpectancyCalculator() {
               <label htmlFor="te-trades" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Trades in sample
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="te-trades"
                   className={inputClass}

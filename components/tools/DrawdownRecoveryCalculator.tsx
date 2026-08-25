@@ -1,7 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { computeDrawdownRecovery, type DrawdownRecoveryResult } from "@/lib/calculators/drawdown-recovery";
+
+// Lets a click anywhere in the input's padded box focus the field, since
+// the visible box is taller than the native input element it wraps.
+function focusFirstInput(event: MouseEvent<HTMLDivElement>) {
+  event.currentTarget.querySelector("input")?.focus();
+}
 
 const DEFAULTS = {
   peak: "1000000",
@@ -76,7 +82,7 @@ export function DrawdownRecoveryCalculator() {
               <label htmlFor="peak" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Peak account value
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="peak"
@@ -104,7 +110,7 @@ export function DrawdownRecoveryCalculator() {
               <label htmlFor="current" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Current account value
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="current"

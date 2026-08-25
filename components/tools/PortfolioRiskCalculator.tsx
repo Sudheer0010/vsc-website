@@ -1,7 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { computePortfolioAggregate, type PositionRow } from "@/lib/calculators/portfolio-risk";
+
+// Lets a click anywhere in the input's padded box focus the field, since
+// the visible box is taller than the native input element it wraps.
+function focusFirstInput(event: MouseEvent<HTMLDivElement>) {
+  event.currentTarget.querySelector("input")?.focus();
+}
 
 const MAX_ROWS = 8;
 
@@ -129,7 +135,7 @@ export function PortfolioRiskCalculator() {
               <label htmlFor="pr-account" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Trading account size
               </label>
-              <div className={fieldWrapClass}>
+              <div className={fieldWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="pr-account"
@@ -157,7 +163,7 @@ export function PortfolioRiskCalculator() {
               <label htmlFor="pr-limit" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Maximum total account risk — optional
               </label>
-              <div className={fieldWrapClass}>
+              <div className={fieldWrapClass} onClick={focusFirstInput}>
                 <input
                   id="pr-limit"
                   className={fieldInputClass}
@@ -284,7 +290,7 @@ export function PortfolioRiskCalculator() {
                   <label htmlFor={`pr-name-${index}`} className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.05em] text-ink-faint">
                     Position
                   </label>
-                  <div className={miniWrapClass}>
+                  <div className={miniWrapClass} onClick={focusFirstInput}>
                     <input
                       id={`pr-name-${index}`}
                       className={miniInputClass}
@@ -300,7 +306,7 @@ export function PortfolioRiskCalculator() {
                   <label htmlFor={`pr-group-${index}`} className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.05em] text-ink-faint">
                     Sector / theme
                   </label>
-                  <div className={miniWrapClass}>
+                  <div className={miniWrapClass} onClick={focusFirstInput}>
                     <input
                       id={`pr-group-${index}`}
                       className={miniInputClass}
@@ -316,7 +322,7 @@ export function PortfolioRiskCalculator() {
                   <label htmlFor={`pr-entry-${index}`} className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.05em] text-ink-faint">
                     Entry
                   </label>
-                  <div className={miniWrapClass}>
+                  <div className={miniWrapClass} onClick={focusFirstInput}>
                     <span className="shrink-0 text-[12px] text-ink-faint">₹</span>
                     <input
                       id={`pr-entry-${index}`}
@@ -335,7 +341,7 @@ export function PortfolioRiskCalculator() {
                   <label htmlFor={`pr-stop-${index}`} className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.05em] text-ink-faint">
                     Stop
                   </label>
-                  <div className={miniWrapClass}>
+                  <div className={miniWrapClass} onClick={focusFirstInput}>
                     <span className="shrink-0 text-[12px] text-ink-faint">₹</span>
                     <input
                       id={`pr-stop-${index}`}
@@ -354,7 +360,7 @@ export function PortfolioRiskCalculator() {
                   <label htmlFor={`pr-shares-${index}`} className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.05em] text-ink-faint">
                     Shares
                   </label>
-                  <div className={miniWrapClass}>
+                  <div className={miniWrapClass} onClick={focusFirstInput}>
                     <input
                       id={`pr-shares-${index}`}
                       className={miniInputClass}

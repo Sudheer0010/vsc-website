@@ -1,8 +1,14 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { computeRiskReward, validateRiskReward, type RiskRewardResult } from "@/lib/calculators/risk-reward";
+
+// Lets a click anywhere in the input's padded box focus the field, since
+// the visible box is taller than the native input element it wraps.
+function focusFirstInput(event: MouseEvent<HTMLDivElement>) {
+  event.currentTarget.querySelector("input")?.focus();
+}
 
 const DEFAULTS = {
   entry: "1000",
@@ -74,7 +80,7 @@ export function RiskRewardCalculator() {
               <label htmlFor="rr-entry" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Planned entry price
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="rr-entry"
@@ -93,7 +99,7 @@ export function RiskRewardCalculator() {
               <label htmlFor="rr-stop" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Planned stop-loss
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="rr-stop"
@@ -122,7 +128,7 @@ export function RiskRewardCalculator() {
               <label htmlFor="rr-target" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Planned target
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="rr-target"
@@ -151,7 +157,7 @@ export function RiskRewardCalculator() {
               <label htmlFor="rr-quantity" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Quantity <span className="font-normal text-ink-faint">— optional</span>
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="rr-quantity"
                   className={inputClass}

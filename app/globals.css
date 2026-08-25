@@ -671,12 +671,17 @@ button:focus-visible,
 }
 
 /* MOBILE DRAWER =========================================================== */
+/* Hit area is 44x44 (WCAG target size) via padding; the icon itself
+   stays 24x16 — the padding box exactly absorbs the added size, so the
+   bars' own layout and the .active X-transform below are unaffected. */
 .menu-toggle {
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 24px;
-    height: 16px;
+    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    padding: 14px 10px;
     background: transparent;
     border: none;
     cursor: pointer;

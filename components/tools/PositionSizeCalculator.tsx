@@ -1,7 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { computePositionSize, type PositionSizeResult } from "@/lib/calculators/position-size";
+
+// Lets a click anywhere in the input's padded box focus the field, since
+// the visible box is taller than the native input element it wraps.
+function focusFirstInput(event: MouseEvent<HTMLDivElement>) {
+  event.currentTarget.querySelector("input")?.focus();
+}
 
 const DEFAULTS = {
   capital: "500000",
@@ -87,7 +93,7 @@ export function PositionSizeCalculator() {
               <label htmlFor="capital" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Trading capital
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="capital"
@@ -109,7 +115,7 @@ export function PositionSizeCalculator() {
               <label htmlFor="riskPct" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Max account risk (%)
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <input
                   id="riskPct"
                   className={inputClass}
@@ -132,7 +138,7 @@ export function PositionSizeCalculator() {
               <label htmlFor="entry" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Planned entry price
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="entry"
@@ -151,7 +157,7 @@ export function PositionSizeCalculator() {
               <label htmlFor="stop" className="mb-1.5 block text-[14px] font-medium text-ink-muted">
                 Planned stop-loss
               </label>
-              <div className={inputWrapClass}>
+              <div className={inputWrapClass} onClick={focusFirstInput}>
                 <span className="shrink-0 text-[15px] font-medium text-ink-faint">₹</span>
                 <input
                   id="stop"

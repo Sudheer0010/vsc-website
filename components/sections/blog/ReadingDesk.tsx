@@ -78,14 +78,14 @@ export function ReadingDesk({
               <div className="flex gap-2">
                 <button
                   onClick={handlePrevBook}
-                  className="w-9 h-9 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                  className="w-11 h-11 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
                   aria-label="Previous books"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNextBook}
-                  className="w-9 h-9 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                  className="w-11 h-11 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
                   aria-label="Next books"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -179,14 +179,14 @@ export function ReadingDesk({
               <div className="flex gap-2">
                 <button
                   onClick={handlePrevTalk}
-                  className="w-9 h-9 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                  className="w-11 h-11 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
                   aria-label="Previous talks"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNextTalk}
-                  className="w-9 h-9 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
+                  className="w-11 h-11 rounded-full border border-rule bg-[#FFFFFF] flex items-center justify-center text-ink-soft hover:text-accent-gold hover:border-accent-gold/40 transition-colors"
                   aria-label="Next talks"
                 >
                   <ChevronRight className="w-4 h-4" />

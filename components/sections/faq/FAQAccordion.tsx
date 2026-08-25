@@ -136,7 +136,7 @@ export function FAQAccordion() {
 
             <button
               onClick={() => setSearchQuery("")}
-              className="w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors"
+              className="relative w-6 h-6 rounded-full bg-canvas-sunk hover:bg-canvas-sunk text-ink-muted hover:text-ink flex items-center justify-center transition-colors before:absolute before:-inset-[10px] before:content-['']"
               title="Clear search"
               aria-label="Clear search"
             >
@@ -300,7 +300,7 @@ export function FAQAccordion() {
                       <button
                         key={cat.id}
                         onClick={() => setActiveCategory(cat.id)}
-                        className={`inline-flex items-center gap-2 py-2.5 px-4 rounded-full font-mono text-xs transition-colors duration-200 ${
+                        className={`inline-flex items-center gap-2 py-3.5 px-4 rounded-full font-mono text-xs transition-colors duration-200 ${
                           isActive
                             ? "bg-accent-gold text-white font-semibold"
                             : "bg-surface text-ink-muted hover:text-ink border border-rule"
