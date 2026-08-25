@@ -1,26 +1,53 @@
 #!/usr/bin/env node
 /**
- * VSC site check — turns the audit's acceptance criteria into a repeatable test.
+ * VSC UI audit — rendered-browser checks that typecheck/ESLint/Vitest/next build
+ * cannot perform: computed contrast, computed font size, real hit-area geometry,
+ * horizontal overflow, and basic per-page hygiene.
  *
- *   npm i -D playwright && npx playwright install chromium
- *   npm run build && npm run start &        # or: npm run dev
- *   node scripts/audit.mjs                  # defaults to http://localhost:3000
+ *   npx playwright install chromium   # one-time
+ *   npm run build && npm run start &  # or: npm run dev
+ *   npm run audit:ui                  # defaults to http://localhost:3000
  *   node scripts/audit.mjs http://localhost:3100
  *
  * Exits non-zero if any check fails, so it works as a CI gate or a Claude Code
- * verification step. Thresholds match docs/ACTIONS.md.
+ * verification step. Not part of `npm run check` — it needs a running server
+ * and a browser binary, which is a different operational shape than the fast
+ * static gate.
  */
 
 import { chromium } from 'playwright';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
 
 const BASE = process.argv[2] || 'http://localhost:3000';
 
+// A small, explicit, representative set — not auto-discovered. One instance
+// per dynamic template, every static page, every calculator.
 const ROUTES = [
-  '/', '/about', '/offerings', '/offerings/learning-hub',
-  '/offerings/advantage', '/offerings/inner-circle',
-  '/blog', '/faq', '/enquire',
+  '/',
+  '/about',
+  '/offerings',
+  '/offerings/learning-hub',
+  '/offerings/advantage',
+  '/offerings/inner-circle',
+  '/faq',
+  '/enquire',
+  '/privacy',
+  '/start',
+  '/thank-you',
+  '/letter',
+  '/letters',
+  '/letters/2026/07',
+  '/research',
+  '/research/notes',
+  '/research/notes/three-day-rule',
+  '/reading',
+  '/frameworks/market-environment',
+  '/frameworks/market-environment/1',
+  '/tools',
+  '/tools/position-size-calculator',
+  '/tools/risk-reward-calculator',
+  '/tools/drawdown-recovery-calculator',
+  '/tools/trading-expectancy-calculator',
+  '/tools/portfolio-risk-calculator',
 ];
 
 const VIEWPORTS = [
@@ -28,11 +55,11 @@ const VIEWPORTS = [
   { width: 390, height: 844, name: 'mobile' },
 ];
 
-// Thresholds — edit these as standards tighten.
+// Thresholds — edit these as DESIGN_PRINCIPLES.md standards change.
 const MIN_CONTRAST_NORMAL = 4.5;   // WCAG AA
 const MIN_CONTRAST_LARGE = 3.0;    // >=24px, or >=18.66px bold
-const MIN_FONT_PX = 12;            // ACTIONS.md S2
-const MIN_TAP_PX = 24;             // WCAG 2.2 AA, ACTIONS.md S4
+const MIN_FONT_PX = 12;
+const MIN_TAP_PX = 44;             // DESIGN_PRINCIPLES.md §7: 44–48px minimum
 
 const failures = [];
 const warnings = [];
@@ -40,67 +67,7 @@ const fail = (rule, detail) => failures.push({ rule, detail });
 const warn = (rule, detail) => warnings.push({ rule, detail });
 
 /* ------------------------------------------------------------------ *
- * 1. Static source checks — no browser needed
- * ------------------------------------------------------------------ */
-
-function walk(dir, out = []) {
-  for (const entry of readdirSync(dir)) {
-    if (['node_modules', '.next', '.git', 'scripts'].includes(entry)) continue;
-    const p = join(dir, entry);
-    if (statSync(p).isDirectory()) walk(p, out);
-    else if (['.ts', '.tsx', '.js', '.jsx'].includes(extname(p))) out.push(p);
-  }
-  return out;
-}
-
-function staticChecks() {
-  let files;
-  try {
-    files = walk(process.cwd());
-  } catch {
-    warn('static', 'could not walk source tree; run from the repo root');
-    return;
-  }
-
-  // M1 — no published return figures
-  const returnHits = [];
-  // M7 — no hardcoded read-times
-  const readTimeHits = [];
-
-  for (const f of files) {
-    const src = readFileSync(f, 'utf8');
-    src.split('\n').forEach((line, i) => {
-      if (/Monthly Return/.test(line)) returnHits.push(`${f}:${i + 1}`);
-      if (/["'`]\s*\d+\s*(MIN READ|min read|minute read)/i.test(line)) {
-        readTimeHits.push(`${f}:${i + 1}  ${line.trim().slice(0, 70)}`);
-      }
-    });
-  }
-
-  if (returnHits.length) fail('M1 published returns', returnHits.join('\n    '));
-  if (readTimeHits.length) fail('M7 hardcoded read-time', readTimeHits.join('\n    '));
-
-  // M5 — a letter route must exist
-  const hasSlugRoute = files.some((f) => /app[\\/]blog[\\/]\[.*\][\\/]page\.tsx?$/.test(f));
-  if (!hasSlugRoute) fail('M5 letter routes', 'no app/blog/[slug]/page.tsx found');
-
-  // M9 — single contact address
-  const emails = new Set();
-  for (const f of files) {
-    for (const m of readFileSync(f, 'utf8').matchAll(/[\w.+-]+@vsccapital\.in/g)) emails.add(m[0]);
-  }
-  if (emails.size > 1) fail('M9 contact addresses', [...emails].join(', '));
-
-  // M3 — legal routes
-  for (const route of ['privacy', 'terms', 'disclaimer']) {
-    if (!files.some((f) => f.includes(join('app', route)))) {
-      fail('M3 legal pages', `app/${route}/page.tsx missing`);
-    }
-  }
-}
-
-/* ------------------------------------------------------------------ *
- * 2. Rendered checks — contrast, type size, tap targets, overflow
+ * Rendered checks — contrast, type size, tap targets, overflow
  * ------------------------------------------------------------------ */
 
 const PAGE_PROBE = `(() => {
@@ -241,8 +208,7 @@ async function renderedChecks() {
  * run
  * ------------------------------------------------------------------ */
 
-console.log(`\nVSC site check — ${BASE}\n${'─'.repeat(60)}`);
-staticChecks();
+console.log(`\nVSC UI audit — ${BASE}\n${'─'.repeat(60)}`);
 await renderedChecks();
 
 if (warnings.length) {

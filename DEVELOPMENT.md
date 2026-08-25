@@ -38,3 +38,51 @@ The following files govern this workflow automation:
 - **`.vscode/tasks.json`**: Standardizes shell tasks (`Install Dependencies` and `Start Development Server`) running from the root directory.
 - **`.vscode/launch.json`**: Maps browser testing parameters for debugger launches.
 - **`.vscode/settings.json`**: Implements format-on-save, 1-second auto-save delays, ESLint fixes, import organizations, and Tailwind class sorting.
+
+---
+
+## UI Audit (`npm run audit:ui`)
+
+`scripts/audit.mjs` drives a real Chromium browser over a fixed, representative
+set of routes and checks things `npm run check` cannot, because they need a
+rendered page rather than source text:
+
+- text contrast (WCAG AA: 4.5:1 normal text, 3:1 large text)
+- minimum rendered text size (12px floor)
+- minimum mobile interactive hit area (44px, per [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md) §7)
+- horizontal overflow at desktop and mobile widths
+- one `<h1>` per page and a `lang` attribute on `<html>` (warnings only)
+- images missing `alt` text (warning only)
+
+It is **not** part of `npm run check` — it needs a running server and a
+Chromium binary, which is a different, slower shape than the static gate.
+
+**Prerequisites (one-time):**
+
+```powershell
+npx playwright install chromium
+```
+
+**Usage** — the app must already be running locally before you audit it:
+
+```powershell
+npm run build; npm run start
+```
+
+Then, in a second terminal:
+
+```powershell
+npm run audit:ui
+```
+
+To audit a different port or a dev-mode server:
+
+```powershell
+npm run dev
+```
+
+```powershell
+node scripts/audit.mjs http://localhost:3000
+```
+
+Exits non-zero on any failure, so it can also be used as a CI gate.
