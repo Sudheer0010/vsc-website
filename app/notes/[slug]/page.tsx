@@ -12,12 +12,14 @@ interface NotePageProps {
 }
 
 export function generateStaticParams() {
-  return articles.filter((a) => a.type === "RESEARCH NOTE").map((a) => ({ slug: a.slug }));
+  return articles
+    .filter((a) => a.type === "RESEARCH NOTE" && a.published !== false)
+    .map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE");
+  const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE" && a.published !== false);
   if (!note) return {};
 
   const title = `${note.title} | Trading Insights | VSC Capital & Advisory`;
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
 
 export default async function NotePage({ params }: NotePageProps) {
   const { slug } = await params;
-  const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE");
+  const note = articles.find((a) => a.slug === slug && a.type === "RESEARCH NOTE" && a.published !== false);
   if (!note) notFound();
 
   const related = (note.relatedSlugs ?? [])
