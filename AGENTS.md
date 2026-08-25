@@ -15,3 +15,14 @@ Whenever a Vengeance UI component is pasted or introduced, always adhere to the 
 6. **Isolation**: Do not modify unrelated files or sections of the project.
 7. **Build Success**: Verify that `npm run build` succeeds with zero TypeScript compile errors or ESLint warnings.
 
+# Documentation authority
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — technical architecture (stack, routes, data model, component layers)
+- [PRODUCT.md](PRODUCT.md) — product and business facts
+- [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md) — visual authority
+- [DEVELOPMENT.md](DEVELOPMENT.md) — dev workflow
+
+`docs/ACTIONS.md` is a task backlog, not an automatic source of current work. Do not treat it as a live queue unless the user points you to it. Take task intent from the user's explicit request in the conversation.
+
+Run `npm run check` (typecheck + lint + test + build) before reporting any code change as complete.
+

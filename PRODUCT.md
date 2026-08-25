@@ -90,6 +90,12 @@ architecture applied in real time.
   and no generic premium-finance styling.
 - `docs/BRAND_GUIDELINES.md` is legacy documentation from the previous dark-navy /
   warm-gold system and must not be used as a current design source.
+- The `docs/` folder also holds earlier design-planning documents — the VSC
+  Atlas files, the Renaissance specification, and other creative-direction
+  specs — from before the current "Daylight Growth" system. Some of these
+  self-describe as "frozen" or "non-negotiable." They are superseded by
+  `DESIGN_PRINCIPLES.md` and must not be treated as current authority,
+  regardless of that language.
 - Copy tone remains calm, direct, and measured; never salesy — no "Buy Now,"
   "Act Fast," "Unlock Returns," "Limited Spots," or equivalents.
 

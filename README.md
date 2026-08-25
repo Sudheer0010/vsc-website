@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VSC Capital & Advisory — Website
 
-## Getting Started
+Public research site for VSC Capital & Advisory: five published trading frameworks, a monthly Market Letter archive, and Research Notes. See [PRODUCT.md](PRODUCT.md) for the full product and business context.
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, and Tailwind CSS.
+
+## Local setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+On Windows, double-clicking `start-dev.bat` does the same (installs dependencies if needed, starts the dev server, opens the browser). See [DEVELOPMENT.md](DEVELOPMENT.md) for VS Code tasks and launch configurations.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Where to look
 
-## Learn More
+- [ARCHITECTURE.md](ARCHITECTURE.md) — technical map: stack, routes, data model, component layers
+- [DEVELOPMENT.md](DEVELOPMENT.md) — local dev workflow
+- [AGENTS.md](AGENTS.md) — rules for AI coding agents working in this repo (also loaded via [CLAUDE.md](CLAUDE.md))
+- [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md) — visual system authority
+- [PRODUCT.md](PRODUCT.md) — product and business facts
 
-To learn more about Next.js, take a look at the following resources:
+## Verification commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run typecheck    # tsc --noEmit
+npm run lint          # eslint
+npm run test          # vitest run
+npm run build         # next build
+npm run check         # all four, in order — required before calling any change done
+```

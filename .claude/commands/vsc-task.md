@@ -39,7 +39,7 @@ Run all three and report the actual output, not a summary:
 
 ```bash
 npm run build          # must be zero TypeScript and ESLint errors
-npm run check          # scripts/audit.mjs — report which checks changed
+npm run check          # typecheck + lint + test + build — report the actual result
 git diff --stat
 ```
 

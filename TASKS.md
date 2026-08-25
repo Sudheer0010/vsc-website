@@ -1,5 +1,12 @@
 # Website Changes — Implementation Spec
 
+> **Status: historical.** Tasks 1–7 below were the original Codex implementation
+> spec for the email capture flow, `/letter`, `/start`, and related content
+> modules. The corresponding routes and components now exist in the codebase —
+> treat this section as a record of what was built and why, not a live queue.
+> The **Future Trading Insight Ideas** section at the end is still an active,
+> unfinished backlog.
+
 Hand this to Codex as a single task document. Each section is one unit of work.
 Do them in order. Each should be testable before moving to the next.
 
@@ -323,7 +330,7 @@ when better pieces exist.
 
 ---
 
-## Future Trading Insight Ideas
+## Future Trading Insight Ideas (active backlog)
 
 Unwritten topic ideas carried over from the retired legacy `/notes` system
 (`data/research.ts`) before its removal. No prose existed for any of these —
