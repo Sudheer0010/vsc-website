@@ -81,6 +81,20 @@ export default function Privacy() {
                 individually, and it&apos;s separate from anything you submit
                 through the enquiry form.
               </p>
+              <p>
+                We also use Microsoft Clarity, for the same purpose: understanding
+                how the site is used so we can improve it. Clarity may collect
+                pseudonymous usage and interaction data such as page views,
+                clicks, scrolls, device and browser information, and session
+                recordings or heatmaps of on-page behaviour. Text typed into
+                form fields is masked by default, and we do not intentionally
+                capture sensitive form or input content through it. Clarity may
+                use cookies or similar identifiers where permitted or
+                consented to, and Microsoft processes this data under its own
+                privacy terms. As with any analytics tool, exactly what is
+                collected and what consent is required can vary depending on
+                where you are accessing the site from.
+              </p>
             </Section>
 
             <Section title="How long we keep it">
