@@ -80,12 +80,12 @@ export default function Navbar() {
       <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""}`}>
         <div className="container nav-content">
           <Link href="/" className="logo" onClick={closeMenu}>
-            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-vsc-md border border-rule">
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-vsc-md border border-rule">
               <Image
                 src="/logo.jpg"
                 alt=""
                 fill
-                sizes="36px"
+                sizes="40px"
                 className="object-cover"
               />
             </div>

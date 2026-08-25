@@ -39,6 +39,13 @@ const originSteps: TimelineStep[] = [
   }
 ];
 
+const researchJourney = [
+  { year: "2018", label: "Markets" },
+  { year: "2022", label: "Framework" },
+  { year: "2024", label: "Process" },
+  { year: "2026", label: "VSC" },
+];
+
 const observationsData = [
   {
     code: "01",
@@ -142,6 +149,7 @@ export default function OurStory() {
           />
 
           <div className="container relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 my-auto">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-16">
             <div className="max-w-[950px] flex flex-col items-start text-left">
               <motion.span
                 className="font-mono text-xs md:text-sm tracking-[0.25em] text-accent-gold uppercase mb-6 font-bold"
@@ -190,6 +198,49 @@ export default function OurStory() {
               >
                 Publishing since {earliestLetter.month.charAt(0) + earliestLetter.month.slice(1).toLowerCase()} {earliestLetter.year} · Systematic · Capital preservation first
               </motion.p>
+
+              {/* Mobile research-journey — a single quiet line beneath the
+                  hero copy rather than the full vertical rail, so it never
+                  competes for the first screen. */}
+              <motion.div
+                className="mt-8 flex items-center gap-2 lg:hidden"
+                aria-hidden="true"
+                {...animProps}
+                transition={{ ...animProps.transition, delay: 0.18 }}
+              >
+                {researchJourney.map((step, idx) => (
+                  <React.Fragment key={step.year}>
+                    {idx > 0 && <span className="text-[11px] text-ink-faint">&rarr;</span>}
+                    <span className="font-mono text-[11px] tracking-[0.05em] text-growth tabular-nums">
+                      {step.year}
+                    </span>
+                  </React.Fragment>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Research journey — a quiet annotation rail, not a chart or a
+                card. Balances the composition against the headline's
+                left-heavy weight without competing with it. Desktop only;
+                the mobile equivalent sits inline above. */}
+            <motion.div
+              className="relative hidden shrink-0 pl-[27px] lg:mr-10 lg:flex lg:flex-col"
+              {...animProps}
+              transition={{ ...animProps.transition, delay: 0.2 }}
+            >
+              <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-rule" />
+              <div className="flex flex-col gap-8">
+                {researchJourney.map((step) => (
+                  <div key={step.year} className="relative flex items-baseline gap-3">
+                    <span aria-hidden="true" className="absolute -left-[27px] top-[6px] h-[7px] w-[7px] rounded-full bg-growth" />
+                    <span className="font-mono text-[13.5px] tracking-[0.04em] text-growth tabular-nums">
+                      {step.year}
+                    </span>
+                    <span className="text-[14.5px] text-ink-soft">{step.label}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
             </div>
           </div>
         </section>
@@ -202,7 +253,7 @@ export default function OurStory() {
             Grid/gap/breakpoint values are literal per spec, not mapped to
             the Tailwind scale.
            ========================================================================= */}
-        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule z-10">
+        <section className="relative w-full py-24 md:py-32 overflow-hidden border-t border-rule bg-surface z-10">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 items-start gap-[clamp(40px,6vw,72px)] max-[860px]:grid-cols-1 lg:grid-cols-[1fr_minmax(300px,34%)]">
 
@@ -252,10 +303,10 @@ export default function OurStory() {
         {/* =========================================================================
             3. WHERE IT ALL BEGAN (Dated Record)
            ========================================================================= */}
-        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule z-10">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule bg-canvas-sunk z-10">
           <div className="container max-w-[1200px]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-              
+
               <div className="lg:col-span-4 select-none">
                 <motion.h2
                   className="font-display text-4xl md:text-[44px] text-ink font-normal leading-[1.2]"
@@ -374,7 +425,7 @@ export default function OurStory() {
             v2 §8 and v2.1 §0.2 as the only element on the page outside the
             palette. Fixed to a flat var(--growth), no animation.
            ========================================================================= */}
-        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule select-none z-10 bg-gradient-to-b from-transparent via-[#0F7A40]/[0.02] to-transparent">
+        <section className="relative w-full py-[clamp(80px,10vw,160px)] overflow-hidden border-t border-rule select-none z-10 bg-growth-wash">
           <div className="container max-w-[1200px] text-center">
             <motion.div
               className="flex flex-col items-center justify-center text-center py-6"

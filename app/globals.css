@@ -614,7 +614,7 @@ button:focus-visible,
 .logo-wordmark {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 3px;
 }
 
 .logo-title {
@@ -623,7 +623,7 @@ button:focus-visible,
     letter-spacing: -0.02em;
     font-size: 16px;
     color: var(--ink);
-    line-height: 1.15;
+    line-height: 1.2;
 }
 
 .logo-tagline {
