@@ -38,7 +38,7 @@ function StepMeta({ number, minutes }: { number: string; minutes: number }) {
 
 function StepCTA({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="group mt-5 inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth">
+    <Link href={href} className="group mt-5 inline-flex min-h-[44px] items-center gap-2 font-mono text-sm font-semibold text-growth">
       {children}
       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
     </Link>
@@ -55,7 +55,7 @@ export default function StartHere() {
         <div className="container mx-auto max-w-[740px] px-4 sm:px-6">
           <Link
             href="/research"
-            className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research

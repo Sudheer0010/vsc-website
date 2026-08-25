@@ -51,11 +51,11 @@ export default function ThankYou() {
                 Continue Exploring
               </span>
               
-              <ul className="flex flex-col gap-4 font-mono text-sm">
+              <ul className="flex flex-col font-mono text-sm">
                 <li>
                   <Link 
                     href="/research"
-                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
+                    className="flex min-h-[44px] items-center text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Read the research
                   </Link>
@@ -63,7 +63,7 @@ export default function ThankYou() {
                 <li>
                   <Link 
                     href="/about" 
-                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
+                    className="flex min-h-[44px] items-center text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Learn More About VSC
                   </Link>
@@ -71,7 +71,7 @@ export default function ThankYou() {
                 <li>
                   <Link 
                     href="/faq" 
-                    className="text-ink-soft hover:text-accent-gold transition-colors duration-200"
+                    className="flex min-h-[44px] items-center text-ink-soft hover:text-accent-gold transition-colors duration-200"
                   >
                     → Frequently Asked Questions
                   </Link>

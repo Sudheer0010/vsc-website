@@ -21,7 +21,7 @@ export function Compliance() {
             personalised investment advice or a solicitation to buy or sell any
             security.
           </p>
-          <p className="text-[13.5px] font-semibold text-ink-faint">
+          <p className="text-[13.5px] font-semibold text-ink-muted">
             MSME registered · UDYAM-AP-17-0067701 · NIC 66190
           </p>
         </div>

@@ -110,14 +110,21 @@ const PAGE_PROBE = `(() => {
   document.querySelectorAll('a[href],button,summary,input,select,textarea,[role=button]').forEach((el) => {
     const r = el.getBoundingClientRect();
     if (r.width < 1 && r.height < 1) return;
+    // sr-only-until-focus (e.g. a skip link): Tailwind's sr-only clips the
+    // element to nothing off-screen; it only reaches full size on keyboard
+    // focus, so its resting geometry isn't a real mobile hit-target defect.
+    const cs = getComputedStyle(el);
+    if (cs.clip === 'rect(0px, 0px, 0px, 0px)' || cs.clipPath === 'inset(50%)') return;
     if (r.height < ${MIN_TAP_PX} || r.width < ${MIN_TAP_PX}) {
       taps.push({ label: (el.textContent || el.getAttribute('aria-label') || el.name || '').trim().slice(0,30),
                   w: Math.round(r.width), h: Math.round(r.height) });
     }
   });
 
+  // alt="" is a valid, deliberate "decorative image" marker (e.g. a logo
+  // beside visible brand text) — only a missing attribute is a real gap.
   const imgsNoAlt = [...document.querySelectorAll('img')]
-    .filter(i => { const a = i.getAttribute('alt'); return a === null || a.trim() === ''; })
+    .filter(i => i.getAttribute('alt') === null)
     .map(i => i.getAttribute('src') || '(inline)');
 
   return {

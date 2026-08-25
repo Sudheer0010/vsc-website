@@ -158,14 +158,14 @@ function VerdictBlock() {
       </div>
 
       <div className="mt-8 flex items-baseline justify-between border-t border-rule pt-5 font-mono text-[13px]">
-        <span className="text-ink-faint">Maximum exposure</span>
+        <span className="text-ink-muted">Maximum exposure</span>
         <span className="font-semibold text-ink">80–100%</span>
       </div>
 
       <div className="mt-5 flex flex-col gap-2.5">
         {checks.map((c) => (
           <div key={c.factor} className="flex items-center justify-between font-mono text-[13px]">
-            <span className="text-ink-faint">{c.factor}</span>
+            <span className="text-ink-muted">{c.factor}</span>
             <span className="flex items-center gap-2 font-semibold text-growth">
               {c.verdict}
               <Check className="h-3.5 w-3.5" strokeWidth={3} />
@@ -174,7 +174,7 @@ function VerdictBlock() {
         ))}
       </div>
 
-      <p className="mt-6 border-t border-rule pt-5 font-mono text-[13px] text-ink-faint">
+      <p className="mt-6 border-t border-rule pt-5 font-mono text-[13px] text-ink-muted">
         3 of 3 factors positive.
       </p>
     </div>
@@ -223,7 +223,7 @@ export function MarketEnvironmentFramework() {
         <div className="container mx-auto max-w-[1040px] px-4 sm:px-6">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research
@@ -664,13 +664,13 @@ export function MarketEnvironmentFramework() {
                 <table className="w-full min-w-[560px] border-collapse font-mono text-[13px]">
                   <thead>
                     <tr className="border-b border-rule bg-canvas-sunk">
-                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
                         Version
                       </th>
-                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
                         Date
                       </th>
-                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
                         Changes
                       </th>
                     </tr>

@@ -93,7 +93,7 @@ export default function ResearchHub() {
           <div className="mb-16">
             <Link
               href="/start"
-              className="group inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors duration-200 hover:text-growth"
+              className="group inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors duration-200 hover:text-growth"
             >
               New to VSC? Start here
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

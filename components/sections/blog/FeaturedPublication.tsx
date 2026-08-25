@@ -47,7 +47,7 @@ export function FeaturedPublication({
             {excerpt}
           </p>
 
-          <span className="font-mono text-xs text-ink-faint">
+          <span className="font-mono text-xs text-ink-muted">
             Sudheer Vobhilineni · {monthName} {featuredLetter.year} · {getReadingTime(featuredLetter)} minute read · Letter {paddedNumber}
           </span>
 

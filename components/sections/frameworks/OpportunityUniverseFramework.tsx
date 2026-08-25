@@ -284,7 +284,7 @@ export function OpportunityUniverseFramework() {
         <div className="container mx-auto max-w-[820px] px-4 sm:px-6">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research

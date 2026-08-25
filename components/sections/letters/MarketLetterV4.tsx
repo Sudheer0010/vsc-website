@@ -193,7 +193,7 @@ function MarketHealthZone({ letter }: { letter: MarketLetter }) {
                 i > 0 ? "border-t border-rule" : ""
               }`}
             >
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                 {row.factor}
               </span>
               <div className="flex items-baseline gap-2">
@@ -201,7 +201,7 @@ function MarketHealthZone({ letter }: { letter: MarketLetter }) {
                 <p className="text-[16px] font-medium text-ink">{row.current}</p>
                 <ArrowMark direction={row.vsPrev} />
               </div>
-              <p className="font-mono text-[12px] text-ink-faint">{row.vscRead}</p>
+              <p className="font-mono text-[12px] text-ink-muted">{row.vscRead}</p>
             </div>
           ))}
 
@@ -213,10 +213,10 @@ function MarketHealthZone({ letter }: { letter: MarketLetter }) {
               <p className="font-display text-[17px] font-medium text-ink">{overall.label}</p>
               <ArrowMark direction={overall.vsPrev} />
             </div>
-            <p className="font-mono text-[12px] text-ink-faint">{overall.vscRead}</p>
+            <p className="font-mono text-[12px] text-ink-muted">{overall.vscRead}</p>
           </div>
           {letter.environmentOverride && (
-            <p className="pt-1 font-mono text-[11px] italic text-ink-faint">
+            <p className="pt-1 font-mono text-[11px] italic text-ink-muted">
               Overall re-rated from {letter.environmentOverride.from} to {letter.environmentOverride.to} &mdash;{" "}
               {letter.environmentOverride.reason}
             </p>

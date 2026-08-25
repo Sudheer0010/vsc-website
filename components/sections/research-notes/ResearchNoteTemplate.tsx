@@ -326,7 +326,7 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
     <div className="container mx-auto max-w-3xl px-4 sm:px-6">
       <Link
         href="/research/notes"
-        className="group mb-8 inline-flex items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+        className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
         Back to Trading Insights
@@ -449,7 +449,10 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
           <div className="mb-8 flex items-center justify-between font-mono text-xs text-growth">
             <div>
               {prevNote ? (
-                <Link href={`/research/notes/${prevNote.slug}`} className="transition-colors duration-200 hover:text-ink">
+                <Link
+                  href={`/research/notes/${prevNote.slug}`}
+                  className="-my-[14px] inline-flex min-h-[44px] items-center py-[14px] transition-colors duration-200 hover:text-ink"
+                >
                   &larr; {prevNote.title}
                 </Link>
               ) : (
@@ -458,7 +461,10 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
             </div>
             <div>
               {nextNote ? (
-                <Link href={`/research/notes/${nextNote.slug}`} className="transition-colors duration-200 hover:text-ink">
+                <Link
+                  href={`/research/notes/${nextNote.slug}`}
+                  className="-my-[14px] inline-flex min-h-[44px] items-center py-[14px] transition-colors duration-200 hover:text-ink"
+                >
                   {nextNote.title}
                   {" "}&rarr;
                 </Link>
@@ -469,7 +475,10 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
           </div>
         )}
 
-        <Link href="/research/notes" className="font-mono text-[11px] text-ink-muted hover:text-ink link-underline">
+        <Link
+          href="/research/notes"
+          className="-my-[15px] inline-flex min-h-[44px] items-center py-[15px] font-mono text-[11px] text-ink-muted hover:text-ink link-underline"
+        >
           &larr; Back to Trading Insights
         </Link>
       </div>

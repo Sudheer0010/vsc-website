@@ -67,7 +67,7 @@ export function MarketLetterArchive({
                   key={yr}
                   onClick={() => setActiveYear(yr)}
                   className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
-                    isActive ? "text-white font-semibold" : "text-ink-muted hover:text-ink"
+                    isActive ? "bg-accent-gold text-white font-semibold" : "text-ink-muted hover:text-ink"
                   }`}
                 >
                   {isActive && (

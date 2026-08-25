@@ -160,7 +160,7 @@ export function DiscussionForm() {
                 type="text"
                 id="name"
                 name="name"
-                className="w-full bg-transparent border-b border-rule focus:border-accent-gold pb-2 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
+                className="w-full bg-transparent border-b border-rule focus:border-accent-gold py-3 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
                 placeholder="Full Name"
                 required
               />
@@ -172,7 +172,7 @@ export function DiscussionForm() {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full bg-transparent border-b border-rule focus:border-accent-gold pb-2 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
+                className="w-full bg-transparent border-b border-rule focus:border-accent-gold py-3 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
                 placeholder="email@example.com"
                 required
               />
@@ -186,7 +186,7 @@ export function DiscussionForm() {
               type="tel"
               id="phone"
               name="phone"
-              className="w-full bg-transparent border-b border-rule focus:border-accent-gold pb-2 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
+              className="w-full bg-transparent border-b border-rule focus:border-accent-gold py-3 font-mono text-sm text-ink focus:outline-none transition-colors duration-200"
               placeholder="+91 98765 43210"
               required
             />

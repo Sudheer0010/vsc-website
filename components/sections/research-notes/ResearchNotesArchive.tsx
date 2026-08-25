@@ -18,9 +18,9 @@ export function ResearchNotesArchive({ notes }: { notes: ResearchNote[] }) {
           className="group flex flex-col justify-between gap-3 rounded-vsc-lg border border-rule bg-canvas-sunk p-5 transition-colors duration-200 hover:border-growth/40 sm:p-6"
         >
           <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
               <span>Insight {note.number} · {note.category}</span>
-              <span className="font-normal normal-case tracking-normal text-ink-faint">
+              <span className="font-normal normal-case tracking-normal text-ink-muted">
                 {note.publishedDate}
               </span>
             </div>

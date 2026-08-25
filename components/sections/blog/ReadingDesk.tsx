@@ -114,7 +114,7 @@ export function ReadingDesk({
                         {b.title}
                       </h4>
                       <p className="font-mono text-xs text-ink-soft leading-relaxed">
-                        <span className="text-accent-gold/80 font-semibold block mb-1">Why it matters:</span>
+                        <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                         {b.desc}
                       </p>
                     </div>
@@ -155,7 +155,7 @@ export function ReadingDesk({
                     {l.title}
                   </h4>
                   <p className="font-mono text-xs text-ink-soft leading-relaxed">
-                    <span className="text-accent-gold/80 font-semibold block mb-1">Why it matters:</span>
+                    <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                     {l.desc}
                   </p>
                 </div>
@@ -215,7 +215,7 @@ export function ReadingDesk({
                         {t.title}
                       </h4>
                       <p className="font-mono text-xs text-ink-soft leading-relaxed">
-                        <span className="text-accent-gold/80 font-semibold block mb-1">Why it matters:</span>
+                        <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                         {t.desc}
                       </p>
                     </div>

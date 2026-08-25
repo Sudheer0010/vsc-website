@@ -53,7 +53,7 @@ export default function Footer() {
         >
           {/* Brand */}
           <div className="md:col-span-5">
-            <Link href="/" className="group inline-flex items-center gap-3">
+            <Link href="/" className="group inline-flex min-h-[44px] items-center gap-3">
               <div className="relative h-9 w-9 overflow-hidden rounded-vsc-md border border-vsc-dark-hairline">
                 <Image src="/logo.jpg" alt="" fill sizes="36px" className="object-cover" />
               </div>
@@ -90,12 +90,12 @@ export default function Footer() {
             <h2 className="font-display text-[16px] font-semibold tracking-tight text-vsc-dark-ink">
               Navigate
             </h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-1">
               {NAV.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
+                    className="flex min-h-[44px] items-center text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
                   >
                     {item.label}
                   </Link>
@@ -109,11 +109,11 @@ export default function Footer() {
             <h2 className="font-display text-[16px] font-semibold tracking-tight text-vsc-dark-ink">
               Get in touch
             </h2>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-1">
               <li>
                 <a
                   href="mailto:sudheer@vsccapital.in"
-                  className="group flex items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
+                  className="group flex min-h-[44px] items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
                 >
                   <Mail className="h-4 w-4 text-vsc-dark-ink-muted transition-colors group-hover:text-vsc-dark-accent" />
                   sudheer@vsccapital.in
@@ -124,7 +124,7 @@ export default function Footer() {
                   href="https://www.vsccapital.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
+                  className="group flex min-h-[44px] items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
                 >
                   <Globe className="h-4 w-4 text-vsc-dark-ink-muted transition-colors group-hover:text-vsc-dark-accent" />
                   www.vsccapital.in
@@ -135,7 +135,7 @@ export default function Footer() {
                   href="https://www.linkedin.com/in/sudheer-vobhilineni-2485053b6/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
+                  className="group flex min-h-[44px] items-center gap-2.5 text-[16px] text-vsc-dark-ink-muted transition-colors duration-200 hover:text-vsc-dark-accent"
                 >
                   <svg
                     className="h-4 w-4 shrink-0 text-vsc-dark-ink-muted transition-colors group-hover:text-vsc-dark-accent"
@@ -161,7 +161,10 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-3 pt-7 text-[14px] text-vsc-dark-ink-muted sm:flex-row">
           <span>&copy; 2026 VSC Capital &amp; Advisory. MSME registered.</span>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="transition-colors duration-200 hover:text-vsc-dark-accent">
+            <Link
+              href="/privacy"
+              className="-my-[15px] inline-flex min-h-[44px] items-center py-[15px] transition-colors duration-200 hover:text-vsc-dark-accent"
+            >
               Privacy Policy
             </Link>
             <span>For educational and research purposes only.</span>
