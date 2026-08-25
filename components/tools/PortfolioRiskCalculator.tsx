@@ -1,14 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-type PositionRow = {
-  name: string;
-  group: string;
-  entry: string;
-  stop: string;
-  shares: string;
-};
+import { computePortfolioAggregate, type PositionRow } from "@/lib/calculators/portfolio-risk";
 
 const MAX_ROWS = 8;
 
@@ -51,33 +44,6 @@ function indianAmountLabel(raw: string) {
   return formatINR(value);
 }
 
-type RowCalc = {
-  active: boolean;
-  risk: number;
-  value: number;
-  riskPct: number;
-  error: string;
-};
-
-function calcRow(row: PositionRow, accountSize: number): RowCalc {
-  const entered = row.name.trim() || row.group.trim() || row.entry || row.stop || row.shares;
-  if (!entered) {
-    return { active: false, risk: 0, value: 0, riskPct: 0, error: "" };
-  }
-
-  const E = Number.parseFloat(row.entry);
-  const S = Number.parseFloat(row.stop);
-  const Q = Number.parseFloat(row.shares);
-
-  if (!(E > 0 && S > 0 && Q > 0)) {
-    return { active: false, risk: 0, value: 0, riskPct: 0, error: "Enter positive entry, stop and share values." };
-  }
-
-  const risk = Math.max(E - S, 0) * Q;
-  const value = E * Q;
-  return { active: true, risk, value, riskPct: accountSize > 0 ? (risk / accountSize) * 100 : 0, error: "" };
-}
-
 const fieldInputClass =
   "w-full min-w-0 appearance-none bg-transparent font-ui text-[16px] font-medium text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 const fieldWrapClass =
@@ -95,38 +61,27 @@ export function PortfolioRiskCalculator() {
   const accountValue = Number.parseFloat(account) || 0;
   const limitValue = Number.parseFloat(limit) || 0;
 
-  const rowCalcs = useMemo(() => rows.map((row) => calcRow(row, accountValue)), [rows, accountValue]);
-
-  const activeItems = useMemo(
-    () => rows.map((row, index) => ({ row, calc: rowCalcs[index] })).filter((item) => item.calc.active),
-    [rows, rowCalcs],
+  const aggregate = useMemo(
+    () => computePortfolioAggregate(rows, accountValue, limitValue),
+    [rows, accountValue, limitValue],
   );
 
-  const totalRisk = activeItems.reduce((sum, item) => sum + item.calc.risk, 0);
-  const totalValue = activeItems.reduce((sum, item) => sum + item.calc.value, 0);
-  const totalRiskPct = accountValue > 0 ? (totalRisk / accountValue) * 100 : 0;
-  const exposurePct = accountValue > 0 ? (totalValue / accountValue) * 100 : 0;
+  const {
+    rowCalcs,
+    activeItems,
+    totalRisk,
+    totalValue,
+    totalRiskPct,
+    exposurePct,
+    hasLimit,
+    remaining,
+    usedPct,
+    isOverLimit,
+    largest,
+  } = aggregate;
 
-  const hasLimit = limitValue > 0;
-  const budget = hasLimit ? (accountValue * limitValue) / 100 : 0;
-  const remaining = hasLimit ? budget - totalRisk : 0;
-  const usedPct = hasLimit && budget > 0 ? (totalRisk / budget) * 100 : 0;
-  const isOverLimit = hasLimit && totalRisk > budget;
-
-  const largest = useMemo(
-    () => (activeItems.length ? [...activeItems].sort((a, b) => b.calc.risk - a.calc.risk)[0] : null),
-    [activeItems],
-  );
-
-  const groups = useMemo(() => {
-    const map = new Map<string, number>();
-    activeItems.forEach(({ row, calc }) => {
-      const g = row.group.trim();
-      if (!g) return;
-      map.set(g, (map.get(g) ?? 0) + calc.risk);
-    });
-    return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  }, [activeItems]);
+  // Display-only cap — the pure aggregate returns every group.
+  const groups = aggregate.groups.slice(0, 5);
 
   const updateRow = (index: number, key: keyof PositionRow, value: string) => {
     setRows((prev) => prev.map((row, i) => (i === index ? { ...row, [key]: value } : row)));
