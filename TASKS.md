@@ -320,3 +320,20 @@ when better pieces exist.
 - Cookie consent banner — not needed if using privacy-friendly analytics
   (confirm based on your analytics setup)
 - Dark/light mode toggle — the site has a design; keep it
+
+---
+
+## Future Trading Insight Ideas
+
+Unwritten topic ideas carried over from the retired legacy `/notes` system
+(`data/research.ts`) before its removal. No prose existed for any of these —
+title and description only. Write them into `data/research-notes.ts` (the
+current Trading Insights system, `/research/notes`) if and when they're
+developed into full notes.
+
+- **Why Most Traders Lose** — Analyzing the psychological and mechanical reasons why the majority of retail participants blow accounts. Process failures, not market conditions.
+- **Position Sizing Explained** — The mathematical foundation of capital preservation. How to size your positions to define risk before entry and protect wealth.
+- **Momentum Investing Basics** — Understanding momentum-based strategies, breakout mechanics, and why institutional capital flows create exploitable patterns.
+- **Trading vs Gambling** — The fundamental differences between systematic trading and speculation. What separates a professional edge from outcome-driven betting.
+- **Risk Management Rules** — Core principles for protecting capital. Stop-losses, position sizing, portfolio limits, and the rules that keep you in the game.
+- **Market Structure Analysis** — How to read market structure, identify trends, and understand supply-demand dynamics that drive price action.

@@ -23,6 +23,19 @@ const nextConfig: NextConfig = {
         destination: "/research#framework-library",
         permanent: true,
       },
+      // Legacy /notes system retired in favor of /research/notes. No
+      // legacy slug maps 1:1 to a current note, so both the index and
+      // any sub-path land on the current index.
+      {
+        source: "/notes",
+        destination: "/research/notes",
+        permanent: true,
+      },
+      {
+        source: "/notes/:path*",
+        destination: "/research/notes",
+        permanent: true,
+      },
     ];
   },
 };

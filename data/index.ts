@@ -1,5 +1,4 @@
 export * from "./market-letters";
-export * from "./research";
 export * from "./research-notes";
 export * from "./reading-desk";
 export * from "./frameworks";
