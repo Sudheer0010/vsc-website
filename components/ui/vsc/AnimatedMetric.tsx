@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, animate, useReducedMotion } from "framer-motion";
 
 /**
@@ -14,10 +14,19 @@ const NUMERIC = /^([+-]?)(\d+(?:\.\d+)?)(.*)$/;
 
 export function AnimatedMetric({ value, className }: { value: string; className?: string }) {
   const match = value.match(NUMERIC);
+  // useReducedMotion() reads matchMedia synchronously during render, so on
+  // the client's very first (hydrating) render it can already differ from
+  // the server's value. Ignore it until after mount so that first render
+  // is always identical server vs. client, then respect it from then on.
   const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(reduce || !match ? value : `${match[1]}0${match[3]}`);
+  const [mounted, setMounted] = useState(false);
+  const [display, setDisplay] = useState(!match ? value : `${match[1]}0${match[3]}`);
 
-  if (!match || reduce) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!match || (mounted && reduce)) {
     return <div className={className}>{value}</div>;
   }
 
