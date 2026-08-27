@@ -1,0 +1,3 @@
+## 2024-10-24 - Dynamic ARIA Labels on Content-Wrapping Interactive Elements
+**Learning:** When a button or interactive element (like the ImageLightbox trigger) wraps contextual content such as an image with its own `alt` text, screen readers may ignore the nested context or read it confusingly. An explicit `aria-label` dynamically incorporating the child context (e.g., `aria-label={\`Enlarge image: \${alt}\`}`) is required to clearly communicate both the action and the subject matter.
+**Action:** Always provide explicit, context-aware `aria-label` attributes on generic interactive wrappers (like zoom or lightbox triggers) that enclose distinct informative content, rather than relying on the screen reader to parse the nested elements.
