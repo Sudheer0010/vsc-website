@@ -22,6 +22,7 @@ interface VSCButtonProps {
   variant?: "growth" | "gold" | "outline" | "ghost";
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
 const VARIANTS: Record<string, string> = {
@@ -39,6 +40,7 @@ export function VSCButton({
   variant = "outline",
   className = "",
   type = "button",
+  disabled = false,
 }: VSCButtonProps) {
   const classes = [
     "inline-flex min-h-[48px] items-center justify-center gap-2 rounded-vsc-md px-6 py-3",
@@ -58,7 +60,7 @@ export function VSCButton({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   );
