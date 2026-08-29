@@ -4,10 +4,12 @@ import React from "react";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 
 /**
- * What VSC is built on — three cards on the site's warm cream surface
- * (same bg-vsc-cream-2 token as the "Who this is for" section), using the
- * same card chrome/hover as ModuleCard and the letter cards elsewhere on
- * the site rather than inventing a new card pattern.
+ * What VSC is built on — Luminous Editorial (ported from
+ * /design-lab/home-a). An asymmetric rail-plus-list, not a card triptych:
+ * a fixed left column states the claim, a hairline-divided stack on the
+ * right carries the three principles, each led by an oversized ghost
+ * numeral. Same technique as HowWeHelpSection so the two back-to-back
+ * sections read as one typographic family.
  */
 
 const SUPPORTING = [
@@ -33,41 +35,45 @@ const SUPPORTING = [
 
 export function BeliefSection() {
   return (
-    <section id="belief" className="relative w-full border-b border-rule bg-vsc-cream-2 py-20 sm:py-28">
-      <div className="container mx-auto max-w-[1120px]">
-        {/* The one belief everything else is downstream of. */}
-        <Reveal delay={0.05} className="mt-6">
-          <h2 className="font-display text-[clamp(32px,4.5vw,56px)] font-bold leading-[0.98] tracking-[-0.03em] text-ink">
-            What VSC is built on.
-          </h2>
-          <p className="mt-3 max-w-[52ch] text-[17px] leading-relaxed text-ink-soft">
-            Three principles that should survive every stage of the business.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.1} className="mt-8 sm:mt-10">
-          <div className="grid gap-6 sm:grid-cols-3">
-            {SUPPORTING.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-vsc-lg border border-rule bg-surface p-7 shadow-lift-1 transition-[box-shadow,border-color,transform] duration-200 ease-physical hover:-translate-y-1 hover:border-rule-strong hover:shadow-lift-2"
-              >
-                <span className="font-mono text-sm font-semibold text-growth">
-                  {item.number}
-                </span>
-                <h3 className="mt-3 font-display text-[21px] font-semibold tracking-tight text-ink">
-                  {item.title}
-                </h3>
-                <p className="mt-1.5 text-[15px] font-semibold text-growth">
-                  {item.shortLine}
-                </p>
-                <p className="mt-2.5 text-[16px] leading-relaxed text-ink-soft">
-                  {item.body}
-                </p>
-              </div>
-            ))}
+    <section id="belief" className="relative w-full overflow-hidden border-b border-rule bg-surface py-28 sm:py-36">
+      <span
+        aria-hidden="true"
+        className="font-editorial pointer-events-none absolute -left-10 -top-16 select-none text-[46vw] leading-none text-growth/[0.04] sm:text-[24vw]"
+      >
+        01
+      </span>
+      <div className="relative container mx-auto max-w-[1400px] px-6 sm:px-10">
+        <div className="grid gap-14 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
+              What VSC is built on
+            </span>
+            <h2 className="font-editorial mt-5 text-[12vw] leading-[0.95] text-ink sm:text-[5.4vw] lg:text-[3vw]">
+              Three principles. One discipline.
+            </h2>
           </div>
-        </Reveal>
+
+          <div className="lg:col-span-8">
+            <div className="divide-y divide-rule">
+              {SUPPORTING.map((item) => (
+                <Reveal key={item.number}>
+                  <div className="grid items-baseline gap-4 py-9 sm:grid-cols-12 sm:gap-8">
+                    <span className="font-editorial sm:col-span-2 text-[15vw] leading-[0.8] text-ink/15 sm:text-[6vw]">
+                      {item.number}
+                    </span>
+                    <div className="sm:col-span-10">
+                      <h3 className="text-[21px] font-semibold tracking-tight text-ink">{item.title}</h3>
+                      <div className="font-editorial mt-2 [font-style:italic] text-[17px] text-growth">
+                        {item.shortLine}
+                      </div>
+                      <div className="mt-3 max-w-[52ch] text-[16px] leading-relaxed text-ink-soft">{item.body}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

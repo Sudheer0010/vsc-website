@@ -6,34 +6,11 @@ import { ExposureInstrument } from "@/components/sections/home/ExposureInstrumen
 import { HowWeHelpSection } from "@/components/sections/home/HowWeHelpSection";
 import { ProcessStepper } from "@/components/sections/home/ProcessStepper";
 import { ResearchDeskSection } from "@/components/sections/home/ResearchDeskSection";
+import { RiskSection } from "@/components/sections/home/RiskSection";
+import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
-
-/**
- * RISK — merged from the old fund-comparison ("proof") section and the
- * standalone risk-question (ReflectionBlock) band. Same underlying claim
- * (exposure should track market risk, not stay fixed), stated as three
- * scannable principles instead of a fund-vs-VSC table or second-person
- * question.
- */
-const RISK_PRINCIPLES = [
-  {
-    number: "01",
-    title: "Trade less when the market gets weaker.",
-    body: "When good opportunities are hard to find, there is no need to keep all the money in the market.",
-  },
-  {
-    number: "02",
-    title: "Cash is also a choice.",
-    body: "Sometimes waiting is better than forcing a trade.",
-  },
-  {
-    number: "03",
-    title: "Protect capital first.",
-    body: "A strong idea is never a reason to ignore risk.",
-  },
-];
 
 /**
  * Homepage — Daylight Growth.
@@ -60,53 +37,37 @@ export default function Home() {
            ================================================================ */}
         <section
           id="arrival"
-          className="relative w-full overflow-hidden border-b border-rule pb-16 pt-32 sm:pb-24 sm:pt-40"
+          className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-24 pt-28 sm:pb-32 sm:pt-36"
         >
-          {/* Paper grain rather than a dark photograph — a real, felt
-              surface instead of flat digital white. */}
+          {/* Cinematic Signal — ported from Design Lab Direction B
+              (/design-lab/b, Hero). Seed 71 is reused in the Five Gates
+              section below — the same signal, not a lookalike. */}
+          <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.9} animate />
           <div
             aria-hidden="true"
-            className="paper-texture pointer-events-none absolute inset-0 opacity-70"
+            className="pointer-events-none absolute inset-0"
             style={{
-              maskImage:
-                "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+              background: "radial-gradient(ellipse 60% 55% at 50% 15%, rgba(63,203,116,0.20) 0%, transparent 68%)",
             }}
           />
-          {/* A warm glow the instrument sits in, so the card reads as
-              grounded on the page rather than floating on flat white. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-32 top-1/2 h-[620px] w-[620px] -translate-y-1/2 rounded-full blur-[130px]"
-            style={{ background: "radial-gradient(circle, rgba(15,122,64,0.12) 0%, transparent 70%)" }}
-          />
-          {/* A large, faint step-rule watermark — the signature mark given
-              room to be a real graphic instead of a small inline accent. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-6 bottom-0 hidden items-end gap-[10px] opacity-[0.05] sm:flex"
-          >
-            <span className="block h-[70px] w-[26px] rounded-md bg-ink" />
-            <span className="block h-[120px] w-[26px] rounded-md bg-ink" />
-            <span className="block h-[180px] w-[26px] rounded-md bg-ink" />
-          </div>
 
-          <div className="container relative mx-auto max-w-[1120px]">
-            <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-              <div className="lg:col-span-6">
+          <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
+            <div className="grid gap-16 lg:grid-cols-12 lg:items-end lg:gap-10">
+              <div className="lg:col-span-7">
                 <Reveal>
-                  <span className="eyebrow">Process over prediction</span>
+                  <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
+                    Process over prediction
+                  </span>
                 </Reveal>
 
                 <Reveal delay={0.06}>
-                  <h1 className="max-w-[15ch] font-display text-ink">
+                  <h1 className="mt-6 font-sans text-[13vw] font-bold leading-[0.94] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[5vw]">
                     A smarter way to build and protect capital.
                   </h1>
                 </Reveal>
 
                 <Reveal delay={0.12}>
-                  <p className="mt-6 max-w-[46ch] text-[19px] leading-relaxed text-ink-soft">
+                  <p className="mt-8 max-w-[46ch] text-[18px] leading-relaxed text-white/60">
                     A rules-based framework for market structure, trend strength
                     and risk. It decides how much capital is deployed — and
                     when none of it should be.
@@ -126,9 +87,9 @@ export default function Home() {
                 </Reveal>
 
                 <Reveal delay={0.24}>
-                  <div className="mt-10 flex items-center gap-3 border-t border-rule pt-5">
+                  <div className="mt-10 flex items-center gap-3 border-t border-white/10 pt-5">
                     <StepRule size="sm" className="shrink-0" />
-                    <p className="max-w-[40ch] text-[14.5px] leading-snug text-ink-muted">
+                    <p className="max-w-[40ch] text-[14.5px] leading-snug text-white/50">
                       Educational and research work only. VSC is applying for
                       SEBI Research Analyst registration.
                     </p>
@@ -136,8 +97,8 @@ export default function Home() {
                 </Reveal>
               </div>
 
-              <div className="lg:col-span-6">
-                <Reveal delay={0.1} distance={20}>
+              <div className="lg:col-span-5">
+                <Reveal delay={0.1} distance={20} className="w-full max-w-[420px] lg:ml-auto">
                   <ExposureInstrument />
                 </Reveal>
               </div>
@@ -147,74 +108,68 @@ export default function Home() {
 
         <BeliefSection />
 
-        <HowWeHelpSection />
-
         <DrawdownStory />
 
         <ProcessStepper />
 
-        {/* ================================================================
-            RISK
-            The pause, and the principle behind it, in one band.
-           ================================================================ */}
-        <section id="risk" className="relative w-full border-b border-rule bg-growth-wash py-12 sm:py-16">
-          <div className="container mx-auto max-w-[1120px]">
-            <Reveal className="text-center">
-              <h2 className="font-display text-[clamp(26px,3.6vw,42px)] font-semibold leading-[1.12] tracking-[-0.03em] text-growth-deep">
-                When markets get riskier, put less money at risk.
-              </h2>
-            </Reveal>
+        <HowWeHelpSection />
 
-            <Reveal delay={0.08} className="mt-14 sm:mt-16">
-              <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
-                {RISK_PRINCIPLES.map((item) => (
-                  <div key={item.title} className="text-left">
-                    <span className="font-mono text-sm font-semibold text-growth">
-                      {item.number}
-                    </span>
-                    <h3 className="mt-6 font-display text-[19px] font-semibold tracking-tight text-ink">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 max-w-[30ch] text-[15.5px] leading-relaxed text-ink-soft">
-                      {item.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        <RiskSection />
 
         <ResearchDeskSection />
 
         {/* ================================================================
-            ACTION
-            One heading, one button, and room around both. Nothing here is
-            urgent, so nothing here should look urgent.
+            ACTION — Luminous Editorial (ported from /design-lab/home-a).
+            An asymmetric final act, not a centred text island: the
+            statement runs large and left, the button sits right and low,
+            against a luminous mesh wash that echoes the arrival hero.
            ================================================================ */}
-        <section id="action" className="relative w-full bg-surface py-16 sm:py-24">
-          <div className="container mx-auto max-w-[1120px]">
-            <Reveal className="mx-auto flex max-w-[26ch] flex-col items-center text-center">
-              <span className="font-mono text-sm font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                Not sure where to begin?
-              </span>
-              <h2 className="mt-3 font-display text-ink">Start here.</h2>
-              <p className="mt-5 max-w-[46ch] text-[18px] leading-relaxed text-ink-soft">
-                A short path through what VSC believes, how the process
-                works, and the work behind it.
-              </p>
-              <div className="mt-9">
-                <VSCButton href="/start" variant="growth" className="px-8 text-[17px]">
-                  Start here &rarr;
-                </VSCButton>
+        <section id="action" className="relative w-full overflow-hidden py-32 sm:py-40">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <div
+              className="home-cta-mesh"
+              style={{
+                position: "absolute",
+                inset: "-15%",
+                background:
+                  "radial-gradient(ellipse 60% 55% at 80% 30%, rgba(15,122,64,0.14) 0%, transparent 62%)," +
+                  "radial-gradient(ellipse 55% 60% at 15% 80%, rgba(63,203,116,0.10) 0%, transparent 60%)",
+                filter: "blur(10px)",
+              }}
+            />
+          </div>
+          <div className="relative container mx-auto max-w-[1400px] px-6 sm:px-10">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <Reveal className="flex items-center gap-3">
+                  <StepRule size="md" />
+                  <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
+                    Not sure where to begin?
+                  </span>
+                </Reveal>
+                <Reveal delay={0.05}>
+                  <h2 className="font-editorial mt-6 max-w-[14ch] text-[16vw] leading-[0.92] text-ink sm:text-[8vw] lg:text-[5.6vw]">
+                    Start here.
+                  </h2>
+                </Reveal>
+                <Reveal delay={0.1}>
+                  <div className="mt-6 max-w-[52ch] text-[18px] leading-relaxed text-ink-soft">
+                    A short path through what VSC believes, how the process works, and the work behind it.
+                  </div>
+                </Reveal>
               </div>
-              <Link
-                href="/enquire"
-                className="mt-4 font-mono text-sm text-ink-muted transition-colors duration-200 hover:text-growth"
-              >
-                Already know what you&apos;re looking for? Enquire &rarr;
-              </Link>
-            </Reveal>
+
+              <Reveal delay={0.15} className="lg:col-span-4 lg:text-right">
+                <VSCButton href="/start" variant="growth" className="min-h-[52px] px-9 text-[17px]">
+                  Start here <span aria-hidden="true">&rarr;</span>
+                </VSCButton>
+                <div className="mt-5">
+                  <Link href="/enquire" className="font-mono text-[13px] text-ink-muted hover:text-growth">
+                    Already know what you&apos;re looking for? Enquire &rarr;
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </section>
 

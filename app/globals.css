@@ -76,6 +76,8 @@
     --font-display: var(--font-display-next), "Bricolage Grotesque", system-ui, sans-serif;
     --font-ui: var(--font-ui-next), "Instrument Sans", system-ui, sans-serif;
     --font-mono: var(--font-mono-next), "Geist Mono", ui-monospace, monospace;
+    --font-editorial-serif: var(--font-editorial-serif-next), Georgia, serif;
+    /* editorial accent only (homepage Belief/Drawdown/CTA) — never the site default */
 
     /* --- Motion --------------------------------------------------------
        Physical, not decorative. Things arrive with weight and settle. */
@@ -637,6 +639,21 @@ button:focus-visible,
     font-weight: 500;
 }
 
+/* The transparent pre-scroll header sits directly over the homepage's
+   dark Cinematic Signal hero — the ink-on-transparent logo text needs a
+   light variant there. Every other page's header is untouched. */
+.site-header.on-dark .logo-title {
+    color: #F4F7F4;
+}
+
+.site-header.on-dark .logo-tagline {
+    color: rgba(244, 247, 244, 0.6);
+}
+
+.site-header.on-dark .menu-toggle span {
+    background-color: #F4F7F4;
+}
+
 .nav-cta {
     display: inline-flex;
     align-items: center;
@@ -1047,32 +1064,32 @@ select.form-input option {
 .vsc-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 26px;
-    height: 26px;
-    margin-top: -10px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 2px solid var(--ink);
+    width: 5px;
+    height: 30px;
+    margin-top: -12px;
+    border-radius: 1.5px;
+    background: var(--ink);
+    border: none;
     box-shadow: var(--lift-2);
     transition: transform var(--dur-quick) var(--ease-physical);
 }
 
 .vsc-range::-moz-range-thumb {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 2px solid var(--ink);
+    width: 5px;
+    height: 30px;
+    border-radius: 1.5px;
+    background: var(--ink);
+    border: none;
     box-shadow: var(--lift-2);
     transition: transform var(--dur-quick) var(--ease-physical);
 }
 
 .vsc-range:hover::-webkit-slider-thumb {
-    transform: scale(1.12);
+    transform: scaleY(1.12);
 }
 
 .vsc-range:hover::-moz-range-thumb {
-    transform: scale(1.12);
+    transform: scaleY(1.12);
 }
 
 .vsc-range:focus-visible::-webkit-slider-thumb {
@@ -1083,6 +1100,57 @@ select.form-input option {
 .vsc-range:focus-visible::-moz-range-thumb {
     outline: 2px solid var(--growth);
     outline-offset: 3px;
+}
+
+/* BACKGROUND + MOTION SYSTEM ===============================================
+   Signal Field — the shared contour-line drift used across the Cinematic
+   Signal sections (Hero, Five Gates). Purely decorative, aria-hidden,
+   deterministic, and paused under prefers-reduced-motion. */
+.vsc-contour-drift {
+    animation: vsc-contour-drift var(--vsc-drift-dur, 28s) ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes vsc-contour-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(var(--vsc-drift-x, 12px), var(--vsc-drift-y, -8px), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vsc-contour-drift {
+        animation: none !important;
+    }
+}
+
+/* Luminous mesh wash behind the homepage's closing CTA — ported from
+   /design-lab/home-a, where it was called lab-mesh-drift-a. */
+.home-cta-mesh {
+    animation: home-cta-mesh 30s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes home-cta-mesh {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-3%, 2%, 0) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-cta-mesh {
+        animation: none !important;
+    }
+}
+
+/* Forced-colors (Windows High Contrast) drops gradients/masks entirely,
+   which would erase the field. Fall back to a plain CanvasText line so the
+   decorative layer degrades cleanly instead of leaving broken fragments. */
+@media (forced-colors: active) {
+    .vsc-contour-field path {
+        stroke: CanvasText !important;
+        stroke-opacity: 0.35 !important;
+    }
+    .vsc-contour-field {
+        forced-color-adjust: none;
+    }
 }
 
 /* TESTIMONIALS ============================================================ */

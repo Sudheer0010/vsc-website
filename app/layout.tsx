@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alex_Brush, Bricolage_Grotesque, Geist_Mono, Instrument_Sans } from "next/font/google";
+import { Alex_Brush, Bricolage_Grotesque, Geist_Mono, Instrument_Sans, Newsreader } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,16 @@ const alexBrush = Alex_Brush({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-signature-next",
+  display: "swap",
+});
+
+// Editorial accent, homepage only (Belief / Drawdown / CTA italic lines and
+// exhibit labels) — not a second default body/display face. Everything else
+// on the site still reads in Bricolage/Instrument Sans.
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-editorial-serif-next",
   display: "swap",
 });
 
@@ -98,6 +108,7 @@ export default function RootLayout({
         instrumentSans.variable,
         geistMono.variable,
         alexBrush.variable,
+        newsreader.variable,
         "font-sans"
       )}
     >

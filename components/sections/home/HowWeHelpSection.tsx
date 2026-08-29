@@ -2,16 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 
 /**
- * The business, not the product list — three verticals VSC is being built
- * around (Education / Capital / Growth), each fronted by the human verb it
- * exists to deliver (Learn / Grow / Connect). Deliberately not the same
- * shape as /offerings: no product names as headings, no per-column links —
- * this explains the architecture the offerings sit inside, and only the
- * bottom line sends anyone anywhere.
+ * How VSC can help — Luminous Editorial (ported from /design-lab/home-a).
+ * Full-width alternating rows, not equal columns: rows mirror on odd
+ * indices (text-right, column order flipped) so the sequence reads with
+ * asymmetric rhythm rather than a repeated grid pattern.
  */
 
 const VERTICALS = [
@@ -40,49 +37,52 @@ const VERTICALS = [
 
 export function HowWeHelpSection() {
   return (
-    <section id="fit" className="relative w-full border-b border-rule bg-surface py-20 sm:py-28">
-      <div className="container mx-auto max-w-[1120px]">
+    <section id="fit" className="relative w-full overflow-hidden border-b border-rule bg-canvas py-28 sm:py-36">
+      <div className="container mx-auto max-w-[1400px] px-6 sm:px-10">
         <Reveal>
-          <h2 className="max-w-[20ch] font-display text-ink">
-            How VSC can help.
-          </h2>
-          <p className="mt-4 font-mono text-sm font-semibold uppercase tracking-[0.08em] text-ink-faint">
+          <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
             Learn. Grow. Connect.
-          </p>
+          </span>
         </Reveal>
 
-        <Reveal delay={0.08} className="mt-14 sm:mt-16">
-          <div className="grid gap-10 sm:grid-cols-3 sm:gap-px sm:bg-rule">
-            {VERTICALS.map((item) => (
-              <div key={item.number} className="bg-surface sm:px-8 sm:first:pl-0 sm:last:pr-0">
-                <span className="font-mono text-sm font-semibold text-growth">
-                  {item.number}
-                </span>
-                <span className="mx-1.5 font-mono text-sm text-ink-faint">&middot;</span>
-                <span className="font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                  {item.label}
-                </span>
-                <div className="mt-4 font-display text-[clamp(30px,4vw,44px)] font-bold leading-[1] tracking-[-0.02em] text-ink">
-                  {item.verb}
+        <div className="mt-10 divide-y divide-rule border-t border-rule">
+          {VERTICALS.map((v, i) => (
+            <Reveal key={v.number} delay={i * 0.05}>
+              <div
+                className={`grid items-center gap-6 py-10 sm:grid-cols-12 sm:gap-10 ${
+                  i % 2 === 1 ? "sm:text-right" : ""
+                }`}
+              >
+                <div className={`sm:col-span-3 ${i % 2 === 1 ? "sm:order-3" : ""}`}>
+                  <span className="font-mono text-[11px] text-ink/40">{v.number}</span>
+                  <span className="ml-2 font-mono text-[11px] uppercase tracking-[0.1em] text-growth">
+                    {v.label}
+                  </span>
                 </div>
-                <p className="mt-3 max-w-[28ch] text-[16px] font-medium leading-snug text-ink">
-                  {item.tagline}
-                </p>
-                <p className="mt-2.5 max-w-[32ch] text-[14px] leading-relaxed text-ink-faint">
-                  {item.body}
-                </p>
+                <h3
+                  className={`font-editorial sm:col-span-4 text-[16vw] leading-[0.9] text-ink sm:text-[6vw] lg:text-[3.6vw] ${
+                    i % 2 === 1 ? "sm:order-2" : ""
+                  }`}
+                >
+                  {v.verb}
+                </h3>
+                <div className={`sm:col-span-5 ${i % 2 === 1 ? "sm:order-1" : ""}`}>
+                  <div className="text-[17px] font-medium leading-snug text-ink">{v.tagline}</div>
+                  <div className="mt-2 max-w-[38ch] text-[15px] leading-relaxed text-ink-soft sm:ml-auto">
+                    {v.body}
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
 
-        <Reveal delay={0.12} className="mt-12 sm:mt-14">
+        <Reveal delay={0.15} className="mt-12">
           <Link
             href="/offerings"
-            className="group inline-flex items-center gap-2 font-mono text-sm font-semibold text-growth"
+            className="inline-flex items-center gap-2 border-b-2 border-growth pb-1 text-[15px] font-semibold text-ink transition-colors hover:text-growth"
           >
-            Explore all offerings
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+            Explore all offerings <span aria-hidden="true">&rarr;</span>
           </Link>
         </Reveal>
       </div>

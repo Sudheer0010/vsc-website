@@ -1,0 +1,24 @@
+/* VSC Design Lab — styles isolated to /design-lab, never imported by
+   production pages. Direction A's luminous mesh drift only; Directions B
+   and C use Tailwind utilities, framer-motion, and the production
+   ContourField's own (already-global) keyframes. */
+
+@keyframes lab-mesh-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
+  }
+}
+
+.lab-mesh-drift-a {
+  animation: lab-mesh-drift-a 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-mesh-drift-a {
+    animation: none !important;
+  }
+}

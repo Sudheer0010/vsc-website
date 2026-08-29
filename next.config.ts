@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Dev-only: lets the Next dev server accept requests proxied through a
+  // Cloudflare Quick Tunnel (random *.trycloudflare.com host each run).
+  // Without this, the dev server's cross-origin check 403s on /_next/*
+  // asset requests whose Origin header doesn't match localhost, which
+  // breaks hydration and leaves the tunnel-loaded page blank. No effect
+  // on `next build`/`next start` — this option is dev-server only.
+  allowedDevOrigins: ["*.trycloudflare.com"],
+
   // /blog moved to /research (Architecture doc §3.1 — never let an old
   // address 404). Permanent so it also carries search ranking over.
   async redirects() {

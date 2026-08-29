@@ -134,6 +134,8 @@ const config: Config = {
         mono: ["var(--font-mono-next)", "Geist Mono", "ui-monospace", "monospace"],
         // The founder's signature, About page only. Not a general face.
         signature: ["var(--font-signature-next)", "cursive"],
+        // Editorial accent, homepage only. Not a general face.
+        editorial: ["var(--font-editorial-serif-next)", "Georgia", "serif"],
       },
 
       fontSize: {

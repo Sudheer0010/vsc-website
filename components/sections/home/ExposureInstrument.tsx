@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 /**
  * The exposure instrument — the hero's central object.
@@ -34,9 +35,51 @@ const REGIMES: Regime[] = [
 
 const regimeFor = (risk: number) => REGIMES.find((r) => risk < r.ceiling) ?? REGIMES[REGIMES.length - 1];
 
+// The three interior boundaries the calculation actually breaks on — drawn
+// once here so the visual scale can never drift from REGIMES above.
+const BOUNDARIES = [20, 40, 60, 80];
+
+/**
+ * Digit-level readout. Only the glyph that changed transitions; unchanged
+ * digits sit still. That restraint is what separates an instrument reading
+ * from a marketing counter. The visible digits are decorative (aria-hidden);
+ * a plain sr-only mirror carries the real value to assistive tech.
+ */
+function DigitReadout({ value, reduce }: { value: number; reduce: boolean }) {
+  const digits = String(value).split("");
+
+  return (
+    <span className="tabular-nums">
+      <span aria-hidden="true" className="inline-flex">
+        {digits.map((digit, index) => (
+          <span
+            key={index}
+            className="relative inline-block overflow-hidden align-baseline"
+            style={{ height: "1em", width: "1ch" }}
+          >
+            <AnimatePresence initial={false}>
+              <motion.span
+                key={digit}
+                initial={reduce ? false : { y: 8, opacity: 0, filter: "blur(3px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                exit={reduce ? undefined : { y: -8, opacity: 0, filter: "blur(3px)" }}
+                transition={{ duration: reduce ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                {digit}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        ))}
+      </span>
+      <span className="sr-only">{value}</span>
+    </span>
+  );
+}
+
 export function ExposureInstrument() {
   const [risk, setRisk] = useState(62);
-  const reduce = useReducedMotion();
+  const reduce = Boolean(useReducedMotion());
   const regime = regimeFor(risk);
   const cash = 100 - regime.equity;
 
@@ -50,22 +93,16 @@ export function ExposureInstrument() {
       <div className="flex items-baseline justify-between gap-4">
         <div>
           <div className="text-[13px] font-semibold text-ink-muted">Equity exposure</div>
-          <motion.div
-            key={regime.equity}
-            initial={reduce ? false : { opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-5xl font-bold tracking-[-0.04em] text-ink tabular-nums sm:text-6xl"
-          >
-            {regime.equity}
+          <div className="font-display text-5xl font-bold tracking-[-0.04em] text-ink sm:text-6xl">
+            <DigitReadout value={regime.equity} reduce={reduce} />
             <span className="text-3xl text-ink-faint sm:text-4xl">%</span>
-          </motion.div>
+          </div>
         </div>
 
         <div className="text-right">
           <div className="text-[13px] font-semibold text-ink-muted">Held in cash</div>
-          <div className="font-display text-3xl font-bold tracking-[-0.03em] text-ink-faint tabular-nums">
-            {cash}
+          <div className="font-display text-3xl font-bold tracking-[-0.03em] text-ink-faint">
+            <DigitReadout value={cash} reduce={reduce} />
             <span className="text-xl">%</span>
           </div>
         </div>
@@ -119,17 +156,56 @@ export function ExposureInstrument() {
           </motion.span>
         </label>
 
-        <input
-          id="market-risk"
-          type="range"
-          min={0}
-          max={100}
-          value={risk}
-          onChange={(e) => setRisk(Number(e.target.value))}
-          aria-describedby="market-risk-reading"
-          className="vsc-range mt-3 w-full"
-          style={{ "--fill": `${risk}%` } as React.CSSProperties}
-        />
+        {/* Regime scale — the same 20/40/60/80 thresholds the calculation
+            breaks on, drawn as ticks against the track so the slider's snap
+            points are visible before anyone touches it. One scale, not two:
+            the labels below belong to these same ticks, not a second ladder. */}
+        <div className="relative mt-3">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-1/2 h-3 -translate-y-1/2"
+          >
+            {BOUNDARIES.map((boundary) => (
+              <span
+                key={boundary}
+                className="absolute top-0 h-3 w-px bg-rule-strong"
+                style={{ left: `${boundary}%` }}
+              />
+            ))}
+          </div>
+
+          <input
+            id="market-risk"
+            type="range"
+            min={0}
+            max={100}
+            value={risk}
+            onChange={(e) => setRisk(Number(e.target.value))}
+            aria-describedby="market-risk-reading"
+            className="vsc-range relative w-full"
+            style={{ "--fill": `${risk}%` } as React.CSSProperties}
+          />
+        </div>
+
+        {/* Full five-name scale — desktop/tablet only. On narrow layouts
+            the ticks above and the regime pill above that already carry the
+            signal; spelling out all five names at 360px would only crowd. */}
+        <div aria-hidden="true" className="mt-2 hidden grid-cols-5 gap-1 sm:grid">
+          {REGIMES.map((r) => {
+            const isActive = r.name === regime.name;
+            return (
+              <span
+                key={r.name}
+                className={cn(
+                  "text-center text-[10.5px] leading-tight tracking-tight transition-colors",
+                  isActive ? "font-semibold text-growth-deep" : "text-ink-faint"
+                )}
+              >
+                {r.name}
+              </span>
+            );
+          })}
+        </div>
 
         <p
           id="market-risk-reading"

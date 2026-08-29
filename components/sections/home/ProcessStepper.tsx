@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 
 /**
@@ -83,8 +84,26 @@ export function ProcessStepper() {
   const stage = STAGES[active];
 
   return (
-    <section id="process" className="relative w-full border-b border-vsc-dark-hairline bg-vsc-dark py-20 sm:py-28">
-      <div className="container mx-auto max-w-[1120px]">
+    <section
+      id="process"
+      className="relative w-full overflow-hidden border-b border-vsc-dark-hairline bg-[#050A07] py-20 sm:py-28"
+    >
+      {/* Signal Field — Cinematic Signal register, ported from Design Lab
+          Direction B (/design-lab/b, DeepProcess). Same seed as the hero's
+          field (71) — the same signal, not a lookalike — at the density
+          and intensity B established: bold enough to read as atmosphere,
+          still thinned under the rail + panel via safeArea so it stays
+          subordinate to the tablist interaction. */}
+      <ContourField
+        seed={71}
+        layers={2}
+        density={7}
+        strokeColor="#0F7A40"
+        baseOpacity={1}
+        animate
+        safeArea={{ x: 0.02, y: 0.14, w: 0.96, h: 0.82 }}
+      />
+      <div className="container relative mx-auto max-w-[1120px]">
         <Reveal className="max-w-[58ch]">
           {/* Can't reuse the shared `.eyebrow` class here: its colour is
               hardcoded to `var(--growth)` outside any Tailwind layer, so it

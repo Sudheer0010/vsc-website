@@ -3,15 +3,13 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/ui/vsc/Reveal";
-import { StepRule } from "@/components/ui/vsc/StepRule";
 
 /**
- * The problem, drawn rather than tabulated.
- *
- * This replaced a four-row ✕/✓ table. The table listed adjectives —
- * "Emotional Decisions" vs "Risk Management" — which asks the reader to
- * take the difference on faith. A shape doesn't need to be believed. You
- * can see where one line keeps falling and the other stops.
+ * The problem, drawn rather than tabulated — Luminous Editorial "Exhibit 01"
+ * treatment (ported from /design-lab/home-a). Same schematic curves as
+ * before; the change is composition, not data. A rail on the left states
+ * the claim and closes on an italic line, the figure sits on the right as
+ * a formal research exhibit rather than a full-width card.
  *
  * DELIBERATELY SCHEMATIC. There are no axis values and no percentages,
  * because VSC has no registered track record to claim and this is not a
@@ -43,118 +41,106 @@ export function DrawdownStory() {
         };
 
   return (
-    <section id="problem" className="relative w-full border-b border-rule bg-canvas-sunk py-20 sm:py-28">
-      <div className="container mx-auto max-w-[1120px]">
-        <Reveal className="max-w-[62ch]">
-          <h2 className="font-display text-ink">
-            Everyone looks good on the way up. The difference shows on the way down.
-          </h2>
-        </Reveal>
-
-        <Reveal delay={0.08} className="mt-10 sm:mt-14">
-          <div className="overflow-hidden rounded-vsc-xl border border-rule bg-surface shadow-lift-2">
-            <div className="overflow-x-auto">
-              <svg
-                viewBox="0 0 602 268"
-                role="img"
-                aria-label="Two schematic capital curves. Both rise together. When market risk crosses a threshold, the always-invested curve continues down through the drawdown while the risk-managed curve flattens as exposure moves to cash, then re-enters and compounds from a higher base."
-                className="h-auto w-full min-w-[540px]"
-              >
-                <defs>
-                  <linearGradient id="riskManagedFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--growth)" stopOpacity="0.22" />
-                    <stop offset="100%" stopColor="var(--growth)" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-
-                {/* the stretch where exposure sits in cash */}
-                <rect x="248" y="14" width="180" height="238" fill="var(--growth-wash)" />
-                <line x1="248" y1="14" x2="248" y2="252" stroke="var(--growth)" strokeWidth="1.5" strokeDasharray="4 4" />
-                <line x1="428" y1="14" x2="428" y2="252" stroke="var(--growth)" strokeWidth="1.5" strokeDasharray="4 4" />
-
-                {/* baseline */}
-                <line x1="8" y1="252" x2="594" y2="252" stroke="var(--rule-strong)" strokeWidth="1" />
-
-                {/* the area under the risk-managed curve — gives the
-                    winning line real visual weight instead of a thin stroke
-                    doing all the work */}
-                <motion.path
-                  d={`${RISK_MANAGED} L 594 252 L 8 252 Z`}
-                  fill="url(#riskManagedFill)"
-                  stroke="none"
-                  initial={reduce ? undefined : { opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, margin: "-15%" }}
-                  transition={{ duration: 0.9, delay: 0.6 }}
-                />
-
-                <motion.path
-                  d={ALWAYS_INVESTED}
-                  fill="none"
-                  stroke="var(--clay-bright)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  {...draw(0)}
-                />
-                <motion.path
-                  d={RISK_MANAGED}
-                  fill="none"
-                  stroke="var(--growth)"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  {...draw(0.25)}
-                />
-
-                {/* annotations — "Re-entry" sits on its own row, well below
-                    the two left-hand lines. The first line alone runs to
-                    roughly x=480 at this font size, which used to run
-                    straight through "Re-entry" at x=440/y=34: same row,
-                    overlapping text. Comfortable vertical separation is more
-                    robust than trying to hand-measure glyph widths. */}
-                <text x="256" y="30" className="fill-growth" style={{ font: "600 12px var(--font-ui)" }}>
-                  Market weakens — reduce risk
-                </text>
-                <text x="256" y="46" style={{ font: "500 12px var(--font-ui)", fill: "var(--ink-muted)" }}>
-                  Hold more cash here
-                </text>
-                <text x="436" y="66" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
-                  Market improves — add back
-                </text>
-              </svg>
+    <section id="problem" className="relative w-full overflow-hidden border-b border-rule bg-canvas-sunk py-28 sm:py-36">
+      <div className="container mx-auto max-w-[1400px] px-6 sm:px-10">
+        <div className="grid gap-14 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <span className="font-editorial text-[13px] uppercase tracking-[0.18em] text-growth">Exhibit 01</span>
+            <h2 className="font-editorial mt-4 text-[10vw] leading-[1.02] text-ink sm:text-[4.6vw] lg:text-[2.6vw]">
+              Everyone looks good on the way up. The difference shows on the way down.
+            </h2>
+            <div className="font-editorial mt-8 max-w-[40ch] [font-style:italic] text-[18px] leading-snug text-growth">
+              Seeing risk early matters only if you act on it.
             </div>
-
-            <div className="grid gap-px border-t border-rule bg-rule sm:grid-cols-2">
-              <div className="bg-surface p-5 sm:p-6">
-                <div className="flex items-center gap-2.5">
-                  <span className="h-[3px] w-6 rounded-full bg-clay-bright" />
-                  <span className="text-[15px] font-semibold text-ink">Stay fully invested</span>
-                </div>
-                <p className="mt-2 max-w-[38ch] text-[15px] leading-snug text-ink-soft">
-                  The full fall is taken, so there is more ground to recover.
-                </p>
-              </div>
-              <div className="bg-surface p-5 sm:p-6">
-                <div className="flex items-center gap-2.5">
-                  <span className="h-[3px] w-6 rounded-full bg-growth" />
-                  <span className="text-[15px] font-semibold text-ink">Reduce risk when the market weakens</span>
-                </div>
-                <p className="mt-2 max-w-[38ch] text-[15px] leading-snug text-ink-soft">
-                  Move more to cash when conditions worsen. Add back when they improve.
-                </p>
-              </div>
-            </div>
-            <p className="exhibit__caption border-t border-rule px-5 py-3 sm:px-6">
-              Illustration only — not a live portfolio or forecast.
-            </p>
           </div>
-        </Reveal>
 
-        <Reveal delay={0.14} className="mt-8 flex items-start gap-3">
-          <StepRule size="md" className="mt-1.5 shrink-0" />
-          <p className="max-w-[52ch] font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-            Seeing risk early matters only if you act on it.
-          </p>
-        </Reveal>
+          <div className="lg:col-span-8">
+            <Reveal>
+              <figure className="border border-rule bg-surface p-6 sm:p-9">
+                <div className="overflow-x-auto">
+                  <svg
+                    viewBox="0 0 602 268"
+                    role="img"
+                    aria-label="Two schematic capital curves. Both rise together. When market risk crosses a threshold, the always-invested curve continues down through the drawdown while the risk-managed curve flattens as exposure moves to cash, then re-enters and compounds from a higher base."
+                    className="h-auto w-full min-w-[520px]"
+                  >
+                    <defs>
+                      <linearGradient id="riskManagedFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--growth)" stopOpacity="0.22" />
+                        <stop offset="100%" stopColor="var(--growth)" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* the stretch where exposure sits in cash */}
+                    <rect x="248" y="14" width="180" height="238" fill="var(--growth-wash)" />
+                    <line x1="248" y1="14" x2="248" y2="252" stroke="var(--growth)" strokeWidth="1.5" strokeDasharray="4 4" />
+                    <line x1="428" y1="14" x2="428" y2="252" stroke="var(--growth)" strokeWidth="1.5" strokeDasharray="4 4" />
+
+                    {/* baseline */}
+                    <line x1="8" y1="252" x2="594" y2="252" stroke="var(--rule-strong)" strokeWidth="1" />
+
+                    <motion.path
+                      d={`${RISK_MANAGED} L 594 252 L 8 252 Z`}
+                      fill="url(#riskManagedFill)"
+                      stroke="none"
+                      initial={reduce ? undefined : { opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true, margin: "-15%" }}
+                      transition={{ duration: 0.9, delay: 0.6 }}
+                    />
+
+                    <motion.path
+                      d={ALWAYS_INVESTED}
+                      fill="none"
+                      stroke="var(--clay-bright)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      {...draw(0)}
+                    />
+                    <motion.path
+                      d={RISK_MANAGED}
+                      fill="none"
+                      stroke="var(--growth)"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      {...draw(0.25)}
+                    />
+
+                    <text x="256" y="30" className="fill-growth" style={{ font: "600 12px var(--font-ui)" }}>
+                      Market weakens — reduce risk
+                    </text>
+                    <text x="256" y="46" style={{ font: "500 12px var(--font-ui)", fill: "var(--ink-muted)" }}>
+                      Hold more cash here
+                    </text>
+                    <text x="436" y="66" style={{ font: "600 12px var(--font-ui)", fill: "var(--growth-deep)" }}>
+                      Market improves — add back
+                    </text>
+                  </svg>
+                </div>
+
+                <figcaption className="mt-8 grid gap-8 border-t border-rule pt-6 sm:grid-cols-2">
+                  <div>
+                    <span className="inline-block h-[3px] w-6 rounded-full bg-clay-bright" />
+                    <div className="mt-2 text-[15px] font-semibold text-ink">Stay fully invested</div>
+                    <div className="mt-1 max-w-[36ch] text-[14.5px] leading-relaxed text-ink-soft">
+                      The full fall is taken, so there is more ground to recover.
+                    </div>
+                  </div>
+                  <div>
+                    <span className="inline-block h-[3px] w-6 rounded-full bg-growth" />
+                    <div className="mt-2 text-[15px] font-semibold text-ink">Reduce risk when the market weakens</div>
+                    <div className="mt-1 max-w-[36ch] text-[14.5px] leading-relaxed text-ink-soft">
+                      Move more to cash when conditions worsen. Add back when they improve.
+                    </div>
+                  </div>
+                </figcaption>
+                <p className="exhibit__caption border-t border-rule pt-4">
+                  Illustration only — not a live portfolio or forecast.
+                </p>
+              </figure>
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );
