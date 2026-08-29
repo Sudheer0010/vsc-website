@@ -12,15 +12,16 @@ import { Compliance } from "@/components/sections/home/Compliance";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 
 /**
- * About — Editorial Signal.
+ * About — Editorial Signal (Design Lab prototype).
  *
- * Same visual language as the redesigned homepage (ContourField seed 71,
- * Reveal springs, StepRule, the editorial serif accent) rather than the
- * page's previous separate cream/dot system. The arc mirrors the
- * homepage's own dark → light chapter rhythm: a cinematic dark hero, a
- * light editorial founder profile, a sunk-canvas origin ledger, a dark
- * lessons break, a dark quote moment, then a light close that hands off
- * into the real Compliance strip and footer.
+ * Reuses the exact real About content (founder letter, milestones, lessons,
+ * quote, CTA) and the exact visual language shipped on the redesigned
+ * homepage (ContourField seed 71, Reveal springs, StepRule, the editorial
+ * serif accent) instead of the current page's separate cream/dot system.
+ * The arc mirrors the homepage's own dark → light chapter rhythm: a
+ * cinematic dark hero, a light editorial founder profile, a sunk-canvas
+ * origin ledger, a dark lessons break, a dark quote moment, then a light
+ * close that hands off into the real Compliance strip and footer.
  */
 
 const earliestMonthKey = sortedMonths[sortedMonths.length - 1];
@@ -64,14 +65,14 @@ const observationsData = [
   {
     code: "01",
     topic: "Patience",
-    title: "Not every opportunity deserves capital.",
-    desc: "Waiting is also a decision.",
+    title: "You don't have to act on every opportunity.",
+    desc: "Sometimes the better decision is to wait.",
   },
   {
     code: "02",
     topic: "Risk",
     title: "Know what you can lose before thinking about what you can make.",
-    desc: "Risk is defined before return is imagined.",
+    desc: "Risk comes before return.",
   },
   {
     code: "03",
@@ -87,7 +88,7 @@ const observationsData = [
   },
 ];
 
-export default function About() {
+export function AboutRedesign() {
   const [obsIndex, setObsIndex] = useState(0);
   const [obsDirection, setObsDirection] = useState(1);
 
@@ -191,7 +192,7 @@ export default function About() {
             </div>
 
             {/* Research journey rail — same annotation device as the
-                previous page, restyled for the dark register. Desktop only. */}
+                current page, restyled for the dark register. Desktop only. */}
             <Reveal delay={0.2} className="hidden lg:col-span-5 lg:flex lg:justify-end">
               <div className="relative shrink-0 pl-[27px]">
                 <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-white/15" />
@@ -218,6 +219,13 @@ export default function About() {
           intent; drop cap and a pull-line carry the editorial register.
          ================================================================ */}
       <section className="relative w-full overflow-hidden border-b border-rule bg-surface py-24 sm:py-32">
+        <span
+          aria-hidden="true"
+          className="font-editorial pointer-events-none absolute -right-6 -top-10 select-none text-[40vw] italic leading-none text-growth/[0.05] sm:text-[20vw]"
+        >
+          02
+        </span>
+
         <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
           <div className="grid gap-16 lg:grid-cols-12 lg:gap-14">
             {/* Photo column */}
@@ -438,15 +446,15 @@ export default function About() {
         />
         <span
           aria-hidden="true"
-          className="font-editorial pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 select-none text-[60vw] [font-style:italic] leading-none text-white/[0.03] sm:text-[30vw]"
+          className="font-editorial pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 select-none text-[60vw] italic leading-none text-white/[0.03] sm:text-[30vw]"
         >
           &rdquo;
         </span>
 
         <div className="relative mx-auto max-w-[1100px] px-6 text-center sm:px-10">
           <Reveal>
-            <h2 className="font-editorial mx-auto max-w-[18ch] text-[12vw] [font-style:italic] leading-[1.12] text-vsc-dark-ink sm:text-[7vw] lg:text-[4.4vw]">
-              &ldquo;Clarity <span className="text-sprout">compounds</span> over time.&rdquo;
+            <h2 className="font-editorial mx-auto max-w-[18ch] text-[12vw] italic leading-[1.12] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.4vw]">
+              &ldquo;Clarity <span className="text-[#3FCB74]">compounds</span> over time.&rdquo;
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -474,7 +482,7 @@ export default function About() {
               </Reveal>
               <Reveal delay={0.05}>
                 <h2 className="font-editorial mt-6 max-w-[16ch] text-[13vw] italic leading-[1.05] text-ink sm:text-[6vw] lg:text-[3.6vw]">
-                  See where VSC can help.
+                  Start with the research.
                 </h2>
               </Reveal>
               <Reveal delay={0.1}>

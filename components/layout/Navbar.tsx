@@ -64,6 +64,14 @@ export default function Navbar() {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  // The transparent pre-scroll header assumes a light page underneath —
+  // true everywhere except the homepage and About heroes, which both use
+  // the Cinematic Signal dark register. Only those routes (not yet
+  // scrolled) need the logo text flipped to a light colour; every other
+  // page keeps the original ink-on-transparent behaviour untouched.
+  const DARK_HERO_ROUTES = ["/", "/about"];
+  const isOverDarkHero = DARK_HERO_ROUTES.includes(pathname) && !isScrolled;
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -77,7 +85,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""}`}>
+      <nav id="navbar" className={`site-header ${isScrolled ? "scrolled" : ""} ${isOverDarkHero ? "on-dark" : ""}`}>
         <div className="container nav-content">
           <Link href="/" className="logo" onClick={closeMenu}>
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-vsc-md border border-rule">
