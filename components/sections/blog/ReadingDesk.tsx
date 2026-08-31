@@ -66,9 +66,9 @@ export function ReadingDesk({
         {/* Subsection 1: Recommended Books (Interactive Carousel Slider) */}
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="font-display text-xl text-ink font-semibold pl-1 border-l-2 border-accent-gold">
+            <h2 className="font-display text-xl text-ink font-semibold pl-1 border-l-2 border-accent-gold">
               📚 Recommended Books
-            </h3>
+            </h2>
             
             {/* Carousel Navigation Controls */}
             <div className="flex items-center gap-3">
@@ -110,9 +110,9 @@ export function ReadingDesk({
                     className="p-6 rounded-2xl border border-rule bg-canvas-sunk hover:border-accent-gold/40 transition-all flex flex-col justify-between group"
                   >
                     <div>
-                      <h4 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
+                      <h3 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
                         {b.title}
-                      </h4>
+                      </h3>
                       <p className="font-mono text-xs text-ink-soft leading-relaxed">
                         <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                         {b.desc}
@@ -141,9 +141,9 @@ export function ReadingDesk({
 
         {/* Subsection 2: Annual Letters & Memos */}
         <div>
-          <h3 className="font-display text-xl text-ink font-semibold mb-8 pl-1 border-l-2 border-accent-gold">
+          <h2 className="font-display text-xl text-ink font-semibold mb-8 pl-1 border-l-2 border-accent-gold">
             ✉️ Annual Letters & Memos
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {annualLetters.map((l, idx) => (
               <div 
@@ -151,9 +151,9 @@ export function ReadingDesk({
                 className="p-6 rounded-2xl border border-rule bg-canvas-sunk hover:border-accent-gold/40 transition-all flex flex-col justify-between group"
               >
                 <div>
-                  <h4 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
+                  <h3 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
                     {l.title}
-                  </h4>
+                  </h3>
                   <p className="font-mono text-xs text-ink-soft leading-relaxed">
                     <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                     {l.desc}
@@ -167,9 +167,9 @@ export function ReadingDesk({
         {/* Subsection 3: Talks & Lectures (Interactive Carousel Slider) */}
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="font-display text-xl text-ink font-semibold pl-1 border-l-2 border-accent-gold">
+            <h2 className="font-display text-xl text-ink font-semibold pl-1 border-l-2 border-accent-gold">
               🎬 Talks & Lectures
-            </h3>
+            </h2>
 
             {/* Carousel Navigation Controls */}
             <div className="flex items-center gap-3">
@@ -211,9 +211,9 @@ export function ReadingDesk({
                     className="p-6 rounded-2xl border border-rule bg-canvas-sunk hover:border-accent-gold/40 transition-all flex flex-col justify-between group"
                   >
                     <div>
-                      <h4 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
+                      <h3 className="font-display text-lg text-ink font-medium mb-2 group-hover:text-accent-gold transition-colors">
                         {t.title}
-                      </h4>
+                      </h3>
                       <p className="font-mono text-xs text-ink-soft leading-relaxed">
                         <span className="text-accent-gold font-semibold block mb-1">Why it matters:</span>
                         {t.desc}

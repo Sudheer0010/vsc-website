@@ -12,6 +12,7 @@ import { formatLongDate } from "@/lib/format-date";
 import { letterHref, monthKeyFromParams } from "@/lib/letter-urls";
 import { hasV4Content } from "@/lib/market-letter-format";
 import { MarketLetterV4 } from "@/components/sections/letters/MarketLetterV4";
+import { OG_IMAGES } from "@/lib/seo";
 
 interface LetterPageProps {
   params: Promise<{ year: string; month: string }>;
@@ -133,6 +134,7 @@ export async function generateMetadata({ params }: LetterPageProps): Promise<Met
     description,
     alternates: { canonical },
     openGraph: {
+      images: OG_IMAGES,
       type: "article",
       title,
       description,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -22,7 +22,7 @@ const NAV_ITEMS = [
     dropdownItems: [
       { label: "Learning Hub", href: "/offerings/learning-hub" },
       { label: "VSC Advantage", href: "/offerings/advantage" },
-      { label: "Inner Circle", href: "/offerings/inner-circle" },
+      { label: "VSC Community", href: "/offerings/inner-circle" },
     ],
   },
   {
@@ -37,6 +37,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -47,7 +48,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isMenuOpen) setIsMenuOpen(false);
+      if (e.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+        // Escape must not strand focus wherever it had wandered — send it
+        // back to the control that opened the drawer.
+        menuToggleRef.current?.focus();
+      }
     };
 
     if (isMenuOpen) {
@@ -65,12 +71,24 @@ export default function Navbar() {
   const closeMenu = () => setIsMenuOpen(false);
 
   // The transparent pre-scroll header assumes a light page underneath —
-  // true everywhere except the homepage and About heroes, which both use
-  // the Cinematic Signal dark register. Only those routes (not yet
-  // scrolled) need the logo text flipped to a light colour; every other
-  // page keeps the original ink-on-transparent behaviour untouched.
-  const DARK_HERO_ROUTES = ["/", "/about"];
-  const isOverDarkHero = DARK_HERO_ROUTES.includes(pathname) && !isScrolled;
+  // true everywhere except the homepage, About, Offerings and Research
+  // heroes, which all use the Cinematic Signal dark register. Only those
+  // routes (not yet scrolled) need the logo text flipped to a light
+  // colour; every other page keeps the original ink-on-transparent
+  // behaviour untouched. The Research design-lab prototype also opens on
+  // the same dark register, so it needs the same treatment.
+  const DARK_HERO_ROUTES = ["/", "/about", "/offerings", "/research", "/design-lab/research"];
+
+  // Enquire (ported from its design-lab prototype) is dark end-to-end —
+  // hero, "after you submit" rail, and footer all stay on the dark
+  // register, with no light page underneath to scroll into. Reverting to
+  // the default scrolled treatment there would cut a paper-coloured band
+  // across a page that never becomes paper-coloured, so the dark
+  // treatment holds through scroll instead of only applying pre-scroll.
+  const FULLY_DARK_ROUTES = ["/enquire", "/design-lab/enquire"];
+
+  const isOverDarkHero =
+    (DARK_HERO_ROUTES.includes(pathname) && !isScrolled) || FULLY_DARK_ROUTES.includes(pathname);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -119,6 +137,7 @@ export default function Navbar() {
           </Link>
 
           <button
+            ref={menuToggleRef}
             className={`menu-toggle ${isMenuOpen ? "active" : ""}`}
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label="Toggle navigation menu"
@@ -137,7 +156,21 @@ export default function Navbar() {
         onClick={closeMenu}
       />
 
-      <div id="nav-drawer" className={`nav-drawer ${isMenuOpen ? "active" : ""}`}>
+      {/*
+        The drawer is only moved off-canvas (`right: -100%`), never removed
+        from the layer, so without `inert` its nine links stayed in the tab
+        order and in the accessibility tree on every route at every width —
+        including desktop, where the toggle that opens it is `display: none`.
+        `inert` takes the whole subtree out of focus, hit-testing and AT;
+        `aria-hidden` is kept alongside it for older AT that does not yet
+        map `inert`.
+      */}
+      <div
+        id="nav-drawer"
+        className={`nav-drawer ${isMenuOpen ? "active" : ""}`}
+        inert={!isMenuOpen}
+        aria-hidden={!isMenuOpen}
+      >
         <div className="drawer-links">
           {NAV_ITEMS.map((item) => (
             <React.Fragment key={item.href}>

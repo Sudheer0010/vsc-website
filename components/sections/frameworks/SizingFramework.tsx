@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
-import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
+import { formatLongDate } from "@/lib/format-date";
 import { PipelineStrip } from "./PipelineStrip";
 import {
   ThreeQuestionsExhibit,
@@ -13,40 +16,171 @@ import {
   SmallestNumberWinsExhibit,
 } from "./SizingExhibits";
 
+/**
+ * Framework 04 — Sizing. Ported onto the editorial reading system
+ * established at Frameworks 01–03: running section rail, AnnotatedBlock
+ * margin glosses, GhostNumeral chapter openers, rule-based exhibit chrome.
+ * Every word, heading, threshold and link is unchanged from the previous
+ * implementation. The three plain questions this framework already leads
+ * with — "Can I afford the risk?", "Does this setup deserve that much
+ * capital?", "Do I still have room?" — are its natural top-level chapters,
+ * the same structural role Framework 01's three factors and Framework 03's
+ * three layers play, so they get the same GhostNumeral treatment. Exhibit
+ * 05 (the payoff — which question binds) stays un-numbered, the same
+ * synthesis role Framework 01's Exposure ladder and Framework 02's
+ * Framework Relationship exhibit play.
+ */
+
 const PUBLISHED_DATE = "2026-08-07";
 const CANONICAL = "/frameworks/sizing";
-const PROSE = "max-w-[62ch]";
 
-function ProvisionalNote({ children }: { children: React.ReactNode }) {
+const SECTIONS = [
+  { n: "00", id: "identity", label: "Identity" },
+  { n: "01", id: "questions", label: "The questions" },
+  { n: "02", id: "pipeline", label: "Pipeline" },
+  { n: "03", id: "risk", label: "Question 1" },
+  { n: "04", id: "grade", label: "Question 2" },
+  { n: "05", id: "room", label: "Question 3" },
+  { n: "06", id: "binds", label: "Which binds" },
+  { n: "07", id: "principle", label: "Principle" },
+  { n: "08", id: "not-this", label: "Not this" },
+  { n: "09", id: "handoff", label: "Handoff" },
+  { n: "10", id: "closing", label: "Closing" },
+] as const;
+
+/** Same IntersectionObserver scrollspy pattern as Frameworks 01–03. */
+function useActiveSection(): string {
+  const [active, setActive] = useState<string>(SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
+    );
+
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+function RunningRail() {
+  const active = useActiveSection();
   return (
-    <div
-      className="border-l-2 py-1 pl-5 font-mono text-[13px] leading-relaxed text-ink-faint"
-      style={{ borderColor: "var(--rule)" }}
+    <nav
+      aria-label="Framework reading position"
+      className="fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-start gap-10 xl:flex"
     >
-      {children}
+      <span
+        className="select-none whitespace-nowrap font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-ink-faint"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        Sizing — Framework 04
+      </span>
+
+      <ol className="flex flex-col gap-3 border-l border-rule pl-4">
+        {SECTIONS.map((s) => {
+          const isActive = active === s.id;
+          return (
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className={`flex items-baseline gap-2 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors duration-200 ${
+                  isActive ? "font-semibold text-ink" : "text-ink-faint hover:text-ink-muted"
+                }`}
+              >
+                <span className={isActive ? "text-growth" : ""}>{s.n}</span>
+                {s.label}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function AnnotatedBlock({
+  gloss,
+  span = 7,
+  children,
+}: {
+  gloss?: string;
+  span?: 7 | 10;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+      <div className="hidden lg:col-span-2 lg:block">
+        {gloss && (
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            {gloss}
+          </span>
+        )}
+      </div>
+      <div className={span === 10 ? "lg:col-span-10 lg:col-start-3" : "lg:col-span-7 lg:col-start-3"}>
+        {children}
+      </div>
     </div>
   );
 }
 
-/**
- * Same left-bordered, italic, non-mono treatment used on Frameworks 02
- * and 03 for a short statement of intent, set off from surrounding prose.
- */
+function ExhibitScroll({ minWidth, children }: { minWidth: number; children: React.ReactNode }) {
+  return (
+    <div className="overflow-x-auto">
+      <div style={{ minWidth }}>{children}</div>
+    </div>
+  );
+}
+
+/** Reserved for the three questions — this page's top-level chapters. */
+function GhostNumeral({ children }: { children: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -left-2 -top-8 select-none font-display font-bold leading-none text-transparent sm:-left-6 sm:-top-16 lg:-top-20"
+      style={{
+        fontSize: "clamp(84px, 22vw, 360px)",
+        WebkitTextStroke: "1.5px var(--rule-strong)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** A methodological aside built from a rule instead of a background fill —
+ *  replaces the old rounded/tinted ProvisionalNote. */
+function Note({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-l-2 border-ink pl-6">
+      <p className="font-mono text-[13px] leading-relaxed text-ink-muted">{children}</p>
+    </div>
+  );
+}
+
+/** A short, aphoristic statement of intent — conviction, not disclaimer. */
 function PrincipleBlock({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="border-l-2 py-1 pl-5 text-[16px] italic leading-relaxed text-ink-muted"
-      style={{ borderColor: "var(--rule-strong)" }}
+      className="border-l-2 border-rule-strong pl-5 text-[16px] leading-relaxed text-ink-muted"
+      style={{ fontStyle: "italic" }}
     >
       {children}
     </div>
   );
 }
 
-/**
- * The tiny chapter-transition diagram for the Handoff section — same
- * component shape as Frameworks 02 and 03's, relabelled for this handoff.
- */
+/** Chapter-transition diagram for the Handoff — kept un-numbered. */
 function HandoffArrow() {
   const width = 320;
   const boxW = 240;
@@ -100,16 +234,6 @@ function HandoffArrow() {
   );
 }
 
-/**
- * Framework 04 of the VSC Decision Pipeline — simplification pass. The
- * original version led with a stop-distance table and labelled its
- * sections "Constraint 1/2/3," which read as a risk-management manual
- * rather than a decision framework. This version leads with the three
- * plain questions the framework actually asks (they replace the old
- * converging-arrows exhibit entirely), uses those questions as section
- * headings, and cuts roughly a third of the prose — the exhibits carry
- * the precision now; the copy just carries the idea.
- */
 export function SizingFramework() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -125,207 +249,377 @@ export function SizingFramework() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-canvas text-ink">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <ReadingProgress />
-      <PaperGrain />
+      <RunningRail />
 
-      <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
-        <div className="container mx-auto max-w-[820px] px-4 sm:px-6">
+      <div className="mx-auto max-w-[1680px] px-6 pb-40 pt-32 sm:px-10 lg:px-20 lg:pt-40 xl:pl-56 xl:pr-20">
+        {/* ================================================================
+            00 — IDENTITY.
+           ================================================================ */}
+        <header id="identity" className="mb-32">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-16 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research
           </Link>
 
-          {/* 1. Header */}
-          <header className="mb-14">
-            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-              Framework 04 · Sizing
-            </span>
-            <h1 className="mb-8 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              Sizing
-            </h1>
-            <p className="max-w-[600px] font-display text-[32px] font-medium leading-[1.15] text-ink sm:text-[40px]">
-              How much capital does this setup deserve?
-            </p>
-          </header>
+          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-growth">
+            Framework 04 · Sizing
+          </span>
 
-          <div className="flex flex-col gap-14">
-            {/* 2. The big idea */}
-            <section className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+          <h1
+            className="mt-5 font-display font-bold text-ink"
+            style={{ fontSize: "clamp(48px, 10vw, 132px)", lineHeight: 0.9, letterSpacing: "-0.035em" }}
+          >
+            Sizing
+          </h1>
+
+          <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11px] text-ink-muted lg:hidden">
+            <span>v0.2</span>
+            <span aria-hidden="true">·</span>
+            <span>{formatLongDate(PUBLISHED_DATE)}</span>
+            <span aria-hidden="true">·</span>
+            <span>~6 min read</span>
+            <span aria-hidden="true">·</span>
+            <Byline variant="compact" />
+          </div>
+
+          <div className="mt-10 lg:mt-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+              <div className="hidden lg:col-span-2 lg:flex lg:flex-col lg:gap-2.5">
+                <span className="font-mono text-[11px] text-ink-muted">v0.2</span>
+                <span className="font-mono text-[11px] text-ink-muted">{formatLongDate(PUBLISHED_DATE)}</span>
+                <span className="font-mono text-[11px] text-ink-muted">~6 min read</span>
+                <Byline variant="full" className="mt-2" />
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-3">
+                <p
+                  className="font-editorial text-ink"
+                  style={{ fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.18, letterSpacing: "-0.01em" }}
+                >
+                  How much capital does this setup deserve?
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* ================================================================
+            01 — THE QUESTIONS. The big idea, then the hero Exhibit 01.
+           ================================================================ */}
+        <section id="questions" className="mb-32 flex flex-col gap-14">
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
               <p>Most traders answer &ldquo;how much?&rdquo; with conviction.</p>
               <p>This framework answers it with constraints.</p>
               <p>Three limits apply to every position. The smallest one wins.</p>
-            </section>
+            </div>
+          </AnnotatedBlock>
 
-            {/* 3. EXHIBIT 1 — Three Questions. The hero: the whole framework at a glance. */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={1}
-                label="Three Questions"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <ThreeQuestionsExhibit />
-              </Exhibit>
-
-              <div className={`${PROSE} flex flex-col gap-3 text-[17px] leading-relaxed text-ink-soft`}>
-                <p>Each question produces a number. Each can produce a different number.</p>
-                <p>The position is sized to whichever is smallest.</p>
+          <AnnotatedBlock span={10}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 01 — Three Questions
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={600}>
+                    <ThreeQuestionsExhibit />
+                  </ExhibitScroll>
+                </div>
+              </figure>
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">01</span>
               </div>
             </div>
+          </AnnotatedBlock>
 
-            {/* 4. Pipeline map — compact wayfinding strip, stage 4 active */}
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-4 text-[19px] leading-[1.75] text-ink-soft">
+              <p>Each question produces a number. Each can produce a different number.</p>
+              <p>The position is sized to whichever is smallest.</p>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            02 — PIPELINE. Shared PipelineStrip, unchanged.
+           ================================================================ */}
+        <section id="pipeline" className="mb-32">
+          <AnnotatedBlock span={10} gloss="Pipeline">
             <PipelineStrip activeIndex={3} />
+          </AnnotatedBlock>
+        </section>
 
-            {/* 5. Question 1 — Can I afford the risk? */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            03 — QUESTION 1: CAN I AFFORD THE RISK?
+           ================================================================ */}
+        <section id="risk" className="relative mt-32">
+          <GhostNumeral>1</GhostNumeral>
+
+          <AnnotatedBlock gloss="Question 1 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(36px, 5.6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.03em" }}
+              >
                 Can I afford the risk?
               </h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                The stop determines the size. Not conviction, not the story, not how much I
-                like the chart.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                If a fixed amount is at risk on every trade, then a wider stop buys fewer
-                shares. This is arithmetic, but it runs opposite to instinct — most traders
-                reason that a better-looking setup deserves a bigger position, when the
-                actual driver is where the stop sits.
-              </p>
-            </section>
-
-            {/* EXHIBIT 2 — The Stop Determines The Size (demoted from hero) */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={2}
-                label="The Stop Determines The Size"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <StopSizeExhibit />
-              </Exhibit>
-
-              <PrincipleBlock>The chart sets the stop. The stop sets the size.</PrincipleBlock>
             </div>
+          </AnnotatedBlock>
 
-            {/* 6. Question 2 — Does this setup deserve that much capital? */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+          <div className="mt-14 flex flex-col gap-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  The stop determines the size. Not conviction, not the story, not how much I
+                  like the chart.
+                </p>
+                <p>
+                  If a fixed amount is at risk on every trade, then a wider stop buys fewer
+                  shares. This is arithmetic, but it runs opposite to instinct — most traders
+                  reason that a better-looking setup deserves a bigger position, when the
+                  actual driver is where the stop sits.
+                </p>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 02 — The Stop Determines The Size
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <StopSizeExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">02</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock>
+              <PrincipleBlock>The chart sets the stop. The stop sets the size.</PrincipleBlock>
+            </AnnotatedBlock>
+          </div>
+        </section>
+
+        {/* ================================================================
+            04 — QUESTION 2: DOES THIS SETUP DESERVE THAT MUCH CAPITAL?
+           ================================================================ */}
+        <section id="grade" className="relative mt-32">
+          <GhostNumeral>2</GhostNumeral>
+
+          <AnnotatedBlock gloss="Question 2 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 5vw, 68px)", lineHeight: 1, letterSpacing: "-0.03em" }}
+              >
                 Does this setup deserve that much capital?
               </h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Framework 03 ranks opportunities. A ranking that does not change allocation
-                is not a ranking — it is a comment.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Each grade carries a maximum. These are hard ceilings, not multipliers
-                applied to the number from question 1. If grades multiplied that number, a
-                C-grade setup with a tight stop could end up larger than an A-grade setup
-                with a wide one — which would defeat the purpose of grading at all.
-              </p>
-            </section>
+            </div>
+          </AnnotatedBlock>
 
-            {/* EXHIBIT 3 — Grade Ceilings */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={3}
-                label="Grade Ceilings"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <GradeCeilingsExhibit />
-              </Exhibit>
+          <div className="mt-14 flex flex-col gap-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Framework 03 ranks opportunities. A ranking that does not change allocation
+                  is not a ranking — it is a comment.
+                </p>
+                <p>
+                  Each grade carries a maximum. These are hard ceilings, not multipliers
+                  applied to the number from question 1. If grades multiplied that number, a
+                  C-grade setup with a tight stop could end up larger than an A-grade setup
+                  with a wide one — which would defeat the purpose of grading at all.
+                </p>
+              </div>
+            </AnnotatedBlock>
 
-              <div className={`${PROSE} flex flex-col gap-4`}>
-                <p className="text-[17px] leading-relaxed text-ink-soft">
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 03 — Grade Ceilings
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <GradeCeilingsExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">03</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock gloss="Provisional">
+              <div className="flex flex-col gap-4">
+                <p className="text-[19px] leading-[1.75] text-ink-soft">
                   The A ceiling is also the concentration limit. No single position exceeds
                   it, whatever its grade.
                 </p>
-                <ProvisionalNote>
+                <Note>
                   <em>Ceilings are provisional and will be refined as the framework evolves.</em>
-                </ProvisionalNote>
+                </Note>
               </div>
-            </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 7. Question 3 — Do I still have room? */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            05 — QUESTION 3: DO I STILL HAVE ROOM?
+           ================================================================ */}
+        <section id="room" className="relative mt-32">
+          <GhostNumeral>3</GhostNumeral>
+
+          <AnnotatedBlock gloss="Question 3 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(36px, 5.6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.03em" }}
+              >
                 Do I still have room?
               </h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                The first two questions size a position. This one asks whether the
-                portfolio can take another position at all.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                It is measured in risk, not in capital deployed. Two portfolios can hold
-                identical capital and carry wildly different risk, depending on where the
-                stops sit. Capital deployed is not the variable that hurts.
-              </p>
+            </div>
+          </AnnotatedBlock>
 
-              {/* EXHIBIT 4 — Environment Risk Budget */}
-              <Exhibit
-                number={4}
-                label="Environment Risk Budget"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <EnvironmentRiskBudgetExhibit />
-              </Exhibit>
+          <div className="mt-14 flex flex-col gap-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  The first two questions size a position. This one asks whether the
+                  portfolio can take another position at all.
+                </p>
+                <p>
+                  It is measured in risk, not in capital deployed. Two portfolios can hold
+                  identical capital and carry wildly different risk, depending on where the
+                  stops sit. Capital deployed is not the variable that hurts.
+                </p>
+              </div>
+            </AnnotatedBlock>
 
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                If open risk already sits at the ceiling, no new position opens —
-                regardless of how good the setup is.
-              </p>
-              <ProvisionalNote>
-                <em>Budgets are provisional and will be refined as the framework evolves.</em>
-              </ProvisionalNote>
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 04 — Environment Risk Budget
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <EnvironmentRiskBudgetExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">04</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
 
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                A maximum number of open positions is a useful habit, but it is a proxy —
-                four positions risking 1.5% each and two risking 3% each carry identical
-                portfolio risk.
-              </p>
-            </section>
+            <AnnotatedBlock gloss="Provisional">
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  If open risk already sits at the ceiling, no new position opens —
+                  regardless of how good the setup is.
+                </p>
+                <Note>
+                  <em>Budgets are provisional and will be refined as the framework evolves.</em>
+                </Note>
+                <p>
+                  A maximum number of open positions is a useful habit, but it is a proxy —
+                  four positions risking 1.5% each and two risking 3% each carry identical
+                  portfolio risk.
+                </p>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 8. EXHIBIT 5 — Which Question Binds. The payoff exhibit — full width, not compressed. */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={5}
-                label="Which Question Binds"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <SmallestNumberWinsExhibit />
-              </Exhibit>
+        {/* ================================================================
+            06 — EXHIBIT 05: WHICH QUESTION BINDS. The payoff — not a
+            numbered question — the same synthesis role Framework 01's
+            Exposure ladder plays.
+           ================================================================ */}
+        <section id="binds" className="mt-32">
+          <AnnotatedBlock span={10}>
+            <figure>
+              <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                  Exhibit 05 — Which Question Binds
+                </figcaption>
+              </div>
+              <div className="mt-8">
+                <ExhibitScroll minWidth={600}>
+                  <SmallestNumberWinsExhibit />
+                </ExhibitScroll>
+              </div>
+            </figure>
+          </AnnotatedBlock>
 
-              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+          <div className="mt-8">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 Different questions bind in different situations. That is why there are
                 three.
               </p>
-            </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 9. The Core Principle — the emotional centre of the page */}
-            <div className="rounded-vsc-xl bg-growth-tint p-8 sm:p-12">
-              <p className="font-display text-[24px] font-medium leading-snug text-ink sm:text-[28px]">
+        {/* ================================================================
+            07 — THE CORE PRINCIPLE.
+           ================================================================ */}
+        <section id="principle" className="mt-32">
+          <AnnotatedBlock>
+            <div className="border-t-2 border-ink pt-8">
+              <p
+                className="font-editorial text-ink"
+                style={{ fontSize: "clamp(28px, 3.6vw, 42px)", lineHeight: 1.2 }}
+              >
                 Position size is determined by constraints, not conviction.
               </p>
-              <div className="mt-6 flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-6 flex flex-col gap-4 text-[19px] leading-[1.75] text-ink-soft">
                 <p>Three limits apply to every position.</p>
               </div>
-              <p className="mt-6 font-display text-[22px] font-medium text-ink">
-                The smallest valid number wins.
-              </p>
+              <p className="mt-6 font-display text-2xl font-bold text-ink">The smallest valid number wins.</p>
             </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 10. What This Framework Is Not */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            08 — WHAT THIS FRAMEWORK IS NOT.
+           ================================================================ */}
+        <section id="not-this" className="mt-32">
+          <AnnotatedBlock gloss="Scope">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What This Framework Is Not
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   <strong className="font-semibold text-ink">It Is Not Equal Position Sizing.</strong>{" "}
                   Buying the same amount every time ignores where the stop sits.
@@ -341,18 +635,29 @@ export function SizingFramework() {
                   questions.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 11. The Handoff */}
-            <section className={PROSE}>
-              <h2 className="mb-6 font-display text-2xl font-normal text-ink sm:text-3xl">The Handoff</h2>
-              <div className="flex flex-col gap-6">
+        {/* ================================================================
+            09 — THE HANDOFF.
+           ================================================================ */}
+        <section id="handoff" className="mt-32">
+          <AnnotatedBlock gloss="Continuity">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                The Handoff
+              </h2>
+              <div className="mt-8 flex flex-col gap-6">
                 <div>
                   <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
                     Framework 04 answered
                   </span>
                   <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
-                    “How much?”
+                    &ldquo;How much?&rdquo;
                   </p>
                 </div>
                 <div>
@@ -360,33 +665,41 @@ export function SizingFramework() {
                     Framework 05 answers
                   </span>
                   <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
-                    “Now what?”
+                    &ldquo;Now what?&rdquo;
                   </p>
                 </div>
               </div>
-              <p className="mt-6 text-[17px] leading-relaxed text-ink-soft">
+              <p className="mt-6 text-[19px] leading-[1.75] text-ink-soft">
                 This is the first framework whose output is a number rather than a
                 classification.
               </p>
               <div className="mt-8">
                 <HandoffArrow />
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 12. Version note */}
-            <div className="border-t border-rule pt-8">
+        {/* ================================================================
+            10 — VERSION NOTE + EMAIL CAPTURE.
+           ================================================================ */}
+        <section id="closing" className="mt-32">
+          <AnnotatedBlock gloss="Version log">
+            <div className="border-t-2 border-ink pt-8">
               <p className="font-mono text-[13px] leading-relaxed text-ink-faint">
                 Version 0.2 — Ceilings, budgets, and thresholds are provisional and will be
                 refined as the framework evolves.
               </p>
             </div>
+          </AnnotatedBlock>
 
-            <div className={PROSE}>
+          <div className="mt-14">
+            <AnnotatedBlock>
               <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
-            </div>
+            </AnnotatedBlock>
           </div>
-        </div>
-      </main>
+        </section>
+      </div>
     </div>
   );
 }

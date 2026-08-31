@@ -5,6 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { TradingExpectancyCalculator } from "@/components/tools/TradingExpectancyCalculator";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+import { OG_IMAGES } from "@/lib/seo";
+import { toolBreadcrumbJsonLd } from "@/lib/tool-seo";
+import { RelatedLinks, ReadTheResult, ReadItem } from "@/components/tools/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Trading Expectancy Calculator | VSC Capital & Advisory",
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
     "Combine win rate with average winner and average loser, in units of initial risk, to calculate the mathematical expectancy of a trading process.",
   alternates: { canonical: "/tools/trading-expectancy-calculator" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "https://vsccapital.in/tools/trading-expectancy-calculator",
     title: "Trading Expectancy Calculator | VSC Capital & Advisory",
@@ -23,6 +27,12 @@ export const metadata: Metadata = {
 export default function TradingExpectancyCalculatorPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(toolBreadcrumbJsonLd("Trading Expectancy Calculator", "/tools/trading-expectancy-calculator")),
+        }}
+      />
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
@@ -72,6 +82,31 @@ export default function TradingExpectancyCalculatorPage() {
               <strong className="font-semibold text-ink">What is 1R?</strong> R is the initial risk unit for a trade. If the amount initially risked is ₹5,000, then +2R represents +₹10,000 and −1R represents −₹5,000. Expressing outcomes in R helps compare trades even when position sizes differ.
             </div>
           </section>
+
+          <ReadTheResult>
+            <ReadItem term="Expectancy in R">
+              The average result per trade in units of initial risk, across the sample you entered. +0.25R means the average trade returned a quarter of what it risked.
+            </ReadItem>
+            <ReadItem term="The sign matters more than the size">
+              A negative expectancy means the process lost money over that sample regardless of how many individual trades won. No position size fixes a negative number.
+            </ReadItem>
+            <ReadItem term="Payoff and win rate trade off">
+              A low win rate is not a problem when the average winner is large enough. The two inputs only mean something together, which is what this calculation combines.
+            </ReadItem>
+            <ReadItem term="A sample is evidence, not a forecast">
+              Expectancy measured on past trades describes those trades. Small samples, a few outliers, or a change in market regime can move it substantially.
+            </ReadItem>
+          </ReadTheResult>
+
+          <RelatedLinks
+            frameworks={[
+              { href: "/frameworks/setup-grading", label: "Framework 03 — Setup Grading", note: "How setups are ranked so capital concentrates where the payoff has been strongest." },
+            ]}
+            tools={[
+              { href: "/tools/trading-expectancy-path-simulator", label: "Trading Expectancy Path Simulator", note: "See how widely results can vary even when this expectancy stays fixed." },
+              { href: "/tools/risk-reward-calculator", label: "Risk–Reward Ratio Calculator", note: "Work back from the win rate a planned payoff would need." },
+            ]}
+          />
 
           <aside className="mt-12 max-w-[850px] border-t border-rule pt-5 text-[13px] leading-relaxed text-ink-faint">
             <strong className="font-semibold text-ink-muted">Educational tool only.</strong> Expectancy is an estimate derived from the statistics entered. It is not a forecast of the next trade, a guarantee of profitability, or proof that a strategy has a persistent edge. The estimate can be distorted by small samples, outlier trades, changing market regimes, inconsistent execution, selection bias, and costs or slippage that are not reflected in the underlying trade results. The sample-size note is contextual guidance, not a statistical confidence interval or significance test.

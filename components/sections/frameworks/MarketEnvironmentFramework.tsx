@@ -1,8 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Check } from "lucide-react";
-import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
-import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { formatLongDate } from "@/lib/format-date";
 import {
@@ -14,15 +16,31 @@ import {
   type SubScoringColumn,
 } from "./MarketEnvironmentExhibits";
 
+/**
+ * Framework 01 — Market Environment. The typography-first editorial reading
+ * system approved at /design-lab/framework-market-environment-v2, ported to
+ * production. Every sentence, heading, table value and diagram datum is
+ * unchanged from the previous production implementation — only the
+ * presentation layer (typography, grid, exhibit chrome, section rail) is
+ * new. The three pieces the v2 prototype's slice never covered — the
+ * Framework Snapshot and Exhibits 01–02 (Pipeline map, Scoring flow) — are
+ * added here using the same vocabulary established by the prototype's
+ * Exhibits 03–06, so no production content is lost in the port.
+ *
+ * This is the master visual/UX reference for the remaining four framework
+ * pages, which still use the previous template and are migrated separately.
+ */
+
 const PUBLISHED_DATE = "2026-08-05";
 const CANONICAL = "/frameworks/market-environment";
-/** Reading measure — long-form prose, ~72 characters per line, left-
- *  anchored (no mx-auto) to the framework shell's left content edge. */
-const PROSE = "max-w-[72ch] mr-auto";
-/** Exhibit measure — diagrams/tables/panels that benefit from more room
- *  than the prose rail, centered inside the wider page shell below. */
-const EXHIBIT_WIDE = "max-w-[960px] mx-auto";
-const EXHIBIT_MID = "max-w-[900px] mx-auto";
+
+const SNAPSHOT_ROWS: { label: string; value: string }[] = [
+  { label: "Purpose", value: "Determine risk posture" },
+  { label: "Output", value: "Aggressive · Neutral · Defensive" },
+  { label: "Frequency", value: "Weekly" },
+  { label: "Inputs", value: "3 — Trend, Breadth, Leadership Quality" },
+  { label: "Method", value: "Equal-weight evidence count" },
+];
 
 const TREND_COLUMNS: SubScoringColumn[] = [
   { heading: "Structure", positive: "HH/HL", neutral: "Range-bound", negative: "LL/LH" },
@@ -42,102 +60,191 @@ const BREADTH_ROWS: { label: string; color: string; text: string }[] = [
   { label: "Negative", color: "var(--clay)", text: "<40% · A/D contracting · lows dominating" },
 ];
 
-const SNAPSHOT_ROWS: { label: string; value: string }[] = [
-  { label: "Purpose", value: "Determine risk posture" },
-  { label: "Output", value: "Aggressive · Neutral · Defensive" },
-  { label: "Frequency", value: "Weekly" },
-  { label: "Inputs", value: "3 — Trend, Breadth, Leadership Quality" },
-  { label: "Method", value: "Equal-weight evidence count" },
-];
+const OTHER_STAGES = [
+  { name: "Opportunity Universe", href: "/frameworks/opportunity-universe" },
+  { name: "Setup Grading", href: "/frameworks/setup-grading" },
+  { name: "Sizing", href: "/frameworks/sizing" },
+  { name: "Trade Management", href: "/frameworks/trade-management" },
+] as const;
 
-function ProvisionalNote({ children }: { children: React.ReactNode }) {
+const SECTIONS = [
+  { n: "00", id: "identity", label: "Identity" },
+  { n: "01", id: "snapshot", label: "Snapshot" },
+  { n: "02", id: "pipeline", label: "Pipeline" },
+  { n: "03", id: "method", label: "Method" },
+  { n: "04", id: "scoring-flow", label: "Scoring flow" },
+  { n: "05", id: "trend", label: "Trend" },
+  { n: "06", id: "breadth", label: "Breadth" },
+  { n: "07", id: "leadership", label: "Leadership" },
+  { n: "08", id: "exposure", label: "Exposure" },
+  { n: "09", id: "example-reading", label: "Example" },
+  { n: "10", id: "thinking", label: "Reasoning" },
+  { n: "11", id: "not-this", label: "Not this" },
+  { n: "12", id: "feeds", label: "Feeds 02" },
+  { n: "13", id: "does-not", label: "Scope" },
+  { n: "14", id: "revision", label: "Revisions" },
+] as const;
+
+/** IntersectionObserver scrollspy — same pattern used by ResearchRedesign,
+ *  FAQKnowledgeDesk, and the design-lab prototype this page is ported from. */
+function useActiveSection(): string {
+  const [active, setActive] = useState<string>(SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
+    );
+
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+/**
+ * A running folio, not a documentation sidebar: a rotated spine label (the
+ * kind printed on a book's edge or an annual report's margin) plus a plain
+ * numbered list of the page's sections — no pills, no dot-hover reveal.
+ * Fixed to the viewport edge (not sticky-in-grid) so it survives every
+ * section regardless of that section's own composition.
+ */
+function RunningRail() {
+  const active = useActiveSection();
   return (
-    <div
-      className="border-l-2 py-1 pl-5 font-mono text-[13px] leading-relaxed text-ink-faint"
-      style={{ borderColor: "var(--rule)" }}
+    <nav
+      aria-label="Framework reading position"
+      className="fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-start gap-10 xl:flex"
     >
-      {children}
-    </div>
+      <span
+        className="select-none whitespace-nowrap font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-ink-faint"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        Market Environment — Framework 01
+      </span>
+
+      <ol className="flex flex-col gap-3 border-l border-rule pl-4">
+        {SECTIONS.map((s) => {
+          const isActive = active === s.id;
+          return (
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className={`flex items-baseline gap-2 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors duration-200 ${
+                  isActive ? "font-semibold text-ink" : "text-ink-faint hover:text-ink-muted"
+                }`}
+              >
+                <span className={isActive ? "text-growth" : ""}>{s.n}</span>
+                {s.label}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }
 
 /**
- * A compact reference block, not a section — the reader gets the whole
- * shape of the framework in one glance before scrolling any further.
- * Deliberately tighter than the site's usual card radius (8px, not the
- * standard 14px `rounded-vsc-xl`) so it reads as a data card, not another
- * exhibit.
+ * Pairs a short margin gloss with its content on the same grid row — the
+ * marginal-index-term convention from academic and legal typesetting.
+ * `span` widens the content column for exhibits, which are allowed to break
+ * out of the reading measure.
  */
-function FrameworkSnapshot() {
-  return (
-    <div className="rounded-lg border border-rule bg-surface">
-      <div className="border-b border-rule px-5 py-3">
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
-          Framework snapshot
-        </span>
-      </div>
-      <dl className="flex flex-col">
-        {SNAPSHOT_ROWS.map((row, i) => (
-          <div
-            key={row.label}
-            className={`flex gap-6 px-5 py-3 ${i > 0 ? "border-t border-rule" : ""}`}
-          >
-            <dt className="w-24 shrink-0 font-mono text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
-              {row.label}
-            </dt>
-            <dd className="text-[15px] text-ink">{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
-}
-
-/**
- * A full-width chapter break before each factor. The repetition — same
- * numeral treatment, same rule-above/rule-below frame — is deliberate: it's
- * what turns three sections that used to read as more body text into three
- * chapters with a beginning the reader can feel.
- */
-function FactorDivider({
-  number,
-  name,
-  question,
+function AnnotatedBlock({
+  gloss,
+  span = 7,
+  children,
 }: {
-  number: string;
-  name: string;
-  question: string;
+  gloss?: string;
+  span?: 7 | 10;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="mt-6">
-      <div className="h-px w-full bg-rule" />
-      <div className="py-10 sm:py-14">
-        <div className="flex items-start justify-between gap-6">
-          <span className="font-display text-[48px] font-normal leading-none text-ink sm:text-[64px]">
-            {number}
+    <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+      <div className="hidden lg:col-span-2 lg:block">
+        {gloss && (
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            {gloss}
           </span>
-          <span className="mt-2 shrink-0 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
-            Factor
-          </span>
-        </div>
-        <h2 className="mt-4 font-display text-[32px] font-normal leading-tight text-ink sm:text-[36px]">
-          {name}
-        </h2>
-        <p className="mt-2 text-[17px] text-ink-faint">{question}</p>
+        )}
       </div>
-      <div className="h-px w-full bg-rule" />
+      <div className={span === 10 ? "lg:col-span-10 lg:col-start-3" : "lg:col-span-7 lg:col-start-3"}>
+        {children}
+      </div>
     </div>
   );
 }
 
 /**
- * The Example Reading card — a worked example of the framework's actual
- * output, positioned as the payoff after the reader has worked through all
- * three factors. Paper-toned with a green rule, not a dark band: the
- * matte-black treatment is reserved for the Inner Circle block elsewhere
- * on the site, and reusing it here would blur that signal.
+ * The exhibit SVGs render at a fixed viewBox and scale to their container's
+ * full width, which on a narrow phone shrinks every label to illegible
+ * text. Scrolling at natural size instead beats shrinking into illegibility.
  */
-function VerdictBlock() {
+function ExhibitScroll({ minWidth, children }: { minWidth: number; children: React.ReactNode }) {
+  return (
+    <div className="overflow-x-auto">
+      <div style={{ minWidth }}>{children}</div>
+    </div>
+  );
+}
+
+/**
+ * A large outlined numeral bleeding behind a factor's opening — structural
+ * decoration integrated into the composition (aria-hidden, stroke only, no
+ * fill), not a block the reader has to scroll past. Reserved for the three
+ * scored factors (Trend, Breadth, Leadership); other sections use a plain
+ * rule + heading instead so factor-scale drama doesn't leak onto sections
+ * that aren't factors.
+ */
+function GhostNumeral({ children }: { children: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -left-2 -top-8 select-none font-display font-bold leading-none text-transparent sm:-left-6 sm:-top-16 lg:-top-20"
+      style={{
+        // A floor of 140px let the glyph's ink (a digit's curve overshoots
+        // its nominal line-box) reach down into a two-line wrapped heading
+        // on narrow screens — e.g. "Leadership Quality" — and read as a
+        // stray underline. A lower floor keeps clearance at every width.
+        fontSize: "clamp(84px, 22vw, 360px)",
+        WebkitTextStroke: "1.5px var(--rule-strong)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/**
+ * A methodological aside that needs to read as distinct from body prose,
+ * built from a rule instead of a background fill — hierarchy comes from
+ * typography and rules, not surface colour.
+ */
+function Note({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-l-2 border-ink pl-6">
+      <p className="font-mono text-[13px] leading-relaxed text-ink-muted">{children}</p>
+    </div>
+  );
+}
+
+/**
+ * The "Example reading" payoff: a heavy top rule, a large display figure
+ * for the verdict itself (colour used as the signal it already is
+ * sitewide — positive/negative — not as page background), and a plain
+ * rule-divided list for the per-factor detail.
+ */
+function VerdictReadout() {
   const checks: { factor: string; verdict: string }[] = [
     { factor: "Trend", verdict: "Positive" },
     { factor: "Breadth", verdict: "Positive" },
@@ -145,35 +252,31 @@ function VerdictBlock() {
   ];
 
   return (
-    <div
-      className="rounded-vsc-xl border-l-[3px] bg-growth-tint p-8 sm:p-10"
-      style={{ borderLeftColor: "var(--growth)" }}
-    >
-      <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-growth">
+    <div className="border-t-2 border-ink pt-8">
+      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
         Example reading
       </span>
-
-      <div className="mt-6 font-display text-[56px] font-semibold leading-none text-growth sm:text-[72px]">
+      <div
+        className="mt-4 font-display font-bold text-growth"
+        style={{ fontSize: "clamp(56px, 9vw, 140px)", lineHeight: 0.9, letterSpacing: "-0.03em" }}
+      >
         Aggressive
       </div>
-
-      <div className="mt-8 flex items-baseline justify-between border-t border-rule pt-5 font-mono text-[13px]">
-        <span className="text-ink-muted">Maximum exposure</span>
-        <span className="font-semibold text-ink">80–100%</span>
-      </div>
-
-      <div className="mt-5 flex flex-col gap-2.5">
+      <div className="mt-8 flex flex-col divide-y divide-rule border-t border-rule font-mono text-[14px]">
+        <div className="flex items-baseline justify-between py-3">
+          <span className="text-ink-muted">Maximum exposure</span>
+          <span className="font-semibold text-ink">80–100%</span>
+        </div>
         {checks.map((c) => (
-          <div key={c.factor} className="flex items-center justify-between font-mono text-[13px]">
+          <div key={c.factor} className="flex items-baseline justify-between py-3">
             <span className="text-ink-muted">{c.factor}</span>
-            <span className="flex items-center gap-2 font-semibold text-growth">
+            <span className="flex items-center gap-1.5 font-semibold text-growth">
               {c.verdict}
               <Check className="h-3.5 w-3.5" strokeWidth={3} />
             </span>
           </div>
         ))}
       </div>
-
       <p className="mt-6 border-t border-rule pt-5 font-mono text-[13px] text-ink-muted">
         3 of 3 factors positive.
       </p>
@@ -181,20 +284,6 @@ function VerdictBlock() {
   );
 }
 
-/**
- * Framework 01 of the VSC Decision Pipeline. A special-cased render inside
- * `/frameworks/[slug]` — this page carries real prose, tables, and six
- * inline-SVG exhibits, which is a different shape entirely from the
- * generic "body: string" + revision-list template the other four
- * framework stubs still use. Kept as its own component so that template
- * stays untouched for the frameworks that don't have real content yet.
- *
- * Page order is "show, then explain": snapshot → pipeline map → how it's
- * scored → the three factors → what the output means in practice → the
- * example reading → the defensive and philosophical prose. A reader who
- * stops halfway still understands the system; a reader who finishes
- * understands the reasoning behind it too.
- */
 export function MarketEnvironmentFramework() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -210,192 +299,387 @@ export function MarketEnvironmentFramework() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-canvas text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <ReadingProgress />
-      <PaperGrain />
+      <RunningRail />
 
-      <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
-        <div className="container mx-auto max-w-[1040px] px-4 sm:px-6">
+      {/* xl:pl-56 (not lg:px-20 symmetrically) reserves clearance for the
+          fixed RunningRail, which only appears at xl+ — without it the
+          rail's section list and the grid's own margin-gloss column
+          occupy the same horizontal band and visually collide. */}
+      <div className="mx-auto max-w-[1680px] px-6 pb-40 pt-32 sm:px-10 lg:px-20 lg:pt-40 xl:pl-56 xl:pr-20">
+        {/* ================================================================
+            00 — IDENTITY. The title is the one element allowed to break
+            the grid entirely (full width, cols 1–12); everything else
+            settles into the cols 3–9 reading measure directly below it —
+            the asymmetric masthead/body relationship an annual report or
+            report cover uses, not a centered hero.
+           ================================================================ */}
+        <header id="identity" className="mb-32">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-16 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research
           </Link>
 
-          {/* 1. Header — hero statement dominates */}
-          <header className="mb-14">
-            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-              Framework 01 · Market Environment
-            </span>
-            <h1 className="mb-8 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              Market Environment
-            </h1>
-            <p className="max-w-[600px] font-display text-[32px] font-medium leading-[1.15] text-ink sm:text-[40px]">
-              The market decides
-              <br />
-              how aggressive you are
-              <br />
-              allowed to be.
-            </p>
-            <p className="mt-6 max-w-[600px] text-[18px] leading-relaxed text-ink-faint">
-              Everything else comes later.
-            </p>
-            <p className={`${PROSE} mt-8 font-mono text-[13px] leading-relaxed text-ink-faint`}>
-              Opportunity Universe · Setup Grading · Sizing · Trade Management — all
-              depend on this first decision.
-            </p>
-          </header>
+          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-growth">
+            Framework 01 · Market Environment
+          </span>
 
-          <div className="flex flex-col gap-14">
-            {/* 2. Framework Snapshot — the whole shape of it in one glance */}
-            <div className={PROSE}>
-              <FrameworkSnapshot />
+          <h1
+            className="mt-5 font-display font-bold text-ink"
+            style={{
+              fontSize: "clamp(48px, 10vw, 132px)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.035em",
+            }}
+          >
+            Market Environment
+          </h1>
+
+          {/* Mobile-only fallback for the metadata that otherwise lives in
+              the lg+ margin column below — same facts, inline instead of
+              in a side rail since there's no margin to spare at this width. */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11px] text-ink-muted lg:hidden">
+            <span>v1.0</span>
+            <span aria-hidden="true">·</span>
+            <span>{formatLongDate(PUBLISHED_DATE)}</span>
+            <span aria-hidden="true">·</span>
+            <span>~13 min read</span>
+            <span aria-hidden="true">·</span>
+            <Byline variant="compact" />
+          </div>
+
+          <div className="mt-10 lg:mt-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+              <div className="hidden lg:col-span-2 lg:flex lg:flex-col lg:gap-2.5">
+                <span className="font-mono text-[11px] text-ink-muted">v1.0</span>
+                <span className="font-mono text-[11px] text-ink-muted">{formatLongDate(PUBLISHED_DATE)}</span>
+                <span className="font-mono text-[11px] text-ink-muted">~13 min read</span>
+                <Byline variant="full" className="mt-2" />
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-3">
+                <p
+                  className="font-editorial text-ink"
+                  style={{ fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.18, letterSpacing: "-0.01em" }}
+                >
+                  The market decides
+                  <br />
+                  how aggressive you are
+                  <br />
+                  allowed to be.
+                </p>
+
+                <p className="mt-8 text-[19px] leading-relaxed text-ink-faint">Everything else comes later.</p>
+
+                <div className="mt-10 flex flex-wrap items-center gap-x-2 gap-y-2 border-t border-rule pt-6 font-mono text-[13px] leading-relaxed text-ink-muted">
+                  {OTHER_STAGES.map((stage, i) => (
+                    <span key={stage.name} className="flex items-center gap-2">
+                      {i > 0 && <span aria-hidden="true">·</span>}
+                      <Link
+                        href={stage.href}
+                        className="text-ink-soft underline decoration-rule-strong underline-offset-4 transition-colors hover:text-growth hover:decoration-growth"
+                      >
+                        {stage.name}
+                      </Link>
+                    </span>
+                  ))}
+                  <span>— all depend on this first decision.</span>
+                </div>
+              </div>
             </div>
+          </div>
+        </header>
 
-            {/* 3. EXHIBIT — Pipeline map: this is Stage 1 of 5 */}
-            <Exhibit
-              number={1}
-              label="The five-stage pipeline"
-              caption="You are reading Stage 1. Each stage feeds the next."
-              className={`${PROSE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
-            >
-              <PipelineMapExhibit />
-            </Exhibit>
+        {/* ================================================================
+            01 — FRAMEWORK SNAPSHOT. Same labelled-row treatment as the
+            Breadth zones legend: a heavy top rule and plain rows, not a
+            bordered card.
+           ================================================================ */}
+        <section id="snapshot" className="mb-32">
+          <AnnotatedBlock gloss="Snapshot">
+            <div className="border-t-2 border-ink">
+              {SNAPSHOT_ROWS.map((row, i) => (
+                <div
+                  key={row.label}
+                  className={`flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6 ${
+                    i > 0 ? "border-t border-rule" : ""
+                  }`}
+                >
+                  <span className="w-32 shrink-0 font-mono text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+                    {row.label}
+                  </span>
+                  <span className="text-[15px] text-ink">{row.value}</span>
+                </div>
+              ))}
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 4. The weekend question — transition from "here's the overview" to "now here's each factor" */}
-            <section className={PROSE}>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
-                <p>
-                  Every weekend I ask one question: if I had fresh capital on Monday, how
-                  aggressively would I want to deploy it?
+        {/* ================================================================
+            02 — EXHIBIT 01: the five-stage pipeline.
+           ================================================================ */}
+        <section id="pipeline" className="mb-32">
+          <AnnotatedBlock span={10}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 01 — The five-stage pipeline
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={420}>
+                    <PipelineMapExhibit />
+                  </ExhibitScroll>
+                </div>
+                <p className="mt-4 max-w-[60ch] font-mono text-[12px] leading-relaxed text-ink-faint">
+                  You are reading Stage 1. Each stage feeds the next.
                 </p>
-                <p>
-                  The answer is never based on a single chart. It comes from trend,
-                  breadth, and leadership working together. This framework exists to
-                  make that decision systematic.
-                </p>
+              </figure>
+
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">01</span>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* Why no weights */}
-            <section className={PROSE}>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
-                <p>
-                  Three factors. Each is classified Positive, Neutral, or Negative. No
-                  weights — each factor counts equally. The count of Positive factors
-                  sets the environment.
+        {/* ================================================================
+            03 — METHOD. Plain reading measure, margin glosses standing in
+            for a bordered "provisional" callout box.
+           ================================================================ */}
+        <section id="method" className="mb-32 flex flex-col gap-10">
+          <AnnotatedBlock gloss="The question">
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+              <p>
+                Every weekend I ask one question: if I had fresh capital on Monday, how
+                aggressively would I want to deploy it?
+              </p>
+              <p>
+                The answer is never based on a single chart. It comes from trend,
+                breadth, and leadership working together. This framework exists to
+                make that decision systematic.
+              </p>
+            </div>
+          </AnnotatedBlock>
+
+          <AnnotatedBlock gloss="Weighting">
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+              <p>
+                Three factors. Each is classified Positive, Neutral, or Negative. No
+                weights — each factor counts equally. The count of Positive factors
+                sets the environment.
+              </p>
+              <p>
+                <strong className="font-semibold text-ink">Why no weights.</strong>{" "}
+                Assigning weights — Trend = 30%, Breadth = 25% — would imply that one
+                factor has been shown to carry more information than another. That
+                hasn&apos;t been tested. Neither Weinstein nor O&apos;Neil arrived at
+                weights through published research. Equal weighting is the honest
+                starting point.
+              </p>
+              <p>
+                After 12–24 months of scored readings alongside actual results, the
+                data may justify weighting. Until then, each factor counts as one.
+              </p>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            04 — EXHIBIT 02: the scoring flow.
+           ================================================================ */}
+        <section id="scoring-flow" className="mb-32">
+          <AnnotatedBlock span={10} gloss="Scoring logic">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 02 — The scoring flow
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={780}>
+                    <ScoringFlowExhibit />
+                  </ExhibitScroll>
+                </div>
+                <p className="mt-4 max-w-[64ch] font-mono text-[12px] leading-relaxed text-ink-faint">
+                  The exposure figure is a ceiling, not a target. The environment gives
+                  permission; the setups downstream earn the capital. Aggressive is not
+                  &ldquo;fully invested,&rdquo; and Defensive is not &ldquo;no
+                  positions&rdquo; — each is the most risk the evidence currently allows.
                 </p>
-                <p>
-                  <strong className="font-semibold text-ink">Why no weights.</strong>{" "}
-                  Assigning weights — Trend = 30%, Breadth = 25% — would imply that one
-                  factor has been shown to carry more information than another. That
-                  hasn&apos;t been tested. Neither Weinstein nor O&apos;Neil arrived at
-                  weights through published research. Equal weighting is the honest
-                  starting point.
-                </p>
-                <p>
-                  After 12–24 months of scored readings alongside actual results, the
-                  data may justify weighting. Until then, each factor counts as one.
-                </p>
+              </figure>
+
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">02</span>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 5. EXHIBIT — The scoring flow */}
-            <Exhibit
-              number={2}
-              label="The scoring flow"
-              caption="The exposure figure is a ceiling, not a target. The environment gives permission; the setups downstream earn the capital. Aggressive is not &ldquo;fully invested,&rdquo; and Defensive is not &ldquo;no positions&rdquo; — each is the most risk the evidence currently allows."
-              className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
-            >
-              <ScoringFlowExhibit />
-            </Exhibit>
+        {/* ================================================================
+            05 — 01 TREND. The factor number is a large stroked-outline
+            numeral integrated into the composition. Hierarchy comes from
+            rule weight, scale and whitespace — no background-colour shift.
+           ================================================================ */}
+        <section id="trend" className="relative">
+          <GhostNumeral>1</GhostNumeral>
 
-            {/* FACTOR 01 — Trend */}
-            <FactorDivider number="01" name="Trend" question="Is the market structurally healthy?" />
-
-            <div className="flex flex-col gap-6">
-              <section className={PROSE}>
-                <p className="text-[17px] leading-relaxed text-ink-soft">
-                  I score Trend across three sub-dimensions — Structure, Location, and
-                  Slope. Each is classified independently, and the overall reading is
-                  majority: two out of three.
-                </p>
-              </section>
-
-              <Exhibit
-                number={3}
-                label="Scoring Trend"
-                className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
+          <AnnotatedBlock gloss="Section 1">
+            <div className="relative border-t-2 border-ink pt-6">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+                Factor 1 of 3 scored
+              </span>
+              <h2
+                className="mt-3 font-display font-bold text-ink"
+                style={{ fontSize: "clamp(56px, 8vw, 108px)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
               >
-                <SubScoringExhibit
-                  columns={TREND_COLUMNS}
-                  resolverLines={[
-                    "2 OR 3 POSITIVE → TREND IS POSITIVE",
-                    "2 OR 3 NEGATIVE → TREND IS NEGATIVE",
-                    "Anything else → Neutral",
-                  ]}
-                  titleId="trend-scoring"
-                  title="Scoring Trend across three sub-dimensions."
-                  desc="Structure, Location, and Slope are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes Trend positive, two or three negative makes Trend negative, and anything else makes Trend neutral."
-                />
-              </Exhibit>
+                Trend
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.3 }}>
+                Is the market structurally healthy?
+              </p>
+            </div>
+          </AnnotatedBlock>
 
-              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+          <div className="mt-14 flex flex-col gap-14">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
+                I score Trend across three sub-dimensions — Structure, Location, and
+                Slope. Each is classified independently, and the overall reading is
+                majority: two out of three.
+              </p>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 03 — Scoring Trend
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={780}>
+                      <SubScoringExhibit
+                        columns={TREND_COLUMNS}
+                        resolverLines={[
+                          "2 OR 3 POSITIVE → TREND IS POSITIVE",
+                          "2 OR 3 NEGATIVE → TREND IS NEGATIVE",
+                          "Anything else → Neutral",
+                        ]}
+                        titleId="trend-scoring"
+                        title="Scoring Trend across three sub-dimensions."
+                        desc="Structure, Location, and Slope are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes Trend positive, two or three negative makes Trend negative, and anything else makes Trend neutral."
+                      />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">03</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock gloss="Reading">
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
                 Trend is healthy when at least two of Structure, Location, and Slope
                 agree — not from any single signal alone.
               </p>
-            </div>
+            </AnnotatedBlock>
 
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                <strong className="font-semibold text-ink">Positive:</strong> 2 or 3
-                sub-dimensions positive. <strong className="font-semibold text-ink">Negative:</strong>{" "}
-                2 or 3 negative. Otherwise Neutral.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                This eliminates interpretation. A market above both MAs but range-bound
-                with a flattening slope scores Location positive, Structure neutral,
-                Slope neutral — overall Neutral. Not Positive. The structure resolves
-                the ambiguity, not the analyst.
-              </p>
-            </section>
-
-            {/* FACTOR 02 — Breadth */}
-            <FactorDivider number="02" name="Breadth" question="How many stocks are participating?" />
-
-            <div className="flex flex-col gap-6">
-              <section className={PROSE}>
-                <p className="text-[17px] leading-relaxed text-ink-soft">
-                  I look at the percentage of Nifty 500 stocks above their 50 DMA and 200
-                  DMA, the advance/decline ratio, and new 52-week highs versus lows.
+            <AnnotatedBlock gloss="Resolution logic">
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  <strong className="font-semibold text-ink">Positive:</strong> 2 or 3
+                  sub-dimensions positive. <strong className="font-semibold text-ink">Negative:</strong>{" "}
+                  2 or 3 negative. Otherwise Neutral.
                 </p>
-              </section>
+                <p>
+                  This eliminates interpretation. A market above both MAs but range-bound
+                  with a flattening slope scores Location positive, Structure neutral,
+                  Slope neutral — overall Neutral. Not Positive. The structure resolves
+                  the ambiguity, not the analyst.
+                </p>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-              <Exhibit
-                number={4}
-                label="Breadth zones"
-                className={`${EXHIBIT_MID} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
+        {/* ================================================================
+            06 — 02 BREADTH.
+           ================================================================ */}
+        <section id="breadth" className="relative mt-32">
+          <GhostNumeral>2</GhostNumeral>
+
+          <AnnotatedBlock gloss="Section 2">
+            <div className="relative border-t-2 border-ink pt-6">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+                Factor 2 of 3 scored
+              </span>
+              <h2
+                className="mt-3 font-display font-bold text-ink"
+                style={{ fontSize: "clamp(56px, 8vw, 108px)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
               >
-                <BreadthZonesExhibit />
-              </Exhibit>
+                Breadth
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.3 }}>
+                How many stocks are participating?
+              </p>
+            </div>
+          </AnnotatedBlock>
 
-              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+          <div className="mt-14 flex flex-col gap-14">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
+                I look at the percentage of Nifty 500 stocks above their 50 DMA and 200
+                DMA, the advance/decline ratio, and new 52-week highs versus lows.
+              </p>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 04 — Breadth zones
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={700}>
+                      <BreadthZonesExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">04</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock gloss="Reading">
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
                 Breadth shows whether a rally is broad or narrow, and it can shift
                 before the index itself does.
               </p>
-            </div>
+            </AnnotatedBlock>
 
-            <section className={`${PROSE} flex flex-col gap-6`}>
-              <div className="flex flex-col">
+            <AnnotatedBlock gloss="Zones">
+              <div className="border-t-2 border-ink">
                 {BREADTH_ROWS.map((row, i) => (
                   <div
                     key={row.label}
@@ -403,24 +687,25 @@ export function MarketEnvironmentFramework() {
                       i > 0 ? "border-t border-rule" : ""
                     }`}
                   >
-                    <span
-                      className="w-20 shrink-0 font-mono text-[13px] font-semibold"
-                      style={{ color: row.color }}
-                    >
+                    <span className="w-20 shrink-0 font-mono text-[13px] font-semibold" style={{ color: row.color }}>
                       {row.label}
                     </span>
                     <span className="font-mono text-[13px] text-ink">{row.text}</span>
                   </div>
                 ))}
               </div>
+            </AnnotatedBlock>
 
-              <p className="text-[17px] leading-relaxed text-ink-soft">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 Breadth often deteriorates before the index does. The Nifty can hold
                 above its moving averages while participation narrows underneath. This
                 factor catches that divergence.
               </p>
+            </AnnotatedBlock>
 
-              <ProvisionalNote>
+            <AnnotatedBlock gloss="Provisional">
+              <Note>
                 <strong className="font-semibold">Provisional.</strong> The 60% and 40%
                 boundaries are drawn from published breadth research and observed
                 behaviour — studies commonly cite &gt;60–70% as broad participation and
@@ -428,135 +713,195 @@ export function MarketEnvironmentFramework() {
                 against NSE historical data. If calibration changes them, this page
                 will be updated with a version note recording the old values, the new
                 values, and the evidence.
-              </ProvisionalNote>
-            </section>
+              </Note>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* FACTOR 03 — Leadership Quality */}
-            <FactorDivider
-              number="03"
-              name="Leadership Quality"
-              question="Are opportunities actually working?"
-            />
+        {/* ================================================================
+            07 — 03 LEADERSHIP QUALITY.
+           ================================================================ */}
+        <section id="leadership" className="relative mt-32">
+          <GhostNumeral>3</GhostNumeral>
 
-            <div className="flex flex-col gap-6">
-              <section className={`${PROSE} flex flex-col gap-5`}>
-                <p className="text-[17px] leading-relaxed text-ink-soft">
+          <AnnotatedBlock gloss="Section 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+                Factor 3 of 3 scored
+              </span>
+              <h2
+                className="mt-3 font-display font-bold text-ink"
+                style={{ fontSize: "clamp(48px, 7.5vw, 100px)", lineHeight: 0.94, letterSpacing: "-0.03em" }}
+              >
+                Leadership Quality
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.3 }}>
+                Are opportunities actually working?
+              </p>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-14 flex flex-col gap-14">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
                   This is the factor that matters most for how I actually trade. If
                   setups are working, the market is healthy — regardless of what the
                   index says. If setups are consistently failing, the environment has
                   shifted.
                 </p>
-                <p className="text-[17px] leading-relaxed text-ink-soft">
-                  I score it across three sub-metrics, same 2-of-3 structure as Trend.
-                </p>
-              </section>
+                <p>I score it across three sub-metrics, same 2-of-3 structure as Trend.</p>
+              </div>
+            </AnnotatedBlock>
 
-              <Exhibit
-                number={5}
-                label="Scoring Leadership Quality"
-                className={`${EXHIBIT_WIDE} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
-              >
-                <SubScoringExhibit
-                  columns={LEADERSHIP_COLUMNS}
-                  resolverLines={[
-                    "2 OR 3 POSITIVE → POSITIVE",
-                    "2 OR 3 NEGATIVE → NEGATIVE",
-                    "Anything else → Neutral",
-                  ]}
-                  titleId="leadership-scoring"
-                  title="Scoring Leadership Quality across three sub-metrics."
-                  desc="Breakout Success, New High Expansion, and Sector Participation are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes the factor positive, two or three negative makes it negative, and anything else makes it neutral."
-                />
-              </Exhibit>
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 05 — Scoring Leadership Quality
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={780}>
+                      <SubScoringExhibit
+                        columns={LEADERSHIP_COLUMNS}
+                        resolverLines={[
+                          "2 OR 3 POSITIVE → POSITIVE",
+                          "2 OR 3 NEGATIVE → NEGATIVE",
+                          "Anything else → Neutral",
+                        ]}
+                        titleId="leadership-scoring"
+                        title="Scoring Leadership Quality across three sub-metrics."
+                        desc="Breakout Success, New High Expansion, and Sector Participation are each classified Positive, Neutral, or Negative, then resolved by majority: two or three positive makes the factor positive, two or three negative makes it negative, and anything else makes it neutral."
+                      />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
 
-              <p className={`${PROSE} text-[17px] leading-relaxed text-ink-soft`}>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">05</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock gloss="Reading">
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 <strong className="font-semibold text-ink">What this tells us:</strong>{" "}
                 When real setups keep working, the market is supporting risk-taking;
                 when they keep failing, that support has faded.
               </p>
-            </div>
+            </AnnotatedBlock>
 
-            <section className={`${PROSE} flex flex-col gap-6`}>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 A rally driven by three stocks looks like leadership. A rally driven by
                 eight sectors <em>is</em> leadership. Keeping sector count as a visible
                 sub-metric prevents narrow concentration from being missed.
               </p>
+            </AnnotatedBlock>
 
-              <ProvisionalNote>
+            <AnnotatedBlock gloss="Provisional">
+              <Note>
                 <strong className="font-semibold">Provisional.</strong> The
                 success-rate and sector-count boundaries are initial estimates. A
                 framework must have numbers to be falsifiable — without them, there is
                 no way to tell whether the framework worked or whether I changed my
                 interpretation after the fact. These will be calibrated and updated in
                 the revision history.
-              </ProvisionalNote>
+              </Note>
+            </AnnotatedBlock>
 
-              <p className="text-[17px] leading-relaxed text-ink-soft">
+            <AnnotatedBlock>
+              <p className="text-[19px] leading-[1.75] text-ink-soft">
                 The test any factor must pass: can I calculate this every week without
                 relying on someone else&apos;s commentary? If not, it doesn&apos;t
                 belong here. All three sub-metrics are directly observable from price
                 data and a scanner.
               </p>
-            </section>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 10. EXHIBIT — Exposure ladder: what the output means in practice (unchanged — content and internals untouched) */}
-            <Exhibit
-              number={6}
-              label="Exposure ladder"
-              className={`${EXHIBIT_MID} rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8`}
-            >
-              <ExposureLadderExhibit />
-              <p className="mt-6 text-center font-display text-xl font-medium text-ink">
+        {/* ================================================================
+            08 — EXPOSURE. Not a numbered factor — no ghost numeral — this
+            is the synthesis exhibit the three factors feed into.
+           ================================================================ */}
+        <section id="exposure" className="mt-32 flex flex-col gap-14">
+          <AnnotatedBlock span={10} gloss="Output">
+            <figure>
+              <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                  Exhibit 06 — Exposure ladder
+                </figcaption>
+              </div>
+              <div className="mt-8">
+                <ExhibitScroll minWidth={700}>
+                  <ExposureLadderExhibit />
+                </ExhibitScroll>
+              </div>
+              <p
+                className="font-editorial mt-8 text-center text-ink"
+                style={{ fontSize: "clamp(22px, 2.6vw, 32px)", fontStyle: "italic" }}
+              >
                 Exposure is a ceiling, not a target.
               </p>
-            </Exhibit>
+            </figure>
+          </AnnotatedBlock>
 
-            {/* Cash is a position — the direct explanation of what the ladder means */}
-            <section className={PROSE}>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
-                <p>
-                  Aggressive does not mean fully invested. Defensive does not mean zero
-                  positions.
-                </p>
-                <p>
-                  The exposure cap is a ceiling, not a target. In an Aggressive
-                  environment I <em>can</em> deploy up to 80–100% — but only if enough A
-                  and A+ setups present themselves through the rest of the pipeline. The
-                  environment gives permission. The setups earn the capital.
-                </p>
-                <p>
-                  In a Defensive environment, most of the portfolio sits in cash. Not
-                  because there&apos;s a rule against trading, but because the evidence
-                  says setups aren&apos;t being supported. Waiting is an active, scored
-                  decision — not the absence of one.
-                </p>
-              </div>
-            </section>
-
-            {/* Example Reading — the payoff, after the reader has worked through all three factors */}
-            <div>
-              <div className="max-w-[720px] mx-auto">
-                <VerdictBlock />
-              </div>
-              <p className={`${PROSE} mt-5 font-mono text-[13px] leading-relaxed text-ink-faint`}>
-                This is an example of the framework&apos;s output, not a live market
-                call. While SEBI Research Analyst registration is in process, I publish
-                the method, not a positioning service. The monthly market letters show
-                the reading applied in real time.
+          <AnnotatedBlock gloss="Reading">
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+              <p>
+                Aggressive does not mean fully invested. Defensive does not mean zero
+                positions.
+              </p>
+              <p>
+                The exposure cap is a ceiling, not a target. In an Aggressive
+                environment I <em>can</em> deploy up to 80–100% — but only if enough A
+                and A+ setups present themselves through the rest of the pipeline. The
+                environment gives permission. The setups earn the capital.
+              </p>
+              <p>
+                In a Defensive environment, most of the portfolio sits in cash. Not
+                because there&apos;s a rule against trading, but because the evidence
+                says setups aren&apos;t being supported. Waiting is an active, scored
+                decision — not the absence of one.
               </p>
             </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 11. The thinking behind this framework — consolidated from the
-                two philosophy sections that used to open the page. Condensed
-                to what isn't already covered by the snapshot and the factors
-                above: the forecast-vs-reality-check distinction, and why the
-                market gets read before anything else does. */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            09 — EXAMPLE READING. The payoff — see VerdictReadout above.
+           ================================================================ */}
+        <section id="example-reading" className="mt-32">
+          <AnnotatedBlock gloss="Payoff">
+            <VerdictReadout />
+            <p className="mt-6 font-mono text-[13px] leading-relaxed text-ink-faint">
+              This is an example of the framework&apos;s output, not a live market
+              call. While SEBI Research Analyst registration is in process, I publish
+              the method, not a positioning service. The monthly market letters show
+              the reading applied in real time.
+            </p>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            10–13 — CLOSING PROSE. Regular chapter headings, not numbered
+            factors: a lighter rule + display heading rather than a ghost
+            numeral, so the composition doesn't force factor-scale drama
+            onto sections that aren't factors.
+           ================================================================ */}
+        <section id="thinking" className="mt-32">
+          <AnnotatedBlock gloss="Reasoning">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 The thinking behind this framework
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   I&apos;m not trying to predict where Nifty will be next month.
                   I&apos;m trying to understand what the market is rewarding right now.
@@ -587,14 +932,20 @@ export function MarketEnvironmentFramework() {
                   Read the market first, then sectors, then stocks.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 12. What this framework is not — the contrast now has something to contrast against */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        <section id="not-this" className="mt-32">
+          <AnnotatedBlock gloss="Rejected approaches">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What this framework is not
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>Three approaches I studied and rejected.</p>
                 <p>
                   <strong className="font-semibold text-ink">Price-above-MA only.</strong>{" "}
@@ -621,27 +972,39 @@ export function MarketEnvironmentFramework() {
                   trend, breadth, leadership, participation — then make a judgment.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 13. How this feeds Framework 02 */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        <section id="feeds" className="mt-32">
+          <AnnotatedBlock gloss="Continuity">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 How this feeds Framework 02
               </h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
+              <p className="mt-8 text-[19px] leading-[1.75] text-ink-soft">
                 The regime and the exposure cap carry forward into Framework 02 —
                 Opportunity Universe. In a Defensive environment the watchlist shrinks;
                 in an Aggressive one it expands. The environment doesn&apos;t just set
                 how much capital gets deployed — it sets how wide the search is.
               </p>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 14. What this framework does not do */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        <section id="does-not" className="mt-32">
+          <AnnotatedBlock gloss="Scope">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What this framework does not do
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   It does not pick stocks. It does not time entries. It does not tell me
                   what will happen next.
@@ -653,18 +1016,25 @@ export function MarketEnvironmentFramework() {
                   through sizing and trade management. But the goal is to start right.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 15. Revision history */}
-            <section className="flex flex-col gap-4 border-t border-rule pt-10">
-              <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-faint">
+        {/* ================================================================
+            14 — REVISION HISTORY. Table restyled with the same heavy-rule
+            exhibit chrome instead of a bordered card.
+           ================================================================ */}
+        <section id="revision" className="mt-32">
+          <AnnotatedBlock gloss="Version log">
+            <div className="border-t-2 border-ink pt-8">
+              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
                 Revision history
               </h2>
-              <div className="overflow-x-auto rounded-vsc-lg border border-rule">
+              <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[560px] border-collapse font-mono text-[13px]">
                   <thead>
-                    <tr className="border-b border-rule bg-canvas-sunk">
-                      <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
+                    <tr className="border-b-2 border-ink">
+                      <th className="py-3 pr-4 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
                         Version
                       </th>
                       <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
@@ -677,7 +1047,7 @@ export function MarketEnvironmentFramework() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="px-4 py-3 align-top font-semibold text-ink">v1.0</td>
+                      <td className="py-3 pr-4 align-top font-semibold text-ink">v1.0</td>
                       <td className="px-4 py-3 align-top text-ink-soft">{formatLongDate(PUBLISHED_DATE)}</td>
                       <td className="px-4 py-3 align-top leading-relaxed text-ink-soft">
                         Initial version. Three-factor equal-weight model. Sub-dimension
@@ -689,14 +1059,16 @@ export function MarketEnvironmentFramework() {
                   </tbody>
                 </table>
               </div>
-            </section>
-
-            <div className={PROSE}>
-              <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
             </div>
-          </div>
+          </AnnotatedBlock>
+        </section>
+
+        <div className="mt-32">
+          <AnnotatedBlock>
+            <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
+          </AnnotatedBlock>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

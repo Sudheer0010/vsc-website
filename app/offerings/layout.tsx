@@ -1,13 +1,15 @@
 import { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/seo";
 
 const title = "Offerings | VSC Capital & Advisory";
-const description = "Explore VSC Capital offerings including the Learning Hub, VSC Advantage portfolio guidance, and the Inner Circle execution room.";
+const description = "Three ways to work with VSC: the Learning Hub, a VSC Advantage process review, and the VSC Community discussion room.";
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/offerings" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     title,
     description,

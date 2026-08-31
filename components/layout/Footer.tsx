@@ -9,12 +9,21 @@ import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 
 /**
- * Routes that already carry their own contextual or full-experience email
- * signup (Research's mid-page newsletter block, the dedicated /letter
- * subscribe page) — the footer omits its own form there so a visitor never
- * sees two signup forms on one page.
+ * Routes where the footer omits its own email-capture form: either the page
+ * already carries its own contextual or full-experience signup (Research's
+ * mid-page newsletter block, the dedicated /letter subscribe page, the
+ * Research design-lab prototype's own closing signup) so a visitor never
+ * sees two signup forms on one page, or the page is itself a conversion
+ * form (Enquire, and its design-lab prototype) where a second, competing
+ * ask right below the primary one works against it.
  */
-const ROUTES_WITH_OWN_SIGNUP = ["/research", "/letter"];
+const ROUTES_WITH_OWN_SIGNUP = [
+  "/research",
+  "/letter",
+  "/design-lab/research",
+  "/enquire",
+  "/design-lab/enquire",
+];
 
 /**
  * The footer keeps the easter egg — V·S·C decoded — because it is the one

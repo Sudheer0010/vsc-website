@@ -5,6 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { DrawdownRecoveryCalculator } from "@/components/tools/DrawdownRecoveryCalculator";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+import { OG_IMAGES } from "@/lib/seo";
+import { toolBreadcrumbJsonLd } from "@/lib/tool-seo";
+import { RelatedLinks, ReadTheResult, ReadItem } from "@/components/tools/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Drawdown & Recovery Calculator | VSC Capital & Advisory",
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
     "Calculate the percentage drawdown from a prior peak to a current account value, and the gain required on the remaining capital to recover.",
   alternates: { canonical: "/tools/drawdown-recovery-calculator" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "https://vsccapital.in/tools/drawdown-recovery-calculator",
     title: "Drawdown & Recovery Calculator | VSC Capital & Advisory",
@@ -23,6 +27,12 @@ export const metadata: Metadata = {
 export default function DrawdownRecoveryCalculatorPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(toolBreadcrumbJsonLd("Drawdown and Recovery Calculator", "/tools/drawdown-recovery-calculator")),
+        }}
+      />
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
@@ -69,6 +79,31 @@ export default function DrawdownRecoveryCalculatorPage() {
               <span className="font-mono text-ink">Recovery = (Peak ÷ Current) − 1</span>
             </p>
           </section>
+
+          <ReadTheResult>
+            <ReadItem term="Drawdown %">
+              The decline from the peak value you entered to the current value, measured against the peak.
+            </ReadItem>
+            <ReadItem term="Recovery required">
+              The gain needed on what is left to return to that peak. It is always larger than the drawdown, because it is earned on a smaller base.
+            </ReadItem>
+            <ReadItem term="The gap widens fast">
+              A 20% drawdown needs 25% to recover; 50% needs 100%. The asymmetry is arithmetic, and it is the reason loss limits are set before a position is opened, not after.
+            </ReadItem>
+            <ReadItem term="Point-in-time, not maximum drawdown">
+              This compares two values you supply. It does not scan an account history for the worst peak-to-trough decline, and deposits or withdrawals between the two dates will distort it.
+            </ReadItem>
+          </ReadTheResult>
+
+          <RelatedLinks
+            frameworks={[
+              { href: "/frameworks/trade-management", label: "Framework 05 — Trade Management", note: "Stop placement, exits and the rules that decide a loss before it compounds." },
+            ]}
+            tools={[
+              { href: "/tools/portfolio-risk-calculator", label: "Portfolio Risk Calculator", note: "Measure the open risk that could produce the next drawdown." },
+              { href: "/tools/trading-expectancy-calculator", label: "Trading Expectancy Calculator", note: "Check whether the process behind the drawdown has positive expectancy." },
+            ]}
+          />
 
           <aside className="mt-12 max-w-[840px] border-t border-rule pt-5 text-[13px] leading-relaxed text-ink-faint">
             <strong className="font-semibold text-ink-muted">Educational tool only.</strong> This calculator measures point-in-time drawdown from an entered peak to an entered current value; it does not calculate maximum drawdown across an account history. Results can be misleading when the two values are not comparable because of deposits, withdrawals, transfers or other external cash flows. Recovery required is a mathematical return to the prior peak, not a forecast, expected return or estimate of how long recovery will take.

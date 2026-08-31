@@ -1,51 +1,171 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
-import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
+import { formatLongDate } from "@/lib/format-date";
 import { PipelineStrip } from "./PipelineStrip";
-import {
-  TradeLifecycleExhibit,
-  TwoPathsExhibit,
-  WhatEarnsWhatExhibit,
-  TheLoopExhibit,
-} from "./TradeManagementExhibits";
+import { TradeLifecycleExhibit, TwoPathsExhibit, WhatEarnsWhatExhibit, TheLoopExhibit } from "./TradeManagementExhibits";
+
+/**
+ * Framework 05 — Trade Management, the last stage, closing the loop back
+ * to Framework 01. Ported onto the editorial reading system established at
+ * Frameworks 01–04. Every word, heading and link is unchanged. The page's
+ * own spine — three phases, Commit / Manage / Exit — is this framework's
+ * natural top-level chapter sequence, the same structural role Framework
+ * 01's three factors, Framework 03's three layers, and Framework 04's
+ * three questions play, so they get the same GhostNumeral treatment.
+ * "Where Evidence Comes From" precedes the phases as foundational prose
+ * (the same role Framework 01's Method section plays) and is kept intact
+ * per the original file's own note that it is load-bearing. There is no
+ * Handoff section here — Framework 05 has no Framework 06 to hand off to —
+ * so "The Close" replaces it verbatim, exactly as production already had it.
+ */
 
 const PUBLISHED_DATE = "2026-08-07";
 const CANONICAL = "/frameworks/trade-management";
-const PROSE = "max-w-[62ch]";
 
-/**
- * Same left-bordered, italic, non-mono treatment used on Frameworks 02–04
- * for a short statement of intent, set off from surrounding prose.
- */
+const SECTIONS = [
+  { n: "00", id: "identity", label: "Identity" },
+  { n: "01", id: "lifecycle", label: "The lifecycle" },
+  { n: "02", id: "pipeline", label: "Pipeline" },
+  { n: "03", id: "evidence", label: "Evidence" },
+  { n: "04", id: "commit", label: "Commit" },
+  { n: "05", id: "manage", label: "Manage" },
+  { n: "06", id: "exit", label: "Exit" },
+  { n: "07", id: "principle", label: "Principle" },
+  { n: "08", id: "not-this", label: "Not this" },
+  { n: "09", id: "loop", label: "The loop" },
+  { n: "10", id: "close", label: "The close" },
+  { n: "11", id: "version", label: "Version log" },
+] as const;
+
+/** Same IntersectionObserver scrollspy pattern as Frameworks 01–04. */
+function useActiveSection(): string {
+  const [active, setActive] = useState<string>(SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
+    );
+
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+function RunningRail() {
+  const active = useActiveSection();
+  return (
+    <nav
+      aria-label="Framework reading position"
+      className="fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-start gap-10 xl:flex"
+    >
+      <span
+        className="select-none whitespace-nowrap font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-ink-faint"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        Trade Management — Framework 05
+      </span>
+
+      <ol className="flex flex-col gap-3 border-l border-rule pl-4">
+        {SECTIONS.map((s) => {
+          const isActive = active === s.id;
+          return (
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className={`flex items-baseline gap-2 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors duration-200 ${
+                  isActive ? "font-semibold text-ink" : "text-ink-faint hover:text-ink-muted"
+                }`}
+              >
+                <span className={isActive ? "text-growth" : ""}>{s.n}</span>
+                {s.label}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function AnnotatedBlock({
+  gloss,
+  span = 7,
+  children,
+}: {
+  gloss?: string;
+  span?: 7 | 10;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+      <div className="hidden lg:col-span-2 lg:block">
+        {gloss && (
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            {gloss}
+          </span>
+        )}
+      </div>
+      <div className={span === 10 ? "lg:col-span-10 lg:col-start-3" : "lg:col-span-7 lg:col-start-3"}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function ExhibitScroll({ minWidth, children }: { minWidth: number; children: React.ReactNode }) {
+  return (
+    <div className="overflow-x-auto">
+      <div style={{ minWidth }}>{children}</div>
+    </div>
+  );
+}
+
+/** Reserved for the three phases — Commit, Manage, Exit — this page's
+ *  top-level chapters. */
+function GhostNumeral({ children }: { children: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -left-2 -top-8 select-none font-display font-bold leading-none text-transparent sm:-left-6 sm:-top-16 lg:-top-20"
+      style={{
+        fontSize: "clamp(84px, 22vw, 360px)",
+        WebkitTextStroke: "1.5px var(--rule-strong)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** A short, aphoristic statement of intent — conviction, not disclaimer. */
 function PrincipleBlock({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="border-l-2 py-1 pl-5 text-[16px] italic leading-relaxed text-ink-muted"
-      style={{ borderColor: "var(--rule-strong)" }}
+      className="border-l-2 border-rule-strong pl-5 text-[16px] leading-relaxed text-ink-muted"
+      style={{ fontStyle: "italic" }}
     >
       {children}
     </div>
   );
 }
 
-/**
- * Framework 05 of the VSC Decision Pipeline — the last stage, closing the
- * loop back to Framework 01. Reuses the shell and simplification
- * discipline established through Framework 04 v0.2: hero exhibit shows
- * the whole framework at a glance, section headings are plain questions
- * or plain phrases rather than technical labels, and prose stays tight
- * because the exhibits carry the definitions.
- *
- * The page's spine is three phases (Commit, Manage, Exit) with two
- * parallel modes inside Manage (Protect, Compound) — never sequential,
- * never a fourth phase. "Where Evidence Comes From" is placed early and
- * kept intact because without it, regime-dependent management inside
- * Manage would look like it contradicts the core principle that the
- * market — not me — earns every adjustment.
- */
 export function TradeManagementFramework() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -61,41 +181,73 @@ export function TradeManagementFramework() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-canvas text-ink">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <ReadingProgress />
-      <PaperGrain />
+      <RunningRail />
 
-      <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
-        <div className="container mx-auto max-w-[820px] px-4 sm:px-6">
+      <div className="mx-auto max-w-[1680px] px-6 pb-40 pt-32 sm:px-10 lg:px-20 lg:pt-40 xl:pl-56 xl:pr-20">
+        {/* ================================================================
+            00 — IDENTITY.
+           ================================================================ */}
+        <header id="identity" className="mb-32">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-16 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research
           </Link>
 
-          {/* 1. Header */}
-          <header className="mb-14">
-            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-              Framework 05 · Trade Management
-            </span>
-            <h1 className="mb-8 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              Trade Management
-            </h1>
-            <p className="max-w-[600px] font-display text-[32px] font-medium leading-[1.15] text-ink sm:text-[40px]">
-              Now what?
-            </p>
-          </header>
+          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-growth">
+            Framework 05 · Trade Management
+          </span>
 
-          <div className="flex flex-col gap-14">
-            {/* 2. The big idea */}
-            <section className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+          <h1
+            className="mt-5 font-display font-bold text-ink"
+            style={{ fontSize: "clamp(48px, 10vw, 132px)", lineHeight: 0.9, letterSpacing: "-0.035em" }}
+          >
+            Trade Management
+          </h1>
+
+          <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11px] text-ink-muted lg:hidden">
+            <span>v0.1</span>
+            <span aria-hidden="true">·</span>
+            <span>{formatLongDate(PUBLISHED_DATE)}</span>
+            <span aria-hidden="true">·</span>
+            <span>~7 min read</span>
+            <span aria-hidden="true">·</span>
+            <Byline variant="compact" />
+          </div>
+
+          <div className="mt-10 lg:mt-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+              <div className="hidden lg:col-span-2 lg:flex lg:flex-col lg:gap-2.5">
+                <span className="font-mono text-[11px] text-ink-muted">v0.1</span>
+                <span className="font-mono text-[11px] text-ink-muted">{formatLongDate(PUBLISHED_DATE)}</span>
+                <span className="font-mono text-[11px] text-ink-muted">~7 min read</span>
+                <Byline variant="full" className="mt-2" />
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-3">
+                <p
+                  className="font-editorial text-ink"
+                  style={{ fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.18, letterSpacing: "-0.01em" }}
+                >
+                  Now what?
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* ================================================================
+            01 — THE LIFECYCLE. Big idea, then the hero Exhibit 01.
+           ================================================================ */}
+        <section id="lifecycle" className="mb-32 flex flex-col gap-14">
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
               <p>
                 Frameworks 01 through 04 all answer one question in different ways: should
                 I enter?
@@ -106,156 +258,279 @@ export function TradeManagementFramework() {
                 stop. Add more. Take something off. Get out.
               </p>
               <p>The market earns every adjustment.</p>
-            </section>
+            </div>
+          </AnnotatedBlock>
 
-            {/* 3. EXHIBIT 1 — The Trade Lifecycle. The hero. */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={1}
-                label="The Trade Lifecycle"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <TradeLifecycleExhibit />
-              </Exhibit>
-
-              <div className={`${PROSE} flex flex-col gap-3 text-[17px] leading-relaxed text-ink-soft`}>
-                <p>Three phases. Inside management, two modes — one defensive, one offensive.</p>
-                <p>Absent evidence, neither fires.</p>
+          <AnnotatedBlock span={10}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 01 — The Trade Lifecycle
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={700}>
+                    <TradeLifecycleExhibit />
+                  </ExhibitScroll>
+                </div>
+              </figure>
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">01</span>
               </div>
             </div>
+          </AnnotatedBlock>
 
-            {/* 4. Pipeline map — compact wayfinding strip, stage 5 active */}
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-4 text-[19px] leading-[1.75] text-ink-soft">
+              <p>Three phases. Inside management, two modes — one defensive, one offensive.</p>
+              <p>Absent evidence, neither fires.</p>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            02 — PIPELINE. Shared PipelineStrip, unchanged.
+           ================================================================ */}
+        <section id="pipeline" className="mb-32">
+          <AnnotatedBlock span={10} gloss="Pipeline">
             <PipelineStrip activeIndex={4} />
+          </AnnotatedBlock>
+        </section>
 
-            {/* 5. Where Evidence Comes From — load-bearing, do not cut */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            03 — WHERE EVIDENCE COMES FROM. Foundational prose ahead of the
+            three phases — the same role Framework 01's Method section
+            plays. Load-bearing per the original file's own note; kept
+            intact.
+           ================================================================ */}
+        <section id="evidence" className="mb-32">
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 Where Evidence Comes From
               </h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Every adjustment requires evidence. That evidence arrives from two
-                directions.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                The first is the trade itself — what this position has already done, and
-                whether it has advanced far enough to justify carrying less risk or
-                committing more capital. The second is the environment. Framework 01
-                classifies conditions as aggressive, neutral, or defensive, and those
-                conditions change how much room a trade should be given. Neither source is
-                me. Both are the market.
-              </p>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>Every adjustment requires evidence. That evidence arrives from two directions.</p>
+                <p>
+                  The first is the trade itself — what this position has already done, and
+                  whether it has advanced far enough to justify carrying less risk or
+                  committing more capital. The second is the environment. Framework 01
+                  classifies conditions as aggressive, neutral, or defensive, and those
+                  conditions change how much room a trade should be given. Neither source is
+                  me. Both are the market.
+                </p>
+              </div>
               <PrincipleBlock>
                 Evidence comes from the position or from the environment. Never from how I
                 feel about either.
               </PrincipleBlock>
-            </section>
-
-            {/* 6. Commit */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Commit</h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Framework 03 decided this setup deserves capital. Framework 04 decided how
-                much. Commit is the moment that capital actually moves.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Three things happen together and none of them happen afterwards: the
-                trigger fires, the stop goes in, and the risk becomes real. A stop placed
-                after entry is not a stop — it is a decision deferred to the worst possible
-                moment, when the position is already moving against me and my judgement is
-                least reliable.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Different setups need different room. A tight base and a wide-swinging flag
-                do not deserve the same distance, and forcing one number onto both either
-                strangles the trade or overpays for it. What stays constant is the
-                discipline: every setup gets enough room to work and no more, the distance
-                is decided before entry, and it is never widened afterwards.
-              </p>
-              <PrincipleBlock>
-                The risk is defined before the trade begins, not during it.
-              </PrincipleBlock>
-            </section>
-
-            {/* 7. Manage */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Manage</h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Stop movement, adding to a position, and taking partial profits look like
-                three separate techniques. They are one question asked three ways: has the
-                trade earned more freedom, or more capital, or neither?
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                The answer never comes from me. It comes from what the position has already
-                done, and from the conditions it is trading in.
-              </p>
-            </section>
-
-            {/* EXHIBIT 2 — Two Paths */}
-            <Exhibit
-              number={2}
-              label="Two Paths"
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-            >
-              <TwoPathsExhibit />
-            </Exhibit>
-
-            {/* EXHIBIT 3 — What Earns What */}
-            <Exhibit
-              number={3}
-              label="What Earns What"
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-            >
-              <WhatEarnsWhatExhibit />
-            </Exhibit>
-
-            <div className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
-              <p>
-                <strong className="font-semibold text-ink">On stops:</strong> Stops move in
-                one direction only. A stop that widens is not a stop that was adjusted — it
-                is a stop that was abandoned, usually at the moment it was about to do its
-                job.
-              </p>
-              <p>
-                <strong className="font-semibold text-ink">On adding:</strong> Adding to a
-                winner is the only kind of adding. Adding to a loser has a different name,
-                and it is not compounding — it is the sizing decision from Framework 04
-                being overruled after the fact by someone with worse information than the
-                person who made it.
-              </p>
-              <p>
-                <strong className="font-semibold text-ink">On partials:</strong> A partial
-                is a risk decision, not a profit decision. It is also what makes holding
-                possible: taking something off converts an uncomfortable position into one
-                I can actually keep. Partial first, stop second — then if the stop is hit
-                the trade concludes, and if the trend continues I am still in it.
-              </p>
             </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 8. Exit */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Exit</h2>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Every trade rests on a reason. The exit question is simply whether that
-                reason still holds.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                A thesis can end several ways. The stop is hit and the setup is
-                invalidated. The target is reached and the move is complete. The structure
-                that justified the trade breaks down. Or enough time passes without
-                progress that the capital is better used elsewhere. All four are the same
-                event: the reason for holding has expired.
-              </p>
-              <PrincipleBlock>
-                I exit when the thesis ends, not when the P&amp;L is uncomfortable.
-              </PrincipleBlock>
-            </section>
+        {/* ================================================================
+            04 — COMMIT.
+           ================================================================ */}
+        <section id="commit" className="relative mt-32">
+          <GhostNumeral>1</GhostNumeral>
 
-            {/* 9. The Core Principle — the emotional centre of the page */}
-            <div className="rounded-vsc-xl bg-growth-tint p-8 sm:p-12">
-              <p className="font-display text-[24px] font-medium leading-snug text-ink sm:text-[28px]">
+          <AnnotatedBlock gloss="Phase 1 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(56px, 8vw, 108px)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
+              >
+                Commit
+              </h2>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-14">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Framework 03 decided this setup deserves capital. Framework 04 decided how
+                  much. Commit is the moment that capital actually moves.
+                </p>
+                <p>
+                  Three things happen together and none of them happen afterwards: the
+                  trigger fires, the stop goes in, and the risk becomes real. A stop placed
+                  after entry is not a stop — it is a decision deferred to the worst possible
+                  moment, when the position is already moving against me and my judgement is
+                  least reliable.
+                </p>
+                <p>
+                  Different setups need different room. A tight base and a wide-swinging flag
+                  do not deserve the same distance, and forcing one number onto both either
+                  strangles the trade or overpays for it. What stays constant is the
+                  discipline: every setup gets enough room to work and no more, the distance
+                  is decided before entry, and it is never widened afterwards.
+                </p>
+              </div>
+              <div className="mt-6">
+                <PrincipleBlock>The risk is defined before the trade begins, not during it.</PrincipleBlock>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
+
+        {/* ================================================================
+            05 — MANAGE.
+           ================================================================ */}
+        <section id="manage" className="relative mt-32">
+          <GhostNumeral>2</GhostNumeral>
+
+          <AnnotatedBlock gloss="Phase 2 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(56px, 8vw, 108px)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
+              >
+                Manage
+              </h2>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-14 flex flex-col gap-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Stop movement, adding to a position, and taking partial profits look like
+                  three separate techniques. They are one question asked three ways: has the
+                  trade earned more freedom, or more capital, or neither?
+                </p>
+                <p>
+                  The answer never comes from me. It comes from what the position has already
+                  done, and from the conditions it is trading in.
+                </p>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 02 — Two Paths
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <TwoPathsExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">02</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 03 — What Earns What
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <WhatEarnsWhatExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">03</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  <strong className="font-semibold text-ink">On stops:</strong> Stops move in
+                  one direction only. A stop that widens is not a stop that was adjusted — it
+                  is a stop that was abandoned, usually at the moment it was about to do its
+                  job.
+                </p>
+                <p>
+                  <strong className="font-semibold text-ink">On adding:</strong> Adding to a
+                  winner is the only kind of adding. Adding to a loser has a different name,
+                  and it is not compounding — it is the sizing decision from Framework 04
+                  being overruled after the fact by someone with worse information than the
+                  person who made it.
+                </p>
+                <p>
+                  <strong className="font-semibold text-ink">On partials:</strong> A partial
+                  is a risk decision, not a profit decision. It is also what makes holding
+                  possible: taking something off converts an uncomfortable position into one
+                  I can actually keep. Partial first, stop second — then if the stop is hit
+                  the trade concludes, and if the trend continues I am still in it.
+                </p>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
+
+        {/* ================================================================
+            06 — EXIT.
+           ================================================================ */}
+        <section id="exit" className="relative mt-32">
+          <GhostNumeral>3</GhostNumeral>
+
+          <AnnotatedBlock gloss="Phase 3 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(56px, 8vw, 108px)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
+              >
+                Exit
+              </h2>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-14">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Every trade rests on a reason. The exit question is simply whether that
+                  reason still holds.
+                </p>
+                <p>
+                  A thesis can end several ways. The stop is hit and the setup is
+                  invalidated. The target is reached and the move is complete. The structure
+                  that justified the trade breaks down. Or enough time passes without
+                  progress that the capital is better used elsewhere. All four are the same
+                  event: the reason for holding has expired.
+                </p>
+              </div>
+              <div className="mt-6">
+                <PrincipleBlock>
+                  I exit when the thesis ends, not when the P&amp;L is uncomfortable.
+                </PrincipleBlock>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
+
+        {/* ================================================================
+            07 — THE CORE PRINCIPLE.
+           ================================================================ */}
+        <section id="principle" className="mt-32">
+          <AnnotatedBlock>
+            <div className="border-t-2 border-ink pt-8">
+              <p
+                className="font-editorial text-ink"
+                style={{ fontSize: "clamp(28px, 3.6vw, 42px)", lineHeight: 1.2 }}
+              >
                 The market earns every adjustment.
               </p>
-              <div className="mt-6 flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-6 flex flex-col gap-4 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   A trade&apos;s default state is unchanged. Compounding must be earned by
                   the market proving me right. Protecting must be earned by conditions
@@ -263,17 +538,26 @@ export function TradeManagementFramework() {
                   risk.
                 </p>
               </div>
-              <p className="mt-6 font-display text-[22px] font-medium text-ink">
+              <p className="mt-6 font-display text-2xl font-bold text-ink">
                 Nothing changes because I feel like changing it.
               </p>
             </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 10. What This Framework Is Not */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            08 — WHAT THIS FRAMEWORK IS NOT.
+           ================================================================ */}
+        <section id="not-this" className="mt-32">
+          <AnnotatedBlock gloss="Scope">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What This Framework Is Not
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   <strong className="font-semibold text-ink">It Is Not Prediction.</strong>{" "}
                   The framework responds to what the trade and the environment have already
@@ -290,44 +574,69 @@ export function TradeManagementFramework() {
                   second and it knows nothing about whether the setup is still working.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 11. EXHIBIT 4 — The Loop. The pipeline is a cycle, not a line. */}
-            <Exhibit
-              number={4}
-              label="The Process Repeats"
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-            >
-              <TheLoopExhibit />
-            </Exhibit>
+        {/* ================================================================
+            09 — THE LOOP. Not a phase — no ghost numeral — the pipeline is
+            a cycle, not a line.
+           ================================================================ */}
+        <section id="loop" className="mt-32">
+          <AnnotatedBlock span={10}>
+            <figure>
+              <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                  Exhibit 04 — The Process Repeats
+                </figcaption>
+              </div>
+              <div className="mt-8">
+                <ExhibitScroll minWidth={600}>
+                  <TheLoopExhibit />
+                </ExhibitScroll>
+              </div>
+            </figure>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 12. The Close — replaces the handoff pattern; there is no Framework 06 */}
-            <section className={PROSE}>
-              <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
-                Framework 05 answered
-              </span>
-              <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
-                “Now what?”
-              </p>
-              <p className="mt-6 text-[17px] leading-relaxed text-ink-faint">There is no Framework 06.</p>
-              <p className="mt-4 text-[19px] leading-relaxed text-ink">
-                The trade closes. The market changes. The process begins again.
-              </p>
-            </section>
+        {/* ================================================================
+            10 — THE CLOSE. Replaces the Handoff pattern — there is no
+            Framework 06 — exactly as production already had it.
+           ================================================================ */}
+        <section id="close" className="mt-32">
+          <AnnotatedBlock>
+            <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+              Framework 05 answered
+            </span>
+            <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
+              &ldquo;Now what?&rdquo;
+            </p>
+            <p className="mt-6 text-[17px] leading-relaxed text-ink-faint">There is no Framework 06.</p>
+            <p className="mt-4 text-[19px] leading-relaxed text-ink">
+              The trade closes. The market changes. The process begins again.
+            </p>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 13. Version note */}
-            <div className="border-t border-rule pt-8">
+        {/* ================================================================
+            11 — VERSION NOTE + EMAIL CAPTURE.
+           ================================================================ */}
+        <section id="version" className="mt-32">
+          <AnnotatedBlock gloss="Version log">
+            <div className="border-t-2 border-ink pt-8">
               <p className="font-mono text-[13px] leading-relaxed text-ink-faint">
                 Version 0.1 — This framework will be refined as the process evolves.
               </p>
             </div>
+          </AnnotatedBlock>
 
-            <div className={PROSE}>
+          <div className="mt-14">
+            <AnnotatedBlock>
               <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
-            </div>
+            </AnnotatedBlock>
           </div>
-        </div>
-      </main>
+        </section>
+      </div>
     </div>
   );
 }

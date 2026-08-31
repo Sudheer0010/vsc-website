@@ -1,0 +1,390 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ContourField } from "@/components/ui/vsc/ContourField";
+import { Reveal } from "@/components/ui/vsc/Reveal";
+import { StepRule } from "@/components/ui/vsc/StepRule";
+import { VSCButton } from "@/components/ui/vsc/VSCButton";
+
+/**
+ * Enquire — The Open Line, v2.
+ *
+ * v1 read as two chapters: a full-viewport dark opening, then a second
+ * scroll for the form. That put unnecessary distance between intent and
+ * action on the site's primary conversion page. This version is one dark
+ * cinematic composition — the founder statement and reassurance content on
+ * the left, the enquiry form as a light contrasting panel on the right, an
+ * "after you submit" rail running underneath both — so headline and form
+ * coexist within roughly one desktop viewport, no second chapter to enter.
+ *
+ * Form field names/ids, hidden bot-field + form-name, action/method
+ * fallback, and the fetch-to-/__forms.html submission logic are unchanged
+ * from components/sections/enquire/DiscussionForm.tsx — only presentation
+ * and composition changed here.
+ */
+
+const BEFORE_YOU_WRITE: { q: string; a?: string; email?: boolean }[] = [
+  {
+    q: "Is this a sales pitch?",
+    a: "No. Zero sales pressure — pure process and risk-parameter review.",
+  },
+  {
+    q: "Who reads this?",
+    a: "Sudheer, personally. A direct line to the research desk, no hand-off.",
+  },
+  {
+    q: "What happens after?",
+    a: "Desk review within 24 hours, then a reply — or a time to talk.",
+  },
+  {
+    q: "Another way in?",
+    email: true,
+  },
+];
+
+const AFTER_SUBMIT = [
+  { name: "Enquiry received", detail: "Logged with the research desk immediately." },
+  { name: "Desk review", detail: "Read personally, usually within 24 hours." },
+  { name: "Response or call", detail: "A direct reply, or a time to talk if useful." },
+];
+
+export function EnquireRedesign() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        if (typeof value === "string") {
+          params.append(key, value);
+        }
+      }
+
+      if (!params.has("form-name")) {
+        params.set("form-name", "enquiry");
+      }
+
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed with status ${response.status}`);
+      }
+
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError(
+        "Something went wrong sending your enquiry. Please try again, or email sudheer@vsccapital.in directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <main className="relative w-full">
+      {/* ================================================================
+          ONE composition: dark cinematic context throughout. The
+          conversation statement sits left; the enquiry form is a light
+          analytical panel inset on the right, not a separate chapter.
+          "After you submit" runs as a horizontal rail beneath both,
+          still inside this same section.
+         ================================================================ */}
+      <section className="relative w-full overflow-hidden bg-[#080F0B] pb-12 pt-24 sm:pb-16 sm:pt-28">
+        <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.85} animate />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 55% 55% at 20% 15%, rgba(63,203,116,0.16) 0%, transparent 68%)",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-12">
+            {/* LEFT — the conversation */}
+            <div className="lg:col-span-5">
+              <Reveal>
+                <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.2em] text-[#7FB999]">
+                  Start a conversation
+                </span>
+              </Reveal>
+
+              <Reveal delay={0.05}>
+                <h1 className="mt-4 font-sans text-[8vw] font-bold leading-[1.1] tracking-[-0.025em] text-[#F4F7F4] sm:text-[4.2vw] lg:text-[2.5vw]">
+                  Every great investment process starts with a conversation.
+                </h1>
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <p className="mt-4 max-w-[42ch] text-[15.5px] leading-relaxed text-white/60">
+                  Tell me what&apos;s on your mind — a specific question, or just curiosity. I read every
+                  submission before I say anything back.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.14}>
+                <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+                  <StepRule size="sm" className="shrink-0" />
+                  <p className="text-[13px] text-white/45">— Sudheer, Founder</p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.18}>
+                <div className="mt-8">
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-white/35">
+                    Before you write in
+                  </span>
+                  <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 border-t border-white/10 pt-4 sm:grid-cols-2">
+                    {BEFORE_YOU_WRITE.map((item) => (
+                      <div key={item.q}>
+                        <dt className="text-[13px] font-medium text-white/80">{item.q}</dt>
+                        <dd className="mt-1 text-[12.5px] leading-snug text-white/45">
+                          {item.email ? (
+                            <>
+                              Email direct —{" "}
+                              <a
+                                href="mailto:sudheer@vsccapital.in"
+                                className="text-[#7FB999] transition-colors hover:text-white"
+                              >
+                                sudheer@vsccapital.in
+                              </a>
+                            </>
+                          ) : (
+                            item.a
+                          )}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* RIGHT — the enquiry, a light analytical surface on the dark context */}
+            <Reveal delay={0.1} className="lg:col-span-7">
+              <div className="relative">
+                <div aria-hidden="true" className="pointer-events-none absolute -inset-3 -z-10 rounded-vsc-lg bg-growth/10 blur-2xl" />
+                <div className="relative rounded-vsc-lg border border-white/10 bg-canvas p-6 shadow-[0_24px_60px_rgba(0,0,0,0.4)] sm:p-8">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {isSubmitted ? (
+                      <motion.div
+                        key="success"
+                        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.28, ease: "easeOut" }}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <CheckCircle2 className="h-4 w-4 text-growth" aria-hidden="true" />
+                          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-growth">
+                            Enquiry received
+                          </span>
+                        </div>
+                        <h2 className="font-editorial mt-4 text-[9vw] italic leading-[1.08] text-ink sm:text-[4.6vw] lg:text-[2.3vw]">
+                          Thank you.
+                        </h2>
+                        <p className="mt-5 max-w-[48ch] text-[15.5px] leading-relaxed text-ink-soft">
+                          Your enquiry has been logged with our research desk. I review every submission
+                          personally within 24 business hours.
+                        </p>
+
+                        <div className="mt-7 flex flex-wrap items-center gap-5 border-t border-rule pt-6">
+                          <button
+                            onClick={() => setIsSubmitted(false)}
+                            className="min-h-[44px] font-mono text-[13px] text-ink-soft transition-colors hover:text-growth"
+                          >
+                            &larr; Submit another enquiry
+                          </button>
+                          <VSCButton href="/" variant="outline">
+                            <span className="inline-flex items-center gap-2">
+                              Back to home <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                            </span>
+                          </VSCButton>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="form"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
+                      >
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-growth">
+                          The enquiry
+                        </span>
+
+                        <form
+                          id="vsc-form"
+                          name="enquiry"
+                          action="/thank-you"
+                          method="POST"
+                          onSubmit={handleSubmit}
+                          className="mt-5 flex flex-col gap-5"
+                        >
+                          <p style={{ display: "none" }}>
+                            <label>
+                              Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
+                            </label>
+                            <input type="hidden" name="form-name" value="enquiry" />
+                          </p>
+
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-baseline justify-between gap-4">
+                              <label htmlFor="goal" className="text-[14px] font-semibold text-ink">
+                                What brings you here?
+                              </label>
+                              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-faint">
+                                Optional
+                              </span>
+                            </div>
+                            <textarea
+                              id="goal"
+                              name="goal"
+                              rows={2}
+                              className="w-full border-b-2 border-rule bg-transparent pb-2.5 font-ui text-[15px] leading-relaxed text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                              placeholder="A specific question, or just curiosity — whatever's on your mind."
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-baseline justify-between gap-4">
+                              <label htmlFor="name" className="text-[14px] font-semibold text-ink">
+                                Your name
+                              </label>
+                              <span className="font-mono text-[10px] uppercase tracking-wider text-growth">
+                                Required
+                              </span>
+                            </div>
+                            <input
+                              type="text"
+                              id="name"
+                              name="name"
+                              required
+                              className="w-full border-b-2 border-rule bg-transparent py-2.5 font-ui text-[16px] text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                              placeholder="Full name"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-baseline justify-between gap-4">
+                              <label htmlFor="email" className="text-[14px] font-semibold text-ink">
+                                Email address
+                              </label>
+                              <span className="font-mono text-[10px] uppercase tracking-wider text-growth">
+                                Required
+                              </span>
+                            </div>
+                            <input
+                              type="email"
+                              id="email"
+                              name="email"
+                              required
+                              className="w-full border-b-2 border-rule bg-transparent py-2.5 font-ui text-[16px] text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                              placeholder="email@example.com"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-baseline justify-between gap-4">
+                              <label htmlFor="phone" className="text-[14px] font-semibold text-ink">
+                                Phone / WhatsApp
+                              </label>
+                              <span className="font-mono text-[10px] uppercase tracking-wider text-growth">
+                                Required
+                              </span>
+                            </div>
+                            <input
+                              type="tel"
+                              id="phone"
+                              name="phone"
+                              required
+                              className="w-full border-b-2 border-rule bg-transparent py-2.5 font-ui text-[16px] text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                              placeholder="+91 98765 43210"
+                            />
+                          </div>
+
+                          {submitError && (
+                            <div role="alert" className="flex items-start gap-3 rounded-vsc-sm border border-clay/30 bg-clay-tint px-4 py-3">
+                              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-clay" aria-hidden="true" />
+                              <p className="text-[13.5px] leading-relaxed text-clay">{submitError}</p>
+                            </div>
+                          )}
+
+                          <div className="mt-1">
+                            <VSCButton
+                              type="submit"
+                              variant="growth"
+                              disabled={isSubmitting}
+                              className="w-full sm:w-auto sm:px-8"
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                {isSubmitting ? "Sending…" : submitError ? "Retry" : "Send your enquiry"}
+                                {!isSubmitting && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
+                              </span>
+                            </VSCButton>
+
+                            <p className="mt-3 text-[12px] text-ink-faint">
+                              By submitting, you agree to our{" "}
+                              <Link href="/privacy" className="text-ink-muted underline transition-colors hover:text-growth">
+                                Privacy Policy
+                              </Link>
+                              .
+                            </p>
+                          </div>
+                        </form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* ============ AFTER YOU SUBMIT — horizontal rail, same section ============ */}
+          <Reveal delay={0.2}>
+            <div className="relative mt-9 border-t border-white/10 pt-6 sm:mt-11">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35">
+                After you submit
+              </span>
+              <div className="relative mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6">
+                <div aria-hidden="true" className="absolute left-[16.5%] right-[16.5%] top-[11px] hidden h-px bg-white/10 sm:block" />
+                {AFTER_SUBMIT.map((stage, i) => (
+                  <div key={stage.name} className="relative flex items-start gap-3 sm:flex-col sm:items-center sm:text-center">
+                    <span
+                      aria-hidden="true"
+                      className="relative z-10 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-[#7FB999]/40 bg-[#080F0B] font-mono text-[11px] text-[#7FB999]"
+                    >
+                      {i + 1}
+                    </span>
+                    <div className="sm:mt-2.5">
+                      <h4 className="text-[13.5px] font-semibold text-white/85">{stage.name}</h4>
+                      <p className="mt-0.5 max-w-[24ch] text-[12.5px] leading-snug text-white/45 sm:mx-auto">
+                        {stage.detail}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </main>
+  );
+}

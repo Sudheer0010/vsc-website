@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
+import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
-import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
+import { formatLongDate } from "@/lib/format-date";
 import { PipelineStrip } from "./PipelineStrip";
 import {
   ThreeLayersExhibit,
@@ -14,9 +17,27 @@ import {
   type Grade,
 } from "./SetupGradingExhibits";
 
+/**
+ * Framework 03 — Setup Grading. Ported onto the editorial reading system
+ * established at Frameworks 01 and 02: running section rail, AnnotatedBlock
+ * margin glosses, GhostNumeral chapter openers, rule-based exhibit chrome.
+ * Every word, heading, table value, threshold and link is unchanged from
+ * the previous implementation — only the presentation layer is new, and
+ * only where this page's own structure asked for something different from
+ * 01/02: three numbered Layers (not three factors or four cuts) as the
+ * top-level chapters, with five named quality dimensions nested inside
+ * Layer 3 — each dimension gets a small mono index tag, not a full
+ * GhostNumeral, so it doesn't visually outrank the Layer it belongs to.
+ *
+ * `ClarificationNote` (was a tinted rounded panel) and `AnchorTable` (was a
+ * bordered card) are restyled to the same rule-based chrome the rest of the
+ * system uses — no new colours or component shapes, just the existing
+ * vocabulary. `GradeBadge` (a small circular data indicator, not a card) is
+ * reused unchanged from the exhibits file.
+ */
+
 const PUBLISHED_DATE = "2026-08-07";
 const CANONICAL = "/frameworks/setup-grading";
-const PROSE = "max-w-[62ch]";
 
 interface AnchorRow {
   score: 2 | 1 | 0;
@@ -129,15 +150,140 @@ const GRADE_MEANINGS: { grade: Grade; range: string; name: string; desc: string 
   },
 ];
 
-/**
- * A short, aphoristic statement of intent — same left-bordered, italic,
- * non-mono treatment used on Framework 02 for the same purpose.
- */
+const SECTIONS = [
+  { n: "00", id: "identity", label: "Identity" },
+  { n: "01", id: "layers", label: "The layers" },
+  { n: "02", id: "pipeline", label: "Pipeline" },
+  { n: "03", id: "why", label: "Why this exists" },
+  { n: "04", id: "eligibility", label: "Layer 1" },
+  { n: "05", id: "integrity", label: "Layer 2" },
+  { n: "06", id: "quality", label: "Layer 3" },
+  { n: "07", id: "rejections", label: "Two rejections" },
+  { n: "08", id: "grades", label: "The grades" },
+  { n: "09", id: "principle", label: "Principle" },
+  { n: "10", id: "not-this", label: "Not this" },
+  { n: "11", id: "handoff", label: "Handoff" },
+  { n: "12", id: "closing", label: "Closing" },
+] as const;
+
+/** Same IntersectionObserver scrollspy pattern as Frameworks 01–02. */
+function useActiveSection(): string {
+  const [active, setActive] = useState<string>(SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
+    );
+
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+function RunningRail() {
+  const active = useActiveSection();
+  return (
+    <nav
+      aria-label="Framework reading position"
+      className="fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-start gap-10 xl:flex"
+    >
+      <span
+        className="select-none whitespace-nowrap font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-ink-faint"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        Setup Grading — Framework 03
+      </span>
+
+      <ol className="flex flex-col gap-3 border-l border-rule pl-4">
+        {SECTIONS.map((s) => {
+          const isActive = active === s.id;
+          return (
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className={`flex items-baseline gap-2 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors duration-200 ${
+                  isActive ? "font-semibold text-ink" : "text-ink-faint hover:text-ink-muted"
+                }`}
+              >
+                <span className={isActive ? "text-growth" : ""}>{s.n}</span>
+                {s.label}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function AnnotatedBlock({
+  gloss,
+  span = 7,
+  children,
+}: {
+  gloss?: string;
+  span?: 7 | 10;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+      <div className="hidden lg:col-span-2 lg:block">
+        {gloss && (
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            {gloss}
+          </span>
+        )}
+      </div>
+      <div className={span === 10 ? "lg:col-span-10 lg:col-start-3" : "lg:col-span-7 lg:col-start-3"}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function ExhibitScroll({ minWidth, children }: { minWidth: number; children: React.ReactNode }) {
+  return (
+    <div className="overflow-x-auto">
+      <div style={{ minWidth }}>{children}</div>
+    </div>
+  );
+}
+
+/** Reserved for the three Layers — the top-level chapters this page's
+ *  content actually has, the same structural role Framework 01's three
+ *  factors and Framework 02's four cuts play. */
+function GhostNumeral({ children }: { children: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -left-2 -top-8 select-none font-display font-bold leading-none text-transparent sm:-left-6 sm:-top-16 lg:-top-20"
+      style={{
+        fontSize: "clamp(84px, 22vw, 360px)",
+        WebkitTextStroke: "1.5px var(--rule-strong)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** A short, aphoristic statement of intent — conviction, not disclaimer. */
 function PrincipleBlock({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="border-l-2 py-1 pl-5 text-[16px] italic leading-relaxed text-ink-muted"
-      style={{ borderColor: "var(--rule-strong)" }}
+      className="border-l-2 border-rule-strong pl-5 text-[16px] leading-relaxed text-ink-muted"
+      style={{ fontStyle: "italic" }}
     >
       {children}
     </div>
@@ -145,33 +291,31 @@ function PrincipleBlock({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Distinct from PrincipleBlock on purpose: three of the five dimension
- * tables need a clarification that reads as more than throwaway small
- * print — "0 here means cleared the gate, not failed." A tinted panel
- * with a solid left border pulls more attention than a bare rule would.
+ * Was a tinted rounded panel; the growth-coloured rule carries the same
+ * "pay attention, this reframes the number you're about to read" signal
+ * without a background fill.
  */
 function ClarificationNote({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="rounded-vsc-md border-l-[3px] bg-growth-tint py-3 pl-4 pr-4 text-[14px] leading-relaxed text-ink-soft"
-      style={{ borderLeftColor: "var(--growth)" }}
-    >
+    <div className="border-l-2 pl-5 text-[14px] leading-relaxed text-ink-soft" style={{ borderColor: "var(--growth)" }}>
       {children}
     </div>
   );
 }
 
+/** Heavy-rule table — same chrome as Framework 01's revision-history table
+ *  and Framework 02's filter table, not a bordered card. */
 function AnchorTable({ rows }: { rows: AnchorRow[] }) {
   const scoreColor: Record<number, string> = { 2: "text-growth", 1: "text-ink", 0: "text-ink-faint" };
   return (
-    <div className="overflow-x-auto rounded-vsc-lg border border-rule">
+    <div className="overflow-x-auto">
       <table className="w-full min-w-[480px] border-collapse font-mono text-[13px]">
         <thead>
-          <tr className="border-b border-rule bg-canvas-sunk">
-            <th className="w-16 px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+          <tr className="border-b-2 border-ink">
+            <th className="w-16 py-3 pr-4 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
               Score
             </th>
-            <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
+            <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
               What it looks like
             </th>
           </tr>
@@ -179,7 +323,7 @@ function AnchorTable({ rows }: { rows: AnchorRow[] }) {
         <tbody>
           {rows.map((row, i) => (
             <tr key={row.score} className={i > 0 ? "border-t border-rule" : undefined}>
-              <td className={`px-4 py-3 align-top font-bold ${scoreColor[row.score]}`}>{row.score}</td>
+              <td className={`py-3 pr-4 align-top font-bold ${scoreColor[row.score]}`}>{row.score}</td>
               <td className="px-4 py-3 align-top leading-relaxed text-ink-soft">{row.desc}</td>
             </tr>
           ))}
@@ -189,10 +333,8 @@ function AnchorTable({ rows }: { rows: AnchorRow[] }) {
   );
 }
 
-/**
- * The tiny chapter-transition diagram for the Handoff section — same
- * component shape as Framework 02's, relabelled for this handoff.
- */
+/** Chapter-transition diagram for the Handoff — kept un-numbered, the same
+ *  distinction Framework 02 preserves for its own HandoffArrow. */
 function HandoffArrow() {
   const width = 320;
   const boxW = 240;
@@ -246,20 +388,6 @@ function HandoffArrow() {
   );
 }
 
-/**
- * Framework 03 of the VSC Decision Pipeline. Reuses the shell and
- * conventions established by Frameworks 01 and 02, plus the revisions
- * made to 02: hero exhibit above the fold, a compact pipeline strip
- * instead of a competing diagram, chips/cards over tables where
- * scanability matters, and a forward-looking handoff at the close.
- *
- * The page's core structural move is keeping "gates" (Layer 2, pass/fail,
- * card treatment) and "scores" (Layer 3, 0–2 scale, table treatment)
- * visually distinct throughout — including three dimension tables that
- * carry an explicit clarification that 0 there means "cleared the gate,"
- * not "failed," since a reader arriving from Layer 2 would otherwise
- * assume the opposite.
- */
 export function SetupGradingFramework() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -275,73 +403,130 @@ export function SetupGradingFramework() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-canvas overflow-x-hidden text-ink">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-canvas text-ink">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <ReadingProgress />
-      <PaperGrain />
+      <RunningRail />
 
-      <main className="relative z-10 w-full pb-24 pt-32 md:pt-40">
-        <div className="container mx-auto max-w-[820px] px-4 sm:px-6">
+      <div className="mx-auto max-w-[1680px] px-6 pb-40 pt-32 sm:px-10 lg:px-20 lg:pt-40 xl:pl-56 xl:pr-20">
+        {/* ================================================================
+            00 — IDENTITY.
+           ================================================================ */}
+        <header id="identity" className="mb-32">
           <Link
             href="/research#framework-library"
-            className="group mb-8 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
+            className="group mb-16 inline-flex min-h-[44px] items-center gap-2 font-mono text-xs text-ink-muted transition-colors hover:text-growth"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Research
           </Link>
 
-          {/* 1. Header */}
-          <header className="mb-14">
-            <span className="mb-4 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
-              Framework 03 · Setup Grading
-            </span>
-            <h1 className="mb-8 font-display text-4xl font-normal leading-[1.15] text-ink sm:text-5xl">
-              Setup Grading
-            </h1>
-            <p className="max-w-[600px] font-display text-[32px] font-medium leading-[1.15] text-ink sm:text-[40px]">
-              Which setups deserve capital?
-            </p>
-          </header>
+          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-growth">
+            Framework 03 · Setup Grading
+          </span>
 
-          <div className="flex flex-col gap-14">
-            {/* 2. Opener */}
-            <section className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+          <h1
+            className="mt-5 font-display font-bold text-ink"
+            style={{ fontSize: "clamp(48px, 10vw, 132px)", lineHeight: 0.9, letterSpacing: "-0.035em" }}
+          >
+            Setup Grading
+          </h1>
+
+          <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11px] text-ink-muted lg:hidden">
+            <span>v0.1</span>
+            <span aria-hidden="true">·</span>
+            <span>{formatLongDate(PUBLISHED_DATE)}</span>
+            <span aria-hidden="true">·</span>
+            <span>~8 min read</span>
+            <span aria-hidden="true">·</span>
+            <Byline variant="compact" />
+          </div>
+
+          <div className="mt-10 lg:mt-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8">
+              <div className="hidden lg:col-span-2 lg:flex lg:flex-col lg:gap-2.5">
+                <span className="font-mono text-[11px] text-ink-muted">v0.1</span>
+                <span className="font-mono text-[11px] text-ink-muted">{formatLongDate(PUBLISHED_DATE)}</span>
+                <span className="font-mono text-[11px] text-ink-muted">~8 min read</span>
+                <Byline variant="full" className="mt-2" />
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-3">
+                <p
+                  className="font-editorial text-ink"
+                  style={{ fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.18, letterSpacing: "-0.01em" }}
+                >
+                  Which setups deserve capital?
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* ================================================================
+            01 — THE LAYERS. Opener, hero Exhibit 01, and the framing
+            paragraphs, in the same order as production.
+           ================================================================ */}
+        <section id="layers" className="mb-32 flex flex-col gap-14">
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
               <p>Not all valid setups deserve capital.</p>
               <p>A setup can be technically valid and still be a poor allocation of risk.</p>
               <p>This framework does not predict outcomes. It ranks opportunities.</p>
               <p>It exists to create scarcity and force selectivity.</p>
-            </section>
+            </div>
+          </AnnotatedBlock>
 
-            {/* 3. EXHIBIT 1 — The Three Layers. The hero: dominant, above the fold. */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={1}
-                label="The Three Layers"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-              >
-                <ThreeLayersExhibit />
-              </Exhibit>
-
-              <div className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
-                <p>Each layer answers a different question, and the order matters.</p>
-                <p>
-                  Eligibility asks whether the pattern is one I trade at all. Integrity asks
-                  whether this instance satisfies that pattern&apos;s non-negotiable rules.
-                  Only what survives both gets scored.
-                </p>
-                <p>Grading a setup that fails either layer is wasted work.</p>
+          <AnnotatedBlock span={10}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 01 — The Three Layers
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={700}>
+                    <ThreeLayersExhibit />
+                  </ExhibitScroll>
+                </div>
+              </figure>
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">01</span>
               </div>
             </div>
+          </AnnotatedBlock>
 
-            {/* 4. Pipeline map — compact wayfinding strip, stage 3 active */}
+          <AnnotatedBlock gloss="Order">
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+              <p>Each layer answers a different question, and the order matters.</p>
+              <p>
+                Eligibility asks whether the pattern is one I trade at all. Integrity asks
+                whether this instance satisfies that pattern&apos;s non-negotiable rules.
+                Only what survives both gets scored.
+              </p>
+              <p>Grading a setup that fails either layer is wasted work.</p>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            02 — PIPELINE. Shared PipelineStrip, unchanged.
+           ================================================================ */}
+        <section id="pipeline" className="mb-32">
+          <AnnotatedBlock span={10} gloss="Pipeline">
             <PipelineStrip activeIndex={2} />
+          </AnnotatedBlock>
+        </section>
 
-            {/* 5. Why This Framework Exists */}
-            <section className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+        {/* ================================================================
+            03 — WHY THIS FRAMEWORK EXISTS. No heading in production —
+            headingless prose, preserved exactly as such.
+           ================================================================ */}
+        <section id="why" className="mb-32">
+          <AnnotatedBlock>
+            <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
               <p>Most traders evaluate setups using feelings.</p>
               <p>They see a chart. They like the story. They like the sector. They imagine the upside.</p>
               <p>Then they enter.</p>
@@ -351,59 +536,110 @@ export function SetupGradingFramework() {
                 decision to allocate capital is made the same way every time.
               </p>
               <p>The framework sits between observation and action.</p>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 6. Layer 1 — Eligibility */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Layer 1 — Eligibility</h2>
-              <p className="text-[15px] italic text-ink-faint">Question: Is this a setup I trade?</p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">This layer is binary and it is fast.</p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                I maintain a defined set of setups. A chart either matches one of them or it
-                does not. There is no partial match, no &ldquo;close enough,&rdquo; no setup I
-                invent on the spot because the chart looks interesting.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Setup Grading is pattern-agnostic from here on. Whether the opportunity is an
-                OTB Breakout, a VCP, a Pole &amp; Flag, or another setup from the playbook,
-                every eligible candidate moves through the same two layers that follow.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                If the chart does not match a setup I trade, it is discarded. No scoring. No
-                analysis. No debate.
-              </p>
-            </section>
+        {/* ================================================================
+            04 — LAYER 1: ELIGIBILITY.
+           ================================================================ */}
+        <section id="eligibility" className="relative mt-32">
+          <GhostNumeral>1</GhostNumeral>
 
-            {/* 7. Layer 2 — Integrity */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Layer 2 — Integrity</h2>
-              <p className="text-[15px] italic text-ink-faint">
-                Question: Does this setup satisfy its own non-negotiable rules?
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Every setup has conditions that define it. Without them, the pattern is not a
-                weaker version of itself — it is a different chart.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                A Pole &amp; Flag without a pole is not a weak Pole &amp; Flag. There is no
-                setup.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                These are gates, not scores. Each one is pass or fail, with nothing in between.
-              </p>
-            </section>
-
-            {/* EXHIBIT 2 — The Integrity Gates */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={2}
-                label="The Integrity Gates"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+          <AnnotatedBlock gloss="Layer 1 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}
               >
-                <IntegrityGatesExhibit />
-              </Exhibit>
+                Layer 1 — Eligibility
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(18px, 2vw, 22px)", lineHeight: 1.3 }}>
+                Is this a setup I trade?
+              </p>
+            </div>
+          </AnnotatedBlock>
 
-              <div className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+          <div className="mt-14">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>This layer is binary and it is fast.</p>
+                <p>
+                  I maintain a defined set of setups. A chart either matches one of them or it
+                  does not. There is no partial match, no &ldquo;close enough,&rdquo; no setup I
+                  invent on the spot because the chart looks interesting.
+                </p>
+                <p>
+                  Setup Grading is pattern-agnostic from here on. Whether the opportunity is an
+                  OTB Breakout, a VCP, a Pole &amp; Flag, or another setup from the playbook,
+                  every eligible candidate moves through the same two layers that follow.
+                </p>
+                <p>
+                  If the chart does not match a setup I trade, it is discarded. No scoring. No
+                  analysis. No debate.
+                </p>
+              </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
+
+        {/* ================================================================
+            05 — LAYER 2: INTEGRITY.
+           ================================================================ */}
+        <section id="integrity" className="relative mt-32">
+          <GhostNumeral>2</GhostNumeral>
+
+          <AnnotatedBlock gloss="Layer 2 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}
+              >
+                Layer 2 — Integrity
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(18px, 2vw, 22px)", lineHeight: 1.3 }}>
+                Does this setup satisfy its own non-negotiable rules?
+              </p>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-14 flex flex-col gap-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Every setup has conditions that define it. Without them, the pattern is not a
+                  weaker version of itself — it is a different chart.
+                </p>
+                <p>
+                  A Pole &amp; Flag without a pole is not a weak Pole &amp; Flag. There is no
+                  setup.
+                </p>
+                <p>These are gates, not scores. Each one is pass or fail, with nothing in between.</p>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 02 — The Integrity Gates
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={600}>
+                      <IntegrityGatesExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">02</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   The specific thresholds vary by setup — what counts as sufficient volume for
                   a breakout is not what counts for a base. The categories stay constant; the
@@ -414,81 +650,142 @@ export function SetupGradingFramework() {
                   does not appear in the ranking.
                 </p>
               </div>
-            </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 8. Layer 3 — Quality Score (intro) */}
-            <section className={`${PROSE} flex flex-col gap-5`}>
-              <h2 className="font-display text-2xl font-normal text-ink sm:text-3xl">Layer 3 — Quality Score</h2>
-              <p className="text-[15px] italic text-ink-faint">
-                Question: Among all valid setups, which deserve capital first?
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Everything reaching this layer is already a real setup that satisfies its own
-                rules. The question is no longer whether it works. The question is how strong
-                it is relative to everything else available right now.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                A good setup is rarely one thing. It is usually several favourable conditions
-                appearing at the same time.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Note the shift in wording between Layer 2 and Layer 3. Layer 2 asks whether
-                volume is present. Layer 3 asks how exceptional it is. Layer 2 asks whether
-                relative strength is positive. Layer 3 asks how strong it is.
-              </p>
-              <p className="text-[17px] leading-relaxed text-ink-soft">
-                Defining conditions are gates. Improving conditions are scores. They are never
-                mixed.
-              </p>
-            </section>
+        {/* ================================================================
+            06 — LAYER 3: QUALITY SCORE. Intro, Exhibit 03, then the five
+            named dimensions nested inside — each gets a small mono index
+            tag rather than a GhostNumeral, so it reads as part of Layer 3
+            rather than a fourth top-level chapter.
+           ================================================================ */}
+        <section id="quality" className="relative mt-32">
+          <GhostNumeral>3</GhostNumeral>
 
-            {/* 9. EXHIBIT 3 — The Quality Scorecard */}
-            <Exhibit
-              number={3}
-              label="The Quality Scorecard"
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
-            >
-              <QualityScorecardExhibit />
-            </Exhibit>
-
-            {/* 10. Dimension sections */}
-            {DIMENSIONS.map((dim) => (
-              <section key={dim.name} className={`${PROSE} flex flex-col gap-5`}>
-                <div>
-                  <h3 className="font-display text-xl font-normal text-ink sm:text-2xl">{dim.name}</h3>
-                  <p className="mt-1.5 text-[15px] italic text-ink-faint">Question: {dim.question}</p>
-                </div>
-                {dim.clarification && <ClarificationNote>{dim.clarification}</ClarificationNote>}
-                <AnchorTable rows={dim.rows} />
-                <PrincipleBlock>{dim.principle}</PrincipleBlock>
-              </section>
-            ))}
-
-            {/* 11. EXHIBIT 4 — Two Rejections Are Not The Same */}
-            <div className="flex flex-col gap-6">
-              <Exhibit
-                number={4}
-                label="Two Rejections"
-                className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-1 sm:p-8"
+          <AnnotatedBlock gloss="Layer 3 of 3">
+            <div className="relative border-t-2 border-ink pt-6">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.96, letterSpacing: "-0.03em" }}
               >
-                <TwoRejectionsExhibit />
-              </Exhibit>
+                Layer 3 — Quality Score
+              </h2>
+              <p className="font-editorial mt-4 text-ink-soft" style={{ fontSize: "clamp(18px, 2vw, 22px)", lineHeight: 1.3 }}>
+                Among all valid setups, which deserve capital first?
+              </p>
+            </div>
+          </AnnotatedBlock>
 
-              <div className={`${PROSE} flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft`}>
+          <div className="mt-14 flex flex-col gap-14">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
+                <p>
+                  Everything reaching this layer is already a real setup that satisfies its own
+                  rules. The question is no longer whether it works. The question is how strong
+                  it is relative to everything else available right now.
+                </p>
+                <p>
+                  A good setup is rarely one thing. It is usually several favourable conditions
+                  appearing at the same time.
+                </p>
+                <p>
+                  Note the shift in wording between Layer 2 and Layer 3. Layer 2 asks whether
+                  volume is present. Layer 3 asks how exceptional it is. Layer 2 asks whether
+                  relative strength is positive. Layer 3 asks how strong it is.
+                </p>
+                <p>Defining conditions are gates. Improving conditions are scores. They are never mixed.</p>
+              </div>
+            </AnnotatedBlock>
+
+            <AnnotatedBlock span={10}>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+                <figure className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                    <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                      Exhibit 03 — The Quality Scorecard
+                    </figcaption>
+                  </div>
+                  <div className="mt-8">
+                    <ExhibitScroll minWidth={700}>
+                      <QualityScorecardExhibit />
+                    </ExhibitScroll>
+                  </div>
+                </figure>
+                <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                  <span className="font-display text-[64px] font-bold leading-none text-rule-strong">03</span>
+                </div>
+              </div>
+            </AnnotatedBlock>
+
+            {DIMENSIONS.map((dim, i) => (
+              <AnnotatedBlock key={dim.name} gloss={`Dimension ${i + 1} of 5`}>
+                <div className="flex flex-col gap-5 border-t border-rule pt-8">
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold text-ink sm:text-[28px]">{dim.name}</h3>
+                    <p className="mt-1.5 text-[15px] text-ink-faint" style={{ fontStyle: "italic" }}>
+                      Question: {dim.question}
+                    </p>
+                  </div>
+                  {dim.clarification && <ClarificationNote>{dim.clarification}</ClarificationNote>}
+                  <AnchorTable rows={dim.rows} />
+                  <PrincipleBlock>{dim.principle}</PrincipleBlock>
+                </div>
+              </AnnotatedBlock>
+            ))}
+          </div>
+        </section>
+
+        {/* ================================================================
+            07 — EXHIBIT 04: TWO REJECTIONS. Not a Layer — no ghost numeral.
+           ================================================================ */}
+        <section id="rejections" className="mt-32">
+          <AnnotatedBlock span={10}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <figure className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-4 border-t-2 border-ink pt-4">
+                  <figcaption className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    Exhibit 04 — Two Rejections
+                  </figcaption>
+                </div>
+                <div className="mt-8">
+                  <ExhibitScroll minWidth={600}>
+                    <TwoRejectionsExhibit />
+                  </ExhibitScroll>
+                </div>
+              </figure>
+              <div aria-hidden="true" className="hidden shrink-0 border-t-2 border-ink pt-4 lg:block lg:w-[110px]">
+                <span className="font-display text-[64px] font-bold leading-none text-rule-strong">04</span>
+              </div>
+            </div>
+          </AnnotatedBlock>
+
+          <div className="mt-10">
+            <AnnotatedBlock>
+              <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   A setup that violates a non-negotiable rule is not a lower-grade setup. It is
                   not a setup.
                 </p>
                 <p>A setup that scores poorly is still a setup. It simply did not earn capital today.</p>
               </div>
-            </div>
+            </AnnotatedBlock>
+          </div>
+        </section>
 
-            {/* 12. What The Grades Mean */}
-            <section className={PROSE}>
-              <h2 className="mb-6 font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            08 — WHAT THE GRADES MEAN.
+           ================================================================ */}
+        <section id="grades" className="mt-32">
+          <AnnotatedBlock gloss="Output">
+            <div className="border-t-2 border-ink">
+              <h2
+                className="mt-8 font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What The Grades Mean
               </h2>
-              <div className="flex flex-col">
+              <div className="mt-8 flex flex-col">
                 {GRADE_MEANINGS.map((g, i) => (
                   <div
                     key={g.name}
@@ -507,31 +804,50 @@ export function SetupGradingFramework() {
                   </div>
                 ))}
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 13. The Most Important Principle — the emotional centre of the page */}
-            <div className="rounded-vsc-xl bg-growth-tint p-8 sm:p-12">
-              <p className="font-display text-[24px] font-medium leading-snug text-ink sm:text-[28px]">
+        {/* ================================================================
+            09 — THE MOST IMPORTANT PRINCIPLE. Was a tinted rounded panel;
+            the payoff now reads through scale and rule weight, the same
+            device Framework 01's VerdictReadout and Framework 02's core
+            statements use — no background fill.
+           ================================================================ */}
+        <section id="principle" className="mt-32">
+          <AnnotatedBlock>
+            <div className="border-t-2 border-ink pt-8">
+              <p
+                className="font-editorial text-ink"
+                style={{ fontSize: "clamp(28px, 3.6vw, 42px)", lineHeight: 1.2 }}
+              >
                 Setup grading is not prediction.
               </p>
-              <div className="mt-6 flex flex-col gap-4 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-6 flex flex-col gap-4 text-[19px] leading-[1.75] text-ink-soft">
                 <p>An A-grade setup can fail. A C-grade setup can run.</p>
                 <p>
                   The framework is not trying to forecast outcomes. It is trying to improve
                   decision quality.
                 </p>
               </div>
-              <p className="mt-6 font-display text-[22px] font-medium text-ink">
-                Judge the process. Not the result.
-              </p>
+              <p className="mt-6 font-display text-2xl font-bold text-ink">Judge the process. Not the result.</p>
             </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 14. What This Framework Is Not */}
-            <section className={PROSE}>
-              <h2 className="mb-4 font-display text-2xl font-normal text-ink sm:text-3xl">
+        {/* ================================================================
+            10 — WHAT THIS FRAMEWORK IS NOT.
+           ================================================================ */}
+        <section id="not-this" className="mt-32">
+          <AnnotatedBlock gloss="Scope">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
                 What This Framework Is Not
               </h2>
-              <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ink-soft">
+              <div className="mt-8 flex flex-col gap-6 text-[19px] leading-[1.75] text-ink-soft">
                 <p>
                   <strong className="font-semibold text-ink">It Is Not A Prediction Engine.</strong>{" "}
                   The grade describes the quality of the opportunity as it exists now. It says
@@ -549,18 +865,29 @@ export function SetupGradingFramework() {
                   receive. That is the next framework.
                 </p>
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 15. The Handoff */}
-            <section className={PROSE}>
-              <h2 className="mb-6 font-display text-2xl font-normal text-ink sm:text-3xl">The Handoff</h2>
-              <div className="flex flex-col gap-6">
+        {/* ================================================================
+            11 — THE HANDOFF.
+           ================================================================ */}
+        <section id="handoff" className="mt-32">
+          <AnnotatedBlock gloss="Continuity">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                The Handoff
+              </h2>
+              <div className="mt-8 flex flex-col gap-6">
                 <div>
                   <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
                     Framework 03 answered
                   </span>
                   <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
-                    “Which setups deserve capital?”
+                    &ldquo;Which setups deserve capital?&rdquo;
                   </p>
                 </div>
                 <div>
@@ -568,29 +895,37 @@ export function SetupGradingFramework() {
                     Framework 04 answers
                   </span>
                   <p className="mt-2 font-display text-[22px] font-medium leading-snug text-ink sm:text-[24px]">
-                    “How much?”
+                    &ldquo;How much?&rdquo;
                   </p>
                 </div>
               </div>
               <div className="mt-10">
                 <HandoffArrow />
               </div>
-            </section>
+            </div>
+          </AnnotatedBlock>
+        </section>
 
-            {/* 16. Version note */}
-            <div className="border-t border-rule pt-8">
+        {/* ================================================================
+            12 — VERSION NOTE + EMAIL CAPTURE.
+           ================================================================ */}
+        <section id="closing" className="mt-32">
+          <AnnotatedBlock gloss="Version log">
+            <div className="border-t-2 border-ink pt-8">
               <p className="font-mono text-[13px] leading-relaxed text-ink-faint">
                 Version 0.1 — Scoring anchors and gate thresholds are provisional and will be
                 refined as the framework evolves.
               </p>
             </div>
+          </AnnotatedBlock>
 
-            <div className={PROSE}>
+          <div className="mt-14">
+            <AnnotatedBlock>
               <EmailCapture context="Frameworks are revised as the market teaches us something. Subscribers get the revision and the reason." />
-            </div>
+            </AnnotatedBlock>
           </div>
-        </div>
-      </main>
+        </section>
+      </div>
     </div>
   );
 }

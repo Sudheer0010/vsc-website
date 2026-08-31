@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState, type MouseEvent } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { computeTradingExpectancy, type TradingExpectancyResult } from "@/lib/calculators/trading-expectancy";
 
 // Lets a click anywhere in the input's padded box focus the field, since
@@ -284,6 +286,37 @@ export function TradingExpectancyCalculator() {
                   </div>
                   <p className="mt-1.5 text-[11.5px] leading-relaxed text-ink-muted">{result.sample.text}</p>
                 </div>
+
+                {/* Hand-off to the stress test. Only the three edge inputs
+                    travel: `trades` here is the historical sample size, while
+                    the stress test's trade count is a forward horizon, so it
+                    is passed as `sample` for a caveat rather than prefilled as
+                    the horizon. */}
+                <Link
+                  href={{
+                    pathname: "/tools/trading-expectancy-path-simulator",
+                    query: {
+                      winRate: result.winRate,
+                      avgWin: result.avgWin,
+                      avgLoss: result.avgLoss,
+                      sample: result.trades,
+                    },
+                  }}
+                  className="group mt-4 flex items-center justify-between gap-4 rounded-vsc-md border border-growth/30 bg-growth-wash px-4 py-3.5 transition-colors duration-150 hover:border-growth/60"
+                >
+                  <span>
+                    <strong className="block text-[13.5px] font-semibold text-ink">
+                      Now stress-test this edge
+                    </strong>
+                    <span className="mt-0.5 block text-[11.5px] leading-snug text-ink-muted">
+                      See the drawdowns and losing streaks it can still produce.
+                    </span>
+                  </span>
+                  <ArrowRight
+                    className="h-4 w-4 shrink-0 text-growth transition-transform duration-200 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
               </div>
             </>
           )}

@@ -654,6 +654,17 @@ button:focus-visible,
     background-color: #F4F7F4;
 }
 
+/* Fully-dark routes (Design Lab Enquire v2) keep this class through scroll
+   — see Navbar.tsx FULLY_DARK_ROUTES — so the scrolled chrome itself needs
+   a dark variant instead of the paper-coloured band .scrolled sets by
+   default, which would otherwise cut a light seam across a page that
+   never becomes light. */
+.site-header.on-dark.scrolled {
+    background: rgba(8, 15, 11, 0.86);
+    border-bottom-color: rgba(233, 228, 210, 0.14);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
 .nav-cta {
     display: inline-flex;
     align-items: center;

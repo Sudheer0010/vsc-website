@@ -7,6 +7,45 @@ const WIDTH = 640;
 const HEIGHT = 300;
 const MARGIN = { top: 16, right: 16, bottom: 30, left: 46 };
 const Y_TICK_FRACTIONS = [0, 0.25, 0.5, 0.75, 1] as const;
+/** Points drawn per path. The plot is ~580px wide, so more is invisible detail. */
+const MAX_POINTS_PER_PATH = 320;
+
+/**
+ * Bucketed min/max decimation.
+ *
+ * At the 1,000-trade horizon, 20 paths meant 20,020 SVG points and a measured
+ * 196 ms render block on a 4x-throttled CPU — longer than any simulation slice.
+ * Plain stride sampling would fix the cost but could skip the trough that makes
+ * a drawdown visible, so each bucket keeps both its lowest and highest point.
+ * The drawn envelope stays honest; only redundant points are dropped.
+ */
+function decimate(values: number[], maxPoints: number): Array<[number, number]> {
+  const n = values.length;
+  if (n <= maxPoints) return values.map((v, i) => [i, v]);
+
+  const buckets = Math.floor(maxPoints / 2);
+  const size = n / buckets;
+  const out: Array<[number, number]> = [[0, values[0]]];
+
+  for (let b = 0; b < buckets; b += 1) {
+    const start = Math.floor(b * size);
+    const end = Math.min(n, Math.floor((b + 1) * size));
+    if (end <= start) continue;
+
+    let minI = start;
+    let maxI = start;
+    for (let i = start; i < end; i += 1) {
+      if (values[i] < values[minI]) minI = i;
+      if (values[i] > values[maxI]) maxI = i;
+    }
+    const [first, second] = minI <= maxI ? [minI, maxI] : [maxI, minI];
+    out.push([first, values[first]]);
+    if (second !== first) out.push([second, values[second]]);
+  }
+
+  out.push([n - 1, values[n - 1]]);
+  return out;
+}
 
 function formatR(value: number) {
   const sign = value > 0 ? "+" : "";
@@ -16,6 +55,7 @@ function formatR(value: number) {
 export function PathSimulatorChart({
   paths,
   trades,
+  percentiles,
   medianPathIndex,
   selectedIndex,
   onSelect,
@@ -24,6 +64,8 @@ export function PathSimulatorChart({
 }: {
   paths: SimulatedPath[];
   trades: number;
+  /** Endpoint percentiles across every simulated run, not just the drawn ones. */
+  percentiles?: { p5: number; p50: number; p95: number };
   medianPathIndex: number;
   selectedIndex: number | null;
   onSelect: (index: number | null) => void;
@@ -37,8 +79,9 @@ export function PathSimulatorChart({
     const plotHeight = HEIGHT - MARGIN.top - MARGIN.bottom;
 
     const values = paths.flatMap((path) => path.cumulative);
-    const minValue = Math.min(0, ...values);
-    const maxValue = Math.max(0, ...values);
+    const bounds = percentiles ? [percentiles.p5, percentiles.p50, percentiles.p95] : [];
+    const minValue = Math.min(0, ...values, ...bounds);
+    const maxValue = Math.max(0, ...values, ...bounds);
     const pad = (maxValue - minValue) * 0.08 || 1;
     const domainMin = minValue - pad;
     const domainMax = maxValue + pad;
@@ -52,7 +95,12 @@ export function PathSimulatorChart({
     );
 
     return { xScale, yScale, zeroY: yScale(0), yTicks };
-  }, [paths, trades]);
+  }, [paths, trades, percentiles]);
+
+  const drawnPaths = useMemo(
+    () => paths.map((path) => decimate(path.cumulative, MAX_POINTS_PER_PATH)),
+    [paths],
+  );
 
   return (
     <div className="overflow-hidden rounded-vsc-lg border border-rule bg-surface p-4 sm:p-5">
@@ -109,6 +157,36 @@ export function PathSimulatorChart({
             0R
           </text>
 
+          {percentiles &&
+            (
+              [
+                { value: percentiles.p95, label: "95th" },
+                { value: percentiles.p50, label: "median" },
+                { value: percentiles.p5, label: "5th" },
+              ] as const
+            ).map((marker) => (
+              <g key={marker.label}>
+                <line
+                  x1={MARGIN.left}
+                  y1={yScale(marker.value)}
+                  x2={WIDTH - MARGIN.right}
+                  y2={yScale(marker.value)}
+                  stroke="var(--growth)"
+                  strokeWidth="1"
+                  strokeDasharray="2 4"
+                  opacity="0.55"
+                />
+                <text
+                  x={WIDTH - MARGIN.right}
+                  y={yScale(marker.value) - 4}
+                  textAnchor="end"
+                  style={{ font: "600 10px var(--font-ui)", fill: "var(--growth)" }}
+                >
+                  {marker.label} {formatR(marker.value)}
+                </text>
+              </g>
+            ))}
+
           <line
             x1={MARGIN.left}
             y1={MARGIN.top}
@@ -143,8 +221,8 @@ export function PathSimulatorChart({
             .sort((a, b) => (a.index === emphasizedIndex ? 1 : b.index === emphasizedIndex ? -1 : 0))
             .map(({ path, index }) => {
               const isEmphasized = emphasizedIndex === index;
-              const d = path.cumulative
-                .map((value, i) => `${i === 0 ? "M" : "L"}${xScale(i)},${yScale(value)}`)
+              const d = (drawnPaths[index] ?? [])
+                .map(([i, value], k) => `${k === 0 ? "M" : "L"}${xScale(i)},${yScale(value)}`)
                 .join(" ");
 
               return (

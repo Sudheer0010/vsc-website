@@ -7,6 +7,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SkipToContent } from "@/components/ui/vsc/SkipToContent";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { OG_IMAGES } from "@/lib/seo";
 
 /**
 * Typography — chosen for reading, not for looking expensive.
@@ -77,14 +78,7 @@ export const metadata: Metadata = {
     url: "https://vsccapital.in/",
     title: "VSC Capital & Advisory | Systematic Trading",
     description: "Momentum-based market education, research, and process-driven capital development.",
-    images: [
-      {
-        url: "https://vsccapital.in/logo.jpg",
-        width: 1200,
-        height: 630,
-        alt: "VSC Capital & Advisory Logo",
-      }
-    ],
+    images: OG_IMAGES,
   },
   twitter: {
     card: "summary_large_image",

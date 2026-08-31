@@ -1,18 +1,28 @@
 "use client";
 
-import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useCallback } from "react";
+import { useReducedMotion } from "framer-motion";
+import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Exhibit } from "@/components/ui/vsc/Exhibit";
+import { Reveal } from "@/components/ui/vsc/Reveal";
 import { OfferingsDepthMark } from "./OfferingsDepthMark";
 
 /**
- * Two columns: the claim on the left, the evidence on the right. The old
- * hero stated "Three Pillars" and then illustrated it with three small
- * pill badges that repeated the same three names the paragraph and the
- * decision list below both already say. The diagram now carries that
- * information structurally instead — depth, not a repeated list.
+ * Offerings hero — Cinematic Signal, same dark register and ContourField
+ * seed (71) as the homepage/About heroes. States the philosophy on the
+ * left; the right holds a light analytical exhibit ("Exhibit 01 ·
+ * Structure") that shows the three entry points against the dark field
+ * instead of a card matching the dark background — the contrast is
+ * deliberate.
  */
 
+/**
+ * The hero legend for the concentric-ring mark: outer ring is the
+ * broadest entry point, the filled core is the deepest. Kept local rather
+ * than added to offeringsConfig because it's a hero-only framing (name +
+ * ring colour), not a fact used anywhere else on the page — the "Start
+ * where you are" rows below carry their own, differently-axed facts.
+ */
 const TIERS = [
   {
     ring: "outer" as const,
@@ -30,109 +40,84 @@ const TIERS = [
     ring: "inner" as const,
     color: "var(--growth-deep)",
     name: "VSC Community",
-    desc: "Learn and improve with others.",
+    desc: "Shared learning with serious market participants.",
   },
 ];
 
 export function OfferingsHero() {
-  const shouldReduceMotion = useReducedMotion();
+  const reduce = useReducedMotion();
 
-  const handleScrollToOverview = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const target = document.getElementById("offerings-overview");
-    if (target) {
-      target.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
-    }
-  };
-
-  const animProps = {
-    initial: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 15 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-80px" },
-    transition: { duration: shouldReduceMotion ? 0 : 0.25, ease: "easeOut" }
-  } as const;
+  const scrollToDecision = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      document.getElementById("start-where-you-are")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    },
+    [reduce]
+  );
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden select-none border-b border-rule z-10">
-      {/* Paper grain — vsc_offerings_hero.png was leftover dark-navy-and-
-          gold generated art from before this redesign. Same treatment as
-          the homepage hero: felt texture + a warm glow. */}
+    <section className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-24 pt-32 sm:pb-32 sm:pt-40">
+      <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.9} animate />
       <div
         aria-hidden="true"
-        className="paper-texture pointer-events-none absolute inset-0 z-0 opacity-70"
+        className="pointer-events-none absolute inset-0"
         style={{
-          maskImage:
-            "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 85% 75% at 68% 40%, #000 20%, transparent 78%)",
+          background: "radial-gradient(ellipse 60% 55% at 70% 20%, rgba(63,203,116,0.20) 0%, transparent 68%)",
         }}
       />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-20 top-1/2 z-0 h-[560px] w-[560px] -translate-y-1/2 rounded-full blur-[130px]"
-        style={{ background: "radial-gradient(circle, rgba(15,122,64,0.10) 0%, transparent 70%)" }}
-      />
 
-      <div className="container relative z-20 mx-auto max-w-[1200px] px-4 sm:px-6">
+      <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
-          {/* --- The claim --------------------------------------------- */}
-          <div className="lg:col-span-6">
-            <motion.span
-              className="font-mono text-xs md:text-sm tracking-[0.2em] text-accent-gold uppercase mb-6 font-bold block"
-              {...animProps}
-            >
-              OFFERINGS
-            </motion.span>
+          <div className="lg:col-span-7">
+            <Reveal>
+              <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
+                Offerings
+              </span>
+            </Reveal>
 
-            <motion.h1
-              className="font-display text-5xl sm:text-6xl md:text-[68px] leading-[1.06] text-ink font-normal tracking-tight mb-8"
-              {...animProps}
-              transition={{ ...animProps.transition, delay: 0.05 }}
-            >
-              Three Pillars.<br />One Investment Philosophy.
-            </motion.h1>
+            <Reveal delay={0.06}>
+              <h1 className="mt-6 max-w-[18ch] font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.4vw]">
+                Three Pillars.
+                <br />
+                One Disciplined Approach.
+              </h1>
+            </Reveal>
 
-            <motion.p
-              className="font-mono text-sm md:text-base text-ink-soft leading-relaxed max-w-[560px] mb-10"
-              {...animProps}
-              transition={{ ...animProps.transition, delay: 0.1 }}
-            >
-              Every VSC offering exists to build systematic thinking—from foundational market education, to disciplined portfolio guidance, to institutional-grade research.
-            </motion.p>
+            <Reveal delay={0.12}>
+              <p className="mt-8 max-w-[56ch] text-[18px] leading-relaxed text-white/60">
+                Every VSC offering builds the same systematic thinking — from foundational market education, to
+                disciplined portfolio guidance, to serious market participation. Different starting points, one
+                underlying process.
+              </p>
+            </Reveal>
 
-            <motion.div
-              className="flex"
-              {...animProps}
-              transition={{ ...animProps.transition, delay: 0.15 }}
-            >
-              <a
-                href="#offerings-overview"
-                onClick={handleScrollToOverview}
-                className="btn btn-gold"
-                style={{ padding: "14px 28px", fontSize: "12px", fontFamily: "var(--font-mono)", letterSpacing: "1px" }}
-              >
-                EXPLORE OFFERINGS
-              </a>
-            </motion.div>
+            <Reveal delay={0.18}>
+              <div className="mt-9">
+                <a
+                  href="#start-where-you-are"
+                  onClick={scrollToDecision}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-vsc-md bg-growth px-6 py-3 font-ui text-[16px] font-semibold tracking-[-0.01em] text-white shadow-lift-growth transition-[background-color,transform] duration-200 ease-physical hover:-translate-y-0.5 hover:bg-growth-deep"
+                >
+                  See what fits <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </Reveal>
           </div>
 
-          {/* --- The evidence -------------------------------------------
-              Exhibit 01: three concentric rings. Increasing depth, not
-              increasing price — the caption states that relationship in
-              real text, since the shape alone can't. */}
-          <motion.div
-            className="lg:col-span-6"
-            {...animProps}
-            transition={{ ...animProps.transition, delay: 0.12 }}
-          >
+          {/* --- Exhibit 01 · Structure — light panel, dark field ------
+              Concentric rings: the outer ring is the broadest entry point,
+              the filled core is the deepest. No caption — the ring/name/
+              description legend states the depth relationship in real
+              text next to the mark, so a separate explanatory caption
+              would only repeat it. */}
+          <Reveal delay={0.16} distance={20} className="lg:col-span-5">
             <Exhibit
               number={1}
               label="Structure"
-              caption="Each ring is a deeper level of engagement, not a higher price tier. Pricing for all three is shared directly, not published — see “Start where you are” below."
-              className="rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-2 sm:p-8"
+              className="mx-auto w-full max-w-[440px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-2 sm:p-8 lg:ml-auto lg:mr-0"
             >
               <div className="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
-                <OfferingsDepthMark size={168} className="mx-auto shrink-0 sm:mx-0" />
+                <OfferingsDepthMark size={140} className="mx-auto shrink-0 sm:mx-0" />
                 <ul className="space-y-5">
                   {TIERS.map((tier) => (
                     <li key={tier.name} className="flex items-start gap-3">
@@ -145,16 +130,14 @@ export function OfferingsHero() {
                         <div className="font-display text-[17px] font-semibold tracking-tight text-ink">
                           {tier.name}
                         </div>
-                        <div className="text-[14px] leading-snug text-ink-soft">
-                          {tier.desc}
-                        </div>
+                        <div className="text-[14px] leading-snug text-ink-soft">{tier.desc}</div>
                       </div>
                     </li>
                   ))}
                 </ul>
               </div>
             </Exhibit>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -18,10 +18,11 @@ export interface OfferingItem {
   glowColor: string;
   path: string;
   /**
-   * The decision-structure fields, used by ThreePillarsOverview on
-   * /offerings. Kept on this record rather than duplicated locally so the
-   * "which offering is this" facts (title, path, accent) and the "why pick
-   * this one" facts (quote, bestIf) can't drift apart from each other.
+   * The decision-structure fields, used by StartWhereYouAre (formerly
+   * ThreePillarsOverview) on /offerings. Kept on this record rather than
+   * duplicated locally so the "which offering is this" facts (title,
+   * path, accent) and the "why pick this one" facts (quote, bestIf)
+   * can't drift apart from each other.
    */
   quote: string;
   format: string;
@@ -77,20 +78,20 @@ export const offeringsConfig: OfferingItem[] = [
   },
   {
     slug: "advantage",
-    title: "Portfolio Guidance (VSC Advantage)",
+    title: "Process Review (VSC Advantage)",
     shortTitle: "VSC Advantage",
-    tagline: "Professional Portfolio & Risk Guidance",
-    description: "Align your capital structure with concrete growth and mathematical risk gates.",
-    whatItIs: "Strategic capital structure guidance aligning portfolio allocation with quantitative risk gates and drawdown limits.",
-    whoItIsFor: "High-net-worth investors and portfolio managers requiring disciplined capital preservation and systematic rebalancing.",
+    tagline: "Process and Risk Review",
+    description: "Review how you choose trades, size risk and learn from your own past decisions.",
+    whatItIs: "A structured review of your trading process — entry rules, position sizing and exits — measured against defined risk gates.",
+    whoItIsFor: "Active traders and self-directed investors who hold positions but have no written rule for sizing or exits.",
     designedForList: [
-      "High-Net-Worth Investors",
-      "Professionals",
-      "Family Offices",
+      "Active Traders",
+      "Self-Directed Investors",
+      "Working Professionals",
       "Business Owners"
     ],
-    deliveryFormat: "Direct research desk consultations, periodic portfolio audits, and regime shift reports.",
-    expectedOutcome: "Optimized capital protection, systematic risk control, and structured drawdown management.",
+    deliveryFormat: "Direct research desk sessions and periodic reviews of your own trading record.",
+    expectedOutcome: "A written sizing and exit rule, and a clear view of where your decisions repeat the same mistakes.",
     availability: "Limited Capacity / By Application",
     pricing: "Pricing: To be announced",
     accent: "gold",
@@ -98,7 +99,7 @@ export const offeringsConfig: OfferingItem[] = [
     glowColor: "rgba(15, 122, 64, 0.06)",
     path: "/offerings/advantage",
     quote: "I trade already, but my results are inconsistent.",
-    format: "Periodic portfolio review against defined risk gates.",
+    format: "Periodic review of your process against defined risk gates.",
     bestIf: "you hold positions but have no defined rule for sizing or exits.",
     proofLabel: "See what a review covers",
     proofHref: "/offerings/advantage",
@@ -108,21 +109,21 @@ export const offeringsConfig: OfferingItem[] = [
   },
   {
     slug: "inner-circle",
-    title: "Research Circle (Inner Circle)",
+    title: "VSC Community",
     shortTitle: "VSC Community",
-    tagline: "Institutional Research Membership",
-    description: "Gain direct access to quantitative audits, macro theme reviews, and codebase parameters.",
-    whatItIs: "Direct institutional membership providing quantitative theme audits, macro regime analysis, and proprietary research notes.",
-    whoItIsFor: "Advanced traders, family offices, and institutional participants requiring deep quantitative market insights.",
+    tagline: "Market discussion community",
+    description: "Discuss markets, share what you are learning and challenge ideas — without tips or noise.",
+    whatItIs: "A room for market discussion, shared learning and second opinions — not a signal group and not a letter.",
+    whoItIsFor: "Market participants who understand the basics and want to keep improving alongside people who take markets seriously.",
     designedForList: [
-      "Institutional Investors",
-      "Family Offices",
-      "Advanced Traders",
-      "Portfolio Managers"
+      "Self-Directed Traders",
+      "Working Professionals",
+      "Long-Term Investors",
+      "Serious Learners"
     ],
-    deliveryFormat: "Weekly research desk letters, quarterly regime breakdowns, and research archive access.",
-    expectedOutcome: "Institutional macro clarity, early regime shift detection, and systematic market insight.",
-    availability: "By Invitation",
+    deliveryFormat: "Ongoing market discussion, shared observations and open questions between members.",
+    expectedOutcome: "A second opinion before capital moves, and exposure to how other participants reason.",
+    availability: "In Development",
     pricing: "Pricing: To be announced",
     accent: "emerald",
     accentColor: "#5D8B73",
@@ -141,7 +142,7 @@ export const offeringsConfig: OfferingItem[] = [
     proofLabel: "Explore the community",
     proofHref: "/offerings/inner-circle",
     tier: "invite",
-    stateLabel: "03 · VSC Community",
-    availabilityShort: "Community"
+    stateLabel: "03 · In development",
+    availabilityShort: "In development"
   }
 ];

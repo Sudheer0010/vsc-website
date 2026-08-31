@@ -7,6 +7,7 @@ import { marketLetters, sortedMonths } from "@/data/market-letters";
 import { MarketLetter } from "@/types/market-letter";
 import { letterHref } from "@/lib/letter-urls";
 import { formatLongDate } from "@/lib/format-date";
+import { OG_IMAGES } from "@/lib/seo";
 
 /**
  * The canonical subscribe destination — where LinkedIn posts and every
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
   description: PAGE_DESCRIPTION,
   alternates: { canonical: "/letter" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "/letter",
     title: "VSC Market Letter",

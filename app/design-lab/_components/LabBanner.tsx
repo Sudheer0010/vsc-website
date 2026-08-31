@@ -7,6 +7,22 @@ const LINKS = [
   { key: "home-a", href: "/design-lab/home-a", label: "Home-A — full page" },
   { key: "home-c", href: "/design-lab/home-c", label: "Home-C — full page" },
   { key: "about", href: "/design-lab/about", label: "About — Editorial Signal" },
+  { key: "offerings", href: "/design-lab/offerings", label: "Offerings — Cinematic Signal" },
+  { key: "research", href: "/design-lab/research", label: "Research — Reading Desk" },
+  { key: "research-frameworks", href: "/design-lab/research-frameworks", label: "Research Frameworks — Decision Funnel" },
+  { key: "faq", href: "/design-lab/faq", label: "FAQ — Knowledge Desk" },
+  { key: "enquire", href: "/design-lab/enquire", label: "Enquire — The Open Line" },
+  { key: "advantage", href: "/design-lab/advantage", label: "Advantage — Service Page" },
+  {
+    key: "framework-market-environment",
+    href: "/design-lab/framework-market-environment",
+    label: "Framework 01 — v1 (rejected)",
+  },
+  {
+    key: "framework-market-environment-v2",
+    href: "/design-lab/framework-market-environment-v2",
+    label: "Framework 01 — v2 (editorial grid)",
+  },
 ] as const;
 
 export type LabBannerActive = (typeof LINKS)[number]["key"];

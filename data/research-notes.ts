@@ -154,7 +154,7 @@ export const researchNotes: ResearchNote[] = [
         "A stock can look cheap and still fail the structure, trend and confirmation requirements of a good setup.",
     },
     seo: {
-      title: "Waiting Three Days After a Gap Down — Trading Insight 001 | VSC Capital",
+      title: "Waiting Three Days After a Gap Down — Trading Insight 001 | VSC Capital & Advisory",
       description:
         "The three-day rule tells you when not to buy after an earnings gap down. It never tells you when to. An annotated chart of Jain Resource Recycling, May–August 2026.",
     },
@@ -339,7 +339,7 @@ export const researchNotes: ResearchNote[] = [
     ],
 
     seo: {
-      title: "Find Your Trading Style. Don't Copy Someone Else's. | VSC Capital",
+      title: "Find Your Trading Style. Don't Copy Someone Else's. | VSC Capital & Advisory",
       description:
         "Most traders copy the style of someone whose results they want. A practical way to test whether intraday, swing trading or another approach actually fits the way you make decisions.",
     },

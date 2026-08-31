@@ -5,24 +5,34 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { PortfolioRiskCalculator } from "@/components/tools/PortfolioRiskCalculator";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+import { OG_IMAGES } from "@/lib/seo";
+import { toolBreadcrumbJsonLd } from "@/lib/tool-seo";
+import { RelatedLinks, ReadTheResult, ReadItem } from "@/components/tools/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Portfolio Risk Calculator | VSC Capital & Advisory",
   description:
-    "Calculate total portfolio risk across up to eight open positions — total rupee risk, risk concentration by sector or theme, and an optional risk-limit comparison.",
+    "Calculate total portfolio risk across up to eight open positions: total rupee risk, concentration by sector or theme, and an optional risk-limit comparison.",
   alternates: { canonical: "/tools/portfolio-risk-calculator" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "https://vsccapital.in/tools/portfolio-risk-calculator",
     title: "Portfolio Risk Calculator | VSC Capital & Advisory",
     description:
-      "Calculate total portfolio risk across up to eight open positions — total rupee risk, risk concentration by sector or theme, and an optional risk-limit comparison.",
+      "Calculate total portfolio risk across up to eight open positions: total rupee risk, concentration by sector or theme, and an optional risk-limit comparison.",
   },
 };
 
 export default function PortfolioRiskCalculatorPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(toolBreadcrumbJsonLd("Portfolio Risk Calculator", "/tools/portfolio-risk-calculator")),
+        }}
+      />
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
@@ -80,6 +90,32 @@ export default function PortfolioRiskCalculatorPage() {
               statistical correlation or diversification benefit.
             </div>
           </section>
+
+          <ReadTheResult>
+            <ReadItem term="Total stop-loss risk">
+              The rupee amount you would lose if every open position exited at its stop at the same time. It is the combined loss the book is currently exposed to, not an expected loss.
+            </ReadItem>
+            <ReadItem term="Total account risk %">
+              That total divided by trading capital. It is the single number to compare against whatever open-risk limit you have set for yourself.
+            </ReadItem>
+            <ReadItem term="Group concentration">
+              How much of the open risk sits in one bucket you named. Positions in one bucket often move together, so a low total can still hide a single concentrated bet.
+            </ReadItem>
+            <ReadItem term="Stops at or above entry read as zero">
+              A position whose stop sits at or above entry contributes no downside risk to this total. That is deliberate, and it means the figure understates risk if the stop cannot be filled.
+            </ReadItem>
+          </ReadTheResult>
+
+          <RelatedLinks
+            frameworks={[
+              { href: "/frameworks/market-environment", label: "Framework 01 — Market Environment", note: "How the regime sets the maximum total exposure the book is allowed to carry." },
+              { href: "/frameworks/sizing", label: "Framework 04 — Sizing", note: "Why portfolio room is the third constraint after risk and setup grade." },
+            ]}
+            tools={[
+              { href: "/tools/position-size-calculator", label: "Position Size Calculator", note: "Size the next position before adding it to this total." },
+              { href: "/tools/drawdown-recovery-calculator", label: "Drawdown & Recovery Calculator", note: "See what a loss of this size would require to recover." },
+            ]}
+          />
 
           <aside className="mt-12 max-w-[900px] border-t border-rule pt-5 text-[13px] leading-relaxed text-ink-faint">
             <strong className="font-semibold text-ink-muted">Educational tool only.</strong> This calculator

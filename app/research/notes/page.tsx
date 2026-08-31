@@ -4,15 +4,17 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain, AmbientLightPool } from "@/components/sections/offerings/OfferingsBackground";
 import { ResearchNotesArchive } from "@/components/sections/research-notes/ResearchNotesArchive";
 import { researchNotes } from "@/data/research-notes";
+import { OG_IMAGES } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Trading Insights | VSC Capital",
+  title: "Trading Insights | VSC Capital & Advisory",
   description:
     "Trading ideas you can actually use — shorter, evidence-led notes that each sharpen a specific framework.",
   alternates: { canonical: "/research/notes" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
-    title: "Trading Insights | VSC Capital",
+    title: "Trading Insights | VSC Capital & Advisory",
     description:
       "Trading ideas you can actually use — shorter, evidence-led notes that each sharpen a specific framework.",
     url: "/research/notes",

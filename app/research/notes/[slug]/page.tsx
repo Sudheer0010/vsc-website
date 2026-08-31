@@ -4,6 +4,7 @@ import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground"
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { ResearchNoteTemplate } from "@/components/sections/research-notes/ResearchNoteTemplate";
 import { researchNotes } from "@/data/research-notes";
+import { OG_IMAGES } from "@/lib/seo";
 
 interface ResearchNotePageProps {
   params: Promise<{ slug: string }>;
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: ResearchNotePageProps): Promi
     description: note.seo.description,
     alternates: { canonical },
     openGraph: {
+      images: OG_IMAGES,
       type: "article",
       title: note.seo.title,
       description: note.seo.description,

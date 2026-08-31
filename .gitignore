@@ -72,3 +72,6 @@ references/awesome-design-md/
 # python bytecode cache (skill scripts)
 __pycache__/
 *.pyc
+
+# Local Netlify folder
+.netlify

@@ -101,9 +101,14 @@ export default function InnerCirclePage() {
                     <span className="font-mono text-sm font-semibold text-vsc-dark-accent">
                       {step.number}
                     </span>
-                    <h3 className="mt-2 font-display text-[15px] font-semibold tracking-tight text-vsc-dark-ink">
+                    {/* Not a heading: these four step titles sit inside the
+                        Exhibit figure and used to render as h3 before the
+                        page's first h2, which broke the document outline for
+                        screen-reader heading navigation. They label parts of
+                        one figure, so a paragraph is the honest element. */}
+                    <p className="mt-2 font-display text-[15px] font-semibold tracking-tight text-vsc-dark-ink">
                       {step.title}
-                    </h3>
+                    </p>
                     <p className="mt-1.5 text-[13.5px] leading-snug text-vsc-dark-ink-muted">
                       {step.body}
                     </p>
@@ -168,8 +173,8 @@ export default function InnerCirclePage() {
 
       <ClosingCTA
         headline="Interested in joining?"
-        subline="VSC Community is being built for people who want serious market discussion without the usual noise."
-        ctaLabel="Join the community →"
+        subline="VSC Community is still being built. Register your interest and we will tell you when the room opens — there is nothing to join yet."
+        ctaLabel="Register your interest →"
         faqLabel="Already have a question? See the FAQ →"
       />
     </div>

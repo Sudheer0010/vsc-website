@@ -4,6 +4,7 @@ import { letterHref } from "@/lib/letter-urls";
 import { frameworkLibrary } from "@/data/frameworks";
 import { frameworkHref, frameworkVersionHref, currentVersion } from "@/lib/framework-urls";
 import { researchNotes } from "@/data/research-notes";
+import { allTools } from "@/data/tools";
 
 const BASE_URL = "https://vsccapital.in";
 
@@ -23,11 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/offerings/learning-hub`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/research`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE_URL}/tools`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/tools/position-size-calculator`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/tools/risk-reward-calculator`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/tools/drawdown-recovery-calculator`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/tools/trading-expectancy-calculator`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/tools/portfolio-risk-calculator`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/start`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/letters`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/research/notes`, changeFrequency: "monthly", priority: 0.7 },
@@ -36,6 +32,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/enquire`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/privacy`, changeFrequency: "yearly", priority: 0.2 },
   ];
+
+  // Derived, not hand-listed — the path simulator shipped without ever being
+  // added to the old literal list and went unindexed as a result.
+  const toolRoutes: MetadataRoute.Sitemap = allTools.map((tool) => ({
+    url: `${BASE_URL}${tool.href}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
 
   const letterRoutes: MetadataRoute.Sitemap = sortedMonths.map((key) => ({
     url: `${BASE_URL}${letterHref(key)}`,
@@ -70,6 +74,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
+    ...toolRoutes,
     ...letterRoutes,
     ...frameworkRoutes,
     ...frameworkVersionRoutes,

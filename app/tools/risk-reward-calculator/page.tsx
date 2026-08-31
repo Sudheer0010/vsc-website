@@ -5,6 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { RiskRewardCalculator } from "@/components/tools/RiskRewardCalculator";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+import { OG_IMAGES } from "@/lib/seo";
+import { toolBreadcrumbJsonLd } from "@/lib/tool-seo";
+import { RelatedLinks, ReadTheResult, ReadItem } from "@/components/tools/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Risk–Reward Ratio Calculator | VSC Capital & Advisory",
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
     "Calculate planned reward-to-risk, risk per share, reward per share and breakeven win rate for a long equity trade.",
   alternates: { canonical: "/tools/risk-reward-calculator" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "https://vsccapital.in/tools/risk-reward-calculator",
     title: "Risk–Reward Ratio Calculator | VSC Capital & Advisory",
@@ -23,6 +27,12 @@ export const metadata: Metadata = {
 export default function RiskRewardCalculatorPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(toolBreadcrumbJsonLd("Risk-Reward Ratio Calculator", "/tools/risk-reward-calculator")),
+        }}
+      />
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
@@ -68,6 +78,31 @@ export default function RiskRewardCalculatorPage() {
               Core formula: <span className="font-mono text-ink">Reward : Risk = (Target − Entry) ÷ (Entry − Stop)</span>
             </p>
           </section>
+
+          <ReadTheResult>
+            <ReadItem term="Reward : Risk">
+              How many units of planned reward you are pursuing per unit of planned risk. A 3:1 ratio means the target is three stop-distances away &mdash; it says nothing about how likely either level is.
+            </ReadItem>
+            <ReadItem term="Breakeven win rate">
+              The win rate at which this payoff breaks even, assuming wins and losses land at the planned levels. Below it the process loses money over many trades; above it, it gains.
+            </ReadItem>
+            <ReadItem term="Compare it with your actual win rate">
+              The ratio is only useful next to evidence. If your measured win rate sits below the breakeven figure, the payoff is not large enough for how often the setup works.
+            </ReadItem>
+            <ReadItem term="A better ratio is not a better trade">
+              Moving the target further away improves the ratio on screen and lowers the chance of reaching it. The stop should come from invalidation and the target from structure.
+            </ReadItem>
+          </ReadTheResult>
+
+          <RelatedLinks
+            frameworks={[
+              { href: "/frameworks/setup-grading", label: "Framework 03 — Setup Grading", note: "Where reward-to-risk enters the grade that decides how much capital a setup is allowed." },
+            ]}
+            tools={[
+              { href: "/tools/position-size-calculator", label: "Position Size Calculator", note: "Turn the accepted risk per share into a share quantity." },
+              { href: "/tools/trading-expectancy-calculator", label: "Trading Expectancy Calculator", note: "Test the breakeven win rate against your own completed trades." },
+            ]}
+          />
 
           <aside className="mt-12 max-w-[850px] border-t border-rule pt-5 text-[13px] leading-relaxed text-ink-faint">
             <strong className="font-semibold text-ink-muted">Educational tool only.</strong> The target is a planned level, not a forecast or guarantee. A stop-loss price is also not a guaranteed execution price; gaps, slippage, brokerage and transaction costs can change realised results. *Breakeven win rate is a mathematical threshold based on the planned reward/risk relationship and assumes wins and losses occur at those planned levels; it does not estimate the probability of this specific trade succeeding.

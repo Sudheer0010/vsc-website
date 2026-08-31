@@ -14,6 +14,7 @@ import { OpportunityUniverseFramework } from "@/components/sections/frameworks/O
 import { SetupGradingFramework } from "@/components/sections/frameworks/SetupGradingFramework";
 import { SizingFramework } from "@/components/sections/frameworks/SizingFramework";
 import { TradeManagementFramework } from "@/components/sections/frameworks/TradeManagementFramework";
+import { OG_IMAGES } from "@/lib/seo";
 
 interface FrameworkPageProps {
   params: Promise<{ slug: string }>;
@@ -23,13 +24,29 @@ export function generateStaticParams() {
   return frameworkLibrary.map((fw) => ({ slug: fw.slug }));
 }
 
+/**
+ * One title shape for the whole five-part series.
+ *
+ * Framework 01 fell through to a different template ("Market Environment |
+ * Framework Library | VSC Capital & Advisory" — no number) while 02-05 were
+ * hand-written as "— Framework 0N | VSC Capital" with the short brand
+ * suffix. Three shapes for one numbered series, and the "Framework Library"
+ * segment pointed at a URL that now permanently redirects. Deriving the
+ * number from the pipeline order keeps them consistent.
+ */
+function frameworkTitle(slug: string, name: string) {
+  const index = frameworkLibrary.findIndex((f) => f.slug === slug);
+  const number = String(index + 1).padStart(2, "0");
+  return `${name} — Framework ${number} | VSC Capital & Advisory`;
+}
+
 export async function generateMetadata({ params }: FrameworkPageProps): Promise<Metadata> {
   const { slug } = await params;
   const fw = frameworkLibrary.find((f) => f.slug === slug);
   if (!fw) return {};
 
   if (fw.slug === "opportunity-universe") {
-    const title = "Opportunity Universe — Framework 02 | VSC Capital";
+    const title = frameworkTitle("opportunity-universe", "Opportunity Universe");
     const description =
       "A systematic process for reducing a universe of 2,000 stocks into a focused watchlist of 20–40 names worthy of further study.";
     const canonical = frameworkHref(fw);
@@ -37,12 +54,12 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
       title,
       description,
       alternates: { canonical },
-      openGraph: { type: "article", title, description, url: canonical },
+      openGraph: { type: "article", title, description, url: canonical, images: OG_IMAGES },
     };
   }
 
   if (fw.slug === "setup-grading") {
-    const title = "Setup Grading — Framework 03 | VSC Capital";
+    const title = frameworkTitle("setup-grading", "Setup Grading");
     const description =
       "A three-layer decision architecture for deciding which trading setups deserve capital: eligibility, integrity, then quality ranking.";
     const canonical = frameworkHref(fw);
@@ -50,12 +67,12 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
       title,
       description,
       alternates: { canonical },
-      openGraph: { type: "article", title, description, url: canonical },
+      openGraph: { type: "article", title, description, url: canonical, images: OG_IMAGES },
     };
   }
 
   if (fw.slug === "sizing") {
-    const title = "Sizing — Framework 04 | VSC Capital";
+    const title = frameworkTitle("sizing", "Sizing");
     const description =
       "Three questions determine position size: can I afford the risk, does the setup deserve the capital, and is there room in the portfolio.";
     const canonical = frameworkHref(fw);
@@ -63,12 +80,12 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
       title,
       description,
       alternates: { canonical },
-      openGraph: { type: "article", title, description, url: canonical },
+      openGraph: { type: "article", title, description, url: canonical, images: OG_IMAGES },
     };
   }
 
   if (fw.slug === "trade-management") {
-    const title = "Trade Management — Framework 05 | VSC Capital";
+    const title = frameworkTitle("trade-management", "Trade Management");
     const description =
       "What happens after capital is committed: when stops move, when positions grow, when they shrink, and when the trade ends.";
     const canonical = frameworkHref(fw);
@@ -76,18 +93,18 @@ export async function generateMetadata({ params }: FrameworkPageProps): Promise<
       title,
       description,
       alternates: { canonical },
-      openGraph: { type: "article", title, description, url: canonical },
+      openGraph: { type: "article", title, description, url: canonical, images: OG_IMAGES },
     };
   }
 
-  const title = `${fw.title} | Framework Library | VSC Capital & Advisory`;
+  const title = frameworkTitle(fw.slug, fw.title);
   const description = fw.desc;
   const canonical = frameworkHref(fw);
   return {
     title,
     description,
     alternates: { canonical },
-    openGraph: { type: "article", title, description, url: canonical },
+    openGraph: { type: "article", title, description, url: canonical, images: OG_IMAGES },
   };
 }
 

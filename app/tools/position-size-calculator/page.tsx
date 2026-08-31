@@ -5,6 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import { PaperGrain } from "@/components/sections/offerings/OfferingsBackground";
 import { PositionSizeCalculator } from "@/components/tools/PositionSizeCalculator";
 import { StepRule } from "@/components/ui/vsc/StepRule";
+import { OG_IMAGES } from "@/lib/seo";
+import { toolBreadcrumbJsonLd } from "@/lib/tool-seo";
+import { RelatedLinks, ReadTheResult, ReadItem } from "@/components/tools/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Position Size Calculator | VSC Capital & Advisory",
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
     "Calculate a risk-based equity position size from trading capital, maximum account risk, planned entry and stop-loss.",
   alternates: { canonical: "/tools/position-size-calculator" },
   openGraph: {
+    images: OG_IMAGES,
     type: "website",
     url: "https://vsccapital.in/tools/position-size-calculator",
     title: "Position Size Calculator | VSC Capital & Advisory",
@@ -23,6 +27,12 @@ export const metadata: Metadata = {
 export default function PositionSizeCalculatorPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(toolBreadcrumbJsonLd("Position Size Calculator", "/tools/position-size-calculator")),
+        }}
+      />
       <PaperGrain />
       <main id="main-content" className="relative z-10 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="container max-w-[1120px]">
@@ -68,6 +78,31 @@ export default function PositionSizeCalculatorPage() {
               Core formula: <span className="font-mono text-ink">Position size = (Capital × Risk %) ÷ (Entry − Stop)</span>
             </p>
           </section>
+
+          <ReadTheResult>
+            <ReadItem term="Risk-based quantity">
+              The share count at which a stop-loss exit costs exactly your stated account risk. It is a ceiling set by risk, not a recommendation to buy that quantity.
+            </ReadItem>
+            <ReadItem term="Cash-funded quantity">
+              What your available cash can actually pay for. When it is lower than the risk-based quantity, cash is the binding constraint and the smaller number is the tradeable size.
+            </ReadItem>
+            <ReadItem term="A wide stop shrinks the size">
+              Entry-to-stop distance sits in the denominator, so a wider stop produces a smaller quantity for the same rupee risk. That is the formula working, not a fault in the setup.
+            </ReadItem>
+            <ReadItem term="The risk amount is fixed first">
+              Changing entry or stop changes the quantity, never the rupee amount at risk. If the resulting size feels too small, the constraint is the stop distance or the risk percentage.
+            </ReadItem>
+          </ReadTheResult>
+
+          <RelatedLinks
+            frameworks={[
+              { href: "/frameworks/sizing", label: "Framework 04 — Sizing", note: "How VSC caps a position by stop distance and capital risk, then again by setup grade. The smaller of the two numbers wins." },
+            ]}
+            tools={[
+              { href: "/tools/risk-reward-calculator", label: "Risk–Reward Ratio Calculator", note: "Check whether the same entry and stop justify the trade before sizing it." },
+              { href: "/tools/portfolio-risk-calculator", label: "Portfolio Risk Calculator", note: "See what this position adds to the risk already open across the book." },
+            ]}
+          />
 
           <aside className="mt-12 max-w-[820px] border-t border-rule pt-5 text-[13px] leading-relaxed text-ink-faint">
             <strong className="font-semibold text-ink-muted">Educational tool only.</strong> This calculator illustrates a risk-based position-sizing method for long cash-equity trades. It does not constitute investment advice or a recommendation. A stop-loss price is a planned exit level, not a guarantee of execution at that exact price; gaps and slippage can result in a different realised loss.
