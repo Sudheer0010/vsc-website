@@ -7,14 +7,15 @@ import { MarketLetter } from "@/types/market-letter";
  * which is how the homepage and the blog page previously ended up
  * describing two different letters as "the latest one."
  */
-export const sortedMonths = ["JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
+export const sortedMonths = ["AUG", "JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
 
 export const latestMonthKey = sortedMonths[0];
 
 /**
- * All seven letters (JAN–JUL) are on the full Template Spec v4 format —
+ * All eight letters (JAN–AUG) are on the full Template Spec v4 format —
  * see VSC_MARKET_LETTERS_JAN_JUL_2026_CONTENT_PACK_FINAL.md, the approved
- * editorial source for every field below. `metrics`/`frameworkReview`
+ * editorial source for JAN–JUL; AUG onward carries its own approved
+ * edition brief. `metrics`/`frameworkReview`
  * remain on each letter only as legacy compatibility fields for any code
  * path that still reads them (see hasV4Content in
  * lib/market-letter-format.ts) — `frameworkReview` is superseded by
@@ -746,6 +747,105 @@ export const marketLetters: { [key: string]: MarketLetter } = {
         { if: "crude remains contained", then: "pressure on Nifty should ease" },
       ],
       currentStance: "Stay defensive until market structure and participation improve.",
+    },
+
+    sections: {},
+  },
+  AUG: {
+    letterNumber: 8,
+    publishedDate: "2026-09-01",
+    month: "AUGUST",
+    year: 2026,
+    description: "August brought broader participation beneath a weak Nifty, but fragmented leadership, poor breakout follow-through and external risk kept VSC defensive.",
+    thesis: "Broader participation. Weak follow-through.",
+    metrics: {
+      monthlyReturn: "+1.04%",
+      tradesTaken: 2,
+      environment: "Defensive",
+    },
+    // Superseded by marketHealth/vscRead below, same as every other v4 letter.
+    frameworkReview: [],
+
+    subThesis: "Participation improved beneath a weak headline index, but rotating leadership and unreliable breakouts kept the opportunity set difficult to capitalize on.",
+    regimeTagEditorial: "Fragmented Tape",
+
+    marketSnapshot: [
+      { asset: "NIFTY 50", monthEnd: "24,080.40", mtdPct: -1.24, ytdPct: -7.84, read: "Range-bound weakness" },
+      { asset: "GOLD", monthEnd: "₹1,55,835 / 10g", mtdPct: 9.08, ytdPct: 17.08, read: "Strong" },
+      { asset: "SILVER", monthEnd: "₹2,37,199 / kg", mtdPct: 8.66, ytdPct: 3.39, read: "Rebounded" },
+      { asset: "CRUDE", monthEnd: "$90.49 / bbl", mtdPct: 0.41, ytdPct: 48.71, read: "Key pressure" },
+      { asset: "USD/INR", monthEnd: "95.1625", mtdPct: -0.22, ytdPct: 5.83, read: "INR firmer" },
+    ],
+
+    marketHealth: [
+      { factor: "Trend", current: "Weak", status: "red", vsPrev: "flat", vscRead: "No structural repair" },
+      { factor: "Breadth", current: "Fragmented", status: "amber", vsPrev: "up", vscRead: "Broader but fragmented" },
+      { factor: "Leadership", current: "Rotating", status: "amber", vsPrev: "rerated", vscRead: "Rotation without persistence" },
+      { factor: "Breakout Quality", current: "Poor", status: "red", vsPrev: "flat", vscRead: "Weak follow-through" },
+      { factor: "Volatility", current: "Subdued", status: "green", vsPrev: "up", vscRead: "Quieter, not healthier" },
+    ],
+    overallEnvironment: {
+      label: "Defensive",
+      vsPrev: "flat",
+      vscRead: "Selectivity over activity",
+    },
+
+    netChange: "Volatility fell and participation broadened, but the index failed to repair. Leadership rotated without persistence and breakout follow-through remained unreliable, keeping the playbook defensive.",
+
+    whatHappened: {
+      index: {
+        headline: "The benchmark stayed trapped.",
+        explanation: "Nifty lost 1.24% in August and failed to repair its long-term structure despite stronger foreign flows.",
+      },
+      breadth: {
+        headline: "Participation improved beneath the index.",
+        explanation: "Small- and mid-caps stayed active, but participation remained fragmented and difficult to convert into repeatable Stage 2 opportunities.",
+      },
+      leadership: {
+        headline: "Rotation replaced durable leadership.",
+        explanation: "Pockets of strength appeared, but leadership shifted too often to build conviction around a persistent sector or theme.",
+      },
+      flowsRisk: {
+        headline: "Better flows met persistent risk.",
+        explanation: "Foreign inflows strengthened while crude stayed near $90 and CAS added another layer of closing-price and expiry-day noise.",
+      },
+    },
+
+    // No chart for August.
+
+    vscRead: {
+      opportunityUniverse: "Narrow",
+      setupQuality: "Weak",
+      riskAllocation: "Reduced",
+      tradeFrequency: "Low",
+      primaryObjective: "Preservation",
+      conclusion: "The problem was not finding stocks that moved, but finding moves with enough structure behind them to justify meaningful exposure.",
+    },
+
+    playbook: {
+      exposure: "Reduced",
+      positionSize: "Below normal",
+      preferredSetup: "Stage 2 structures and pullbacks",
+      avoided: "First-day breakout chasing",
+      triggerToIncreaseRisk: "Nifty above 24,500 with improving breadth",
+    },
+
+    monthInReview: {
+      monthlyReturn: "+1.04%",
+      trades: 2,
+      worked: "Focusing on Stage 2 structures improved selectivity; the profitable OTB breakout came from staying closer to the core playbook.",
+      didnt: "Positioning remained difficult, and the losing intraday short added little to the core swing process.",
+      lesson: "Better setup selection helped, but position size still had to reflect the quality of the market behind the setup.",
+    },
+
+    watchingNext: {
+      conditions: [
+        { if: "Nifty reclaims 24,500 and holds", then: "Become more constructive" },
+        { if: "Breadth broadens and leadership persists", then: "Increase participation selectively" },
+        { if: "Breakouts show multi-day follow-through", then: "Allow more breakout exposure" },
+        { if: "Crude gaps materially higher", then: "Protect overnight risk" },
+      ],
+      currentStance: "Stay defensive until structure, participation and follow-through begin confirming each other.",
     },
 
     sections: {},
