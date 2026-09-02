@@ -7,6 +7,7 @@ import { HowWeHelpSection } from "@/components/sections/home/HowWeHelpSection";
 import { ProcessStepper } from "@/components/sections/home/ProcessStepper";
 import { ResearchDeskSection } from "@/components/sections/home/ResearchDeskSection";
 import { RiskSection } from "@/components/sections/home/RiskSection";
+import { WhyVscExists } from "@/components/sections/home/WhyVscExists";
 import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
@@ -42,7 +43,13 @@ export default function Home() {
           {/* Cinematic Signal — ported from Design Lab Direction B
               (/design-lab/b, Hero). Seed 71 is reused in the Five Gates
               section below — the same signal, not a lookalike. */}
-          <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.9} animate />
+          {/* id is the WhyVscExists chapter's hook for the hero→chapter
+              handoff — it fades this field out over the hero's last stretch
+              of scroll rather than converging it into the chapter's price
+              line (see WhyVscExists.tsx for why). */}
+          <div id="wvce-hero-contour">
+            <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.9} animate />
+          </div>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
@@ -102,6 +109,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <WhyVscExists />
 
         <BeliefSection />
 
