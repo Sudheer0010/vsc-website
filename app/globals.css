@@ -1133,6 +1133,28 @@ select.form-input option {
     }
 }
 
+/* The homepage arrival hero's second light source — a large, soft, very
+   slow breathing glow behind the headline. Gives the dark hero depth
+   without introducing a second moving object; scale/opacity only, no
+   position drift, so it never competes with the contour field above it. */
+.vsc-hero-glow {
+    background: radial-gradient(circle, rgba(63, 203, 116, 0.16) 0%, rgba(63, 203, 116, 0) 68%);
+    filter: blur(10px);
+    animation: vsc-hero-glow 16s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes vsc-hero-glow {
+    from { transform: scale(1); opacity: 0.7; }
+    to   { transform: scale(1.12); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vsc-hero-glow {
+        animation: none !important;
+    }
+}
+
 /* Luminous mesh wash behind the homepage's closing CTA — ported from
    /design-lab/home-a, where it was called lab-mesh-drift-a. */
 .home-cta-mesh {

@@ -27,12 +27,6 @@ const TIER_TAB_ACTIVE: Record<string, string> = {
   invite: "border-growth-deep bg-growth-tint",
 };
 
-const TIER_TAB_LABEL: Record<string, string> = {
-  open: "text-growth-deep",
-  apply: "text-ink",
-  invite: "text-growth-deep",
-};
-
 export function StartWhereYouAre() {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
@@ -60,12 +54,11 @@ export function StartWhereYouAre() {
   return (
     <section id="start-where-you-are" className="relative w-full border-b border-rule bg-canvas py-24 sm:py-32">
       <div className="container mx-auto max-w-[1000px]">
-        <Reveal className="max-w-[50ch]">
-          <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
-            Start where you are
-          </span>
-          <h2 className="font-display mt-5 text-ink">Choose the sentence that sounds like you.</h2>
-          <p className="mt-4 text-[17px] leading-relaxed text-ink-soft">
+        <Reveal className="max-w-[56ch]">
+          <h2 className="font-display text-ink font-extrabold tracking-[-0.03em]">
+            Start Where You Are
+          </h2>
+          <p className="mt-4 max-w-[50ch] text-[17px] leading-relaxed text-ink-soft">
             These aren&apos;t tiers of the same thing — they fit different situations. Pick the one that matches
             where you actually are right now.
           </p>
@@ -80,6 +73,11 @@ export function StartWhereYouAre() {
           >
             {offeringsConfig.map((o, i) => {
               const isActive = i === active;
+              // stateLabel is "01 · Open" / "02 · By application" /
+              // "03 · In development" — the access fact this card states
+              // as its status; split off the number so it reads as a
+              // plain status word opposite the stage label.
+              const status = o.stateLabel.split("·")[1]?.trim().toUpperCase() ?? "";
               return (
                 <button
                   key={o.slug}
@@ -93,22 +91,40 @@ export function StartWhereYouAre() {
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => setActive(i)}
                   className={[
-                    "rounded-vsc-lg border p-5 text-left transition-colors duration-200 ease-swift sm:p-6",
-                    isActive ? TIER_TAB_ACTIVE[o.tier] : "border-rule bg-surface hover:border-rule-strong",
+                    "rounded-vsc-lg border p-6 text-left transition-all duration-200 ease-swift sm:p-7",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-growth/40 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+                    isActive
+                      ? [TIER_TAB_ACTIVE[o.tier], "shadow-lift-1"].join(" ")
+                      : "border-rule-strong bg-surface hover:border-growth/50 hover:shadow-lift-1",
                   ].join(" ")}
                 >
-                  <span
-                    className={[
-                      "font-mono text-[11px] uppercase tracking-[0.1em]",
-                      isActive ? TIER_TAB_LABEL[o.tier] : "text-ink-faint",
-                    ].join(" ")}
-                  >
-                    {o.stateLabel}
-                  </span>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-growth">
+                      {o.stageLabel.toUpperCase()}
+                    </span>
+                    <span
+                      className={[
+                        "font-mono text-[10.5px] uppercase tracking-[0.08em]",
+                        isActive ? "text-ink-muted" : "text-ink-faint",
+                      ].join(" ")}
+                    >
+                      {status}
+                    </span>
+                  </div>
+
                   <p
                     className={[
-                      "mt-3 font-display text-[17px] font-medium leading-snug",
+                      "mt-4 font-display text-[19px] font-bold leading-tight tracking-[-0.015em]",
                       isActive ? "text-ink" : "text-ink-soft",
+                    ].join(" ")}
+                  >
+                    {o.shortTitle}
+                  </p>
+
+                  <p
+                    className={[
+                      "mt-2 font-display text-[14.5px] font-medium leading-snug",
+                      isActive ? "text-ink-soft" : "text-ink-muted",
                     ].join(" ")}
                   >
                     &ldquo;{o.quote}&rdquo;
@@ -143,11 +159,16 @@ export function StartWhereYouAre() {
                   className="flex flex-wrap items-baseline justify-between gap-3 border-b pb-4"
                   style={{ borderColor: isInvite ? "rgba(242,239,230,.18)" : "var(--rule)" }}
                 >
+                  {/* Stage, not access state: the panel names where in the
+                      Learn / Grow / Connect journey this offering sits, and
+                      the row opposite still carries the availability fact.
+                      The tab strip above keeps stateLabel, which is the
+                      access fact those tabs are sorted by. */}
                   <span
-                    className="font-mono text-[12px] font-semibold uppercase tracking-[0.1em]"
+                    className="font-mono text-[12px] font-semibold uppercase tracking-[0.14em]"
                     style={{ color: isInvite ? "#7FB999" : "var(--growth)" }}
                   >
-                    {row.stateLabel}
+                    {row.stageLabel}
                   </span>
                   <span
                     className="font-mono text-[12px]"
@@ -158,13 +179,13 @@ export function StartWhereYouAre() {
                 </div>
 
                 <h3
-                  className="font-display mt-6 text-[26px] font-semibold tracking-tight sm:text-[30px]"
+                  className="font-display mt-6 text-[26px] font-bold leading-[1.08] tracking-[-0.025em] sm:text-[31px]"
                   style={isInvite ? { color: "#F2EFE6" } : { color: "var(--ink)" }}
                 >
                   {row.shortTitle}
                 </h3>
                 <p
-                  className="mt-2 font-mono text-[14px]"
+                  className="mt-2.5 font-mono text-[13.5px] leading-relaxed"
                   style={{ color: isInvite ? "rgba(242,239,230,.62)" : "var(--ink-muted)" }}
                 >
                   {row.format}

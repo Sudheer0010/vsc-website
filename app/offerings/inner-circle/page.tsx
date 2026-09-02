@@ -70,7 +70,6 @@ export default function InnerCirclePage() {
           {/* --- Hero --------------------------------------------------- */}
           <div className="mb-16 sm:mb-20">
             <SubPageHero
-              eyebrow="Offerings // VSC Community"
               title="VSC Community"
               description="Get better around people who take markets seriously."
             />

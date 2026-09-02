@@ -45,8 +45,7 @@ export function DrawdownStory() {
       <div className="container mx-auto max-w-[1400px] px-6 sm:px-10">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <span className="font-editorial text-[13px] uppercase tracking-[0.18em] text-growth">Exhibit 01</span>
-            <h2 className="font-editorial mt-4 text-[10vw] leading-[1.02] text-ink sm:text-[4.6vw] lg:text-[2.6vw]">
+            <h2 className="font-editorial text-[10vw] leading-[1.02] text-ink sm:text-[4.6vw] lg:text-[2.6vw]">
               Everyone looks good on the way up. The difference shows on the way down.
             </h2>
             <div className="font-editorial mt-8 max-w-[40ch] [font-style:italic] text-[18px] leading-snug text-growth">

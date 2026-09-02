@@ -42,13 +42,20 @@ export interface OfferingItem {
   tier: "open" | "apply" | "invite";
   stateLabel: string;
   availabilityShort: string;
+  /**
+   * The homepage journey vocabulary — Learn / Grow / Connect. Numbered so
+   * the offerings panel header can state the stage ("01 · Learn")
+   * while the row beside it still states availability; stateLabel keeps
+   * carrying the access fact ("01 · Open") for the tab strip.
+   */
+  stageLabel: string;
 }
 
 export const offeringsConfig: OfferingItem[] = [
   {
     slug: "learning-hub",
     title: "Investor Education (Learning Hub)",
-    shortTitle: "Learning Hub",
+    shortTitle: "VSC Learn",
     tagline: "Professional Market & Momentum Education",
     description: "Build a systematic understanding of markets before risking real capital.",
     whatItIs: "A structured curriculum teaching momentum analysis, regime identification, position sizing models, and risk management.",
@@ -74,7 +81,8 @@ export const offeringsConfig: OfferingItem[] = [
     proofHref: "/offerings/learning-hub",
     tier: "open",
     stateLabel: "01 · Open",
-    availabilityShort: "Available now"
+    availabilityShort: "Available now",
+    stageLabel: "01 · Learn"
   },
   {
     slug: "advantage",
@@ -105,7 +113,8 @@ export const offeringsConfig: OfferingItem[] = [
     proofHref: "/offerings/advantage",
     tier: "apply",
     stateLabel: "02 · By application",
-    availabilityShort: "Limited capacity"
+    availabilityShort: "Limited capacity",
+    stageLabel: "02 · Grow"
   },
   {
     slug: "inner-circle",
@@ -143,6 +152,7 @@ export const offeringsConfig: OfferingItem[] = [
     proofHref: "/offerings/inner-circle",
     tier: "invite",
     stateLabel: "03 · In development",
-    availabilityShort: "In development"
+    availabilityShort: "In development",
+    stageLabel: "03 · Connect"
   }
 ];

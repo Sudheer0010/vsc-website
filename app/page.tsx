@@ -37,7 +37,7 @@ export default function Home() {
            ================================================================ */}
         <section
           id="arrival"
-          className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-24 pt-28 sm:pb-32 sm:pt-36"
+          className="relative z-10 w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-24 pt-28 sm:pb-32 sm:pt-36"
         >
           {/* Cinematic Signal — ported from Design Lab Direction B
               (/design-lab/b, Hero). Seed 71 is reused in the Five Gates
@@ -50,55 +50,52 @@ export default function Home() {
               background: "radial-gradient(ellipse 60% 55% at 50% 15%, rgba(63,203,116,0.20) 0%, transparent 68%)",
             }}
           />
+          {/* A second, slower light source behind the headline — the one
+              place this hero gets ambient depth rather than a flat wash.
+              Static position, breathing opacity/scale only; never drifts
+              far enough to read as a moving object. Contained by the
+              section's own overflow-hidden, same as the field above. */}
+          <div aria-hidden="true" className="vsc-hero-glow pointer-events-none absolute left-[6%] top-[12%] h-[620px] w-[620px] rounded-full" />
 
           <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
-            <div className="grid gap-16 lg:grid-cols-12 lg:items-end lg:gap-10">
+            <div className="grid gap-16 lg:grid-cols-12 lg:items-end lg:gap-14">
               <div className="lg:col-span-7">
                 <Reveal>
-                  <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
-                    Process over prediction
-                  </span>
-                </Reveal>
-
-                <Reveal delay={0.06}>
-                  <h1 className="mt-6 font-sans text-[13vw] font-bold leading-[0.94] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[5vw]">
+                  <h1 className="font-sans text-[13vw] font-bold leading-[0.94] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[5vw]">
                     A smarter way to build and protect capital.
                   </h1>
-                </Reveal>
-
-                <Reveal delay={0.12}>
-                  <p className="mt-8 max-w-[46ch] text-[18px] leading-relaxed text-white/60">
-                    A rules-based framework for market structure, trend strength
-                    and risk. It decides how much capital is deployed — and
-                    when none of it should be.
-                  </p>
                 </Reveal>
 
                 {/* One button, not two. "Enquire" already sits in the nav on
                     every page — repeating it here, before the page has made
                     any case at all, just asks twice in the first screen.
-                    The hero's job is to earn the ask made at the bottom. */}
-                <Reveal delay={0.18}>
-                  <div className="mt-9 flex flex-wrap items-center gap-3">
+                    The hero's job is to earn the ask made at the bottom.
+                    Delayed to settle after the instrument has begun filling,
+                    so the eye reads headline → instrument → action in order
+                    instead of everything landing on the same beat. */}
+                <Reveal delay={0.26}>
+                  <div className="mt-10 flex flex-wrap items-center gap-3">
                     <VSCButton href="/research" variant="growth">
                       Read the research
                     </VSCButton>
                   </div>
                 </Reveal>
 
-                <Reveal delay={0.24}>
+                <Reveal delay={0.38}>
                   <div className="mt-10 flex items-center gap-3 border-t border-white/10 pt-5">
                     <StepRule size="sm" className="shrink-0" />
                     <p className="max-w-[40ch] text-[14.5px] leading-snug text-white/50">
-                      Educational and research work only. VSC is applying for
-                      SEBI Research Analyst registration.
+                      (SEBI RA registration ongoing)
                     </p>
                   </div>
                 </Reveal>
               </div>
 
+              {/* The instrument arrives just after the headline settles,
+                  fully contained within the hero — no overlap past the
+                  section's own bottom edge. */}
               <div className="lg:col-span-5">
-                <Reveal delay={0.1} distance={20} className="w-full max-w-[420px] lg:ml-auto">
+                <Reveal delay={0.14} distance={24} className="w-full max-w-[420px] lg:ml-auto">
                   <ExposureInstrument />
                 </Reveal>
               </div>

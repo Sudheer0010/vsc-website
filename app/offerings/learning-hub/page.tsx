@@ -69,8 +69,7 @@ export default function LearningHubPage() {
         <div className="container max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="mb-16 sm:mb-20">
             <SubPageHero
-              eyebrow="Offerings // Learning Hub"
-              title="VSC Learning Hub"
+              title="VSC Learn"
               description="A professional learning framework built to develop systematic market structure analysis, technical setups, and risk bounds before committing capital."
             />
           </div>

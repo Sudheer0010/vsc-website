@@ -52,14 +52,13 @@ export default function OfferingsGateway() {
             </span>
           </Reveal>
           <Reveal delay={0.06}>
-            <h2 className="font-editorial mx-auto max-w-[16ch] text-[13vw] [font-style:italic] leading-[1.1] text-[#E9E4D2] sm:text-[7vw] lg:text-[4.4vw]">
+            <h2 className="font-editorial mx-auto max-w-[16ch] text-[13vw] [font-style:italic] leading-[1.06] text-[#E9E4D2] sm:text-[7vw] lg:text-[4.4vw]">
               Discipline beats emotion.
             </h2>
           </Reveal>
           <Reveal delay={0.12}>
-            <p className="mx-auto mt-8 max-w-[46ch] text-[16px] leading-relaxed text-white/55">
-              Every offering above — the curriculum, the reviews, the room — exists to put that discipline into
-              practice, not just talk about it.
+            <p className="mx-auto mt-7 font-mono text-[13px] uppercase tracking-[0.14em] text-white/40">
+              Process first. Results follow.
             </p>
           </Reveal>
         </div>

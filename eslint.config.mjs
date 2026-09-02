@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated Netlify function bundles — build output, not source.
+    ".netlify/**",
     // Checked-in agent/tool bundles — vendored scripts, not application code.
     ".agents/**",
     ".claude/**",

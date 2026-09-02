@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -87,6 +87,15 @@ export function ExposureInstrument() {
     ? { duration: 0 }
     : { type: "spring" as const, stiffness: 210, damping: 26, mass: 0.8 };
 
+  // The bar's very first fill — 0 to the starting regime's equity — is the
+  // one authored load moment: the instrument arriving at a decision rather
+  // than appearing pre-decided. `introDone` flips once that fill completes
+  // and stays true, so every later drag keeps the plain, undelayed spring
+  // it always had.
+  const [introDone, setIntroDone] = useState(false);
+  const handleIntroComplete = useCallback(() => setIntroDone(true), []);
+  const barTransition = introDone ? spring : { ...spring, delay: 0.5 };
+
   return (
     <figure className="w-full rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-2 sm:p-8">
       {/* --- Readout ---------------------------------------------------- */}
@@ -112,8 +121,10 @@ export function ExposureInstrument() {
       <div className="mt-5 flex h-14 w-full overflow-hidden rounded-vsc-md bg-canvas-deep">
         <motion.div
           className="relative flex items-center justify-start overflow-hidden bg-growth"
+          initial={reduce ? false : { width: "0%" }}
           animate={{ width: `${regime.equity}%` }}
-          transition={spring}
+          transition={barTransition}
+          onAnimationComplete={handleIntroComplete}
         >
           {/* the step-rule motif, tiled — texture that means something */}
           <span

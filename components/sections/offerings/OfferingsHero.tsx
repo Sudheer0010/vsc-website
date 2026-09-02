@@ -19,28 +19,33 @@ import { OfferingsDepthMark } from "./OfferingsDepthMark";
 /**
  * The hero legend for the concentric-ring mark: outer ring is the
  * broadest entry point, the filled core is the deepest. Kept local rather
- * than added to offeringsConfig because it's a hero-only framing (name +
- * ring colour), not a fact used anywhere else on the page — the "Start
- * where you are" rows below carry their own, differently-axed facts.
+ * than added to offeringsConfig because it's a hero-only framing (stage +
+ * name + ring colour), not a fact used anywhere else on the page — the
+ * "Start where you are" rows below carry their own, differently-axed
+ * facts. The stage words are the homepage vocabulary — Learn / Grow /
+ * Connect — so the two pages name the same journey the same way.
  */
 const TIERS = [
   {
     ring: "outer" as const,
     color: "var(--ink-soft)",
-    name: "Learning Hub",
-    desc: "Where you start — the broadest entry point.",
+    stage: "Learn",
+    name: "VSC Learn",
+    desc: "Build your market foundation.",
   },
   {
     ring: "middle" as const,
     color: "var(--growth)",
+    stage: "Grow",
     name: "VSC Advantage",
-    desc: "Closer guidance on your own positions.",
+    desc: "Strengthen your process and decision-making.",
   },
   {
     ring: "inner" as const,
     color: "var(--growth-deep)",
+    stage: "Connect",
     name: "VSC Community",
-    desc: "Shared learning with serious market participants.",
+    desc: "Stay connected with serious market participants.",
   },
 ];
 
@@ -70,28 +75,27 @@ export function OfferingsHero() {
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal>
-              <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
-                Offerings
-              </span>
-            </Reveal>
-
-            <Reveal delay={0.06}>
-              <h1 className="mt-6 max-w-[18ch] font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.4vw]">
-                Three Pillars.
-                <br />
-                One Disciplined Approach.
+              {/* Two deliberate lines. The stage words stay together on one
+                  desktop line — the headline container is unconstrained from
+                  lg up and the size is capped at 2xl so the line can't outgrow
+                  the (fixed-width) column on very wide screens. Below lg the
+                  first line simply wraps on its own; only the "With VSC."
+                  break is forced, by a block-level span rather than a <br>
+                  or a nowrap. */}
+              <h1 className="max-w-[20ch] font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:max-w-none lg:text-[4.4vw] 2xl:text-[68px]">
+                Learn. Grow. Connect.{" "}
+                <span className="block text-[0.92em]">With VSC.</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.12}>
+            <Reveal delay={0.06}>
               <p className="mt-8 max-w-[56ch] text-[18px] leading-relaxed text-white/60">
-                Every VSC offering builds the same systematic thinking — from foundational market education, to
-                disciplined portfolio guidance, to serious market participation. Different starting points, one
-                underlying process.
+                From learning the markets, to strengthening your process, to staying connected with serious market
+                participants — each VSC offering supports a different stage of the journey.
               </p>
             </Reveal>
 
-            <Reveal delay={0.18}>
+            <Reveal delay={0.12}>
               <div className="mt-9">
                 <a
                   href="#start-where-you-are"
@@ -123,14 +127,17 @@ export function OfferingsHero() {
                     <li key={tier.name} className="flex items-start gap-3">
                       <span
                         aria-hidden="true"
-                        className="mt-[5px] h-3 w-3 shrink-0 rounded-full border-2"
+                        className="mt-[3px] h-3 w-3 shrink-0 rounded-full border-2"
                         style={{ borderColor: tier.color }}
                       />
                       <div>
-                        <div className="font-display text-[17px] font-semibold tracking-tight text-ink">
+                        <div className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-growth">
+                          {tier.stage}
+                        </div>
+                        <div className="font-display mt-1 text-[19px] font-bold leading-[1.15] tracking-[-0.02em] text-ink">
                           {tier.name}
                         </div>
-                        <div className="text-[14px] leading-snug text-ink-soft">{tier.desc}</div>
+                        <div className="mt-1 text-[13.5px] leading-snug text-ink-muted">{tier.desc}</div>
                       </div>
                     </li>
                   ))}

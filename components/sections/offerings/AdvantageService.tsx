@@ -71,7 +71,7 @@ function Hero() {
   return (
     <section className="container mx-auto max-w-[1200px] px-4 sm:px-6">
       <div className="max-w-[720px]">
-        <div className="mb-[18px] flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <div className="mb-6 flex items-baseline gap-x-3">
           <Link
             href="/offerings"
             className="group -my-[14px] inline-flex min-h-[44px] items-center gap-2 py-[14px] font-mono text-xs text-ink-muted transition-colors hover:text-growth"
@@ -79,11 +79,10 @@ function Hero() {
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Offerings
           </Link>
-          <span className="eyebrow !mb-0">Offerings // VSC Advantage</span>
         </div>
 
         <Reveal>
-          <h1 className="font-display text-ink">A clearer way to decide.</h1>
+          <h1 className="font-display text-ink">VSC Advantage</h1>
         </Reveal>
 
         <Reveal delay={0.06}>
