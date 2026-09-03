@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type MouseEvent } from "react";
 import { computePortfolioAggregate, type PositionRow } from "@/lib/calculators/portfolio-risk";
+import { PostResultCTA } from "@/components/tools/PostResultCTA";
 
 // Lets a click anywhere in the input's padded box focus the field, since
 // the visible box is taller than the native input element it wraps.
@@ -453,6 +454,8 @@ export function PortfolioRiskCalculator() {
             </div>
           </div>
         )}
+
+        {activeItems.length > 0 && <PostResultCTA className="mt-5" showPortfolioCheck />}
       </div>
     </section>
   );

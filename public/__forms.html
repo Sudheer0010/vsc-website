@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
     <title>Netlify Forms Hidden Definitions</title>
   </head>
   <body style="display:none;">
@@ -35,6 +36,32 @@
       <input type="text" name="name" required />
       <input type="email" name="email" required />
       <input type="tel" name="phone" required />
+    </form>
+
+    <!-- Portfolio Strength Analysis Form (hidden for Netlify detection) -->
+    <form
+      name="portfolio-analysis"
+      method="POST"
+      enctype="multipart/form-data"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="portfolio-analysis" />
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="full_name" required />
+      <input type="email" name="email" required />
+      <input type="tel" name="phone" />
+      <input type="text" name="portfolio_size" required />
+      <input type="number" name="holdings_count" required />
+      <input type="text" name="share_method" required />
+      <input type="file" name="portfolio_file" />
+      <textarea name="portfolio_text"></textarea>
+      <input type="text" name="source" />
+      <input type="text" name="referrer" />
+      <input type="text" name="utm_source" />
+      <input type="text" name="utm_medium" />
+      <input type="text" name="utm_campaign" />
     </form>
   </body>
 </html>

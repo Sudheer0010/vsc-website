@@ -24,3 +24,25 @@ export const OG_IMAGES: NonNullable<NonNullable<Metadata["openGraph"]>["images"]
     alt: "VSC Capital & Advisory",
   },
 ];
+
+/**
+ * The one Organization entity for the whole site, rendered once in the root
+ * layout. Every field here is a fact already published elsewhere on the
+ * site (Footer's contact list, the WhatsApp Channel link) — no rating,
+ * address, phone number or founding claim is added, since none of those
+ * are verified anywhere in the project.
+ *
+ * `sameAs` deliberately excludes LinkedIn: the only LinkedIn link in the
+ * project is Sudheer's personal profile, not a company page, so it isn't a
+ * fact about the Organization entity. Add a company LinkedIn URL here if
+ * one is ever created — don't substitute the personal profile for it.
+ */
+export const ORGANIZATION_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "VSC Capital & Advisory",
+  url: "https://vsccapital.in",
+  logo: "https://vsccapital.in/logo.jpg",
+  email: "sudheer@vsccapital.in",
+  sameAs: ["https://whatsapp.com/channel/0029VbEFHnQKWEKq2I8azp3S"],
+};

@@ -2,10 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
-import { StepRule } from "@/components/ui/vsc/StepRule";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
+import { BeliefSection } from "@/components/sections/home/BeliefSection";
 import { Compliance } from "@/components/sections/home/Compliance";
-import { ObservationsCarousel } from "@/components/sections/about/ObservationsCarousel";
 import { marketLetters, sortedMonths } from "@/data/market-letters";
 
 /**
@@ -89,7 +88,8 @@ export default function About() {
 
               <Reveal delay={0.06}>
                 <h1 className="mt-6 font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.6vw]">
-                  Built from markets. Built to keep learning.
+                  <span className="block text-balance">Built from markets.</span>
+                  <span className="block text-balance">Built to keep learning.</span>
                 </h1>
               </Reveal>
 
@@ -263,12 +263,9 @@ export default function About() {
       </section>
 
       {/* ================================================================
-          4. LESSONS — the observations deck, moved into the same dark
-          cinematic register as the homepage's Five Gates (same ContourField
-          seed, same eyebrow device) instead of standing alone as an
-          isolated dark widget.
+          4. THREE PRINCIPLES — moved here as-is from the homepage.
          ================================================================ */}
-      <ObservationsCarousel />
+      <BeliefSection />
 
       {/* ================================================================
           5. QUOTE — a deliberate dark punctuation moment (the homepage's
@@ -314,14 +311,8 @@ export default function About() {
         <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
-              <Reveal className="flex items-center gap-3">
-                <StepRule size="md" />
-                <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
-                  See where VSC can help
-                </span>
-              </Reveal>
-              <Reveal delay={0.05}>
-                <h2 className="font-editorial mt-6 max-w-[16ch] text-[13vw] italic leading-[1.05] text-ink sm:text-[6vw] lg:text-[3.6vw]">
+              <Reveal>
+                <h2 className="font-editorial max-w-[16ch] text-[13vw] italic leading-[1.05] text-ink sm:text-[6vw] lg:text-[3.6vw]">
                   See where VSC can help.
                 </h2>
               </Reveal>

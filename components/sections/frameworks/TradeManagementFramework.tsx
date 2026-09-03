@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -615,6 +615,35 @@ export function TradeManagementFramework() {
             <p className="mt-4 text-[19px] leading-relaxed text-ink">
               The trade closes. The market changes. The process begins again.
             </p>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            10B — RELATED TOOLS. The calculator that measures what a loss
+            the exit rules above didn't prevent actually costs to recover.
+           ================================================================ */}
+        <section id="related-tools" className="mt-32">
+          <AnnotatedBlock gloss="Put into practice">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                Related Tools
+              </h2>
+              <div className="mt-8">
+                <Link
+                  href="/tools/drawdown-recovery-calculator"
+                  className="group inline-flex w-fit items-baseline gap-1.5 font-display text-[19px] font-medium text-growth hover:text-growth-deep"
+                >
+                  Drawdown & Recovery Calculator
+                  <ArrowRight className="h-4 w-4 shrink-0 self-center transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                </Link>
+                <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-soft">
+                  See the gain required to recover from a loss the exit rules above didn&apos;t prevent.
+                </p>
+              </div>
+            </div>
           </AnnotatedBlock>
         </section>
 

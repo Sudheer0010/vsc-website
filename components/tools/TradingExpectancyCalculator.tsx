@@ -4,6 +4,7 @@ import { useMemo, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { computeTradingExpectancy, type TradingExpectancyResult } from "@/lib/calculators/trading-expectancy";
+import { PostResultCTA } from "@/components/tools/PostResultCTA";
 
 // Lets a click anywhere in the input's padded box focus the field, since
 // the visible box is taller than the native input element it wraps.
@@ -318,6 +319,8 @@ export function TradingExpectancyCalculator() {
                   />
                 </Link>
               </div>
+
+              <PostResultCTA className="mt-6" />
             </>
           )}
         </div>

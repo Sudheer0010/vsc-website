@@ -5,6 +5,7 @@ import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
 import { ResearchNoteTemplate } from "@/components/sections/research-notes/ResearchNoteTemplate";
 import { researchNotes } from "@/data/research-notes";
 import { OG_IMAGES } from "@/lib/seo";
+import { toIsoMonth } from "@/lib/format-date";
 
 interface ResearchNotePageProps {
   params: Promise<{ slug: string }>;
@@ -44,11 +45,17 @@ export default async function ResearchNotePage({ params }: ResearchNotePageProps
   const prevNote = index > 0 ? researchNotes[index - 1] : null;
   const nextNote = index < researchNotes.length - 1 ? researchNotes[index + 1] : null;
 
+  // publishedDate only carries month/year precision (e.g. "June 2026") —
+  // toIsoMonth returns undefined rather than inventing a day, so the field
+  // is simply omitted for a note whose date doesn't match that shape.
+  const isoDate = toIsoMonth(note.publishedDate);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: note.title,
     description: note.seo.description,
+    ...(isoDate ? { datePublished: isoDate, dateModified: isoDate } : {}),
     author: { "@type": "Person", name: "Sudheer Vobhilineni" },
     publisher: { "@type": "Organization", name: "VSC Capital & Advisory" },
   };

@@ -45,6 +45,14 @@ export default function ToolsPage() {
             <p className="mt-5 max-w-[650px] text-[16px] leading-relaxed text-ink-muted sm:text-[17px]">
               Built for decisions that should be calculated, not guessed — from individual trade planning to deeper system analysis.
             </p>
+            <p className="mt-5 max-w-[650px] text-[15px] leading-relaxed text-ink-muted">
+              I built these after watching the same mistake happen with different tickers: a position sized off a
+              feeling instead of the stop distance, a trade taken because the reward looked good with the risk never
+              actually measured. None of these calculators predict where a stock goes next — nothing here does that,
+              and I wouldn&apos;t trust one that claimed to. What they do is take the numbers you already have —
+              entry, stop, capital, your own past trades — and turn them into the trade-off you&apos;re actually
+              making, before you make it. If a result changes your mind about a trade, that&apos;s the tool working.
+            </p>
           </header>
 
           <div className="mt-12 max-w-[650px] border-t border-rule pt-10">

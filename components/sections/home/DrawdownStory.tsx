@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 
@@ -43,8 +44,8 @@ export function DrawdownStory() {
   return (
     <section id="problem" className="relative w-full overflow-hidden border-b border-rule bg-canvas-sunk py-28 sm:py-36">
       <div className="container mx-auto max-w-[1400px] px-6 sm:px-10">
-        <div className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-4">
             <h2 className="font-editorial text-[10vw] leading-[1.02] text-ink sm:text-[4.6vw] lg:text-[2.6vw]">
               Everyone looks good on the way up. The difference shows on the way down.
             </h2>
@@ -53,15 +54,16 @@ export function DrawdownStory() {
             </div>
           </div>
 
-          <div className="lg:col-span-8">
+          <div className="min-w-0 lg:col-span-8">
             <Reveal>
-              <figure className="border border-rule bg-surface p-6 sm:p-9">
-                <div className="overflow-x-auto">
+              <figure className="min-w-0 border border-rule bg-surface p-6 sm:p-9">
+                <div className="min-w-0">
                   <svg
                     viewBox="0 0 602 268"
+                    preserveAspectRatio="xMidYMid meet"
                     role="img"
                     aria-label="Two schematic capital curves. Both rise together. When market risk crosses a threshold, the always-invested curve continues down through the drawdown while the risk-managed curve flattens as exposure moves to cash, then re-enters and compounds from a higher base."
-                    className="h-auto w-full min-w-[520px]"
+                    className="h-auto w-full"
                   >
                     <defs>
                       <linearGradient id="riskManagedFill" x1="0" y1="0" x2="0" y2="1">
@@ -117,15 +119,15 @@ export function DrawdownStory() {
                   </svg>
                 </div>
 
-                <figcaption className="mt-8 grid gap-8 border-t border-rule pt-6 sm:grid-cols-2">
-                  <div>
+                <figcaption className="mt-8 grid grid-cols-1 gap-8 border-t border-rule pt-6 sm:grid-cols-2">
+                  <div className="min-w-0">
                     <span className="inline-block h-[3px] w-6 rounded-full bg-clay-bright" />
                     <div className="mt-2 text-[15px] font-semibold text-ink">Stay fully invested</div>
                     <div className="mt-1 max-w-[36ch] text-[14.5px] leading-relaxed text-ink-soft">
                       The full fall is taken, so there is more ground to recover.
                     </div>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="inline-block h-[3px] w-6 rounded-full bg-growth" />
                     <div className="mt-2 text-[15px] font-semibold text-ink">Reduce risk when the market weakens</div>
                     <div className="mt-1 max-w-[36ch] text-[14.5px] leading-relaxed text-ink-soft">
@@ -135,6 +137,13 @@ export function DrawdownStory() {
                 </figcaption>
                 <p className="exhibit__caption border-t border-rule pt-4">
                   Illustration only — not a live portfolio or forecast.
+                </p>
+                <p className="mt-3 text-[13.5px] text-ink-faint">
+                  Measure your own drawdown and recovery math in{" "}
+                  <Link href="/tools" className="font-medium text-growth hover:text-growth-deep">
+                    VSC&apos;s trading tools
+                  </Link>
+                  .
                 </p>
               </figure>
             </Reveal>

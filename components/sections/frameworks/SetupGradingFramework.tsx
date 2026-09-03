@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -901,6 +901,49 @@ export function SetupGradingFramework() {
               </div>
               <div className="mt-10">
                 <HandoffArrow />
+              </div>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            11B — RELATED TOOLS. The calculators that put a graded setup's
+            payoff and its process-level track record into a number.
+           ================================================================ */}
+        <section id="related-tools" className="mt-32">
+          <AnnotatedBlock gloss="Put into practice">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                Related Tools
+              </h2>
+              <div className="mt-8 flex flex-col gap-6">
+                <div>
+                  <Link
+                    href="/tools/risk-reward-calculator"
+                    className="group inline-flex w-fit items-baseline gap-1.5 font-display text-[19px] font-medium text-growth hover:text-growth-deep"
+                  >
+                    Risk–Reward Ratio Calculator
+                    <ArrowRight className="h-4 w-4 shrink-0 self-center transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                  <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-soft">
+                    Check the payoff a setup offers before it clears the integrity gates above.
+                  </p>
+                </div>
+                <div>
+                  <Link
+                    href="/tools/trading-expectancy-calculator"
+                    className="group inline-flex w-fit items-baseline gap-1.5 font-display text-[19px] font-medium text-growth hover:text-growth-deep"
+                  >
+                    Trading Expectancy Calculator
+                    <ArrowRight className="h-4 w-4 shrink-0 self-center transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                  <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-soft">
+                    Test whether grading is actually producing a positive-expectancy process.
+                  </p>
+                </div>
               </div>
             </div>
           </AnnotatedBlock>

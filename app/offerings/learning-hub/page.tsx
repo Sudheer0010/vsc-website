@@ -103,8 +103,10 @@ export default function LearningHubPage() {
       </main>
 
       <ClosingCTA
-        headline="Ready to start learning?"
-        subline="No pitch and no obligation — a conversation about whether this is the right starting point for you."
+        headline="Start with structure."
+        subline="Six modules. One clear path through the markets."
+        ctaLabel="Enquire about VSC Learn →"
+        faqLabel="Read the FAQ →"
       />
     </div>
   );

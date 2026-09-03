@@ -7,7 +7,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SkipToContent } from "@/components/ui/vsc/SkipToContent";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { OG_IMAGES } from "@/lib/seo";
+import { OG_IMAGES, ORGANIZATION_JSON_LD } from "@/lib/seo";
 
 /**
 * Typography — chosen for reading, not for looking expensive.
@@ -110,6 +110,10 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
+        />
         <SkipToContent />
         {/* Google Analytics Tag Manager */}
         <Script

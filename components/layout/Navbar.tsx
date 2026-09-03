@@ -28,8 +28,9 @@ const NAV_ITEMS = [
   {
     label: "Research",
     href: "/research",
-    activeMatch: ["/research", "/letters", "/reading", "/start", "/tools"],
+    activeMatch: ["/research", "/letters", "/reading", "/start"],
   },
+  { label: "Tools", href: "/tools" },
   { label: "FAQ", href: "/faq" },
 ];
 

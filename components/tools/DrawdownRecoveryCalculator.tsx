@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type MouseEvent } from "react";
 import { computeDrawdownRecovery, type DrawdownRecoveryResult } from "@/lib/calculators/drawdown-recovery";
+import { PostResultCTA } from "@/components/tools/PostResultCTA";
 
 // Lets a click anywhere in the input's padded box focus the field, since
 // the visible box is taller than the native input element it wraps.
@@ -259,6 +260,8 @@ export function DrawdownRecoveryCalculator() {
                   </div>
                 </>
               )}
+
+              <PostResultCTA className="mt-6" />
             </>
           )}
         </div>

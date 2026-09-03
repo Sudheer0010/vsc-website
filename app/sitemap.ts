@@ -5,6 +5,7 @@ import { frameworkLibrary } from "@/data/frameworks";
 import { frameworkHref, frameworkVersionHref, currentVersion } from "@/lib/framework-urls";
 import { researchNotes } from "@/data/research-notes";
 import { allTools } from "@/data/tools";
+import { toIsoMonth } from "@/lib/format-date";
 
 const BASE_URL = "https://vsccapital.in";
 
@@ -66,11 +67,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }));
   });
 
-  const researchNoteRoutes: MetadataRoute.Sitemap = researchNotes.map((note) => ({
-    url: `${BASE_URL}/research/notes/${note.slug}`,
-    changeFrequency: "yearly",
-    priority: 0.6,
-  }));
+  // lastModified only when publishedDate ("June 2026") parses cleanly to a
+  // real month — never a build-time stamp standing in for an unknown date.
+  const researchNoteRoutes: MetadataRoute.Sitemap = researchNotes.map((note) => {
+    const isoDate = toIsoMonth(note.publishedDate);
+    return {
+      url: `${BASE_URL}/research/notes/${note.slug}`,
+      ...(isoDate ? { lastModified: isoDate } : {}),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    };
+  });
 
   return [
     ...staticRoutes,

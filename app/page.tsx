@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BeliefSection } from "@/components/sections/home/BeliefSection";
+import { ArrowRight } from "lucide-react";
 import { Compliance } from "@/components/sections/home/Compliance";
 import { DrawdownStory } from "@/components/sections/home/DrawdownStory";
 import { ExposureInstrument } from "@/components/sections/home/ExposureInstrument";
@@ -73,18 +73,29 @@ export default function Home() {
                   </h1>
                 </Reveal>
 
-                {/* One button, not two. "Enquire" already sits in the nav on
-                    every page — repeating it here, before the page has made
-                    any case at all, just asks twice in the first screen.
-                    The hero's job is to earn the ask made at the bottom.
+                {/* Primary + a quiet secondary, not two equal buttons. The
+                    free portfolio check is the ask worth making before the
+                    page has proven anything — it costs the visitor nothing
+                    to find out where they stand. Research stays one tap
+                    away as understated text, not a competing button.
                     Delayed to settle after the instrument has begun filling,
                     so the eye reads headline → instrument → action in order
                     instead of everything landing on the same beat. */}
                 <Reveal delay={0.26}>
-                  <div className="mt-10 flex flex-wrap items-center gap-3">
-                    <VSCButton href="/research" variant="growth">
-                      Read the research
+                  <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <VSCButton href="/enquire?portfolio=1" variant="growth">
+                      <span className="inline-flex items-center gap-2">
+                        Get a free portfolio strength check
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </span>
                     </VSCButton>
+                    <Link
+                      href="/research"
+                      className="link-underline inline-flex min-h-[44px] items-center gap-1.5 text-[14.5px] font-medium text-white/55 transition-colors hover:text-[#7FB999]"
+                    >
+                      Read the research
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </Link>
                   </div>
                 </Reveal>
 
@@ -111,8 +122,6 @@ export default function Home() {
         </section>
 
         <WhyVscExists />
-
-        <BeliefSection />
 
         <DrawdownStory />
 

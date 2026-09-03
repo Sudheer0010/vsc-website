@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Byline } from "@/components/ui/vsc/Byline";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
 import { ReadingProgress } from "@/components/ui/vsc/ReadingProgress";
@@ -675,6 +675,49 @@ export function SizingFramework() {
               </p>
               <div className="mt-8">
                 <HandoffArrow />
+              </div>
+            </div>
+          </AnnotatedBlock>
+        </section>
+
+        {/* ================================================================
+            09B — RELATED TOOLS. The two calculators that put this
+            framework's three questions into a number.
+           ================================================================ */}
+        <section id="related-tools" className="mt-32">
+          <AnnotatedBlock gloss="Put into practice">
+            <div className="border-t border-rule pt-8">
+              <h2
+                className="font-display font-bold text-ink"
+                style={{ fontSize: "clamp(32px, 4.4vw, 48px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                Related Tools
+              </h2>
+              <div className="mt-8 flex flex-col gap-6">
+                <div>
+                  <Link
+                    href="/tools/position-size-calculator"
+                    className="group inline-flex w-fit items-baseline gap-1.5 font-display text-[19px] font-medium text-growth hover:text-growth-deep"
+                  >
+                    Position Size Calculator
+                    <ArrowRight className="h-4 w-4 shrink-0 self-center transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                  <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-soft">
+                    Turn the risk ceiling above into a share quantity for a specific entry and stop.
+                  </p>
+                </div>
+                <div>
+                  <Link
+                    href="/tools/portfolio-risk-calculator"
+                    className="group inline-flex w-fit items-baseline gap-1.5 font-display text-[19px] font-medium text-growth hover:text-growth-deep"
+                  >
+                    Portfolio Risk Calculator
+                    <ArrowRight className="h-4 w-4 shrink-0 self-center transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                  <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-soft">
+                    Check what a new position adds to the risk already open across the book.
+                  </p>
+                </div>
               </div>
             </div>
           </AnnotatedBlock>

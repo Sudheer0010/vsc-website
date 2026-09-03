@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
@@ -8,6 +8,11 @@ import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
+import { PortfolioAnalysisModal } from "@/components/sections/enquire/PortfolioAnalysisModal";
+import { PortfolioAnalysisCallout } from "@/components/sections/enquire/PortfolioAnalysisCallout";
+
+/** sessionStorage flag — one auto-open per browser session, ever. */
+const PORTFOLIO_OFFER_SESSION_KEY = "vsc:portfolio-analysis-offer-shown";
 
 /**
  * Enquire — The Open Line.
@@ -56,6 +61,78 @@ export function EnquireExperience() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
+  const [portfolioSource, setPortfolioSource] = useState<"homepage" | "enquire">("enquire");
+  const [portfolioUtm, setPortfolioUtm] = useState({ source: "", medium: "", campaign: "" });
+  const portfolioCalloutTriggerRef = useRef<HTMLButtonElement>(null);
+
+  // Captured once on mount for attribution on the portfolio-analysis
+  // submission. Deferred into a timer (not called synchronously in the
+  // effect body) for the same reason as the auto-open effect below.
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      setPortfolioUtm({
+        source: params.get("utm_source") ?? "",
+        medium: params.get("utm_medium") ?? "",
+        campaign: params.get("utm_campaign") ?? "",
+      });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  // Auto-open once per browser session, on the first /enquire visit only.
+  // Manual reopen via the persistent callout always stays available. A
+  // ?portfolio=1 link (e.g. the homepage hero CTA) opens immediately
+  // instead of waiting on the delayed timer, and marks the offer as shown
+  // so the normal delayed path doesn't also fire.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const isDirectEntry = url.searchParams.has("portfolio");
+
+    const markShown = () => {
+      try {
+        sessionStorage.setItem(PORTFOLIO_OFFER_SESSION_KEY, "1");
+      } catch {
+        // Ignore — worst case the offer auto-opens again next reload.
+      }
+    };
+
+    if (isDirectEntry) {
+      // All side effects deferred into the timer callback (not run
+      // synchronously in the effect body) so React's dev-mode double
+      // mount-cleanup-mount cycle can cancel-and-retry this cleanly instead
+      // of stripping the query param before the retry gets to read it.
+      const openTimer = window.setTimeout(() => {
+        markShown();
+
+        // Smallest safe way to drop the param: rewrite the URL in place,
+        // no navigation, so a refresh doesn't force the modal open again.
+        url.searchParams.delete("portfolio");
+        window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+
+        setPortfolioSource("homepage");
+        setIsPortfolioModalOpen(true);
+      }, 0);
+      return () => window.clearTimeout(openTimer);
+    }
+
+    let seen = true;
+    try {
+      seen = sessionStorage.getItem(PORTFOLIO_OFFER_SESSION_KEY) !== null;
+    } catch {
+      return;
+    }
+    if (seen) return;
+
+    const timer = window.setTimeout(() => {
+      markShown();
+      setIsPortfolioModalOpen(true);
+    }, 600);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -117,7 +194,17 @@ export function EnquireExperience() {
         />
 
         <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-12">
+          <Reveal>
+            <PortfolioAnalysisCallout
+              onOpen={() => {
+                setPortfolioSource("enquire");
+                setIsPortfolioModalOpen(true);
+              }}
+              triggerRef={portfolioCalloutTriggerRef}
+            />
+          </Reveal>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-12 sm:mt-12">
             {/* LEFT — the conversation */}
             <div className="lg:col-span-5">
               <Reveal>
@@ -401,8 +488,34 @@ export function EnquireExperience() {
               </div>
             </div>
           </Reveal>
+
+          {/* Secondary distribution link — deliberately quiet, below the
+              primary enquiry/portfolio-analysis actions. Not a conversion
+              CTA, so no icon, card, or accent treatment beyond the link
+              itself. */}
+          <Reveal delay={0.25}>
+            <p className="mt-7 text-center text-[13px] text-white/40 sm:text-left">
+              Prefer market updates on WhatsApp?{" "}
+              <a
+                href="https://whatsapp.com/channel/0029VbEFHnQKWEKq2I8azp3S"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 underline underline-offset-2 transition-colors duration-200 hover:text-[#7FB999]"
+              >
+                Follow VSC on WhatsApp &rarr;
+              </a>
+            </p>
+          </Reveal>
         </div>
       </section>
+
+      <PortfolioAnalysisModal
+        open={isPortfolioModalOpen}
+        onClose={() => setIsPortfolioModalOpen(false)}
+        returnFocusRef={portfolioCalloutTriggerRef}
+        source={portfolioSource}
+        utm={portfolioUtm}
+      />
     </main>
   );
 }
