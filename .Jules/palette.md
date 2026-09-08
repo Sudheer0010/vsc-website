@@ -1,0 +1,3 @@
+## 2025-02-18 - [ImageLightbox Accessibility Context]
+**Learning:** When building image zoom/lightbox interactions by wrapping the image inside a button, the screen reader context is inherently lost. The button effectively overshadows the child element’s alt text, causing assistive technologies to ignore the original image context entirely if no explicit label is provided.
+**Action:** Any trigger button that wraps contextual content like an image must dynamically incorporate the child content’s context (e.g., aria-label="Enlarge image: alt") to preserve accessibility and prevent users on assistive tech from encountering an unlabeled affordance.
