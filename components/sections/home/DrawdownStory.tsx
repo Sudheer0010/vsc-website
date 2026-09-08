@@ -2,8 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Reveal } from "@/components/ui/vsc/Reveal";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 
 /**
  * The problem, drawn rather than tabulated — Luminous Editorial "Exhibit 01"
@@ -29,7 +30,7 @@ const RISK_MANAGED =
   "C 462 120, 500 88, 540 62 C 562 48, 580 38, 594 32";
 
 export function DrawdownStory() {
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
 
   const draw = (delay: number) =>
     reduce

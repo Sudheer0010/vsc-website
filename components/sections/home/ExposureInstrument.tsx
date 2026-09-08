@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -79,7 +80,7 @@ function DigitReadout({ value, reduce }: { value: number; reduce: boolean }) {
 
 export function ExposureInstrument() {
   const [risk, setRisk] = useState(62);
-  const reduce = Boolean(useReducedMotion());
+  const reduce = useHydratedReducedMotion();
   const regime = regimeFor(risk);
   const cash = 100 - regime.equity;
 

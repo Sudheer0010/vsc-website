@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PathSimulatorControlRail, type TradeCount } from "@/components/tools/PathSimulatorControlRail";
+import { PostResultCTA } from "@/components/tools/PostResultCTA";
 import { PathSimulatorResults } from "@/components/tools/PathSimulatorResults";
 import {
   SIMULATION_RUNS,
@@ -137,15 +138,19 @@ export function TradingExpectancyPathSimulatorWorkspace() {
         progress={progress}
       />
 
-      <PathSimulatorResults
-        summary={summary}
-        assumptions={assumptions}
-        isStale={isStale}
-        selectedIndex={selectedIndex}
-        previewIndex={previewIndex}
-        onSelect={setSelectedIndex}
-        onPreview={setPreviewIndex}
-      />
+      <div>
+        <PathSimulatorResults
+          summary={summary}
+          assumptions={assumptions}
+          isStale={isStale}
+          selectedIndex={selectedIndex}
+          previewIndex={previewIndex}
+          onSelect={setSelectedIndex}
+          onPreview={setPreviewIndex}
+        />
+
+        {summary !== null && !isStale && !isRunning && <PostResultCTA className="mt-6" />}
+      </div>
     </div>
   );
 }

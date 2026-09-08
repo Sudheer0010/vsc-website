@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { animate } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,10 @@ export function SpotlightNavbar({
     const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
     const [hoverX, setHoverX] = useState<number | null>(null);
     const [hoveredDropdownIdx, setHoveredDropdownIdx] = useState<number | null>(null);
+    const [focusedDropdownIdx, setFocusedDropdownIdx] = useState<number | null>(null);
+    const dropdownIdPrefix = useId();
+    const triggerRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+    const openDropdownIdx = hoveredDropdownIdx ?? focusedDropdownIdx;
 
     // Route changes arrive as a new `defaultActiveIndex`, and clicks set the
     // index locally. Reconciling the two during render is the supported way
@@ -172,11 +176,31 @@ export function SpotlightNavbar({
                             className="relative h-full flex items-center justify-center"
                             onMouseEnter={() => item.dropdownItems && setHoveredDropdownIdx(idx)}
                             onMouseLeave={() => setHoveredDropdownIdx(null)}
+                            onFocusCapture={() => item.dropdownItems && setFocusedDropdownIdx(idx)}
+                            onBlurCapture={(event) => {
+                                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                                    setFocusedDropdownIdx(null);
+                                }
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key === "Escape" && item.dropdownItems && openDropdownIdx === idx) {
+                                    event.preventDefault();
+                                    setHoveredDropdownIdx(null);
+                                    triggerRefs.current[idx]?.focus();
+                                    setFocusedDropdownIdx(null);
+                                }
+                            }}
                         >
                             <Link
+                                ref={(node) => {
+                                    triggerRefs.current[idx] = node;
+                                }}
                                 href={item.href}
                                 data-index={idx}
                                 onClick={() => handleItemClick(item, idx)}
+                                aria-haspopup={item.dropdownItems ? "true" : undefined}
+                                aria-expanded={item.dropdownItems ? openDropdownIdx === idx : undefined}
+                                aria-controls={item.dropdownItems ? `${dropdownIdPrefix}-dropdown-${idx}` : undefined}
                                 className={cn(
                                   "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
                                     // Colour comes from `.spotlight-nav a` in the token layer, so the
@@ -187,8 +211,11 @@ export function SpotlightNavbar({
                                 {item.label}
                             </Link>
 
-                            {item.dropdownItems && hoveredDropdownIdx === idx && (
-                                <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-48 rounded-vsc-lg border border-rule bg-surface p-1 shadow-lift-3 flex flex-col z-[100]">
+                            {item.dropdownItems && openDropdownIdx === idx && (
+                                <div
+                                    id={`${dropdownIdPrefix}-dropdown-${idx}`}
+                                    className="absolute top-[85%] left-1/2 -translate-x-1/2 w-48 rounded-vsc-lg border border-rule bg-surface p-1 shadow-lift-3 flex flex-col z-[100]"
+                                >
                                     {item.dropdownItems.map((sub, sIdx) => (
                                         <Link
                                             key={sIdx}

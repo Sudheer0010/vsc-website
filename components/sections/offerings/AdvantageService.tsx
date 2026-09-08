@@ -154,7 +154,7 @@ function WhoItIsFor() {
             It suits people who want to own the reasoning — not people looking to hand the thinking
             over. If you have not started investing yet, the{" "}
             <Link href="/offerings/learning-hub" className="link-underline font-semibold text-growth">
-              Learning Hub
+              VSC Learn
             </Link>{" "}
             is the better starting point.
           </p>

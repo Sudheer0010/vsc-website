@@ -63,7 +63,9 @@ export function EnquireExperience() {
   const shouldReduceMotion = useReducedMotion();
 
   const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
-  const [portfolioSource, setPortfolioSource] = useState<"homepage" | "enquire">("enquire");
+  const [portfolioSource, setPortfolioSource] = useState<"homepage" | "enquire" | "portfolio-risk-calculator">(
+    "enquire"
+  );
   const [portfolioUtm, setPortfolioUtm] = useState({ source: "", medium: "", campaign: "" });
   const portfolioCalloutTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -86,10 +88,14 @@ export function EnquireExperience() {
   // Manual reopen via the persistent callout always stays available. A
   // ?portfolio=1 link (e.g. the homepage hero CTA) opens immediately
   // instead of waiting on the delayed timer, and marks the offer as shown
-  // so the normal delayed path doesn't also fire.
+  // so the normal delayed path doesn't also fire. An accompanying
+  // ?source=portfolio-risk-calculator (from that tool's post-result CTA)
+  // is preserved as the attribution source instead of the "homepage"
+  // default — everything else about this entry path is unchanged.
   useEffect(() => {
     const url = new URL(window.location.href);
     const isDirectEntry = url.searchParams.has("portfolio");
+    const taggedSource = url.searchParams.get("source");
 
     const markShown = () => {
       try {
@@ -107,12 +113,13 @@ export function EnquireExperience() {
       const openTimer = window.setTimeout(() => {
         markShown();
 
-        // Smallest safe way to drop the param: rewrite the URL in place,
+        // Smallest safe way to drop the params: rewrite the URL in place,
         // no navigation, so a refresh doesn't force the modal open again.
         url.searchParams.delete("portfolio");
+        url.searchParams.delete("source");
         window.history.replaceState(null, "", url.pathname + url.search + url.hash);
 
-        setPortfolioSource("homepage");
+        setPortfolioSource(taggedSource === "portfolio-risk-calculator" ? "portfolio-risk-calculator" : "homepage");
         setIsPortfolioModalOpen(true);
       }, 0);
       return () => window.clearTimeout(openTimer);
@@ -358,7 +365,7 @@ export function EnquireExperience() {
                               id="goal"
                               name="goal"
                               rows={2}
-                              className="w-full border-b-2 border-rule bg-transparent pb-2.5 font-ui text-[15px] leading-relaxed text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                              className="w-full border-b-2 border-rule bg-transparent pb-2.5 font-ui text-[16px] leading-relaxed text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none lg:text-[15px]"
                               placeholder="A specific question, or just curiosity — whatever's on your mind."
                             />
                           </div>

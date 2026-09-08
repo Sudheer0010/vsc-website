@@ -54,7 +54,7 @@ export interface OfferingItem {
 export const offeringsConfig: OfferingItem[] = [
   {
     slug: "learning-hub",
-    title: "Investor Education (Learning Hub)",
+    title: "Investor Education (VSC Learn)",
     shortTitle: "VSC Learn",
     tagline: "Professional Market & Momentum Education",
     description: "Build a systematic understanding of markets before risking real capital.",

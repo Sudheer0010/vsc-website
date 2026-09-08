@@ -37,14 +37,14 @@ export function PostResultCTA({
           href={WHATSAPP_CHANNEL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[13.5px] font-semibold text-growth hover:text-growth-deep"
+          className="inline-flex min-h-11 items-center text-[13.5px] font-semibold text-growth hover:text-growth-deep lg:min-h-0"
         >
           Follow VSC on WhatsApp &rarr;
         </a>
         {showPortfolioCheck && (
           <Link
             href="/enquire?portfolio=1"
-            className="text-[13.5px] font-semibold text-growth hover:text-growth-deep"
+            className="inline-flex min-h-11 items-center text-[13.5px] font-semibold text-growth hover:text-growth-deep lg:min-h-0"
           >
             Get a free Portfolio Strength Check &rarr;
           </Link>

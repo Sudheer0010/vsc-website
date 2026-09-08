@@ -25,9 +25,10 @@ function formatR(value: number) {
 }
 
 const inputClass =
-  "w-full min-w-0 appearance-none bg-transparent font-ui text-[15px] font-medium text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+  "w-full min-w-0 appearance-none bg-transparent font-ui text-[16px] font-medium text-ink outline-none [appearance:textfield] lg:text-[15px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 const inputWrapClass =
   "flex min-h-11 items-center gap-2 rounded-vsc-lg border border-rule bg-surface-warm px-3.5 py-2.5 transition-[border-color,box-shadow] duration-150 focus-within:border-growth focus-within:shadow-[0_0_0_3px_rgba(15,122,64,0.08)]";
+const validationErrorId = "sim-validation-error";
 
 export function PathSimulatorControlRail({
   winRate,
@@ -60,6 +61,14 @@ export function PathSimulatorControlRail({
   /** 0..1 across the simulated runs, for the in-progress label. */
   progress: number;
 }) {
+  const hasValidationError = validation.state === "invalid";
+  const winRateValue = Number.parseFloat(winRate);
+  const avgWinValue = Number.parseFloat(avgWin);
+  const avgLossValue = Number.parseFloat(avgLoss);
+  const winRateInvalid = hasValidationError && !(winRateValue > 0 && winRateValue < 100);
+  const avgWinInvalid = hasValidationError && !(avgWinValue > 0);
+  const avgLossInvalid = hasValidationError && !(avgLossValue > 0);
+
   return (
     <div className="lg:sticky lg:top-[88px] lg:self-start">
       <div className="mb-2 flex items-center gap-2.5 text-[13px] font-semibold text-growth">
@@ -115,6 +124,8 @@ export function PathSimulatorControlRail({
                 step="any"
                 inputMode="decimal"
                 value={winRate}
+                aria-invalid={winRateInvalid || undefined}
+                aria-describedby={winRateInvalid ? validationErrorId : undefined}
                 onChange={(event) => onWinRateChange(event.target.value)}
               />
               <span className="shrink-0 text-[13px] font-medium text-ink-faint">%</span>
@@ -137,6 +148,8 @@ export function PathSimulatorControlRail({
                 step="any"
                 inputMode="decimal"
                 value={avgWin}
+                aria-invalid={avgWinInvalid || undefined}
+                aria-describedby={avgWinInvalid ? validationErrorId : undefined}
                 onChange={(event) => onAvgWinChange(event.target.value)}
               />
               <span className="shrink-0 text-[13px] font-medium text-ink-faint">R</span>
@@ -159,6 +172,8 @@ export function PathSimulatorControlRail({
                 step="any"
                 inputMode="decimal"
                 value={avgLoss}
+                aria-invalid={avgLossInvalid || undefined}
+                aria-describedby={avgLossInvalid ? validationErrorId : undefined}
                 onChange={(event) => onAvgLossChange(event.target.value)}
               />
               <span className="shrink-0 text-[13px] font-medium text-ink-faint">R</span>
@@ -180,7 +195,7 @@ export function PathSimulatorControlRail({
                 id="sim-trades"
                 value={tradeCount}
                 onChange={(event) => onTradeCountChange(Number(event.target.value) as TradeCount)}
-                className="min-h-11 w-full appearance-none rounded-vsc-lg border border-rule bg-surface-warm px-3.5 pr-9 font-ui text-[15px] font-medium text-ink outline-none transition-[border-color,box-shadow] duration-150 focus:border-growth focus:shadow-[0_0_0_3px_rgba(15,122,64,0.08)]"
+                className="min-h-11 w-full appearance-none rounded-vsc-lg border border-rule bg-surface-warm px-3.5 pr-9 font-ui text-[16px] font-medium text-ink outline-none transition-[border-color,box-shadow] duration-150 focus:border-growth focus:shadow-[0_0_0_3px_rgba(15,122,64,0.08)] lg:text-[15px]"
               >
                 {TRADE_COUNT_OPTIONS.map((count) => (
                   <option key={count} value={count}>
@@ -210,7 +225,14 @@ export function PathSimulatorControlRail({
         </p>
 
         {validation.state === "invalid" ? (
-          <p className="mt-2.5 text-[12px] text-clay">{validation.message}</p>
+          <p
+            id={validationErrorId}
+            aria-live="polite"
+            aria-atomic="true"
+            className="mt-2.5 text-[12px] text-clay"
+          >
+            {validation.message}
+          </p>
         ) : (
           <div className="mt-2.5 rounded-vsc-md border border-rule bg-surface-warm px-3 py-2.5">
             <p className="text-[10.5px] font-medium text-ink-faint">

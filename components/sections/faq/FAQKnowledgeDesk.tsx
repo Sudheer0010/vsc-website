@@ -261,7 +261,7 @@ export function FAQKnowledgeDesk() {
 
           <Reveal delay={0.09}>
             <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-ink-soft sm:text-[16px]">
-              {totalQuestions} questions across {faqCategories.length} topics — philosophy, risk, the learning hub,
+              {totalQuestions} questions across {faqCategories.length} topics — philosophy, risk, VSC Learn,
               advisory, and how a strategic discussion works.
             </p>
           </Reveal>
@@ -283,7 +283,7 @@ export function FAQKnowledgeDesk() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Try “risk”, “stop-loss”, “strategic discussion”…"
-                className="w-full rounded-vsc-md border border-rule bg-surface py-3.5 pl-11 pr-28 text-[14px] text-ink placeholder-ink-faint shadow-lift-1 transition-all duration-200 focus:border-growth/60 focus:outline-none focus:ring-1 focus:ring-growth/40"
+                className="w-full rounded-vsc-md border border-rule bg-surface py-3.5 pl-11 pr-28 text-[16px] text-ink placeholder-ink-faint shadow-lift-1 transition-all duration-200 focus:border-growth/60 focus:outline-none focus:ring-1 focus:ring-growth/40 lg:text-[14px]"
               />
               {query.trim() !== "" && (
                 <div className="absolute inset-y-0 right-3 flex items-center gap-2">

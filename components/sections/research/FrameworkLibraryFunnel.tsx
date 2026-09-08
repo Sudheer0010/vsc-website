@@ -2,10 +2,11 @@
 
 import React, { useCallback, useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 import { frameworkLibrary } from "@/data";
 import { frameworkHref } from "@/lib/framework-urls";
 
@@ -60,7 +61,7 @@ function bandClipPath(top: number, bottom: number): string {
 export function FrameworkLibraryFunnel() {
   const [active, setActive] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const count = frameworkLibrary.length;
 

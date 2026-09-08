@@ -20,7 +20,7 @@ const NAV_ITEMS = [
     label: "Offerings",
     href: "/offerings",
     dropdownItems: [
-      { label: "Learning Hub", href: "/offerings/learning-hub" },
+      { label: "VSC Learn", href: "/offerings/learning-hub" },
       { label: "VSC Advantage", href: "/offerings/advantage" },
       { label: "VSC Community", href: "/offerings/inner-circle" },
     ],

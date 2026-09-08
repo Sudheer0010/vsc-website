@@ -262,7 +262,7 @@ export function FAQRedesign() {
 
           <Reveal delay={0.09}>
             <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-ink-soft sm:text-[16px]">
-              {totalQuestions} questions across {faqCategories.length} topics — philosophy, risk, the learning hub,
+              {totalQuestions} questions across {faqCategories.length} topics — philosophy, risk, VSC Learn,
               advisory, and how a strategic discussion works.
             </p>
           </Reveal>

@@ -2,9 +2,10 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/vsc/Reveal";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 import { offeringsConfig } from "./offeringsConfig";
 
 /**
@@ -29,7 +30,7 @@ const TIER_TAB_ACTIVE: Record<string, string> = {
 
 export function StartWhereYouAre() {
   const [active, setActive] = useState(0);
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const row = offeringsConfig[active];

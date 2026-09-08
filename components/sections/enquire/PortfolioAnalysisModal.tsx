@@ -72,8 +72,10 @@ export interface PortfolioAnalysisModalProps {
   open: boolean;
   onClose: () => void;
   returnFocusRef?: React.RefObject<HTMLElement | null>;
-  /** "homepage" for ?portfolio=1 entries, "enquire" for everything else. */
-  source: "homepage" | "enquire";
+  /** "homepage" for a bare ?portfolio=1 entry, "enquire" for everything else,
+   *  or the exact `?source=` value for a known-tagged entry point (e.g. the
+   *  Portfolio Risk Calculator's post-result CTA). */
+  source: "homepage" | "enquire" | "portfolio-risk-calculator";
   utm: { source: string; medium: string; campaign: string };
 }
 
@@ -366,7 +368,7 @@ export function PortfolioAnalysisModal({ open, onClose, returnFocusRef, source, 
                 <button
                   type="button"
                   onClick={() => setStep("offer")}
-                  className="inline-flex min-h-[32px] items-center gap-1.5 font-mono text-[12px] text-ink-faint transition-colors hover:text-growth"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 font-mono text-[12px] text-ink-faint transition-colors hover:text-growth lg:min-h-[32px]"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" /> Back
                 </button>
@@ -560,14 +562,14 @@ export function PortfolioAnalysisModal({ open, onClose, returnFocusRef, source, 
                             <button
                               type="button"
                               onClick={() => fileInputRef.current?.click()}
-                              className="font-mono text-[12px] text-ink-muted transition-colors hover:text-growth"
+                              className="inline-flex min-h-[44px] items-center font-mono text-[12px] text-ink-muted transition-colors hover:text-growth lg:min-h-0"
                             >
                               Replace
                             </button>
                             <button
                               type="button"
                               onClick={removeFile}
-                              className="font-mono text-[12px] text-ink-muted transition-colors hover:text-clay"
+                              className="inline-flex min-h-[44px] items-center font-mono text-[12px] text-ink-muted transition-colors hover:text-clay lg:min-h-0"
                             >
                               Remove
                             </button>
@@ -577,7 +579,7 @@ export function PortfolioAnalysisModal({ open, onClose, returnFocusRef, source, 
                         <button
                           type="button"
                           onClick={() => fileInputRef.current?.click()}
-                          className="inline-flex min-h-[40px] w-fit items-center gap-2 rounded-vsc-sm border border-rule-strong px-4 font-mono text-[12.5px] font-semibold text-ink transition-colors hover:border-growth hover:text-growth"
+                          className="inline-flex min-h-[44px] w-fit items-center gap-2 rounded-vsc-sm border border-rule-strong px-4 font-mono text-[12.5px] font-semibold text-ink transition-colors hover:border-growth hover:text-growth lg:min-h-[40px]"
                         >
                           Choose file
                         </button>
@@ -624,7 +626,7 @@ export function PortfolioAnalysisModal({ open, onClose, returnFocusRef, source, 
                           touched.portfolioText && errors.portfolioText ? "pa-text-error" : "pa-text-note"
                         }
                         placeholder={"RELIANCE — 12%\nHDFCBANK — 10%\nBEL — 8%\nCASH — 15%"}
-                        className="w-full rounded-vsc-sm border border-rule bg-canvas-sunk p-3 font-ui text-[14.5px] leading-relaxed text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none"
+                        className="w-full rounded-vsc-sm border border-rule bg-canvas-sunk p-3 font-ui text-[16px] leading-relaxed text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-growth focus:outline-none lg:text-[14.5px]"
                       />
                       {touched.portfolioText && errors.portfolioText && (
                         <p id="pa-text-error" role="alert" className="text-[12.5px] text-clay">

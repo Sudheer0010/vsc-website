@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState, type MouseEvent } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { computePortfolioAggregate, type PositionRow } from "@/lib/calculators/portfolio-risk";
 import { PostResultCTA } from "@/components/tools/PostResultCTA";
 
@@ -56,9 +58,9 @@ const fieldInputClass =
 const fieldWrapClass =
   "flex min-h-12 items-center gap-2 rounded-vsc-lg border border-rule bg-surface-warm px-4 py-3 transition-[border-color,box-shadow] duration-150 focus-within:border-growth focus-within:shadow-[0_0_0_3px_rgba(15,122,64,0.08)]";
 const miniInputClass =
-  "w-full min-w-0 appearance-none bg-transparent font-ui text-[13px] font-medium text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+  "w-full min-w-0 appearance-none bg-transparent font-ui text-[16px] font-medium text-ink outline-none lg:text-[13px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 const miniWrapClass =
-  "flex min-h-10 items-center gap-1.5 rounded-vsc-md border border-rule bg-surface px-2.5 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-growth focus-within:shadow-[0_0_0_3px_rgba(15,122,64,0.08)]";
+  "flex min-h-11 items-center gap-1.5 rounded-vsc-md border border-rule bg-surface px-2.5 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-growth focus-within:shadow-[0_0_0_3px_rgba(15,122,64,0.08)] lg:min-h-10";
 
 export function PortfolioRiskCalculator() {
   const [account, setAccount] = useState(EXAMPLE_ACCOUNT);
@@ -282,6 +284,10 @@ export function PortfolioRiskCalculator() {
         <div className="flex flex-col gap-2.5">
           {rows.map((row, index) => {
             const calc = rowCalcs[index];
+            const rowErrorId = `pr-row-error-${index}`;
+            const entryInvalid = Boolean(calc.error) && !(Number.parseFloat(row.entry) > 0);
+            const stopInvalid = Boolean(calc.error) && !(Number.parseFloat(row.stop) > 0);
+            const sharesInvalid = Boolean(calc.error) && !(Number.parseFloat(row.shares) > 0);
             return (
               <div
                 key={index}
@@ -333,6 +339,8 @@ export function PortfolioRiskCalculator() {
                       step="any"
                       inputMode="decimal"
                       value={row.entry}
+                      aria-invalid={entryInvalid || undefined}
+                      aria-describedby={entryInvalid ? rowErrorId : undefined}
                       onChange={(event) => updateRow(index, "entry", event.target.value)}
                     />
                   </div>
@@ -352,6 +360,8 @@ export function PortfolioRiskCalculator() {
                       step="any"
                       inputMode="decimal"
                       value={row.stop}
+                      aria-invalid={stopInvalid || undefined}
+                      aria-describedby={stopInvalid ? rowErrorId : undefined}
                       onChange={(event) => updateRow(index, "stop", event.target.value)}
                     />
                   </div>
@@ -370,6 +380,8 @@ export function PortfolioRiskCalculator() {
                       step="1"
                       inputMode="numeric"
                       value={row.shares}
+                      aria-invalid={sharesInvalid || undefined}
+                      aria-describedby={sharesInvalid ? rowErrorId : undefined}
                       onChange={(event) => updateRow(index, "shares", event.target.value)}
                     />
                   </div>
@@ -389,12 +401,16 @@ export function PortfolioRiskCalculator() {
                   type="button"
                   onClick={() => removeRow(index)}
                   aria-label={`Remove position ${index + 1}`}
-                  className="flex h-8 w-8 items-center justify-center self-start rounded-vsc-md text-[18px] text-ink-faint hover:text-clay lg:mt-[18px] lg:self-auto"
+                  className="flex h-11 w-11 items-center justify-center self-start rounded-vsc-md text-[18px] text-ink-faint hover:text-clay lg:mt-[18px] lg:h-8 lg:w-8 lg:self-auto"
                 >
                   ×
                 </button>
 
-                {calc.error && <p className="col-span-full text-[11px] text-clay">{calc.error}</p>}
+                {calc.error && (
+                  <p id={rowErrorId} className="col-span-full text-[11px] text-clay">
+                    {calc.error}
+                  </p>
+                )}
               </div>
             );
           })}
@@ -455,7 +471,32 @@ export function PortfolioRiskCalculator() {
           </div>
         )}
 
-        {activeItems.length > 0 && <PostResultCTA className="mt-5" showPortfolioCheck />}
+        {activeItems.length > 0 && (
+          <div className="mt-5 border-l-[3px] border-growth bg-surface-warm px-5 py-5 sm:px-6">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-growth">
+              DIY check complete
+            </span>
+            <h3 className="mt-2 text-[18px] font-semibold text-ink">Want a human second look?</h3>
+            <p className="mt-2 max-w-[54ch] text-[14px] leading-relaxed text-ink-muted">
+              This calculator gives you a self-serve view of your open portfolio risk. If you want more context,
+              VSC can review the portfolio across concentration, sector exposure, position sizing, liquidity and
+              downside risk.
+            </p>
+            <Link
+              href="/enquire?portfolio=1&source=portfolio-risk-calculator"
+              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-vsc-md bg-growth px-5 py-2.5 font-ui text-[14.5px] font-semibold text-white shadow-lift-growth transition-[background-color,transform] duration-200 ease-physical hover:-translate-y-0.5 hover:bg-growth-deep"
+            >
+              Get a free VSC portfolio review
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <p className="mt-2.5 text-[12px] text-ink-faint">No buy/sell calls. Just a structured second look.</p>
+          </div>
+        )}
+
+        {/* Market Letter / WhatsApp stay lower and lighter — the human-review
+            block above already owns the portfolio-check ask, so this is
+            rendered without `showPortfolioCheck` to avoid a duplicate link. */}
+        {activeItems.length > 0 && <PostResultCTA className="mt-4" />}
       </div>
     </section>
   );

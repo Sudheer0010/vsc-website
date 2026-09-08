@@ -85,7 +85,7 @@ export default function LearningHubPage() {
           </div>
 
           <h2 className="mb-10 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
-            Learning Hub Includes
+            VSC Learn Includes
           </h2>
 
           <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">

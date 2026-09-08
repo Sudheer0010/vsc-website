@@ -94,7 +94,7 @@ export const faqCategories: FAQCategory[] = [
   },
   {
     id: "learning-hub",
-    title: "Learning Hub",
+    title: "VSC Learn",
     description: "Professional trading education and systematic modules.",
     iconName: "BookOpen",
     questions: [

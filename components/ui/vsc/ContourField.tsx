@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import { buildContourField, CONTOUR_FIELD_VIEWBOX, type SafeArea } from "@/lib/contourField";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 
 /**
  * Signal Field decorative background — deterministic SVG contour lines.
@@ -66,7 +66,7 @@ export function ContourField({
   fadeFromTop = false,
   className,
 }: ContourFieldProps) {
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInViewPause(ref);
   const running = animate && !reduce && inView;

@@ -750,6 +750,8 @@ button:focus-visible,
     right: -100%;
     width: min(86vw, 380px);
     height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
     background: var(--canvas);
     z-index: 2000;
     border-left: 1px solid var(--rule);

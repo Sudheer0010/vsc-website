@@ -110,7 +110,7 @@ export function EmailCapture({ context, variant = "default", className = "" }: E
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={submitting}
-            className="h-11 min-w-0 flex-1 rounded-vsc-md border border-vsc-dark-hairline bg-vsc-dark-ink/[0.06] px-4 font-ui text-[15px] text-vsc-dark-ink placeholder:text-vsc-dark-ink-muted transition-colors duration-200 focus:border-vsc-dark-accent focus:outline-none disabled:opacity-60 sm:w-[220px] sm:flex-none"
+            className="h-11 min-w-0 flex-1 rounded-vsc-md border border-vsc-dark-hairline bg-vsc-dark-ink/[0.06] px-4 font-ui text-[16px] text-vsc-dark-ink placeholder:text-vsc-dark-ink-muted transition-colors duration-200 focus:border-vsc-dark-accent focus:outline-none disabled:opacity-60 sm:w-[220px] sm:flex-none lg:text-[15px]"
           />
           <button
             type="submit"

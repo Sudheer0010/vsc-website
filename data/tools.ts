@@ -36,7 +36,7 @@ export const coreTools: Tool[] = [
   {
     category: "Portfolio risk",
     title: "Portfolio Risk Calculator",
-    description: "See total stop-loss risk across your open positions.",
+    description: "DIY portfolio risk check. See total stop-loss risk across your open positions.",
     href: "/tools/portfolio-risk-calculator",
     span: false,
   },

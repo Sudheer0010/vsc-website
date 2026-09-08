@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 
 /**
  * The process, walked rather than listed.
@@ -62,7 +63,7 @@ const STAGES = [
 
 export function ProcessStepper() {
   const [active, setActive] = useState(0);
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
