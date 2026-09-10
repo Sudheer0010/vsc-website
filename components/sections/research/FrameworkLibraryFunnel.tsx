@@ -311,6 +311,7 @@ export function FrameworkLibraryFunnel() {
                   {isOpen && (
                     <motion.div
                       id={`fw-acc-${f.slug}`}
+                      role="region"
                       initial={reduce ? false : { height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={reduce ? undefined : { height: 0, opacity: 0 }}
