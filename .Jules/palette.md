@@ -1,0 +1,3 @@
+## 2024-05-24 - Image Lightbox Trigger Button Missing ARIA Label
+**Learning:** Any trigger button that opens a dialog or enlarged view (e.g., Image Lightbox) must have an explicit aria-label. If the button wraps contextual content like an image, the aria-label must dynamically incorporate the child content (e.g., `aria-label={`Enlarge image: ${alt}`}`) to prevent the screen reader from ignoring the original context.
+**Action:** When creating a button that wraps an image and acts as a trigger to enlarge the image, always provide an `aria-label` that includes the image `alt` text to provide context for screen reader users.
