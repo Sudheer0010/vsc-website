@@ -1,0 +1,3 @@
+## 2024-10-25 - ImageLightbox Trigger Accessibility
+**Learning:** Trigger buttons that wrap contextual content like images must dynamically incorporate the child content into an explicit `aria-label` (e.g., `aria-label={\`Enlarge image: ${alt}\`}`). Otherwise, the screen reader may ignore the original image context, and any purely decorative icons within the button must be hidden with `aria-hidden="true"`.
+**Action:** When creating wrapper buttons for interactive visual content (like lightboxes or expanders), always ensure the button textually represents both the action and the content being acted upon, while hiding decorative UI elements from the accessibility tree.
