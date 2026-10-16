@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const letterRoutes: MetadataRoute.Sitemap = sortedMonths.map((key) => ({
     url: `${BASE_URL}${letterHref(key)}`,
-    lastModified: marketLetters[key].publishedDate,
+    lastModified: marketLetters[key].revisedDate ?? marketLetters[key].publishedDate,
     changeFrequency: "yearly",
     priority: 0.7,
   }));

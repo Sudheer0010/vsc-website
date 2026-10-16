@@ -140,6 +140,7 @@ export async function generateMetadata({ params }: LetterPageProps): Promise<Met
       description,
       url: canonical,
       publishedTime: letter.publishedDate,
+      modifiedTime: letter.revisedDate ?? letter.publishedDate,
     },
   };
 }
@@ -175,7 +176,7 @@ export default async function LetterPage({ params }: LetterPageProps) {
     headline: `${monthName} ${letter.year} Market Letter`,
     description: letter.description || letter.thesis,
     datePublished: letter.publishedDate,
-    dateModified: letter.publishedDate,
+    dateModified: letter.revisedDate ?? letter.publishedDate,
     author: {
       "@type": "Person",
       name: "Sudheer Vobhilineni",

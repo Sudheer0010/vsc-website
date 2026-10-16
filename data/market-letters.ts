@@ -7,12 +7,12 @@ import { MarketLetter } from "@/types/market-letter";
  * which is how the homepage and the blog page previously ended up
  * describing two different letters as "the latest one."
  */
-export const sortedMonths = ["AUG", "JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
+export const sortedMonths = ["SEP", "AUG", "JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
 
 export const latestMonthKey = sortedMonths[0];
 
 /**
- * All eight letters (JAN–AUG) are on the full Template Spec v4 format —
+ * All nine letters (JAN–SEP) are on the full Template Spec v4 format —
  * see VSC_MARKET_LETTERS_JAN_JUL_2026_CONTENT_PACK_FINAL.md, the approved
  * editorial source for JAN–JUL; AUG onward carries its own approved
  * edition brief. `metrics`/`frameworkReview`
@@ -846,6 +846,107 @@ export const marketLetters: { [key: string]: MarketLetter } = {
         { if: "Crude gaps materially higher", then: "Protect overnight risk" },
       ],
       currentStance: "Stay defensive until structure, participation and follow-through begin confirming each other.",
+    },
+
+    sections: {},
+  },
+  SEP: {
+    letterNumber: 9,
+    publishedDate: "2026-10-02",
+    revisedDate: "2026-10-16",
+    month: "SEPTEMBER",
+    year: 2026,
+    description: "September's selloff spread across Indian equities as crude, foreign selling and weaker market structure kept VSC defensive and focused on risk control.",
+    thesis: "Weakness spread. Risk management was tested.",
+    pullQuote: "We would rather miss the first part of a recovery than take unnecessary risk trying to predict the bottom.",
+    metrics: {
+      monthlyReturn: "-0.72%",
+      tradesTaken: 3,
+      environment: "Defensive",
+    },
+    // Superseded by marketHealth/vscRead below, same as every other v4 letter.
+    frameworkReview: [],
+
+    subThesis: "September's broad selloff deepened as crude and FII pressure rose, reinforcing the importance of disciplined exposure and risk limits.",
+    regimeTagEditorial: "Elevated Risk",
+
+    marketSnapshot: [
+      { asset: "NIFTY 50", monthEnd: "22,620.45", mtdPct: -6.06, ytdPct: -13.43, read: "Broad weakness" },
+      { asset: "GOLD", monthEnd: "₹1,47,888 / 10g", mtdPct: -5.10, ytdPct: 8.12, read: "Weaker" },
+      { asset: "SILVER", monthEnd: "₹2,20,435 / kg", mtdPct: -7.07, ytdPct: -6.37, read: "Weaker" },
+      { asset: "CRUDE", monthEnd: "$103.53 / bbl", mtdPct: 14.41, ytdPct: 70.14, read: "Supply risk" },
+      { asset: "USD/INR", monthEnd: "95.9832", mtdPct: 0.86, ytdPct: 6.74, read: "INR weaker" },
+    ],
+
+    marketHealth: [
+      { factor: "Trend", current: "Weak", status: "red", vsPrev: "flat", vscRead: "Nifty slipped further" },
+      { factor: "Breadth", current: "Narrowing", status: "red", vsPrev: "down", vscRead: "Selling spread across market" },
+      { factor: "Leadership", current: "Fragmented", status: "amber", vsPrev: "down", vscRead: "No consistent leadership" },
+      { factor: "Breakout Quality", current: "Poor", status: "red", vsPrev: "flat", vscRead: "Follow-through remained weak" },
+      { factor: "Volatility", current: "Elevated", status: "amber", vsPrev: "down", vscRead: "Market swings increased" },
+    ],
+    overallEnvironment: {
+      label: "Defensive",
+      vsPrev: "flat",
+      vscRead: "Protect capital first",
+    },
+
+    netChange: "September made August's underlying weakness explicit: Nifty fell 6.06%, breadth narrowed, volatility rose and domestic buying could not reverse the trend. Exposure stayed controlled.",
+
+    whatHappened: {
+      index: {
+        headline: "Nifty's correction deepened.",
+        explanation: "Nifty fell 1,459.95 points to 22,620.45 as rebounds failed to hold, confirming continued weakness rather than the start of a convincing recovery.",
+      },
+      breadth: {
+        headline: "Selling spread to the broader market.",
+        explanation: "Midcap 100 fell 7.6% and Smallcap 100 3.4%; isolated strength could not repair breadth, making high-quality setups harder to find.",
+      },
+      leadership: {
+        headline: "Foreign selling left leadership fragmented.",
+        explanation: "FIIs sold after buying in August. DII support and record SIP contributions absorbed some pressure but did not restore sustained market momentum.",
+      },
+      flowsRisk: {
+        headline: "Crude and global yields added pressure.",
+        explanation: "Brent rose 14.4% as supply risks intensified. Higher crude and global yields pressured the rupee and made Indian equities more vulnerable.",
+      },
+    },
+
+    // No chart for September.
+
+    vscRead: {
+      opportunityUniverse: "Narrow",
+      setupQuality: "Poor",
+      riskAllocation: "Reduced",
+      tradeFrequency: "Low",
+      primaryObjective: "Preservation",
+      conclusion: "Lower prices were not enough: weak structure, narrow breadth and poor follow-through kept capital protection ahead of increasing exposure.",
+    },
+
+    playbook: {
+      exposure: "Reduced",
+      positionSize: "Below normal",
+      preferredSetup: "Clear setups with defined risk",
+      avoided: "Weak breakouts and aggressive positions",
+      triggerToIncreaseRisk: "Nifty structure and breadth improve",
+    },
+
+    monthInReview: {
+      monthlyReturn: "-0.72%",
+      trades: 3,
+      worked: "Two profitable exits showed that selective setups could still work despite the weak market.",
+      didnt: "One volatile position exceeded planned risk and outweighed the gains from the other two exits.",
+      lesson: "Winning frequency is not enough; position sizing, volatility and execution must keep each loss controlled when the broader market is weak.",
+    },
+
+    watchingNext: {
+      conditions: [
+        { if: "the rupee stabilizes and FII selling eases", then: "Seek better equity conditions" },
+        { if: "capital rotates from AI-heavy markets", then: "Watch FII participation and Nifty support" },
+        { if: "the government formally reduces LTCG or STT", then: "Treat it as a positive trigger" },
+        { if: "Nifty stabilizes and breadth improves", then: "Become gradually more constructive" },
+      ],
+      currentStance: "Defensive until possibilities become confirmed trends in price and breadth.",
     },
 
     sections: {},

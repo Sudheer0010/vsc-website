@@ -5,7 +5,6 @@ import {
   ArrowDirection,
   MarketEnvironmentValue,
 } from "@/types/market-letter";
-import { AnimatedMetric } from "@/components/ui/vsc/AnimatedMetric";
 import { formatLongDate } from "@/lib/format-date";
 
 const MONTHS_FULL = [
@@ -411,16 +410,15 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
 
       <div className="grid grid-cols-3 gap-4 border-b border-rule pb-7">
         <div className="flex flex-col items-center gap-1.5 text-center">
-          <AnimatedMetric
-            value={review.monthlyReturn}
-            className={`font-display text-2xl font-semibold sm:text-3xl ${isNegative ? "text-clay" : "text-growth"}`}
-          />
+          <span className={`font-display text-2xl font-semibold sm:text-3xl ${isNegative ? "text-clay" : "text-growth"}`}>
+            {review.monthlyReturn}
+          </span>
           <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">
             Monthly Return
           </span>
         </div>
         <div className="flex flex-col items-center gap-1.5 text-center">
-          <AnimatedMetric value={String(review.trades)} className="font-display text-2xl font-semibold text-ink sm:text-3xl" />
+          <span className="font-display text-2xl font-semibold text-ink sm:text-3xl">{review.trades}</span>
           <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">Trades</span>
         </div>
         <div className="flex flex-col items-center gap-1.5 text-center">
@@ -442,6 +440,12 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
         </span>
         <span className="h-px flex-1 bg-rule" />
       </div>
+
+      {letter.revisedDate && (
+        <p className="-mt-3 text-center text-[13px] font-medium text-clay">
+          Editorial update &middot; {formatLongDate(letter.revisedDate)}
+        </p>
+      )}
 
       <div className="mx-auto flex w-full max-w-[480px] flex-col gap-5">
         <div className="flex flex-col gap-2.5">
