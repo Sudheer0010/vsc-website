@@ -1,0 +1,3 @@
+## 2024-05-15 - ARIA Labels on Content-Wrapping Buttons
+**Learning:** When a button wraps meaningful content (like an image) and acts as a trigger (like an Image Lightbox), simply adding an `aria-haspopup="dialog"` is insufficient because screen readers might announce the image's `alt` text but miss the button's action, or miss the image context entirely if a static label is used.
+**Action:** Always provide a dynamic `aria-label` that includes both the action and the content context (e.g., `aria-label={\`Enlarge image: ${alt}\`}`) on such buttons, and ensure decorative icons inside them (like a maximize icon) are hidden from screen readers using `aria-hidden="true"`.
