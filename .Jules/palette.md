@@ -1,0 +1,3 @@
+## 2024-05-18 - Image Lightbox Context Loss
+**Learning:** When creating a wrapper button to act as an image lightbox trigger, relying solely on the child image's `alt` text causes the screen reader to only read the image description, omitting the fact that the element is an interactive trigger to enlarge it.
+**Action:** Always add an explicit `aria-label` to the wrapper button that dynamically interpolates the child image's context (e.g., `aria-label={\`Enlarge image: ${alt}\`}`) to explicitly state both the action and the content. Add `aria-hidden="true"` to any decorative helper icons (like maximize arrows) inside the trigger to reduce noise.
