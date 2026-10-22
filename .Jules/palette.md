@@ -1,0 +1,3 @@
+## 2026-10-22 - [Image Lightbox Contextual Accessibility]
+**Learning:** Wrapping an image with a button (e.g., for a click-to-enlarge lightbox) effectively hides the inner image from screen readers unless explicitly handled. If a button wraps contextual content, the `aria-label` must dynamically incorporate the child content (e.g., `aria-label={`Enlarge image: ${alt}`}`) to prevent the screen reader from ignoring the original context.
+**Action:** Always add an explicit `aria-label` to trigger buttons that open dialogs or enlarged views, and ensure it dynamically includes the wrapped element's description (like `alt` text).
