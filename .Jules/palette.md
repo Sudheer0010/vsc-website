@@ -1,0 +1,4 @@
+
+## 2026-08-15 - Dynamic ARIA Labels on Content-Wrapping Triggers
+**Learning:** When a button triggers a modal (like a Lightbox) but is fundamentally just an unstyled wrapper around visual content (like an image), screen readers need the button's `aria-label` to explicitly incorporate the inner content's meaning (e.g., the image's `alt` text). Otherwise, the context is swallowed by the generic button role, leaving the user with an unhelpful "button" or a stripped-down label that ignores what they are actually enlarging. Additionally, purely decorative UI icons inside such interactive wrappers must explicitly have `aria-hidden="true"` to prevent AT from redundantly reading icon names.
+**Action:** Always interpolate contextual identifiers into the `aria-label` of content-wrapping trigger buttons (e.g., ``aria-label={`Enlarge: ${alt}`}``) rather than using static labels, and forcefully hide accompanying decorative icons from the accessibility tree.
