@@ -1,0 +1,3 @@
+## 2026-09-29 - Image Lightbox Accessibility Pattern
+**Learning:** When a button acts as a wrapper around contextual content like an image to trigger an expanded view (e.g., Image Lightbox), the screen reader often ignores the child content if the button itself lacks context. Sighted users see the image and the magnifying glass icon and understand it's a clickable image to expand it, but screen readers may just announce "button" or the raw image path.
+**Action:** Always add an explicit, dynamic `aria-label` to the trigger button that incorporates the child content (e.g., `aria-label={\`Enlarge image: ${alt}\`}`) to preserve context, and add `aria-hidden="true"` to any purely decorative visual cues like magnifier icons inside the button.
