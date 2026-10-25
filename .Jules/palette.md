@@ -1,0 +1,3 @@
+## 2024-05-18 - Dialog Trigger Button Action Labels
+**Learning:** Any trigger button that opens a dialog or enlarged view (e.g., Image Lightbox) must have an explicit `aria-label` describing its action, rather than relying solely on child image `alt` attributes for screen reader support. Decorative icons within these buttons should be hidden with `aria-hidden="true"` to avoid redundant announcements.
+**Action:** Always verify that trigger buttons wrapping images or icons have explicit action-oriented ARIA labels (e.g., "Enlarge image: [alt text]") and that non-semantic children are hidden from screen readers.
