@@ -1,0 +1,3 @@
+## 2023-10-27 - Explicit ARIA Labels for Interactive Media Triggers
+**Learning:** When a button's primary content is an image (like a lightbox trigger), relying solely on the child image's `alt` text is insufficient for screen readers. The `alt` text describes the image content, but doesn't explain the *action* of the button (e.g., "Enlarge image"). This can confuse screen reader users about what interacting with the element will actually do.
+**Action:** Always add an explicit `aria-label` to trigger buttons that open dialogs or enlarged views (e.g., `aria-label="Enlarge image: [image description]"`). The action verb makes the interaction predictable.
