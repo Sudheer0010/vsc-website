@@ -1,0 +1,3 @@
+## 2024-05-18 - [Accessible trigger for visual expansions]
+**Learning:** When using an image as a trigger for a lightbox/dialog (where the image itself isn't a native button and relies on alt text, or the user clicks an overlay trigger), the wrapping `<button>` must have an explicit `aria-label` describing the action (e.g., 'Enlarge image: [alt]'). The screen reader needs to know what the button *does*, not just read the image's `alt` text.
+**Action:** Always provide an explicit `aria-label` on button wrappers that act as triggers for modals or enlarged views, rather than relying solely on the contents (like an image `alt` attribute) to provide context for the interactive element.
