@@ -1,0 +1,3 @@
+## 2024-05-18 - Dynamic ARIA Labels on Image Triggers
+**Learning:** When a trigger button (e.g., to open an Image Lightbox dialog) wraps contextual content like an image without inner text, screen readers may ignore the contextual image entirely or announce an empty/unhelpful button label. A static generic label (like "Enlarge image") loses the crucial context of *what* image is being enlarged.
+**Action:** Any trigger button that wraps contextual content like an image must include a dynamic `aria-label` that incorporates the child content (e.g., `aria-label={"Enlarge image: " + alt}`) to preserve context for screen reader users.
