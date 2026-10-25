@@ -1,0 +1,3 @@
+## 2024-05-18 - [Image Lightbox Accessibility]
+**Learning:** Adding an `aria-label` to an image lightbox wrapper is critical for screen reader users because it provides context. A button wrapping an image without `aria-label` will just announce the image's `alt` text, which doesn't indicate that the element is an interactive trigger to enlarge the image. Incorporating the `alt` text dynamically into the `aria-label` (e.g. \`Enlarge image: ${alt}\`) ensures both action and context are clear.
+**Action:** Always add an `aria-label` that explicitly describes the action (e.g., "Enlarge image", "Open image") when an interactive element wraps an image, specifically pulling in the `alt` text of the child image to maintain context.
