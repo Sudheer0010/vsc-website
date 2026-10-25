@@ -1,0 +1,3 @@
+## 2025-02-28 - Image Lightbox Dynamic ARIA Label
+**Learning:** Any trigger button that opens an enlarged view (like an Image Lightbox) and wraps contextual content like an image needs an explicit `aria-label`. The `aria-label` must dynamically incorporate the child content (e.g., `aria-label={"Enlarge image: ${alt}"}`) to prevent the screen reader from ignoring the original context of the image.
+**Action:** When creating or fixing button wrappers for visual content, always ensure the button's `aria-label` combines the action ("Enlarge image", "Open details") with the semantic context (the `alt` text or heading) of the wrapped content.
