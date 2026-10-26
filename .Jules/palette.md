@@ -1,0 +1,3 @@
+## 2026-10-26 - Contextual Image Lightbox Triggers
+**Learning:** Any trigger button that opens a dialog or enlarged view (e.g., Image Lightbox) and wraps contextual content like an image, must have an explicit `aria-label` that dynamically incorporates the child content (e.g., `aria-label={\`Enlarge image: ${alt}\`}`). Otherwise, the screen reader may ignore the original context. It must also have an `aria-expanded` attribute tracking its state.
+**Action:** When implementing interactive wrappers around informative content, always explicitly surface the wrapped content's meaning to screen readers via dynamic ARIA labels and state trackers.
