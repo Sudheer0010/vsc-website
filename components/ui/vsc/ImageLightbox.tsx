@@ -71,6 +71,8 @@ export function ImageLightbox({
         type="button"
         onClick={() => setIsOpen(true)}
         aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-label={`Enlarge image: ${alt}`}
         className="group relative block w-full cursor-zoom-in"
       >
         <Image src={src} alt={alt} width={width} height={height} className={className} />
