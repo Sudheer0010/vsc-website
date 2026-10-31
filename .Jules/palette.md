@@ -1,0 +1,3 @@
+## 2026-10-31 - Adding aria-labels to image trigger buttons
+**Learning:** When using interactive elements like a button to wrap contextual content like an image to open a lightbox, the screen reader loses the original context of the image. The button needs an explicit `aria-label` that dynamically incorporates the child content's alt text (e.g., `Enlarge image: ${alt}`) to maintain context.
+**Action:** Always verify that trigger buttons wrapping images explicitly combine their intent and the image's `alt` text in an `aria-label`. Additionally, include `aria-expanded` to track the state of the enlarged view.
