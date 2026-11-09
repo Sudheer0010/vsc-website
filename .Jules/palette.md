@@ -1,0 +1,3 @@
+## 2026-11-09 - Image Lightbox Accessibility
+**Learning:** Found that custom Image Lightbox components without context in `aria-label` and missing `aria-expanded` attributes impede screen reader navigation, making it difficult for users to understand what image is being enlarged and whether the dialog is open or not. Focus rings were also omitted, harming keyboard navigation.
+**Action:** Always include a dynamic `aria-label` (e.g. `aria-label={`Enlarge image: ${alt}`}`), track the toggle state with `aria-expanded`, and attach standard focus rings (e.g. `focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold/50`) to wrapper button components that open lightboxes or dialogs.
