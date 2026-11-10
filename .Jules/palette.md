@@ -1,0 +1,3 @@
+## 2026-11-10 - Image Lightbox Accessibility Improvement
+**Learning:** Interactive trigger buttons that open dialogs or lightboxes, especially when wrapping contextual content like images, must provide explicit state (`aria-expanded`) and dynamically incorporate the child content into an `aria-label`. Without this, screen readers may ignore the original context or fail to announce the button's purpose and state.
+**Action:** Always ensure that trigger buttons for expandable views use `aria-expanded` and a descriptive `aria-label` (e.g., `aria-label={\`Enlarge image: ${alt}\`}`) to preserve context and improve screen reader usability.
