@@ -1,0 +1,3 @@
+## 2026-11-11 - Dynamic Aria Labels for Interactive Content Wrappers
+**Learning:** When a button's primary purpose is to trigger an expanded state of its child content (like an `ImageLightbox`), providing a static `aria-label` or none at all fails to communicate *what* is being expanded. Screen readers may simply read "button" or attempt to read the child `alt` text without the interactive context.
+**Action:** Always provide an explicit, dynamic `aria-label` to trigger buttons that wrap contextual content, e.g., `aria-label={\`Enlarge image: ${alt}\`}` for image lightboxes, and track the `aria-expanded` state.
