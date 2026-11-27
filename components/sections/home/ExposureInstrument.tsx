@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 import { cn } from "@/lib/utils";
@@ -232,9 +233,17 @@ export function ExposureInstrument() {
         <span className="block text-ink-soft">
           Move the slider. Watch exposure respond to market risk.
         </span>
-        <span className="block text-ink-faint">
-          Illustrative framework logic &mdash; not a live portfolio.
-        </span>
+        <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
+          <span className="text-ink-faint">
+            Illustrative framework logic &mdash; not a live portfolio.
+          </span>
+          <Link
+            href="/tools"
+            className="inline-flex min-h-[44px] items-center font-semibold text-growth hover:text-growth-deep"
+          >
+            Risk tools &rarr;
+          </Link>
+        </div>
       </figcaption>
 
     </figure>

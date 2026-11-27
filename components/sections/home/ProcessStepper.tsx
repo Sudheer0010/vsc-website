@@ -104,7 +104,7 @@ export function ProcessStepper() {
         animate
         safeArea={{ x: 0.02, y: 0.14, w: 0.96, h: 0.82 }}
       />
-      <div className="container relative mx-auto max-w-[1120px]">
+      <div className="container relative mx-auto max-w-[1200px] px-6 sm:px-10">
         <Reveal className="max-w-[58ch]">
           {/* Can't reuse the shared `.eyebrow` class here: its colour is
               hardcoded to `var(--growth)` outside any Tailwind layer, so it
@@ -204,8 +204,8 @@ export function ProcessStepper() {
                 className="grid gap-6 md:grid-cols-12 md:gap-10"
               >
                 <div className="md:col-span-4">
-                  <div className="text-[13px] font-semibold uppercase tracking-wide text-vsc-dark-accent">
-                    Gate {active + 1}
+                  <div className="text-[13px] font-semibold text-vsc-dark-accent">
+                    Gate <span className="font-mono tabular-nums">{active + 1}</span>
                   </div>
                   <p className="mt-2 font-display text-[21px] font-semibold leading-tight tracking-tight text-vsc-dark-accent">
                     {stage.gate}

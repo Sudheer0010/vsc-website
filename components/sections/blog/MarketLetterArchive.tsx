@@ -3,11 +3,12 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { MarketLetter } from "@/types/market-letter";
-import { SpotlightCard } from "@/components/ui/vsc/SpotlightCard";
+import { useHydratedReducedMotion } from "@/components/ui/vsc/useHydratedReducedMotion";
 import { getReadingTime } from "@/lib/reading-time";
-import { formatLongDate } from "@/lib/format-date";
 import { letterHref } from "@/lib/letter-urls";
+import { cn } from "@/lib/utils";
 
 interface MarketLetterArchiveProps {
   sortedMonths: string[];
@@ -20,7 +21,8 @@ export function MarketLetterArchive({
   marketLetters,
   archiveHeadingRef,
 }: MarketLetterArchiveProps) {
-  // Extract all available years from market letters
+  const reduce = useHydratedReducedMotion();
+
   const years = useMemo(() => {
     const yearSet = new Set<string>();
     sortedMonths.forEach((m) => {
@@ -32,23 +34,22 @@ export function MarketLetterArchive({
 
   const [activeYear, setActiveYear] = useState<string>("ALL");
 
-  // Filter months by selected year
   const filteredMonths = useMemo(() => {
     if (activeYear === "ALL") return sortedMonths;
     return sortedMonths.filter((m) => marketLetters[m]?.year.toString() === activeYear);
   }, [sortedMonths, marketLetters, activeYear]);
 
   return (
-    <section className="py-24 border-t border-rule select-none">
+    <section className="border-t border-rule pb-10 pt-10 sm:pt-12 select-none">
       {/* Header & Horizontal Year Filter Tabs */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+      <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="max-w-[600px] text-left">
-          <span className="font-mono text-xs tracking-[0.2em] text-ink-faint uppercase mb-4 block font-semibold">
+          <span className="mb-3 block font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ink-faint">
             MONTHLY LOGS
           </span>
           <h1
             ref={archiveHeadingRef}
-            className="font-display text-3xl md:text-[38px] text-ink font-normal leading-[1.2] mb-3"
+            className="mb-3 font-display text-3xl font-normal leading-[1.2] text-ink md:text-[38px]"
           >
             Market Letter Archive
           </h1>
@@ -57,24 +58,26 @@ export function MarketLetterArchive({
           </p>
         </div>
 
-        {/* Year Category Tabs */}
         {years.length > 1 && (
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-surface border border-rule rounded-full  shrink-0">
+          <div className="flex shrink-0 flex-wrap items-center gap-1.5 rounded-full border border-rule bg-surface p-1.5">
             {years.map((yr) => {
               const isActive = activeYear === yr;
               return (
                 <button
                   key={yr}
+                  type="button"
                   onClick={() => setActiveYear(yr)}
-                  className={`relative px-4 py-1.5 font-mono text-xs transition-colors duration-200 rounded-full ${
-                    isActive ? "bg-accent-gold text-white font-semibold" : "text-ink-muted hover:text-ink"
-                  }`}
+                  className={cn(
+                    "relative rounded-full px-4 py-1.5 font-mono text-xs transition-colors duration-200",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-growth focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+                    isActive ? "font-semibold text-white" : "text-ink-muted hover:text-ink"
+                  )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="archiveYearPill"
-                      className="absolute inset-0 bg-accent-gold rounded-full z-0"
-                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                      className="absolute inset-0 z-0 rounded-full bg-growth"
+                      transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 350, damping: 28 }}
                     />
                   )}
                   <span className="relative z-10">{yr === "ALL" ? "ALL YEARS" : yr}</span>
@@ -85,62 +88,60 @@ export function MarketLetterArchive({
         )}
       </div>
 
-      {/* Horizontal Cards Grid */}
-      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        <AnimatePresence mode="popLayout">
+      {/* Cards Grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+      <div className="grid auto-rows-fr grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <AnimatePresence initial={false}>
           {filteredMonths.map((m) => {
             const letter = marketLetters[m];
             if (!letter) return null;
             const fullMonth = letter.month.charAt(0) + letter.month.slice(1).toLowerCase();
+            const paddedNumber = String(letter.letterNumber).padStart(3, "0");
 
             return (
               <motion.div
                 key={m}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+                initial={reduce ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? undefined : { opacity: 0 }}
+                transition={reduce ? { duration: 0 } : { duration: 0.18 }}
+                className="h-full"
               >
-                <Link href={letterHref(m)} className="block h-full">
-                  <SpotlightCard
-                    className="p-6 h-full flex flex-col justify-between hover:border-accent-gold/40 transition-all duration-300 group"
-                    spotlightColor="rgba(15, 122, 64, 0.12)"
-                  >
-                    <div className="flex flex-col gap-4">
-                      <div className="border-b border-rule pb-4">
-                        <span className="font-display text-xl text-ink font-medium group-hover:text-accent-gold transition-colors duration-200 block">
-                          {fullMonth} {letter.year}
-                        </span>
-                        <span className="font-mono text-[10px] text-ink-faint block mt-0.5">
-                          Letter {String(letter.letterNumber).padStart(3, "0")} · {formatLongDate(letter.publishedDate)}
-                        </span>
-                      </div>
+                <Link
+                  href={letterHref(m)}
+                  className="group flex h-full flex-col rounded-vsc-lg border border-rule bg-surface p-7 transition-[border-color,box-shadow] duration-200 hover:border-growth/40 hover:shadow-lift-1"
+                >
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-growth whitespace-nowrap">
+                      Letter {paddedNumber}
+                    </span>
+                    <span className="shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-faint">
+                      {getReadingTime(letter)} min read
+                    </span>
+                  </div>
 
-                      {/* The thesis — the idea of the month, not a truncated summary */}
-                      <p className="font-display text-[17px] font-normal leading-snug text-ink">
-                        {letter.thesis}
-                      </p>
-                    </div>
+                  <h2 className="mt-4 font-display text-[21px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep sm:text-[23px]">
+                    {fullMonth} {letter.year}
+                  </h2>
 
-                    {/* Read Trigger */}
-                    <div className="pt-4 mt-6 border-t border-rule">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-[11px] text-ink-faint">
-                          {getReadingTime(letter)} min read
-                        </span>
-                        <span className="font-mono text-xs text-accent-gold font-semibold group-hover:translate-x-1 transition-transform duration-200">
-                          Read the letter &rarr;
-                        </span>
-                      </div>
-                    </div>
-                  </SpotlightCard>
+                  <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-muted">
+                    {letter.thesis}
+                  </p>
+
+                  <div className="mt-6 border-t border-rule pt-4">
+                    <span className="inline-flex items-center gap-2 whitespace-nowrap font-mono text-[12.5px] font-semibold text-growth">
+                      Read the letter
+                      <ArrowRight
+                        className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
                 </Link>
               </motion.div>
             );
           })}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </section>
   );
 }

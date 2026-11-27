@@ -288,6 +288,145 @@ function FinalTakeaway({ data }: { data: NonNullable<ResearchNote["finalTakeaway
   );
 }
 
+function CaseStudyBlock({ data }: { data: NonNullable<ResearchNote["caseStudy"]> }) {
+  return (
+    <section className="rounded-vsc-xl border border-rule bg-canvas-sunk p-6 sm:p-8">
+      <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+        Case Study
+      </span>
+      <h2 className="mt-2 font-display text-2xl font-normal text-ink sm:text-[26px]">{data.heading}</h2>
+
+      <div className="mt-4 flex flex-col gap-3 text-[16px] leading-relaxed text-ink-soft">
+        {data.intro.map((line, i) => (
+          <p key={i}>{line}</p>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        {data.metrics.map((m) => (
+          <div key={m.name} className="rounded-vsc-lg border border-rule bg-surface p-5">
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="font-semibold text-ink">{m.name}</span>
+              <span className="font-mono text-[12px] text-ink-faint">{m.detail}</span>
+            </div>
+            <div className="mt-2 font-display text-3xl font-semibold tracking-tight text-clay">{m.drawdown}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3 text-[16px] leading-relaxed text-ink-soft">
+        {data.outro.map((line, i) => (
+          <p key={i}>{line}</p>
+        ))}
+      </div>
+
+      <blockquote className="mt-6 border-l-2 border-growth-deep pl-4 font-display text-[20px] font-medium italic leading-snug text-ink sm:text-[22px]">
+        &ldquo;{data.pullQuote}&rdquo;
+      </blockquote>
+    </section>
+  );
+}
+
+function ReferencePointsBlock({ data }: { data: NonNullable<ResearchNote["referencePoints"]> }) {
+  return (
+    <section className="flex flex-col gap-5">
+      <div>
+        <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+          Price Structure
+        </span>
+        <div className="mt-3 h-px w-full bg-rule" />
+      </div>
+
+      <div>
+        <h2 className="font-display text-2xl font-normal text-ink sm:text-[26px]">{data.heading}</h2>
+        <p className="mt-2 text-[17px] leading-relaxed text-ink-soft">{data.intro}</p>
+      </div>
+
+      <div className="grid gap-3.5 sm:grid-cols-3">
+        {data.cards.map((card) => (
+          <div key={card.title} className="flex flex-col rounded-vsc-lg border border-rule bg-surface p-5 shadow-lift-1">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-growth">
+              {card.tag}
+            </span>
+            <h3 className="mt-2 font-display text-[18px] font-semibold leading-snug text-ink">{card.title}</h3>
+            <p className="mt-2 text-[14.5px] leading-relaxed text-ink-soft">{card.body}</p>
+          </div>
+        ))}
+      </div>
+
+      {data.chart && (
+        <figure className="rounded-vsc-xl border border-rule bg-surface p-5 shadow-lift-1 sm:p-6">
+          <div className="overflow-hidden rounded-vsc-lg border border-rule bg-surface">
+            <ImageLightbox
+              src={data.chart.image}
+              alt={data.chart.alt}
+              width={data.chart.width}
+              height={data.chart.height}
+              className="mx-auto h-auto max-h-[360px] w-full object-contain"
+            />
+          </div>
+          <figcaption className="mt-4 flex flex-col gap-1.5 border-t border-rule pt-3">
+            <span className="text-[14px] font-medium text-ink-soft">{data.chart.caption}</span>
+            <span className="text-[14px] font-semibold text-growth">{data.chart.takeaway}</span>
+          </figcaption>
+        </figure>
+      )}
+    </section>
+  );
+}
+
+function RallyVsUptrendBlock({ data }: { data: NonNullable<ResearchNote["rallyVsUptrend"]> }) {
+  return (
+    <section className="flex flex-col gap-5">
+      <h2 className="font-display text-2xl font-normal text-ink sm:text-[26px]">{data.heading}</h2>
+
+      <div className="overflow-hidden rounded-vsc-xl border border-rule bg-surface">
+        <div className="grid grid-cols-2 border-b border-rule text-[12px] font-semibold uppercase tracking-[0.12em]">
+          <div className="bg-clay-tint/70 px-4 py-3 font-mono text-clay sm:px-6">{data.leftTitle}</div>
+          <div className="border-l border-rule bg-growth-wash px-4 py-3 font-mono text-growth-deep sm:px-6">
+            {data.rightTitle}
+          </div>
+        </div>
+        <div className="divide-y divide-rule">
+          {data.rows.map((row) => (
+            <div key={row.left} className="grid grid-cols-2 text-[14.5px] leading-snug sm:text-[15.5px]">
+              <div className="px-4 py-3.5 text-ink-soft sm:px-6">{row.left}</div>
+              <div className="border-l border-rule px-4 py-3.5 font-medium text-ink sm:px-6">{row.right}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="text-[16px] font-semibold text-ink">{data.takeaway}</p>
+    </section>
+  );
+}
+
+function RepairChecklistBlock({ data }: { data: NonNullable<ResearchNote["repairChecklist"]> }) {
+  return (
+    <section className="flex flex-col gap-5 rounded-vsc-xl border border-growth/25 bg-growth-wash p-6 sm:p-8">
+      <div>
+        <h2 className="font-display text-2xl font-normal text-ink sm:text-[26px]">{data.heading}</h2>
+        <p className="mt-2 text-[16px] leading-relaxed text-ink-soft">{data.intro}</p>
+      </div>
+
+      <ol className="divide-y divide-growth/15 border-y border-growth/15">
+        {data.items.map((item, i) => (
+          <li key={item} className="flex items-baseline gap-3.5 py-3 text-[15.5px] leading-snug text-ink">
+            <span className="shrink-0 font-mono text-[12px] font-semibold tabular-nums text-growth">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ol>
+
+      <p className="text-[15px] leading-relaxed text-ink-soft">{data.confirmationNote}</p>
+      <p className="text-[16px] font-semibold leading-snug text-growth-deep">{data.closing}</p>
+    </section>
+  );
+}
+
 function SourcesList({ sources }: { sources: NonNullable<ResearchNote["sources"]> }) {
   return (
     <section className="flex flex-col gap-4 border-t border-rule pt-8">
@@ -362,12 +501,20 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
         </p>
       </div>
 
-      <div className="flex flex-col gap-14 text-left">
+      <div className="flex flex-col gap-10 text-left sm:gap-12">
         {note.claim && <NoteSection label="The claim">{paragraphs(note.claim)}</NoteSection>}
 
         {note.whyItHappens && (
           <NoteSection label="Why it happens">{paragraphs(note.whyItHappens)}</NoteSection>
         )}
+
+        {note.caseStudy && <CaseStudyBlock data={note.caseStudy} />}
+
+        {note.referencePoints && <ReferencePointsBlock data={note.referencePoints} />}
+
+        {note.rallyVsUptrend && <RallyVsUptrendBlock data={note.rallyVsUptrend} />}
+
+        {note.repairChecklist && <RepairChecklistBlock data={note.repairChecklist} />}
 
         {note.styleVsInstrument && <StyleVsInstrumentBlock data={note.styleVsInstrument} />}
 
@@ -381,8 +528,8 @@ export function ResearchNoteTemplate({ note, prevNote, nextNote }: ResearchNoteT
                   <ImageLightbox
                     src={note.evidence.chartImage}
                     alt={note.evidence.chartAlt}
-                    width={1886}
-                    height={758}
+                    width={note.evidence.chartWidth ?? 1886}
+                    height={note.evidence.chartHeight ?? 758}
                     className="h-full w-full object-contain"
                   />
                 ) : (

@@ -287,6 +287,7 @@ export function FrameworkFunnelExplorer() {
             return (
               <div key={f.slug} className="border-b border-vsc-dark-hairline first:border-t">
                 <button
+                  id={`fw-acc-trigger-${f.slug}`}
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   aria-expanded={isOpen}
@@ -304,6 +305,8 @@ export function FrameworkFunnelExplorer() {
                   {isOpen && (
                     <motion.div
                       id={`fw-acc-${f.slug}`}
+                      role="region"
+                      aria-labelledby={`fw-acc-trigger-${f.slug}`}
                       initial={reduce ? false : { height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={reduce ? undefined : { height: 0, opacity: 0 }}

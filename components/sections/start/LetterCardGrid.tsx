@@ -10,13 +10,13 @@ interface LetterCardGridProps {
 }
 
 /**
- * A compact chronological list rather than a grid of cards — each row is
- * one line (number, month, title) so five letters read as one quiet scan
- * down the page instead of five boxes competing for attention.
+ * A crisp scan list of recent Market Letters inside Step 03 on /start.
+ * Uses pure Daylight Growth surface tokens, >= 44px row touch targets,
+ * and readable Instrument Sans labels with Geist Mono reserved for numerals.
  */
 export function LetterCardGrid({ monthKeys, marketLetters }: LetterCardGridProps) {
   return (
-    <ul className="divide-y divide-rule border-y border-rule">
+    <ul className="divide-y divide-rule overflow-hidden rounded-vsc-lg border border-rule bg-surface">
       {monthKeys.map((key) => {
         const letter = marketLetters[key];
         if (!letter) return null;
@@ -26,18 +26,23 @@ export function LetterCardGrid({ monthKeys, marketLetters }: LetterCardGridProps
           <li key={key}>
             <Link
               href={letterHref(key)}
-              className="group flex items-baseline gap-4 py-3.5 transition-colors duration-200"
+              className="group flex min-h-[56px] items-center gap-3.5 px-4 py-3.5 transition-colors duration-200 hover:bg-growth-wash/60 sm:gap-4 sm:px-5"
             >
-              <span className="w-9 shrink-0 font-mono text-sm font-semibold text-growth">
+              <span className="w-8 shrink-0 font-mono text-[13px] font-semibold tabular-nums text-growth sm:w-9">
                 {String(letter.letterNumber).padStart(3, "0")}
               </span>
-              <span className="w-28 shrink-0 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                {monthName} {letter.year}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-[15px] leading-snug text-ink-soft transition-colors duration-200 group-hover:text-ink">
-                {letter.thesis}
-              </span>
-              <ArrowRight className="h-3.5 w-3.5 shrink-0 text-ink-faint opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" />
+              <div className="min-w-0 flex-1 sm:flex sm:items-baseline sm:gap-4">
+                <span className="block shrink-0 text-[12.5px] font-medium text-ink-muted sm:w-28 sm:text-[13px]">
+                  {monthName} <span className="font-mono tabular-nums">{letter.year}</span>
+                </span>
+                <span className="mt-0.5 block min-w-0 flex-1 text-[15px] font-medium leading-snug text-ink transition-colors group-hover:text-growth-deep sm:mt-0">
+                  {letter.thesis}
+                </span>
+              </div>
+              <ArrowRight
+                className="h-4 w-4 shrink-0 text-growth opacity-70 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100"
+                aria-hidden="true"
+              />
             </Link>
           </li>
         );

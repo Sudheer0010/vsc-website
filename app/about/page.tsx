@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { ContourField } from "@/components/ui/vsc/ContourField";
 import { Reveal } from "@/components/ui/vsc/Reveal";
+import { StepRule } from "@/components/ui/vsc/StepRule";
 import { VSCButton } from "@/components/ui/vsc/VSCButton";
 import { BeliefSection } from "@/components/sections/home/BeliefSection";
 import { Compliance } from "@/components/sections/home/Compliance";
@@ -62,12 +63,11 @@ export default function About() {
   return (
     <main className="relative w-full bg-canvas">
       {/* ================================================================
-          1. HERO — Cinematic Signal, ported from the homepage arrival.
-          Same dark register, same ContourField seed (71) as the homepage
-          hero and Five Gates — the same signal recurring, not a lookalike,
-          so About reads as the same world from the first screen.
+          1. HERO — Atmospheric Editorial Masthead aligned with the shared
+          VSC 1200px grid, Bricolage Grotesque display face, StepRule
+          orientation bar, and the 2018–2026 chronological rail.
          ================================================================ */}
-      <section className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-20 pt-32 sm:pb-28 sm:pt-40">
+      <section className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-16 pt-28 sm:pb-20 sm:pt-32">
         <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.85} animate />
         <div
           aria-hidden="true"
@@ -77,72 +77,68 @@ export default function About() {
           }}
         />
 
-        <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
-          <div className="grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-10">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
+        <div className="relative mx-auto max-w-[1200px] px-6 sm:px-10">
+          {/* Orientation bar */}
+          <Reveal distance={8}>
+            <div className="flex items-center justify-between gap-6 border-b border-white/12 pb-4">
+              <div className="flex items-center gap-3">
+                <StepRule size="sm" />
+                <span className="text-[13px] font-semibold tracking-[0.02em] text-[#7FB999]">
                   About VSC
                 </span>
-              </Reveal>
+              </div>
+              <span className="hidden text-[13px] text-white/50 sm:inline">
+                Publishing since {earliestLetter.month.charAt(0) + earliestLetter.month.slice(1).toLowerCase()}{" "}
+                {earliestLetter.year} &middot; Capital preservation first
+              </span>
+            </div>
+          </Reveal>
 
-              <Reveal delay={0.06}>
-                <h1 className="mt-6 font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.6vw]">
+          <div className="grid gap-12 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:gap-12">
+            <div className="lg:col-span-7">
+              <Reveal delay={0.04} distance={14}>
+                <h1 className="font-display text-[clamp(2.35rem,4.3vw,3.85rem)] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4]">
                   <span className="block text-balance">Built from markets.</span>
                   <span className="block text-balance">Built to keep learning.</span>
                 </h1>
               </Reveal>
 
-              <Reveal delay={0.12}>
-                <p className="mt-8 max-w-[50ch] text-[18px] leading-relaxed text-white/60">
+              <Reveal delay={0.09} distance={10}>
+                <p className="mt-6 max-w-[48ch] text-[17px] leading-[1.65] text-[#D7E0DA]">
                   VSC Capital &amp; Advisory is a research-led markets business built around education, disciplined
                   decision-making and serious market participation.
                 </p>
               </Reveal>
 
-              <Reveal delay={0.18}>
-                <div className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-2 border-t border-white/10 pt-6">
-                  <span className="text-[15px] font-medium text-white/90">Sudheer Vobhilineni</span>
-                  <span className="text-[13px] text-white/40">Founder, VSC Capital &amp; Advisory</span>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.22}>
-                <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#7FB999]">
-                  Publishing since {earliestLetter.month.charAt(0) + earliestLetter.month.slice(1).toLowerCase()}{" "}
-                  {earliestLetter.year} · Systematic · Capital preservation first
-                </p>
-              </Reveal>
-
-              {/* Compact journey — mobile only, so the rail on the right
-                  never has to collapse awkwardly into the copy column. */}
-              <Reveal delay={0.26}>
-                <div className="mt-8 flex items-center gap-2 lg:hidden" aria-hidden="true">
-                  {researchJourney.map((step, idx) => (
-                    <React.Fragment key={step.year}>
-                      {idx > 0 && <span className="text-[11px] text-white/25">&rarr;</span>}
-                      <span className="font-mono text-[11px] tracking-[0.05em] text-[#7FB999] tabular-nums">
-                        {step.year}
-                      </span>
-                    </React.Fragment>
-                  ))}
+              <Reveal delay={0.14} distance={8}>
+                <div className="mt-7 flex flex-wrap items-baseline gap-x-3 gap-y-1.5 border-t border-white/12 pt-5">
+                  <span className="text-[15.5px] font-semibold text-[#F4F7F4]">Sudheer Vobhilineni</span>
+                  <span className="text-[13.5px] text-white/60">Founder, VSC Capital &amp; Advisory</span>
                 </div>
               </Reveal>
             </div>
 
-            {/* Research journey rail — same annotation device as the
-                previous page, restyled for the dark register. Desktop only. */}
-            <Reveal delay={0.2} className="hidden lg:col-span-5 lg:flex lg:justify-end">
-              <div className="relative shrink-0 pl-[27px]">
-                <span aria-hidden="true" className="absolute left-0 top-1 bottom-1 w-px bg-white/15" />
-                <div className="flex flex-col gap-8">
+            {/* Chronological trajectory rail — vertical on desktop, structured
+                cleanly on mobile without shrinking to micro labels. */}
+            <Reveal
+              delay={0.14}
+              distance={12}
+              className="border-t border-white/10 pt-7 lg:col-span-5 lg:border-l lg:border-t-0 lg:border-white/12 lg:pl-10 lg:pt-1"
+            >
+              <span className="mb-4 block text-[12.5px] font-medium text-white/55">Trajectory</span>
+              <div className="relative pl-6">
+                <span aria-hidden="true" className="absolute bottom-1.5 left-[3px] top-1.5 w-px bg-white/15" />
+                <div className="grid grid-cols-2 gap-x-6 gap-y-4 lg:grid-cols-1 lg:gap-y-5">
                   {researchJourney.map((step) => (
                     <div key={step.year} className="relative flex items-baseline gap-3">
-                      <span aria-hidden="true" className="absolute -left-[27px] top-[6px] h-[7px] w-[7px] rounded-full bg-[#3FCB74]" />
-                      <span className="font-mono text-[13.5px] tracking-[0.04em] text-[#7FB999] tabular-nums">
+                      <span
+                        aria-hidden="true"
+                        className="absolute -left-6 top-[7px] h-[7px] w-[7px] rounded-full bg-[#3FCB74]"
+                      />
+                      <span className="font-mono text-[13.5px] font-semibold tracking-[0.04em] text-[#7FB999] tabular-nums">
                         {step.year}
                       </span>
-                      <span className="text-[14.5px] text-white/55">{step.label}</span>
+                      <span className="text-[15px] text-[#D7E0DA]">{step.label}</span>
                     </div>
                   ))}
                 </div>

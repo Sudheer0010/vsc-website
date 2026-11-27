@@ -44,10 +44,10 @@ export function DrawdownStory() {
 
   return (
     <section id="problem" className="relative w-full overflow-hidden border-b border-rule bg-canvas-sunk py-28 sm:py-36">
-      <div className="container mx-auto max-w-[1400px] px-6 sm:px-10">
+      <div className="container mx-auto max-w-[1200px] px-6 sm:px-10">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="min-w-0 lg:col-span-4">
-            <h2 className="font-editorial text-[10vw] leading-[1.02] text-ink sm:text-[4.6vw] lg:text-[2.6vw]">
+            <h2 className="font-editorial text-[clamp(1.9rem,3.1vw,2.65rem)] leading-[1.04] text-ink">
               Everyone looks good on the way up. The difference shows on the way down.
             </h2>
             <div className="font-editorial mt-8 max-w-[40ch] [font-style:italic] text-[18px] leading-snug text-growth">

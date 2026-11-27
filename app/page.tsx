@@ -64,25 +64,22 @@ export default function Home() {
               section's own overflow-hidden, same as the field above. */}
           <div aria-hidden="true" className="vsc-hero-glow pointer-events-none absolute left-[6%] top-[12%] h-[620px] w-[620px] rounded-full" />
 
-          <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
-            <div className="grid gap-16 lg:grid-cols-12 lg:items-end lg:gap-14">
+          <div className="relative mx-auto max-w-[1200px] px-6 sm:px-10">
+            <div className="grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-12">
               <div className="lg:col-span-7">
                 <Reveal>
-                  <h1 className="font-sans text-[13vw] font-bold leading-[0.94] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[5vw]">
+                  <h1 className="font-display text-[clamp(2.35rem,5.2vw,4.35rem)] font-bold leading-[0.98] tracking-[-0.03em] text-[#F4F7F4]">
                     A smarter way to build and protect capital.
                   </h1>
+                  <p className="mt-5 max-w-[52ch] text-[17px] leading-relaxed text-[#D7E0DA]">
+                    Rules-based Indian equity swing trading &mdash; public frameworks, monthly market letters, and
+                    position-risk tools. Educational research only; no stock tips or fund management.
+                  </p>
                 </Reveal>
 
-                {/* Primary + a quiet secondary, not two equal buttons. The
-                    free portfolio check is the ask worth making before the
-                    page has proven anything — it costs the visitor nothing
-                    to find out where they stand. Research stays one tap
-                    away as understated text, not a competing button.
-                    Delayed to settle after the instrument has begun filling,
-                    so the eye reads headline → instrument → action in order
-                    instead of everything landing on the same beat. */}
-                <Reveal delay={0.26}>
-                  <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+                {/* Primary + clear secondary action with 48px touch targets. */}
+                <Reveal delay={0.22}>
+                  <div className="mt-9 flex flex-wrap items-center gap-4">
                     <VSCButton href="/enquire?portfolio=1" variant="growth">
                       <span className="inline-flex items-center gap-2">
                         Get a free portfolio strength check
@@ -91,19 +88,19 @@ export default function Home() {
                     </VSCButton>
                     <Link
                       href="/research"
-                      className="link-underline inline-flex min-h-[44px] items-center gap-1.5 text-[14.5px] font-medium text-white/55 transition-colors hover:text-[#7FB999]"
+                      className="inline-flex min-h-[48px] items-center gap-2 rounded-vsc-md border border-white/20 px-5 py-3 text-[15px] font-medium text-[#E9EFEA] transition-colors hover:border-[#7FB999] hover:text-[#7FB999]"
                     >
                       Read the research
-                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
                 </Reveal>
 
-                <Reveal delay={0.38}>
-                  <div className="mt-10 flex items-center gap-3 border-t border-white/10 pt-5">
+                <Reveal delay={0.34}>
+                  <div className="mt-9 flex items-center gap-3 border-t border-white/10 pt-5">
                     <StepRule size="sm" className="shrink-0" />
-                    <p className="max-w-[40ch] text-[14.5px] leading-snug text-white/50">
-                      (SEBI RA registration ongoing)
+                    <p className="max-w-[50ch] text-[14px] leading-snug text-white/70">
+                      SEBI RA registration ongoing &middot; Free educational review, no tips or sales pitch
                     </p>
                   </div>
                 </Reveal>
@@ -153,34 +150,37 @@ export default function Home() {
               }}
             />
           </div>
-          <div className="relative container mx-auto max-w-[1400px] px-6 sm:px-10">
+          <div className="relative container mx-auto max-w-[1200px] px-6 sm:px-10">
             <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-8">
                 <Reveal className="flex items-center gap-3">
                   <StepRule size="md" />
-                  <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
+                  <span className="text-[13px] font-semibold text-growth">
                     Not sure where to begin?
                   </span>
                 </Reveal>
                 <Reveal delay={0.05}>
-                  <h2 className="font-editorial mt-6 max-w-[14ch] text-[16vw] leading-[0.92] text-ink sm:text-[8vw] lg:text-[5.6vw]">
-                    Start here.
+                  <h2 className="font-editorial mt-5 max-w-[16ch] text-[clamp(2.2rem,4.8vw,4rem)] leading-[0.98] text-ink">
+                    See how the whole process fits together.
                   </h2>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <div className="mt-6 max-w-[52ch] text-[18px] leading-relaxed text-ink-soft">
-                    A short path through what VSC believes, how the process works, and the work behind it.
-                  </div>
+                  <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-ink-soft">
+                    A short guided path through what I believe, how the five-gate process works, and the public record behind it.
+                  </p>
                 </Reveal>
               </div>
 
               <Reveal delay={0.15} className="lg:col-span-4 lg:text-right">
-                <VSCButton href="/start" variant="growth" className="min-h-[52px] px-9 text-[17px]">
-                  Start here <span aria-hidden="true">&rarr;</span>
+                <VSCButton href="/start" variant="growth" className="min-h-[52px] px-8 text-[17px]">
+                  Take the guided tour <span aria-hidden="true">&rarr;</span>
                 </VSCButton>
-                <div className="mt-5">
-                  <Link href="/enquire" className="font-mono text-[13px] text-ink-muted hover:text-growth">
-                    Already know what you&apos;re looking for? Enquire &rarr;
+                <div className="mt-4">
+                  <Link
+                    href="/enquire"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-medium text-ink-soft transition-colors hover:text-growth"
+                  >
+                    Already know what you&apos;re looking for? Enquire <span aria-hidden="true">&rarr;</span>
                   </Link>
                 </div>
               </Reveal>

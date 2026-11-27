@@ -12,10 +12,9 @@ export function Compliance() {
   return (
     <section
       id="compliance"
-      className="relative w-full overflow-hidden border-t border-rule py-14"
-      style={{ background: "linear-gradient(to bottom, #F2F0E9 0%, #E9E6DC 60%, #0E1A14 100%)" }}
+      className="relative w-full overflow-hidden border-t border-rule bg-canvas-sunk py-14"
     >
-      <div className="relative container mx-auto max-w-[1120px] px-6 sm:px-10">
+      <div className="relative container mx-auto max-w-[1200px] px-6 sm:px-10">
         <div className="mx-auto flex max-w-[70ch] flex-col gap-3 text-center">
           <div className="text-[14px] leading-relaxed text-ink-muted">
             VSC Capital &amp; Advisory is in the process of applying for SEBI

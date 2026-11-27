@@ -39,9 +39,9 @@ export function RiskSection() {
             "radial-gradient(ellipse 70% 65% at 50% 40%, rgba(63,203,116,0.28) 0%, rgba(15,122,64,0.12) 45%, transparent 75%)",
         }}
       />
-      <div className="relative mx-auto max-w-[1400px] px-6 text-center sm:px-10">
+      <div className="relative mx-auto max-w-[1200px] px-6 text-center sm:px-10">
         <Reveal>
-          <h2 className="mx-auto max-w-[22ch] font-sans text-[11vw] font-bold leading-[0.98] tracking-[-0.03em] text-[#F4F7F4] sm:text-[6vw] lg:text-[4.4vw]">
+          <h2 className="mx-auto max-w-[22ch] font-display text-[clamp(2.1rem,4.4vw,3.85rem)] font-bold leading-[1.02] tracking-[-0.03em] text-[#F4F7F4]">
             When markets get riskier, put <span className="text-[#3FCB74]">less money at risk</span>.
           </h2>
         </Reveal>
@@ -50,9 +50,9 @@ export function RiskSection() {
           <div className="mx-auto grid max-w-[900px] gap-10 sm:grid-cols-3 sm:gap-8 sm:divide-x sm:divide-white/10">
             {RISK_PRINCIPLES.map((item) => (
               <div key={item.number} className="sm:px-6">
-                <span className="font-mono text-sm font-semibold text-[#3FCB74]">{item.number}</span>
+                <span className="font-mono text-sm font-semibold tabular-nums text-[#3FCB74]">{item.number}</span>
                 <h3 className="mt-4 text-[17px] font-semibold tracking-tight text-[#F4F7F4]">{item.title}</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-white/55">{item.body}</p>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-white/70">{item.body}</p>
               </div>
             ))}
           </div>

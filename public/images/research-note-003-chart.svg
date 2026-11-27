@@ -1,0 +1,11 @@
+<svg viewBox="0 0 180 145" width="720" height="580" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="180" height="145" fill="#FFFFFF" />
+  <path d="M8 29 H172 M8 68 H172 M8 118 H172" fill="none" stroke="#161D18" stroke-opacity="0.14" stroke-dasharray="4 4" />
+  <path d="M8 18 C49 55 80 88 112 83 S151 66 172 55" fill="none" stroke="#5B655E" stroke-width="1.6" stroke-dasharray="5 4" />
+  <path d="M8 19 L22 38 L34 30 L51 61 L62 54 L79 94" fill="none" stroke="#A34524" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M79 94 L95 69 L110 83 L129 42 L144 58 L160 20 L172 10" fill="none" stroke="#0F7A40" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+  <circle cx="110" cy="83" r="4" fill="#0F7A40" stroke="#FFFFFF" stroke-width="1.2" />
+  <path d="M113 105 L111 90" fill="none" stroke="#161D18" stroke-width="1.2" />
+  <text x="113" y="117" text-anchor="middle" font-size="10" font-weight="600" fill="#161D18">Higher low</text>
+  <text x="8" y="139" font-size="9" font-weight="500" fill="#5B655E">Higher high → higher low</text>
+</svg>

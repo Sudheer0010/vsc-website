@@ -20,13 +20,18 @@ import React from "react";
 export function OfferingsDepthMark({
   size = 44,
   active = "all",
+  tone = "light",
   className = "",
 }: {
   size?: number;
   active?: "outer" | "middle" | "inner" | "all";
+  tone?: "light" | "dark";
   className?: string;
 }) {
   const on = (ring: "outer" | "middle" | "inner") => active === "all" || active === ring;
+  const outerStroke = tone === "dark" ? "rgba(215, 224, 218, 0.72)" : "var(--ink-soft)";
+  const midStroke = tone === "dark" ? "#7FB999" : "var(--growth)";
+  const innerStroke = tone === "dark" ? "#3FCB74" : "var(--growth-deep)";
 
   return (
     <svg
@@ -41,27 +46,30 @@ export function OfferingsDepthMark({
         cy="50"
         r="44"
         fill="none"
-        stroke="var(--ink-soft)"
-        strokeWidth={on("outer") ? 3 : 1.5}
-        opacity={on("outer") ? 1 : 0.22}
+        stroke={outerStroke}
+        strokeWidth={on("outer") ? 2.75 : 1.5}
+        opacity={on("outer") ? 1 : 0.25}
+        className="transition-opacity duration-200"
       />
       <circle
         cx="50"
         cy="50"
         r="29"
         fill="none"
-        stroke="var(--growth)"
-        strokeWidth={on("middle") ? 3 : 1.5}
-        opacity={on("middle") ? 1 : 0.22}
+        stroke={midStroke}
+        strokeWidth={on("middle") ? 2.75 : 1.5}
+        opacity={on("middle") ? 1 : 0.25}
+        className="transition-opacity duration-200"
       />
       <circle
         cx="50"
         cy="50"
         r="13"
-        fill={on("inner") ? "var(--growth-deep)" : "none"}
-        stroke="var(--growth-deep)"
+        fill={on("inner") ? innerStroke : "none"}
+        stroke={innerStroke}
         strokeWidth={on("inner") ? 0 : 1.5}
-        opacity={on("inner") ? 1 : 0.22}
+        opacity={on("inner") ? 1 : 0.25}
+        className="transition-opacity duration-200"
       />
     </svg>
   );

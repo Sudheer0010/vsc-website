@@ -157,6 +157,8 @@ export interface WatchingNext {
   conditions: { if: string; then: string }[];
   /** ≤ 15 words. */
   currentStance: string;
+  /** Optional provenance note (e.g. retrospective outlook reconstruction). */
+  outlookNote?: string;
 }
 
 /**

@@ -29,6 +29,8 @@ export interface ResearchNote {
   evidence?: {
     chartImage?: string;
     chartAlt: string;
+    chartWidth?: number;
+    chartHeight?: number;
     /** Short identifying text shown inside the placeholder until chartImage is set. */
     chartPlaceholderLabel: string[];
     /** Leads with "Exhibit N — ...", ends with the disclaimer as its own paragraph. */
@@ -95,6 +97,40 @@ export interface ResearchNote {
     avoidQuestion: string;
     askQuestion: string;
     closing: string[];
+  };
+  caseStudy?: {
+    heading: string;
+    intro: string[];
+    metrics: { name: string; drawdown: string; detail: string }[];
+    outro: string[];
+    pullQuote: string;
+  };
+  referencePoints?: {
+    heading: string;
+    intro: string;
+    cards: { tag: string; title: string; body: string }[];
+    chart?: {
+      image: string;
+      alt: string;
+      width: number;
+      height: number;
+      caption: string;
+      takeaway: string;
+    };
+  };
+  rallyVsUptrend?: {
+    heading: string;
+    leftTitle: string;
+    rightTitle: string;
+    rows: { left: string; right: string }[];
+    takeaway: string;
+  };
+  repairChecklist?: {
+    heading: string;
+    intro: string;
+    items: string[];
+    confirmationNote: string;
+    closing: string;
   };
   sources?: { title: string; author: string; href: string }[];
 
@@ -342,6 +378,124 @@ export const researchNotes: ResearchNote[] = [
       title: "Find Your Trading Style. Don't Copy Someone Else's. | VSC Capital & Advisory",
       description:
         "Most traders copy the style of someone whose results they want. A practical way to test whether intraday, swing trading or another approach actually fits the way you make decisions.",
+    },
+  },
+  {
+    number: "003",
+    slug: "lower-price-not-opportunity",
+    category: "TREND BEHAVIOUR",
+    title: "A Lower Price Is Not Always an Opportunity.",
+    subtitle: "How to distinguish a normal pullback from a damaged trend before committing capital.",
+    publishedDate: "November 2026",
+    readingTime: "4 min read",
+    thesis: "The first bounce after a breakdown is something to study, not something to chase.",
+    emailHook:
+      "When a hot market theme corrects 25%–40%, the first sharp bounce looks like a discount. Here is how to tell a damaged trend from genuine repair.",
+
+    openingParagraphs: [
+      "When you miss a major market theme, it is natural to wait for another way in. AI infrastructure, data centres, capital markets, wires and cables — there is always a theme that rallied significantly while you remained on the sidelines.",
+      "Then comes the first meaningful correction. A stock that looked expensive a few weeks ago suddenly looks cheap, and it becomes tempting to focus on how much it has fallen rather than how it is behaving.",
+      "But what if the market is not offering a discount — what if it is reassessing the business? I may not yet know what is driving the weakness, yet price behaviour gives an early reason to become cautious.",
+    ],
+
+    caseStudy: {
+      heading: "A recent example — wires and cables",
+      intro: [
+        "The Indian wires and cables sector enjoyed strong investor interest, supported by infrastructure spending, electrification and data centre demand. When these stocks initially corrected, it was tempting to treat the decline as a normal pullback within a larger uptrend.",
+      ],
+      metrics: [
+        { name: "Polycab", drawdown: "−27%", detail: "Below 52W high · 26 Nov 2026" },
+        { name: "KEI Industries", drawdown: "−39%", detail: "Below 52W high · 26 Nov 2026" },
+      ],
+      outro: [
+        "During the correction, concerns around emerging competition, product price reductions and inventory losses from falling copper prices became more visible.",
+        "The long-term industry opportunity may still exist, but the conditions for a swing trade had changed.",
+      ],
+      pullQuote: "A promising business does not automatically make a good trading setup.",
+    },
+
+    referencePoints: {
+      heading: "What I look for in the price",
+      intro: "I use moving averages and post-bounce behaviour as reference points to judge the extent of technical damage:",
+      cards: [
+        {
+          tag: "Short-term trend",
+          title: "21-day EMA",
+          body: "Does the stock respect its short-term average during a pullback, or break below it and repeatedly fail to reclaim it?",
+        },
+        {
+          tag: "Larger trend",
+          title: "200-day EMA",
+          body: "A sustained breakdown below this average warrants greater caution. Rebuilding structure takes considerably more time.",
+        },
+        {
+          tag: "Observation",
+          title: "The first bounce",
+          body: "Wait to see what follows a sharp rebound: does the next pullback hold a higher low with sustained buying pressure?",
+        },
+      ],
+      chart: {
+        image: "/images/research-note-003-chart.svg",
+        alt: "Schematic price diagram comparing lower highs during a breakdown against a declining moving average and a higher-low trend repair",
+        width: 720,
+        height: 580,
+        caption: "Schematic structure — damaged trend (lower highs) transitioning into repair only after reclaiming the moving average and holding a higher low.",
+        takeaway: "The size of the first bounce matters less than whether the next pullback forms a higher low.",
+      },
+    },
+
+    rallyVsUptrend: {
+      heading: "Countertrend rally or genuine recovery?",
+      leftTitle: "Countertrend rally",
+      rightTitle: "Developing uptrend",
+      rows: [
+        { left: "Fails at declining moving averages", right: "Reclaims and holds key averages" },
+        { left: "Buying volume fades", right: "Buying volume strengthens" },
+        { left: "Narrow sector participation", right: "Broader participation improves" },
+        { left: "Continues forming lower highs", right: "Begins forming higher highs" },
+        { left: "Subsequent pullback breaks lows", right: "Subsequent pullback holds higher" },
+      ],
+      takeaway: "The size of the bounce matters less than what the price does afterwards.",
+    },
+
+    repairChecklist: {
+      heading: "When I become interested again",
+      intro: "After a significant correction, I wait for visible evidence of structural repair:",
+      items: [
+        "Selling pressure begins to ease.",
+        "Price stabilises and builds a recognizable base.",
+        "Key moving averages are reclaimed and respected.",
+        "Relative strength improves against the broader market.",
+        "A clear setup emerges with definable downside risk.",
+      ],
+      confirmationNote:
+        "At the broader market level, improving breadth and a follow-through day can provide additional confirmation.",
+      closing: "I do not need to buy at the lowest price. I need a setup that offers a reasonable opportunity relative to the risk involved.",
+    },
+
+    whatItDoesntTellYou: [
+      "Moving averages are lagging indicators. A stock can briefly break below its 21-day EMA and recover, or reclaim its 200-day EMA and subsequently fail.",
+      "Waiting for confirmation means accepting that I may miss the initial part of a recovery. For my style of swing trading, that is an acceptable trade-off.",
+      "The objective is not to predict the bottom. It is to participate in a meaningful portion of a sustained move while keeping the downside manageable.",
+    ],
+
+    finalTakeaway: {
+      avoidQuestion: "How much has this stock fallen?",
+      askQuestion: "Has the stock given me a reason to participate again?",
+      closing: ["A lower price gets my attention.", "An improving trend earns my capital."],
+    },
+
+    whereItFeeds: {
+      frameworkLabel: "Framework 03 — Setup Grading",
+      frameworkHref: "/frameworks/setup-grading",
+      description:
+        "A sharp discount alone never earns an A-grade setup — structure, trend alignment and a definable stop still have to confirm.",
+    },
+
+    seo: {
+      title: "A Lower Price Is Not Always an Opportunity — Trading Insight 003 | VSC Capital & Advisory",
+      description:
+        "How to distinguish a normal pullback from a damaged trend before committing capital, using the 21-day EMA, 200-day EMA, and higher-low structure.",
     },
   },
 ];

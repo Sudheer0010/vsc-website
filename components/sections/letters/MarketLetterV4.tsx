@@ -117,10 +117,13 @@ function MonthInGlance({ letter, readTime }: { letter: MarketLetter; readTime: n
   const monthName = toTitleCase(letter.month);
   const paddedNumber = String(letter.letterNumber).padStart(3, "0");
   const regime = letter.overallEnvironment!.label;
-  const tag3 = `${letter.playbook!.exposure.toUpperCase()} EXPOSURE`;
+  const exposureNorm = letter.playbook!.exposure.trim();
+  const tag3 = /exposure$/i.test(exposureNorm)
+    ? exposureNorm.toUpperCase()
+    : `${exposureNorm.toUpperCase()} EXPOSURE`;
 
-  const metaParts: string[] = [`Letter ${paddedNumber}`];
-  metaParts.push(letter.dataThrough ? `Data through ${formatLongDate(letter.dataThrough)}` : `Published ${formatLongDate(letter.publishedDate)}`);
+  const metaParts: string[] = [`Letter ${paddedNumber}`, `Published ${formatLongDate(letter.publishedDate)}`];
+  if (letter.dataThrough) metaParts.push(`Data through ${formatLongDate(letter.dataThrough)}`);
   if (letter.revisedDate) metaParts.push(`Revised ${formatLongDate(letter.revisedDate)}`);
   metaParts.push(`${readTime} min read`);
 
@@ -362,8 +365,16 @@ function VscViewZone({ letter }: { letter: MarketLetter }) {
   const playbook = letter.playbook!;
   const regime = letter.overallEnvironment!.label;
 
+  const exposureNorm = playbook.exposure.trim();
+  const exposureText = /exposure$/i.test(exposureNorm) ? exposureNorm : `${exposureNorm} exposure`;
+  const sizingNorm = playbook.positionSize.trim();
+  const positioningValue =
+    sizingNorm.toLowerCase() === "none" || sizingNorm === "0%"
+      ? exposureText
+      : `${exposureText} · ${sizingNorm.split(/\s+/).join("-")} sizing`;
+
   const actionRows: [string, string][] = [
-    ["Positioning", `${playbook.exposure} exposure · ${playbook.positionSize.trim().split(/\s+/).join("-")} sizing`],
+    ["Positioning", positioningValue],
     ["Preferred", playbook.preferredSetup],
     ["Avoid", playbook.avoided],
     ["Increase risk when", playbook.triggerToIncreaseRisk.replace(/\s+and\s+/gi, " + ")],
@@ -402,7 +413,10 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
   const review = letter.monthInReview!;
   const watching = letter.watchingNext!;
   const monthName = toTitleCase(letter.month);
-  const isNegative = review.monthlyReturn.trim().startsWith("-");
+  const trimmedReturn = review.monthlyReturn.trim();
+  const isNegative = trimmedReturn.startsWith("-");
+  const isZero = /^0(\.0+)?%$/.test(trimmedReturn);
+  const returnColorClass = isNegative ? "text-clay" : isZero ? "text-ink" : "text-growth";
 
   return (
     <section className="flex flex-col gap-7">
@@ -410,7 +424,7 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
 
       <div className="grid grid-cols-3 gap-4 border-b border-rule pb-7">
         <div className="flex flex-col items-center gap-1.5 text-center">
-          <span className={`font-display text-2xl font-semibold sm:text-3xl ${isNegative ? "text-clay" : "text-growth"}`}>
+          <span className={`font-display text-2xl font-semibold sm:text-3xl ${returnColorClass}`}>
             {review.monthlyReturn}
           </span>
           <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-faint">
@@ -444,6 +458,12 @@ function MonthAndNextZone({ letter }: { letter: MarketLetter }) {
       {letter.revisedDate && (
         <p className="-mt-3 text-center text-[13px] font-medium text-clay">
           Editorial update &middot; {formatLongDate(letter.revisedDate)}
+        </p>
+      )}
+
+      {watching.outlookNote && (
+        <p className="-mt-3 text-center text-[13px] text-ink-muted">
+          {watching.outlookNote}
         </p>
       )}
 

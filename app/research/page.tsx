@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { ContourField } from "@/components/ui/vsc/ContourField";
-import { Exhibit } from "@/components/ui/vsc/Exhibit";
 import { Reveal } from "@/components/ui/vsc/Reveal";
 import { StepRule } from "@/components/ui/vsc/StepRule";
 import { EmailCapture } from "@/components/ui/vsc/EmailCapture";
@@ -10,7 +9,6 @@ import {
   marketLetters,
   sortedMonths,
   researchNotes,
-  frameworkLibrary,
   books,
   annualLetters,
   talks,
@@ -22,6 +20,7 @@ import { letterHref } from "@/lib/letter-urls";
 import { toolCount } from "@/data/tools";
 import { FrameworkLibraryFunnel } from "@/components/sections/research/FrameworkLibraryFunnel";
 import { ContentsRail } from "@/components/sections/research/ResearchContentsRail";
+import { LetterDeck, type LetterDeckItem } from "@/components/sections/research/LetterDeck";
 
 /**
  * Research — Reading Desk.
@@ -52,144 +51,118 @@ function monthName(month: string) {
 }
 
 export default function ResearchHub() {
-  const latestMonthKey = sortedMonths[0];
-  const featuredLetter = marketLetters[latestMonthKey];
-  const archiveMonths = sortedMonths.slice(1);
-  const latestNote = researchNotes[researchNotes.length - 1];
+  const letterDeckItems: LetterDeckItem[] = sortedMonths
+    .slice(0, 5)
+    .flatMap((key, index) => {
+      const letter = marketLetters[key];
+      if (!letter) return [];
+      return [
+        {
+          key,
+          letterNumber: letter.letterNumber,
+          paddedNumber: String(letter.letterNumber).padStart(3, "0"),
+          monthName: monthName(letter.month),
+          year: letter.year,
+          thesis: letter.thesis,
+          excerpt: letter.pullQuote ?? letter.thesis,
+          formattedDate: formatLongDate(letter.publishedDate),
+          readTime: getReadingTime(letter),
+          href: letterHref(key),
+          isLatest: index === 0,
+        },
+      ];
+    });
 
-  const lettersCount = sortedMonths.length;
-  const notesCount = researchNotes.length;
-  const frameworksCount = frameworkLibrary.length;
+  const latestInsights = researchNotes.slice(-3).reverse();
+  const leadInsight = latestInsights[0];
+  const secondaryInsights = latestInsights.slice(1);
   const readingCount = books.length + annualLetters.length + talks.length;
 
   return (
     <main className="relative w-full bg-canvas">
       {/* ================================================================
-          1. MASTHEAD — Cinematic Signal, same dark register and
-          ContourField seed (71) as the homepage/About/Offerings heroes.
-          Replaces the previous hero's headline + statistics-card pair:
-          the left states what this page is, the right is a real "current
-          issue" index (Exhibit 01) — the newest Letter, the newest Insight
-          and the Framework Library, each a real link — with the four
-          previous stats demoted to a footer line rather than the visual
-          centerpiece.
+          1. EDITORIAL MASTHEAD — asymmetric, type-led periodical header.
+          Full-width dark forest ink canvas with Signal contour lines,
+          a top colophon hairline punctuated by the VSC StepRule, a
+          dominant Bricolage Grotesque display statement + italic serif
+          thesis on the left, and a restrained marginalia manifesto +
+          hairline editorial actions on the right.
          ================================================================ */}
-      <section className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-20 pt-32 sm:pb-28 sm:pt-40">
-        <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.85} animate />
+      <section className="relative w-full overflow-hidden border-b border-white/10 bg-[#080F0B] pb-14 pt-28 sm:pb-16 sm:pt-32">
+        <ContourField seed={71} layers={3} density={10} strokeColor="#7FB999" baseOpacity={0.82} animate />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse 60% 55% at 75% 22%, rgba(63,203,116,0.18) 0%, transparent 68%)",
+            background: "radial-gradient(ellipse 58% 60% at 78% 18%, rgba(63,203,116,0.17) 0%, transparent 68%)",
           }}
         />
 
-        <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10">
-          <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7FB999]">
+        <div className="relative mx-auto max-w-[1200px] px-6 sm:px-10">
+          {/* Masthead colophon bar */}
+          <Reveal distance={8}>
+            <div className="flex items-center justify-between gap-6 border-b border-white/12 pb-4">
+              <div className="flex items-center gap-3">
+                <StepRule size="sm" />
+                <span className="text-[13px] font-semibold tracking-[0.02em] text-[#7FB999]">
                   The Research Journal
                 </span>
-              </Reveal>
+              </div>
+              <span className="hidden text-[13px] text-white/50 sm:inline">
+                Process over prediction &middot; Published unedited
+              </span>
+            </div>
+          </Reveal>
 
-              <Reveal delay={0.06}>
-                <h1 className="mt-6 max-w-[15ch] font-sans text-[12vw] font-bold leading-[0.96] tracking-[-0.03em] text-[#F4F7F4] sm:text-[7vw] lg:text-[4.4vw]">
-                  Where VSC thinks in public.
+          {/* Main asymmetric masthead composition */}
+          <div className="grid gap-8 pt-8 sm:pt-10 lg:grid-cols-12 lg:items-end lg:gap-12">
+            <div className="lg:col-span-8">
+              <Reveal delay={0.05} distance={14}>
+                <h1 className="font-display text-[clamp(2.45rem,4.7vw,4.3rem)] font-bold leading-[0.95] tracking-[-0.035em] text-[#F4F7F4]">
+                  Where VSC thinks
+                  <span className="block">in public.</span>
                 </h1>
               </Reveal>
 
-              <Reveal delay={0.12}>
-                <blockquote className="font-editorial mt-8 max-w-[40ch] text-[20px] leading-snug text-[#7FB999] [font-style:italic] sm:text-[23px]">
+              <Reveal delay={0.11} distance={10}>
+                <blockquote className="font-editorial mt-6 max-w-[38ch] text-[20px] leading-snug text-[#7FB999] [font-style:italic] sm:text-[24px]">
                   &ldquo;We don&apos;t publish news. We publish thinking.&rdquo;
                 </blockquote>
               </Reveal>
-
-              <Reveal delay={0.17}>
-                <p className="mt-7 max-w-[52ch] text-[17px] leading-relaxed text-white/60">
-                  Market letters, trading insights and the frameworks behind them — published as they&apos;re used,
-                  not rewritten after the fact.
-                </p>
-              </Reveal>
-
-              <Reveal delay={0.22}>
-                <div className="mt-8">
-                  <Link
-                    href="/start"
-                    className="group inline-flex min-h-[44px] items-center gap-2 font-mono text-[13px] text-white/45 transition-colors duration-200 hover:text-[#7FB999]"
-                  >
-                    New to VSC? Start here
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                  </Link>
-                </div>
-              </Reveal>
             </div>
 
-            {/* --- Exhibit 01 · Current issue — light panel, dark field,
-                same deliberate-contrast device as the Offerings/homepage
-                hero exhibits: a light analytical card floating on the
-                dark ContourField, not a card matching the dark bg. ------ */}
-            <Reveal delay={0.18} distance={20} className="lg:col-span-5">
-              <Exhibit
-                number={1}
-                label="Current issue"
-                className="mx-auto w-full max-w-[440px] rounded-vsc-xl border border-rule bg-surface p-6 shadow-lift-2 sm:p-8 lg:ml-auto lg:mr-0"
-              >
-                <div className="divide-y divide-rule">
-                  {featuredLetter && (
-                    <Link href={letterHref(latestMonthKey)} className="group block pb-5">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-growth">
-                        Market Letter {String(featuredLetter.letterNumber).padStart(3, "0")}
-                      </span>
-                      <p className="mt-2 font-display text-[17px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep">
-                        {monthName(featuredLetter.month)} {featuredLetter.year} — {featuredLetter.thesis}
-                      </p>
-                      <span className="mt-2.5 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-growth">
-                        Read the letter
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                      </span>
-                    </Link>
-                  )}
+            <Reveal
+              delay={0.14}
+              distance={12}
+              className="border-t border-white/10 pt-6 lg:col-span-4 lg:border-l lg:border-t-0 lg:border-white/12 lg:pl-8 lg:pt-1"
+            >
+              <p className="max-w-[34ch] text-[16px] leading-relaxed text-white/75">
+                Public frameworks, unedited monthly records and decision tools &mdash; documented in real time, before
+                outcomes are known.
+              </p>
 
-                  {latestNote && (
-                    <Link href={`/research/notes/${latestNote.slug}`} className="group block py-5">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
-                        Trading Insight {latestNote.number}
-                      </span>
-                      <p className="mt-2 font-display text-[17px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep">
-                        {latestNote.title}
-                      </p>
-                      <span className="mt-2.5 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-ink-muted transition-colors duration-200 group-hover:text-growth">
-                        Read the insight
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                      </span>
-                    </Link>
-                  )}
-
-                  <Link href="#framework-library" className="group block pt-5">
-                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
-                      Framework Library
-                    </span>
-                    <p className="mt-2 font-display text-[17px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep">
-                      Five questions. One decision process.
-                    </p>
-                    <span className="mt-2.5 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-ink-muted transition-colors duration-200 group-hover:text-growth">
-                      Browse the library
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                  </Link>
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-rule pt-4 font-mono text-[11px] text-ink-faint">
-                  <span>{lettersCount} letters</span>
-                  <span aria-hidden="true">&middot;</span>
-                  <span>{notesCount} insights</span>
-                  <span aria-hidden="true">&middot;</span>
-                  <span>{frameworksCount} frameworks</span>
-                  <span aria-hidden="true">&middot;</span>
-                  <span>{readingCount} readings</span>
-                </div>
-              </Exhibit>
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+                <a
+                  href="#letters"
+                  className="group inline-flex min-h-[44px] items-center gap-2.5 border-b border-[#7FB999]/65 pb-1 font-ui text-[15px] font-semibold text-[#F4F7F4] transition-colors duration-200 hover:border-[#7FB999] hover:text-[#7FB999]"
+                >
+                  Explore research
+                  <ArrowDown
+                    className="h-4 w-4 text-[#7FB999] transition-transform duration-200 group-hover:translate-y-0.5 motion-reduce:transition-none"
+                    aria-hidden="true"
+                  />
+                </a>
+                <Link
+                  href="/start"
+                  className="group inline-flex min-h-[44px] items-center gap-2 pb-1 text-[14.5px] font-medium text-white/75 transition-colors duration-200 hover:text-[#7FB999]"
+                >
+                  New to VSC? Start here
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </div>
             </Reveal>
           </div>
         </div>
@@ -200,172 +173,165 @@ export default function ResearchHub() {
           spring-driven active marker (scrollspy) so a reader always knows
           which chapter of the journal they're currently in.
          ================================================================ */}
-      <section className="relative w-full border-b border-rule bg-canvas py-6">
-        <div className="mx-auto max-w-[1400px] px-6 sm:px-10">
+      <section className="relative w-full border-b border-rule bg-canvas py-4 sm:py-5">
+        <div className="mx-auto max-w-[1200px] px-6 sm:px-10">
           <ContentsRail />
         </div>
       </section>
 
       {/* ================================================================
-          3. MARKET LETTERS — the current issue as a masthead spread (not
-          a card matching the archive rows below it), then the rest of the
-          archive as a scannable ledger: issue number, month, thesis,
-          reading time. Real dates via formatLongDate, real reading times
-          via getReadingTime.
+          3. MARKET LETTERS — The Letter Deck: ~60:40 split pairing the
+          featured letter preview on the left with a tactile wallet stack
+          of the latest five editions on the right. Height stays fixed.
          ================================================================ */}
-      <section id="letters" className="relative w-full scroll-mt-24 border-b border-rule bg-canvas py-24 sm:py-32">
+      <section id="letters" className="relative w-full scroll-mt-24 border-b border-rule bg-canvas py-10 sm:py-11">
         <div className="mx-auto max-w-[1200px] px-6 sm:px-10">
-          <Reveal className="flex flex-wrap items-end justify-between gap-6 border-b border-rule pb-8">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-4">
             <div>
               <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
                 Time-bound — what we observed
               </span>
-              <h2 className="font-editorial mt-4 text-[11vw] leading-[1.05] text-ink [font-style:italic] sm:text-[5.5vw] lg:text-[2.8vw]">
+              <h2 className="font-editorial mt-2 text-[clamp(1.85rem,2.8vw,2.5rem)] leading-[1.05] text-ink [font-style:italic]">
                 Market Letters
               </h2>
             </div>
             <Link
               href="/letters"
-              className="inline-flex shrink-0 items-center gap-2 font-mono text-[13px] font-semibold text-growth"
+              className="inline-flex min-h-[44px] shrink-0 items-center gap-2 font-mono text-[13px] font-semibold text-growth transition-colors hover:text-growth-deep"
             >
               Full archive
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Reveal>
 
-          {featuredLetter && (
-            <Reveal delay={0.06} className="mt-14 sm:mt-16">
-              <Link
-                href={letterHref(latestMonthKey)}
-                className="group relative block overflow-hidden rounded-vsc-xl border border-rule bg-surface-warm px-7 py-10 shadow-lift-1 transition-shadow duration-200 hover:shadow-lift-2 sm:px-12 sm:py-14"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -bottom-10 -right-4 select-none font-display font-bold leading-none text-growth/[0.07]"
-                  style={{ fontSize: "clamp(180px, 22vw, 280px)" }}
-                >
-                  {String(featuredLetter.letterNumber).padStart(3, "0")}
-                </span>
-
-                <div className="relative flex max-w-[680px] flex-col gap-5">
-                  <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.12em] text-growth">
-                    Current issue &middot; Letter {String(featuredLetter.letterNumber).padStart(3, "0")}
-                  </span>
-                  <h3 className="font-display text-[13vw] font-semibold leading-[1.05] tracking-tight text-ink sm:text-[6vw] lg:text-[2.6vw]">
-                    {monthName(featuredLetter.month)} {featuredLetter.year}
-                  </h3>
-                  <p className="font-editorial max-w-[54ch] text-[21px] leading-snug text-ink [font-style:italic] sm:text-[24px]">
-                    {featuredLetter.pullQuote ?? featuredLetter.thesis}
-                  </p>
-                  <span className="font-mono text-[12.5px] text-ink-muted">
-                    Sudheer Vobhilineni &middot; {formatLongDate(featuredLetter.publishedDate)} &middot;{" "}
-                    {getReadingTime(featuredLetter)} min read
-                  </span>
-                  <span className="mt-1 inline-flex w-fit items-center gap-2 font-mono text-[13px] font-semibold text-growth">
-                    Read the letter
-                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          )}
-
-          <Reveal delay={0.1} className="mt-14 sm:mt-16">
-            <div className="mb-3 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.08em] text-ink-faint">
-              <span>Archive</span>
-              <span className="hidden sm:inline">Issue &middot; Thesis &middot; Read time</span>
-            </div>
-            <div className="divide-y divide-rule border-t border-rule">
-              {archiveMonths.map((m) => {
-                const letter = marketLetters[m];
-                if (!letter) return null;
-                return (
-                  <Link
-                    key={m}
-                    href={letterHref(m)}
-                    className="group grid grid-cols-1 gap-1.5 py-5 sm:grid-cols-[150px_1fr_70px] sm:items-baseline sm:gap-6"
-                  >
-                    <span className="font-mono text-[12.5px] tabular-nums text-ink-faint">
-                      {String(letter.letterNumber).padStart(3, "0")} &middot; {monthName(letter.month)} {letter.year}
-                    </span>
-                    <span className="text-[16px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep">
-                      {letter.thesis}
-                    </span>
-                    <span className="font-mono text-[12px] text-ink-faint sm:text-right">
-                      {getReadingTime(letter)} min
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+          <Reveal delay={0.05} className="mt-5">
+            <LetterDeck items={letterDeckItems} />
           </Reveal>
         </div>
       </section>
 
       {/* ================================================================
-          4. TRADING INSIGHTS — a distinct texture from the Letters ledger:
-          bordered index cards on a sunk-canvas chapter, sized for shorter,
-          more tactical pieces. Both real notes, newest first.
+          4. TRADING INSIGHTS — asymmetric editorial presentation: latest
+          insight featured prominently on the left, paired with a compact
+          ruled index of the next two insights on the right (capped at 3
+          total previews, with full archive always accessible in header).
          ================================================================ */}
       <section
         id="trading-insights"
-        className="relative w-full scroll-mt-24 border-b border-rule bg-canvas-sunk py-24 sm:py-32"
+        className="relative w-full scroll-mt-24 border-b border-rule bg-canvas-sunk py-14 sm:py-16"
       >
         <div className="mx-auto max-w-[1200px] px-6 sm:px-10">
-          <Reveal>
-            <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
-              Time-bound — what we observed
-            </span>
-            <h2 className="font-editorial mt-4 max-w-[16ch] text-[11vw] leading-[1.05] text-ink [font-style:italic] sm:text-[5.5vw] lg:text-[2.8vw]">
-              Trading Insights
-            </h2>
-            <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-ink-soft">
-              Ideas from the market, distilled into something useful — shorter and more tactical than a Market
-              Letter.
-            </p>
-          </Reveal>
-
-          <div className="mt-14 grid gap-5 sm:mt-16 sm:grid-cols-2">
-            {researchNotes
-              .slice()
-              .reverse()
-              .map((note, i) => (
-                <Reveal key={note.slug} delay={i * 0.06}>
-                  <Link
-                    href={`/research/notes/${note.slug}`}
-                    className="group flex h-full flex-col rounded-vsc-lg border border-rule bg-surface p-7 transition-[border-color,box-shadow] duration-200 hover:border-growth/40 hover:shadow-lift-1 sm:p-8"
-                  >
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-growth">
-                        Insight {note.number}
-                      </span>
-                      <span className="font-mono text-[11px] text-ink-faint">{note.readingTime}</span>
-                    </div>
-                    <span className="mt-4 font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink-faint">
-                      {note.category}
-                    </span>
-                    <h3 className="mt-2 font-display text-[21px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep sm:text-[23px]">
-                      {note.title}
-                    </h3>
-                    <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-muted">{note.subtitle}</p>
-                    <span className="mt-6 inline-flex items-center gap-2 font-mono text-[12.5px] font-semibold text-growth">
-                      Read insight
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
-          </div>
-
-          <Reveal delay={0.14} className="mt-8 text-right">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-5">
+            <div>
+              <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-growth">
+                Time-bound — what we observed
+              </span>
+              <h2 className="font-editorial mt-2 text-[clamp(1.85rem,2.8vw,2.5rem)] leading-[1.05] text-ink [font-style:italic]">
+                Trading Insights
+              </h2>
+              <p className="mt-2 max-w-[56ch] text-[15px] leading-relaxed text-ink-soft">
+                Ideas from the market, distilled into something useful &mdash; shorter and more tactical than a Market
+                Letter.
+              </p>
+            </div>
             <Link
               href="/research/notes"
-              className="inline-flex items-center gap-2 font-mono text-[13px] font-semibold text-growth"
+              className="inline-flex min-h-[44px] shrink-0 items-center gap-2 font-mono text-[13px] font-semibold text-growth transition-colors hover:text-growth-deep"
             >
               Browse all Trading Insights
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Reveal>
+
+          {leadInsight && (
+            <div className="mt-6 grid gap-5 lg:grid-cols-12 lg:items-stretch">
+              <Reveal className={secondaryInsights.length > 0 ? "lg:col-span-7" : "lg:col-span-12"}>
+                <Link
+                  href={`/research/notes/${leadInsight.slug}`}
+                  className="group flex h-full flex-col justify-between rounded-vsc-xl border border-rule bg-surface p-7 shadow-lift-1 transition-[border-color,box-shadow] duration-200 hover:border-growth/40 hover:shadow-lift-2 sm:p-8"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="rounded-full bg-growth-tint px-2.5 py-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.1em] text-growth-deep">
+                          Latest &middot; Insight {leadInsight.number}
+                        </span>
+                        <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink-faint">
+                          {leadInsight.category}
+                        </span>
+                      </div>
+                      <span className="whitespace-nowrap font-mono text-[11px] text-ink-faint">
+                        {leadInsight.publishedDate} &middot; {leadInsight.readingTime}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-4 font-display text-[clamp(1.4rem,2.1vw,1.8rem)] font-medium leading-[1.15] text-ink transition-colors duration-200 group-hover:text-growth-deep">
+                      {leadInsight.title}
+                    </h3>
+
+                    <p className="mt-3 max-w-[54ch] text-[15px] leading-relaxed text-ink-soft">
+                      {leadInsight.subtitle}
+                    </p>
+
+                    {leadInsight.thesis && leadInsight.thesis !== leadInsight.subtitle && (
+                      <p className="mt-4 border-l-2 border-growth/40 pl-3.5 font-editorial text-[16.5px] leading-snug text-ink [font-style:italic]">
+                        &ldquo;{leadInsight.thesis}&rdquo;
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between border-t border-rule/80 pt-4">
+                    <span className="inline-flex items-center gap-2 whitespace-nowrap font-mono text-[12.5px] font-semibold text-growth">
+                      Read insight
+                      <ArrowRight
+                        className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
+
+              {secondaryInsights.length > 0 && (
+                <Reveal delay={0.06} className="lg:col-span-5">
+                  <div className="flex h-full flex-col divide-y divide-rule rounded-vsc-xl border border-rule bg-surface-warm/90 px-6 shadow-lift-1">
+                    {secondaryInsights.map((note) => (
+                      <Link
+                        key={note.slug}
+                        href={`/research/notes/${note.slug}`}
+                        className="group flex flex-1 flex-col justify-between gap-2 py-5 transition-colors"
+                      >
+                        <div>
+                          <div className="flex items-baseline justify-between gap-3">
+                            <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-growth">
+                              Insight {note.number} &middot; {note.category}
+                            </span>
+                            <span className="shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-faint">
+                              {note.readingTime}
+                            </span>
+                          </div>
+                          <h3 className="mt-2 font-display text-[18px] font-medium leading-snug text-ink transition-colors duration-200 group-hover:text-growth-deep sm:text-[19px]">
+                            {note.title}
+                          </h3>
+                          <p className="mt-1.5 line-clamp-2 text-[13.5px] leading-relaxed text-ink-muted">
+                            {note.subtitle}
+                          </p>
+                        </div>
+
+                        <span className="mt-1 inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-[12px] font-semibold text-growth">
+                          Read insight
+                          <ArrowRight
+                            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </Reveal>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

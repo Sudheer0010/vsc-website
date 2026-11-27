@@ -7,12 +7,12 @@ import { MarketLetter } from "@/types/market-letter";
  * which is how the homepage and the blog page previously ended up
  * describing two different letters as "the latest one."
  */
-export const sortedMonths = ["SEP", "AUG", "JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
+export const sortedMonths = ["OCT", "SEP", "AUG", "JUL", "JUN", "MAY", "APR", "MAR", "FEB", "JAN"];
 
 export const latestMonthKey = sortedMonths[0];
 
 /**
- * All nine letters (JAN–SEP) are on the full Template Spec v4 format —
+ * All ten letters (JAN–OCT) are on the full Template Spec v4 format —
  * see VSC_MARKET_LETTERS_JAN_JUL_2026_CONTENT_PACK_FINAL.md, the approved
  * editorial source for JAN–JUL; AUG onward carries its own approved
  * edition brief. `metrics`/`frameworkReview`
@@ -947,6 +947,109 @@ export const marketLetters: { [key: string]: MarketLetter } = {
         { if: "Nifty stabilizes and breadth improves", then: "Become gradually more constructive" },
       ],
       currentStance: "Defensive until possibilities become confirmed trends in price and breadth.",
+    },
+
+    sections: {},
+  },
+  OCT: {
+    letterNumber: 10,
+    publishedDate: "2026-11-01",
+    dataThrough: "2026-10-30",
+    month: "OCTOBER",
+    year: 2026,
+    description: "The index improved in October, but weak breadth, elevated volatility and scarce quality setups kept VSC defensive with zero capital exposed.",
+    thesis: "Index stabilised. Opportunities remained scarce.",
+    pullQuote: "The index improved, but the opportunity set didn't. October's initial stabilisation failed to translate into broader market strength, leaving few quality opportunities for swing traders.",
+    emailHook: "The index improved in October, but the opportunity set didn't — why VSC stayed entirely in cash.",
+    metrics: {
+      monthlyReturn: "0.00%",
+      tradesTaken: 0,
+      environment: "Defensive",
+    },
+    // Superseded by marketHealth/vscRead below, same as every other v4 letter.
+    frameworkReview: [],
+
+    subThesis: "The index improved, but the opportunity set didn't — October's bounce failed to translate into broader market strength.",
+    regimeTagEditorial: "Narrow Leadership",
+
+    marketSnapshot: [
+      { asset: "NIFTY 50", monthEnd: "23,053.10", mtdPct: 1.91, ytdPct: -11.77, read: "Narrow recovery" },
+      { asset: "GOLD", monthEnd: "₹1,40,054 / 10g", mtdPct: -5.30, ytdPct: 5.15, read: "Correction" },
+      { asset: "SILVER", monthEnd: "₹1,81,344 / kg", mtdPct: -17.73, ytdPct: -21.30, read: "Sharp correction" },
+      { asset: "CRUDE", monthEnd: "$117.64 / bbl", mtdPct: 13.63, ytdPct: 93.33, read: "Supply pressure" },
+      { asset: "USD/INR", monthEnd: "95.2492", mtdPct: -0.76, ytdPct: 5.93, read: "INR strengthens" },
+    ],
+
+    marketHealth: [
+      { factor: "Trend", current: "Stabilising", status: "amber", vsPrev: "up", vscRead: "Recovery lacked sustained conviction" },
+      { factor: "Breadth", current: "Weak", status: "red", vsPrev: "flat", vscRead: "Broader participation remained poor" },
+      { factor: "Leadership", current: "Concentrated", status: "amber", vsPrev: "up", vscRead: "IT and select index stocks" },
+      { factor: "Breakout Quality", current: "Poor", status: "red", vsPrev: "flat", vscRead: "Very few actionable setups" },
+      { factor: "Volatility", current: "High", status: "red", vsPrev: "down", vscRead: "Trading conditions remained unfavourable" },
+    ],
+    overallEnvironment: {
+      label: "Defensive",
+      vsPrev: "flat",
+      vscRead: "Capital preservation priority",
+    },
+
+    netChange: "October brought some index stabilisation after September's weakness, but broader participation and setup quality remained poor. VSC moved from reduced exposure to staying entirely out.",
+
+    whatHappened: {
+      index: {
+        headline: "Initial strength failed to build conviction.",
+        explanation: "Nifty gained 1.91%, but early signs of stabilisation gave way to renewed weakness during the second half.",
+      },
+      breadth: {
+        headline: "The broader market remained under pressure.",
+        explanation: "Midcaps and smallcaps declined despite index gains; only 18% of Nifty 500 stocks ended above their 50-DMA (34% Nifty 50; ~14% mid/smallcaps).",
+      },
+      leadership: {
+        headline: "Strength remained concentrated.",
+        explanation: "IT led the recovery while select index heavyweights held up, but leadership failed to extend across the broader market.",
+      },
+      flowsRisk: {
+        headline: "External pressures remained unresolved.",
+        explanation: "Foreign investors remained net sellers, while rising crude prices and persistent global uncertainty limited confidence in a sustained recovery.",
+      },
+    },
+
+    // No chart for October.
+
+    vscRead: {
+      opportunityUniverse: "Very Narrow",
+      setupQuality: "Poor",
+      riskAllocation: "Minimal",
+      tradeFrequency: "None",
+      primaryObjective: "Preservation",
+      conclusion: "The index improved, but the opportunity set didn't — the lack of quality swing setups kept capital preservation ahead of participation.",
+    },
+
+    playbook: {
+      exposure: "No Exposure",
+      positionSize: "None",
+      preferredSetup: "Liquid index stocks with relative strength",
+      avoided: "Weak broader-market setups",
+      triggerToIncreaseRisk: "Breadth improves and quality setups sustain follow-through",
+    },
+
+    monthInReview: {
+      monthlyReturn: "0.00%",
+      trades: 0,
+      worked: "No trades were initiated, keeping capital unexposed to unfavourable trading conditions.",
+      didnt: "Market structure, volatility and setup quality offered insufficient reasons to participate.",
+      lesson: "When broader markets struggle, focus on liquid index constituents showing relative strength rather than expanding the universe in search of trades.",
+    },
+
+    watchingNext: {
+      conditions: [
+        { if: "Nifty sustains above its 50-DMA", then: "reassess trend strength" },
+        { if: "broader market participation improves", then: "expand the opportunity universe" },
+        { if: "quality breakouts sustain follow-through", then: "consider gradual capital deployment" },
+        { if: "midcaps and smallcaps remain weak", then: "keep the universe selective" },
+      ],
+      currentStance: "Remain defensive until market structure and setup quality justify renewed participation.",
+      outlookNote: "November outlook reconstructed from the October-end perspective.",
     },
 
     sections: {},
